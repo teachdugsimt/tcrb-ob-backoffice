@@ -1,14 +1,16 @@
-import {
-    Container,
-    MainMenu,
-    SubMenu
-} from './Styles/AdminMenuStyles'
+import React from 'react'
 
 const AdminMenu = (props) => {
-    return <div style={{ width: 180, backgroundColor: "green", position: 'fixed', left: 0, top: 100 }}>
+    return <div style={{ width: 180, display: 'flex', flex: 0.25, backgroundColor: "lightgrey", position: 'fixed', top: 100, bottom: 60, left: 0 }}>
 
-    </div>
+        <div style={{ display: 'flex', flex: 1, width: '100%', flexDirection: 'column', justifyContent: 'center' }}>
+            <div style={{ height: 50 }}>
+            </div>
+            <div style={{ height: 50 }}>
+            </div>
+        </div >
 
+    </div >
 }
 
 export default AdminMenu
