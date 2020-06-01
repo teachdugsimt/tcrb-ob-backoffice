@@ -9,13 +9,14 @@
     "test": "jest --coverage --env=node"
   },
   "dependencies": {
-    "next": "9.4.4",
-    "react": "16.13.1",
-    "react-dom": "16.13.1",
+    "antd": "^4.3.0",
     "apisauce": "^1.1.1",
     "axios": "^0.19.2",
     "mobx": "^5.15.4",
     "mobx-react": "^6.2.2",
+    "next": "9.4.4",
+    "react": "16.13.1",
+    "react-dom": "16.13.1",
     "styled-components": "^5.1.0"
   },
   "devDependencies": {
