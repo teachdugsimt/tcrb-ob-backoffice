@@ -1,16 +1,20 @@
 import React from 'react'
 import App from 'next/App'
 import EmptyLayout from '../layouts/EmptyLayout'
+import { ThemeProvider } from 'styled-components'
+import theme from '../theme'
 
 class CustomApp extends App {
-    render() {
-        const { Component, pageProps } = this.props;
+  render() {
+    const { Component, pageProps } = this.props;
 
-        return (
-            <EmptyLayout>
-                <Component {...pageProps} />
-            </EmptyLayout>
-        )
-    }
+    return (
+      <EmptyLayout>
+        <ThemeProvider theme={theme}>
+          <Component {...pageProps} />
+        </ThemeProvider>
+      </EmptyLayout>
+    )
+  }
 }
 export default CustomApp;
