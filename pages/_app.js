@@ -1,6 +1,6 @@
 import React from 'react'
 import App from 'next/App'
-import EmptyLayout from '../components/Layouts/EmptyLayout'
+import EmptyLayout from '../layouts/EmptyLayout'
 
 class CustomApp extends App {
     render() {

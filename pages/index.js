@@ -1,6 +1,8 @@
 import Head from 'next/head'
+import React, { useContext } from 'react'
 
 export default function Home() {
+
   return (
     <div className="container">
       <Head>

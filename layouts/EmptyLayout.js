@@ -1,11 +1,10 @@
 
 
 import React, { useContext } from 'react'
-import { inject, observer } from 'mobx-react'
 import Router, { withRouter } from 'next/router'
 import MainLayout from './MainLayout'
 // import Login from '../../pages/Login'
-// import TestStore3 from '../../mobx-store/TestStore3'
+
 
 const EmptyLayout = (props) => {
 
