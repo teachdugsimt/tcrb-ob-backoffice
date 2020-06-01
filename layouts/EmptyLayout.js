@@ -2,6 +2,8 @@
 
 import React, { useContext } from 'react'
 import Router, { withRouter } from 'next/router'
+import { ThemeProvider } from 'styled-components'
+import theme from '../theme'
 import MainLayout from './MainLayout'
 // import Login from '../../pages/Login'
 
@@ -12,9 +14,11 @@ const EmptyLayout = (props) => {
 
   // if (context.password && context.id) {
   return (
-    <MainLayout>
-      {props.children}
-    </MainLayout>
+    <ThemeProvider theme={theme}>
+      <MainLayout>
+        {props.children}
+      </MainLayout>
+    </ThemeProvider>
   )
   // }
   // else if (props.router && props.router.route == "/_error") {
