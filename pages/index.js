@@ -69,6 +69,11 @@ export default function Home() {
           align-items: center;
         }
 
+        #__next__ {
+          height: 100%;
+          width: 100%,
+        }
+
         main {
           padding: 5rem 0;
           flex: 1;
