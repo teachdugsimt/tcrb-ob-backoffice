@@ -3,7 +3,7 @@ import AdminHeader from './AdminHeader'
 import AdminMenu from './AdminMenu'
 import AdminFooter from './AdminFooter'
 import { withRouter } from 'next/router'
-import { FirstLayer, SecondLayer, EmptyDiv, EmptySidebar } from './Styles/AdminHocStyles'
+import { FirstLayer, SecondLayer, EmptyDiv, EmptySidebar, ContentPadding } from './Styles/AdminHocStyles'
 
 
 const MainLayout = (props) => {
@@ -14,11 +14,13 @@ const MainLayout = (props) => {
       <SecondLayer>
         <AdminMenu />
         <EmptySidebar />
-        {props.children}
+        <ContentPadding>
+          {props.children}
+        </ContentPadding>
       </SecondLayer>
       <AdminFooter />
     </FirstLayer>
-    )
+  )
 }
 
 export default withRouter(MainLayout)

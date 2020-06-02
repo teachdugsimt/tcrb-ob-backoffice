@@ -24,10 +24,15 @@ flex-direction: row;
 width: 100%
 `;
 
+const ContentPadding = styled.div`
+padding: 24px;
+`
+
 export {
     FirstLayer,
     SecondLayer,
     EmptyDiv,
     EmptySidebar,
+    ContentPadding,
 }
 
