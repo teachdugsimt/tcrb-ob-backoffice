@@ -1,5 +1,6 @@
 import React from 'react'
 import styled from 'styled-components';
+import { Button } from 'antd';
 
 const MainHeader = styled.div`
 display: flex;
@@ -98,12 +99,15 @@ background: white;
 border-radius: 20px;
 `;
 
-
 const WrapperImageLogo = (props) => {
   return <ImgLogo src={props.src} alt='logo' id='logoImage' />
 }
 const WrapperImageAccount = (props) => {
-  return <ImgAccount src={props.src} alt="account" id="accountImage"  />
+  return <ImgAccount src={props.src} alt="account" id="accountImage" />
+}
+
+const WrapperButtonAnt = (props) => {
+  return <Button style={{ borderTopWidth: 0, borderLeftWidth: 0, borderRightWidth: 0, backgroundColor: "#1d1d1d", color: 'white', width: "30%", fontSize: 18, fontWeight: 'bold' }} >{props.title}</Button>
 }
 
 export {
@@ -119,6 +123,7 @@ export {
   TextName,
   WrapperImageLogo,
   WrapperImageAccount,
+  WrapperButtonAnt,
   //   WrapperInput,
 }
 
