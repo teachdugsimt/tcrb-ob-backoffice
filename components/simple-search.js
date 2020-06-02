@@ -12,7 +12,13 @@ const StyledSearch = styled(Search)`
 },
 .ant-input{
   padding-left: ${({ theme }) => theme.spacing.large}px !important;
-}`
+}
+  if(props.disabled === true){
+    .ant-input-group-addon{
+      display: none;
+    }
+  }
+`
 
 export default function SimpleSearch(props) {
   return (
@@ -22,6 +28,7 @@ export default function SimpleSearch(props) {
         placeholder="input search text"
         enterButton="Search"
         size="large"
+        disabled={props.disabled}
         onSearch={value=>props.search(value)}
       />
     </div>
