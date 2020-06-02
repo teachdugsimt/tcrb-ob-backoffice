@@ -10,6 +10,19 @@ const StyledSearch = styled(Search)`
     border-width: 0px 0px 1px 0px !important;
     border-color: black !important;
 },
+.input:focus .input:hover {
+    outline: none !important;
+    ${'' /* border-color: none !important; */}
+},
+.ant-input-affix-wrapper-focused .ant-input-affix-wrapper:focused {
+    ${'' /* border: none !important; */}
+    ${'' /* border-color: none !important; */}
+    border-top-width: 0px !important;
+
+},
+.ant-input-affix-wrapper:hover{
+  border-right-width: 0px !important
+}
 .ant-input-prefix {
   margin-right: ${({ theme }) => theme.spacing.large}px !important;
 }

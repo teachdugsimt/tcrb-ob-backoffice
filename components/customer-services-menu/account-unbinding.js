@@ -62,10 +62,11 @@ export default function AccountUnbinding() {
     </div>)
 
   const accountDetail = (
-    <div>
+    <div style={{ marginTop: 20 }}>
       <Row>
         <SimpleSearch search={searchIdCardNumber} disabled={true} />
       </Row>
+      <div style={{ marginTop: 20 }} >
       <Row>
         <Col span={24}>
           <Switch defaultChecked={false} onChange={checked => onChange(checked)} /><StyledP>Binding to TCRB Mobile Banking</StyledP>
@@ -81,6 +82,7 @@ export default function AccountUnbinding() {
           <Switch defaultChecked={false} onChange={checked => onChange(checked)} /><StyledP>Binding to True Money Wallet</StyledP>
         </Col>
       </Row>
+      </div>
     </div>
   )
   return (viewDetail) ? accountDetail : newSearch
