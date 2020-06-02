@@ -9,7 +9,7 @@ width: 100%;
 height: 100%
 `;
 
-const EmptyDiv=  styled.div`
+const EmptyDiv = styled.div`
 padding-top: 100px;
 `
 
@@ -25,14 +25,14 @@ width: 100%
 `;
 
 const ContentPadding = styled.div`
-padding: 24px;
+  padding: ${({ theme }) => theme.spacing.large}px;
 `
 
 export {
-    FirstLayer,
-    SecondLayer,
-    EmptyDiv,
-    EmptySidebar,
-    ContentPadding,
+  FirstLayer,
+  SecondLayer,
+  EmptyDiv,
+  EmptySidebar,
+  ContentPadding,
 }
 

@@ -10,11 +10,12 @@ class CustomApp extends App {
     const { Component, pageProps } = this.props;
 
     return (
-      <EmptyLayout>
-        <ThemeProvider theme={theme}>
+      <ThemeProvider theme={theme}>
+        <EmptyLayout>
           <Component {...pageProps} />
-        </ThemeProvider>
-      </EmptyLayout>
+        </EmptyLayout>
+      </ThemeProvider>
+
     )
   }
 }
