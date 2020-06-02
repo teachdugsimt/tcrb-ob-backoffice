@@ -3,6 +3,7 @@ import App from 'next/App'
 import EmptyLayout from '../layouts/EmptyLayout'
 import { ThemeProvider } from 'styled-components'
 import theme from '../theme'
+import 'antd/dist/antd.css'
 
 class CustomApp extends App {
   render() {
