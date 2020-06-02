@@ -52,7 +52,7 @@ export default function AccountUnbinding() {
   const newSearch = (
     <div style={{ marginTop: 20 }}>
       <Row>
-      <SimpleSearch search={searchIdCardNumber} />
+        <SimpleSearch search={searchIdCardNumber} />
       </Row>
       {(isSearch) ? (
         <div style={{ marginTop: 20 }}>

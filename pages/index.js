@@ -18,7 +18,7 @@ const index = observer(() => {
     else alert("Invalid data")
   }
 
-  return <div style={{ marginTop: 100 }}>
+  return <div>
     Test Screen 1
     <h1>{context.id ? context.id : ""}</h1>
     <h1>{context.password ? context.password : ""}</h1>

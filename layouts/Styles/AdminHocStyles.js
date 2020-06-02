@@ -9,31 +9,30 @@ width: 100%;
 height: 100%
 `;
 
-// const SecondLayer = styled.div`
-// display: flex;
-// flex: 1;
-// flex-direction: row;
-// justify-content: center;
-// width: 100%
-// `;
+const EmptyDiv=  styled.div`
+padding-top: 100px;
+`
+
+const EmptySidebar = styled.div`
+padding-left: 180px;
+`
 
 const SecondLayer = styled.div`
 display: flex;
 flex: 1;
 flex-direction: row;
-justify-content: center;
 width: 100%
 `;
-// const WrapperInput = (props) => {
-//   return <SecondLayer value={props.value} onChange={props.onChange} />
-// }
 
-// const WrapperInput = (props) => {
-//   return <SecondLayer value={props.value} onChange={props.onChange} />
-// }
+const ContentPadding = styled.div`
+padding: 24px;
+`
+
 export {
     FirstLayer,
     SecondLayer,
-    //   WrapperInput,
+    EmptyDiv,
+    EmptySidebar,
+    ContentPadding,
 }
 
