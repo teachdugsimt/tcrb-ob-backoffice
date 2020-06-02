@@ -13,32 +13,21 @@ const EmptyDiv=  styled.div`
 padding-top: 100px;
 `
 
-// const SecondLayer = styled.div`
-// display: flex;
-// flex: 1;
-// flex-direction: row;
-// justify-content: center;
-// width: 100%
-// `;
+const EmptySidebar = styled.div`
+padding-left: 180px;
+`
 
 const SecondLayer = styled.div`
 display: flex;
 flex: 1;
 flex-direction: row;
-justify-content: center;
 width: 100%
 `;
-// const WrapperInput = (props) => {
-//   return <SecondLayer value={props.value} onChange={props.onChange} />
-// }
 
-// const WrapperInput = (props) => {
-//   return <SecondLayer value={props.value} onChange={props.onChange} />
-// }
 export {
     FirstLayer,
     SecondLayer,
     EmptyDiv,
-    //   WrapperInput,
+    EmptySidebar,
 }
 
