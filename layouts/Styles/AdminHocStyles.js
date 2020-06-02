@@ -9,6 +9,10 @@ width: 100%;
 height: 100%
 `;
 
+const EmptyDiv=  styled.div`
+padding-top: 100px;
+`
+
 // const SecondLayer = styled.div`
 // display: flex;
 // flex: 1;
@@ -34,6 +38,7 @@ width: 100%
 export {
     FirstLayer,
     SecondLayer,
+    EmptyDiv,
     //   WrapperInput,
 }
 

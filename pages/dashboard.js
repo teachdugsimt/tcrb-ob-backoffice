@@ -8,7 +8,7 @@ const Dashboard = observer((props) => {
   console.log("---------- Dashboard -----------")
   console.log(context)
 
-  return <div style={{ marginTop: 100 }}>
+  return <div>
     Dashboard Screen
     <h1>{context.id}</h1>
     <h1>{context.password}</h1>
