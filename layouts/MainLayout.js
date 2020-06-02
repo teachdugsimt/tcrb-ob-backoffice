@@ -3,20 +3,21 @@ import AdminHeader from './AdminHeader'
 import AdminMenu from './AdminMenu'
 import AdminFooter from './AdminFooter'
 import { withRouter } from 'next/router'
-import { FirstLayer, SecondLayer, EmptyDiv } from './Styles/AdminHocStyles'
+import { FirstLayer, SecondLayer, EmptyDiv, EmptySidebar } from './Styles/AdminHocStyles'
 
 
 const MainLayout = (props) => {
-    return (
-        <FirstLayer>
-            <AdminHeader />
-            <EmptyDiv/>
-            <SecondLayer>
-                <AdminMenu />
-                {props.children}
-            </SecondLayer>
-            <AdminFooter />
-        </FirstLayer>
+  return (
+    <FirstLayer>
+      <AdminHeader />
+      <EmptyDiv />
+      <SecondLayer>
+        <AdminMenu />
+        <EmptySidebar />
+        {props.children}
+      </SecondLayer>
+      <AdminFooter />
+    </FirstLayer>
     )
 }
 
