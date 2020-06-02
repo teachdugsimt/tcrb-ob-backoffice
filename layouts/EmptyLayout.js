@@ -23,7 +23,5 @@ const EmptyLayout = (props) => {
   // else {
   //   return <Login />
   // }
-
-
 }
 export default withRouter(EmptyLayout)
