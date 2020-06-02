@@ -47,7 +47,7 @@ export default function OtpUnlocking() {
     //somaction
   }
   return (
-    <div>
+    <div style={{ marginTop: 20 }}>
 
       {/* <Row>
         <Col span={12}>Account Unbinding</Col>

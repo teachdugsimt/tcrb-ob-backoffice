@@ -9,7 +9,6 @@ const StyledA = styled.a`
   text-decoration-line: underline;
 `
 const StyledP = styled.p`
-
   display: initial;
   padding-left: ${({ theme }) => theme.spacing.medium}px !important;
 `
@@ -51,12 +50,12 @@ export default function AccountUnbinding() {
     }
   }
   const newSearch = (
-    <div>
-      <Row>
-        <SimpleSearch search={searchIdCardNumber} />
-      </Row>
+    <div style={{ marginTop: 20 }}>
+      {/* <Row> */}
+      <SimpleSearch search={searchIdCardNumber} />
+      {/* </Row> */}
       {(isSearch) ? (
-        <div>
+        <div style={{ marginTop: 20 }}>
           <Row><StyledA onClick={() => { selectedMenu('1') }}>2233344514</StyledA>Normal Saving</Row>
           <Row><StyledA onClick={() => { selectedMenu('2') }}>123456789032</StyledA>Resolving Loan-Non TCG Nano</Row>
         </div>) : ('')}

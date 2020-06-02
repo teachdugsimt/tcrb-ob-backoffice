@@ -10,8 +10,8 @@ const StyledSearch = styled(Search)`
     border-width: 0px 0px 1px 0px !important;
     border-color: black !important;
 },
-.ant-input{
-  padding-left: ${({ theme }) => theme.spacing.large}px !important;
+.ant-input-prefix {
+  margin-right: ${({ theme }) => theme.spacing.large}px !important;
 }
   if(props.disabled === true){
     .ant-input-group-addon{
@@ -24,12 +24,12 @@ export default function SimpleSearch(props) {
   return (
     <div>
       <StyledSearch
-        prefix="input card number"
-        placeholder="input search text"
+        prefix="ID Card Number"
+        placeholder="input ID Card"
         enterButton="Search"
         size="large"
         disabled={props.disabled}
-        onSearch={value=>props.search(value)}
+        onSearch={value => props.search(value)}
       />
     </div>
   )

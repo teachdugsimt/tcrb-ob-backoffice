@@ -15,10 +15,10 @@ export default function CustomerServicesMenu() {
         <Col flex={100}>
           <Tabs defaultActiveKey="1" >
             <TabPane tab="Account Unbinding" key="1">
-              <AccountUnbinding/>
+              <AccountUnbinding />
             </TabPane>
             <TabPane tab="OTP-Unlocking" key="2">
-              <OtpUnlocking/>
+              <OtpUnlocking />
             </TabPane>
           </Tabs>
         </Col>
