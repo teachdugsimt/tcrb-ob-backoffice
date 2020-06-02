@@ -1,43 +1,45 @@
 import React, { Component, useContext } from 'react'
 import logo02 from '../images/logo02.png'
+import DropdownTopRight from '../components/DropdownTopRight'
 import account from '../images/account.png'
+import {
+  MainHeader, SubHeader, SubHeader2, DivImageLogo, WrapperImageLogo, InsideTopRightDiv,
+  ContentMainDiv, TextMenu, DivAccount, WrapperImageAccount, DivName, TextName
+} from "./Styles/AdminHeaderStyles"
+
 
 const AdminHeader = (props) => {
 
   return (
-    <div style={{ display: "flex", flex: 1, flexDirection: 'column', height: 100, width: "100%", backgroundColor: '#1d1d1d', padding: 0, position: 'fixed', top: 0, left: 0, right: 0 }}>
+    <MainHeader>
+      <SubHeader>
+        <DivImageLogo>
+          <WrapperImageLogo src={logo02} />
+        </DivImageLogo>
+        <InsideTopRightDiv>
+          <ContentMainDiv>
+            <TextMenu>Support</TextMenu>
+            <TextMenu>Signout</TextMenu>
+            <DivAccount>
+              <WrapperImageAccount src={account} />
+              <DivName>
+                <TextName>Korkaew</TextName>
+                <TextName>Tribamrongsuk</TextName>
+              </DivName>
+            </DivAccount>
+          </ContentMainDiv>
+        </InsideTopRightDiv>
+      </SubHeader>
 
-      <div style={{ display: 'flex', width: "100%", flex: 1, height: "50%", flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
+      <SubHeader2>
+        <div style={{ alignSelf: 'right' }}>
 
-        <div style={{ display: 'flex', flex: 1, flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center', height: 100, paddingTop: 10, paddingLeft: 5 }}>
-          <img src={logo02} alt='logo' id='logoImage' style={{ aspectRatio: 0.1, height: 50 }} />
+          <DropdownTopRight />
         </div>
 
-        <div style={{ display: 'flex', flex: 0.8, flexDirection: 'row', justifyContent: 'flex-end', alignSelf: 'right', paddingRight: 10 }}>
+      </SubHeader2>
 
-
-          <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-around', width: '100%', paddingTop: 5 }}>
-            <h3 style={{ marginLeft: 10, color: '#ffffff' }}>Support</h3>
-            <h3 style={{ marginLeft: 10, color: '#ffffff' }}>Signout</h3>
-            <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', paddingLeft: 10 }}>
-              <img src={account} alt="account" id="accountImage" style={{ height: 40, width: 40, background: 'white', borderRadius: 20 }} />
-              <div style={{ display: 'flex', flexDirection: 'column', paddingLeft: 10 }}>
-                <span style={{ color: '#ffffff', fontWeight: 'bold' }}>Korkaew</span>
-                <span style={{ color: '#ffffff', fontWeight: 'bold' }}>Tribamrongsuk</span>
-              </div>
-            </div>
-          </div>
-
-
-        </div>
-
-      </div>
-
-      <div style={{ display: 'flex', width: "100%", flex: 1, height: "50%", flexDirection: 'row', justifyContent: 'flex-end', alignItems: 'center' }}>
-
-      </div>
-
-    </div>
+    </MainHeader>
   )
 }
 

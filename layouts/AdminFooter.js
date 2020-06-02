@@ -6,6 +6,7 @@ const AdminFooter = (props) => {
     <MainFooter>
       <SubFooter>
         <TextFooter>IT SERVICE DESK CONTACT NUMBER IS 02-6xx-1234</TextFooter>
+        <span> </span>
       </SubFooter>
     </MainFooter>
   )
