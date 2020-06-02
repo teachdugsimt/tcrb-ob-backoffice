@@ -51,9 +51,9 @@ export default function AccountUnbinding() {
   }
   const newSearch = (
     <div style={{ marginTop: 20 }}>
-      {/* <Row> */}
-      <SimpleSearch search={searchIdCardNumber} />
-      {/* </Row> */}
+      <Row>
+        <SimpleSearch search={searchIdCardNumber} />
+      </Row>
       {(isSearch) ? (
         <div style={{ marginTop: 20 }}>
           <Row><StyledA onClick={() => { selectedMenu('1') }}>2233344514</StyledA>Normal Saving</Row>
