@@ -32,10 +32,8 @@ const AdminHeader = (props) => {
       </SubHeader>
 
       <SubHeader2>
-        <div style={{ alignSelf: 'right' }}>
 
-          <DropdownTopRight />
-        </div>
+        <DropdownTopRight />
 
       </SubHeader2>
 
