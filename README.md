@@ -16,9 +16,9 @@ You can start editing the page by modifying `pages/index.js`. The page auto-upda
 
 
 
-## Project Template
+## Project Structure
 
-A web template consists of 4 main components.
+A web structure consists of 4 main components.
 
 1. Empty Layout
 2. Main Layout
