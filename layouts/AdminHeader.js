@@ -4,9 +4,9 @@ import DropdownTopRight from '../components/DropdownTopRight'
 import account from '../images/account.png'
 import {
   MainHeader, SubHeader, SubHeader2, DivImageLogo, WrapperImageLogo, InsideTopRightDiv,
-  ContentMainDiv, TextMenu, DivAccount, WrapperImageAccount, DivName, TextName
+  ContentMainDiv, TextMenu, DivAccount, WrapperImageAccount, DivName, TextName,WrapperButtonAnt
 } from "./Styles/AdminHeaderStyles"
-
+import { Button } from 'antd';
 
 const AdminHeader = (props) => {
 
@@ -18,8 +18,8 @@ const AdminHeader = (props) => {
         </DivImageLogo>
         <InsideTopRightDiv>
           <ContentMainDiv>
-            <TextMenu>Support</TextMenu>
-            <TextMenu>Signout</TextMenu>
+            <WrapperButtonAnt title={"Support"}/>
+            <WrapperButtonAnt title={"Signout"}/>
             <DivAccount>
               <WrapperImageAccount src={account} />
               <DivName>
