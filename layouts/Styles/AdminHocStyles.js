@@ -34,15 +34,6 @@ const ContentPadding = styled.div`
   padding: ${({ theme }) => theme.spacing.large}px;
 `
 
-const BorderMenu = styled.div`
-display: flex;
-flex: 1;
-min-height: 40px;
-width: 100%;
-border-bottom: 1px solid lightgrey;
-margin-left: -15px;
-`
-
 const MenuIcon = styled.div`
 width: 30px;
 height: 2px;
@@ -78,6 +69,77 @@ bottom: 56px;
 left: 8px;
 `
 
+const SubMainContainer = styled.div`
+display: flex;
+flex: 1;
+width: 100%;
+flex-direction: column;
+`
+
+const MainTitleMenuDiv = styled.div`
+display: flex;
+min-height: 117px;
+background-color: #707070;
+flex-direction: row;
+justify-content: space-between;
+align-items: flex-start;
+border-top-right-radius: 10px;
+border-top-left-radius: 10px;
+`
+
+const TitleDiv = styled.div`
+font-weight: bold;
+color: white;
+padding-top: 15px;
+padding-left: 15px;
+font-size: 18px;
+`
+
+const TitleDiv2 = styled.div`
+padding-top: 15px;
+padding-right: 15px;
+display: flex;
+flex-direction: column;
+`
+
+const SpanText = styled.span`
+width: 100%;
+margin-top: 15px;
+margin-right: 10px;
+font-size: 12px;
+`
+
+const LinkColorMenu = styled.a`
+color: #000000;
+&:hover {
+  color: #587FFF;
+}
+`
+
+const MainUl = styled.ul`
+display: flex;
+flex: 1;
+flex-direction: column;
+justify-content: center;
+align-items: flex-start;
+margin-top: 10px;
+`
+
+const BorderMenu = styled.div`
+display: flex;
+flex: 1;
+min-height: 40px;
+width: 100%;
+margin-left: -10px;
+border-bottom: 1px solid lightgrey;
+&:hover {
+  border-bottom: 4px inset lightgrey;
+}
+&:hover ${LinkColorMenu} {
+  color: #587FFF
+}
+`
+
 export {
   FirstLayer,
   SecondLayer,
@@ -89,5 +151,12 @@ export {
   MenuIcon2,
   MainDivMenu,
   MainContainerMenu,
+  SubMainContainer,
+  MainTitleMenuDiv,
+  TitleDiv,
+  TitleDiv2,
+  MainUl,
+  SpanText,
+  LinkColorMenu,
 }
 

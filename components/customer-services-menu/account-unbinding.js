@@ -53,7 +53,7 @@ export default function AccountUnbinding() {
           setModalString(
             <div>
               <p>Unlocking OTP!!</p>
-              <p>Customer ID Card Number {idCard}</p>
+              <p>Customer ID Card Number</p>
               <p>Mobile Number </p>
               </div>
           )
@@ -108,7 +108,7 @@ export default function AccountUnbinding() {
       <div style={{ marginTop: 20 }} >
         <SwitchList/>
         <SimpleModal
-          onOk={() => unlockOTP()}
+          onOk={() => setVisble(false)}
           onCancel={() => setVisble(false)}
           okText="Confirm"
           cancelText="Cancel"
