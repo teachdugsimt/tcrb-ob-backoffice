@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { Input, Row, Col, Layout, Modal, Switch } from 'antd'
 import styled from 'styled-components';
 import SimpleSearch from '../simple-search'
+import SimpleModal from '../simple-modal'
 const { Header, Footer, Sider, Content } = Layout;
 
 
@@ -15,6 +16,7 @@ export default function OtpUnlocking() {
   const [isSearch, setIsSearch] = useState(false);
   const [visible, setVisble] = useState(false)
   const [isChecked, setIsChecked] = useState(false)
+  const [modalString, setModalString] = useState('')
   const searchIdCardNumber = (value) => {
     console.log('eiei search:' + value)
     setIdCard(value)
@@ -33,45 +35,38 @@ export default function OtpUnlocking() {
     if (value === true) {
       setVisble(true)
       setIsChecked(true)
-      // Modal.confirm({
-      //   title: 'Confirm',
-      //   content: 'Unlocking OTP!!Customer Id Card Number',
-      //   okText: 'Confirm',
-      //   cancelText: 'Cancel',
-      // });
+      setModalString(
+        <div>
+          <p>Unlocking OTP!!</p>
+          <p>Customer ID Card Number {idCard}</p>
+          <p>Mobile Number </p>
+          </div>
+      )
     } else {
       setIsChecked(false)
     }
   }
   const unlockOTP = () => {
     //somaction
+    setVisble(false)
   }
   return (
     <div style={{ marginTop: 20 }}>
-
-      {/* <Row>
-        <Col span={12}>Account Unbinding</Col>
-        <Col span={12}> OTP Unlocking</Col>
-      </Row> */}
       <Row>
-        <SimpleSearch search={searchIdCardNumber} />
+        <SimpleSearch search={searchIdCardNumber} prefixWording="ID Card Number" />
       </Row>
       {(isSearch) ? (<Col span={12}>
         <Switch defaultChecked={false} onChange={checked => onChange(checked)} />
         {isChecked ? (<StyledP>OTP is Locked</StyledP>) : (<StyledP>OTP is ready for using</StyledP>)}
       </Col>) : ('')}
-      <Modal
-        title="Confirm"
-        visible={visible}
-        onOk={unlockOTP}
+      <SimpleModal
+        onOk={()=> unlockOTP()}
         onCancel={() => setVisble(false)}
         okText="Confirm"
         cancelText="Cancel"
-      >
-        <p>Unlocking OTP!!</p>
-        <p>Customer ID Card Number {idCard}</p>
-        <p>Mobile Number </p>
-      </Modal>
+        modalString={modalString}
+        visible={visible}
+      />
     </div>
   )
 }
