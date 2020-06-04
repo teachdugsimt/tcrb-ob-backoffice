@@ -1,5 +1,3 @@
-
-
 import React, { useContext } from 'react'
 import Router, { withRouter } from 'next/router'
 import MainLayout from './MainLayout'

@@ -8,7 +8,7 @@ flex: 1;
 flex-direction: column;
 height: 100px;
 width: 100%;
-background-color: #1d1d1d;
+background-color: ${({ theme }) => theme.colors.palette.black};
 padding: 0;
 position: fixed;
 top: 0;
@@ -67,35 +67,37 @@ flex-direction: row;
 justify-content: space-around;
 width: 100%;
 padding-top: 5px;
+padding-right: 5px;
 `;
 
 const TextMenu = styled.h3`
 margin-left: 10;
-color: #ffffff;
+color: ${({ theme }) => theme.colors.palette.white};
 `;
 
 const DivAccount = styled.div`
 display: flex;
 flex-direction: row;
+justify-content: space-around;
 align-items: center;
 padding-left: 10px;
+width: 32%
 `;
 
 const DivName = styled.div`
 display: flex;
 flex-direction: column;
-padding-left: 10px;
 `;
 
 const TextName = styled.div`
-color: #ffffff;
+color: ${({ theme }) => theme.colors.palette.white};
 font-weight: bold;
 `;
 
 const ImgAccount = styled.img`
 height: 40px;
 width: 40px;
-background: white;
+background: ${({ theme }) => theme.colors.palette.white};
 border-radius: 20px;
 `;
 
@@ -105,9 +107,8 @@ const WrapperImageLogo = (props) => {
 const WrapperImageAccount = (props) => {
   return <ImgAccount src={props.src} alt="account" id="accountImage" />
 }
-
 const WrapperButtonAnt = (props) => {
-  return <Button style={{ borderTopWidth: 0, borderLeftWidth: 0, borderRightWidth: 0, backgroundColor: "#1d1d1d", color: 'white', width: "30%", fontSize: 18, fontWeight: 'bold' }} >{props.title}</Button>
+  return <Button style={{ borderTopWidth: 0, borderLeftWidth: 0, borderRightWidth: 0, backgroundColor: "#1d1d1d", color: 'white', width: "25%", fontSize: 18, fontWeight: 'bold' }} >{props.title}</Button>
 }
 
 export {
