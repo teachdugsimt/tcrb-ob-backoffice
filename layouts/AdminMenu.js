@@ -2,7 +2,7 @@ import React, { Component, useContext, useState } from 'react'
 import VersatileStore from '../mobx-store/VersatileStore'
 import Link from 'next/link'
 import { colors } from '../theme/colors'
-import { BorderMenu } from './Styles/AdminHocStyles'
+import { BorderMenu, MenuIcon, MenuIcon2, MainDivMenu, MainContainerMenu } from './Styles/AdminHocStyles'
 const listMenu = [
   { id: 1, name: "CUSTOMER SERVICES ENQUIRY", linkTo: "/", color: "#000000" },
   { id: 2, name: "CUSTOMER SERVICES MENU", linkTo: "/", color: "#000000" },
@@ -21,7 +21,7 @@ const listMenu = [
 ]
 const AdminMenu = (props) => {
   const context = useContext(VersatileStore)
-  return <div style={{ width: context.sidebarWidth, display: 'flex', flex: 0.25, position: 'fixed', top: 108, bottom: 56, left: 8 }}>
+  return <MainContainerMenu>
 
     <div style={{ display: 'flex', flex: 1, width: '100%', flexDirection: 'column' }}>
 
@@ -29,24 +29,25 @@ const AdminMenu = (props) => {
         <h3 style={{ fontWeight: 'bold', color: 'white', paddingTop: 15, paddingLeft: 15, fontSize: 18 }}>FUNCTIONS MENU</h3>
 
         <div style={{ paddingTop: 15, paddingRight: 15, display: 'flex', flexDirection: 'column' }}>
-          <div style={{ width: 30, height: 2, borderRadius: 1, backgroundColor: 'white', marginTop: 5 }}></div>
-          <div style={{ width: 30, height: 2, borderRadius: 1, backgroundColor: 'white', marginTop: 5 }}></div>
-          <div style={{ width: 7.5, height: 2, borderRadius: 1, backgroundColor: 'white', marginTop: 5 }}></div>
+          <MenuIcon />
+          <MenuIcon />
+          <MenuIcon2 />
         </div>
       </div>
 
-      <div style={{ display: "flex", height: "100%", backgroundColor: "#fff5", borderColor: 'black', overflowY: 'scroll' }}>
+      <MainDivMenu>
         <ul style={{ display: 'flex', flex: 1, flexDirection: 'column', justifyContent: 'center', marginTop: 10 }}>
           {listMenu && listMenu.map((e, i) => {
             return <BorderMenu><Link key={"link-menu-" + e.id} href={e.linkTo}>
-              <span style={{ width: "100%", marginTop: 10, marginBottom: 0, marginRight: 10, fontSize: 12 }}><a style={{ color: e.color ? e.color : "#000000" }}>{e.name}</a></span>
+              <span style={{ width: "100%", marginTop: 15, marginRight: 10, fontSize: 12 }}><a style={{ color: e.color ? e.color : "#000000" }}>{e.name}</a></span>
             </Link></BorderMenu>
           })}
         </ul>
-      </div>
+      </MainDivMenu>
+
     </div >
 
-  </div >
+  </MainContainerMenu>
 }
 
 export default AdminMenu

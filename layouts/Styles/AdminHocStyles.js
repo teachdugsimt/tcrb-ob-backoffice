@@ -43,6 +43,41 @@ border-bottom: 1px solid lightgrey;
 margin-left: -15px;
 `
 
+const MenuIcon = styled.div`
+width: 30px;
+height: 2px;
+border-radius: 1px;
+background-color: white;
+margin-top: 5px;
+`
+const MenuIcon2 = styled.div`
+width: 7.5px;
+height: 2px;
+border-radius: 1px;
+background-color: white;
+margin-top: 5px;
+`
+
+const MainDivMenu = styled.div`
+display: flex;
+height: 100%;
+background-color: #fff5;
+border-color: black;
+overflow-y: scroll;
+border-bottom-right-radius: 10px;
+border-bottom-left-radius: 10px;
+`
+
+const MainContainerMenu = styled.div`
+width: ${width}px;
+display: flex;
+flex: 0.25;
+position: fixed;
+top: 108px;
+bottom: 56px;
+left: 8px;
+`
+
 export {
   FirstLayer,
   SecondLayer,
@@ -50,5 +85,9 @@ export {
   EmptySidebar,
   ContentPadding,
   BorderMenu,
+  MenuIcon,
+  MenuIcon2,
+  MainDivMenu,
+  MainContainerMenu,
 }
 
