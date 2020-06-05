@@ -27,7 +27,10 @@ export default class MyDocument extends Document {
           {/* Step 5: Output the styles in the head  */}
           {this.props.styleTags}
         </Head>
-        <body style={{ backgroundColor: 'lightgrey' }}>
+        <body style={{
+          backgroundColor: 'lightgrey'
+          // backgroundRepeat: 'no-repeat', backgroundImage: url("paper.gif"), backgrou
+        }}>
           <Main />
           <NextScript />
         </body>

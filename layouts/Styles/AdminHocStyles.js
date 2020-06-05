@@ -31,6 +31,9 @@ width: 100%
 `;
 
 const ContentPadding = styled.div`
+  width: 100% ;
+  height: 100%;
+  margin-bottom: 42px;
   padding: ${({ theme }) => theme.spacing.large}px;
 `
 
