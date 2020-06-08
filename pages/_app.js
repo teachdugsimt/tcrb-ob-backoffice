@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import App from 'next/app'
 import EmptyLayout from '../layouts/EmptyLayout'
 import { ThemeProvider } from 'styled-components'
@@ -18,12 +18,11 @@ class CustomApp extends App {
       "BadEvent"
     ];
     return (
-      <ThemeProvider theme={theme}>
-        <EmptyLayout>
-          <Component {...pageProps} events={events} />
-        </EmptyLayout>
-      </ThemeProvider>
-
+        <ThemeProvider theme={theme}>
+          <EmptyLayout>
+            <Component {...pageProps} events={events} />
+          </EmptyLayout>
+        </ThemeProvider>
     )
   }
 }

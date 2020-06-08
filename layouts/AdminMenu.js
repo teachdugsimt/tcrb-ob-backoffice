@@ -1,54 +1,108 @@
 import React, { Component, useContext, useState } from 'react'
 import VersatileStore from '../mobx-store/VersatileStore'
+import TestStore3 from '../mobx-store/TestStore3'
 import Link from 'next/link'
 import { colors } from '../theme/colors'
+import styled from 'styled-components';
 import {
-  BorderMenu, MenuIcon, MenuIcon2, MainDivMenu, MainContainerMenu, SubMainContainer,
-  MainTitleMenuDiv, TitleDiv, TitleDiv2, MainUl, SpanText, LinkColorMenu
+  BorderMenu, MainDivMenu, MainContainerMenu, SubMainContainer,
+  MainTitleMenuDiv, MainUl, SpanText, LinkColorMenu, TitleDiv,
+  MenuIcon, MenuIcon2, TitleDiv2, WrapperMainDivMenu, MainHideDivMenu
 } from './Styles/AdminHocStyles'
 
-const listMenu = [
-  { id: 1, name: "CUSTOMER SERVICES ENQUIRY", linkTo: "/", color: "#000000" },
-  { id: 2, name: "CUSTOMER SERVICES MENU", linkTo: "/", color: "#000000" },
-  { id: 3, name: "PARTNER MANAGEMENT", linkTo: "/", color: "#000000" },
-  { id: 4, name: "CONSENT MANAGEMENT", linkTo: "/", color: "#000000" },
-  { id: 5, name: "TERM & CONDITION MANAGEMENT", linkTo: "/", color: "#000000" },
-  { id: 6, name: "SECURITY CODE ENQUIRY", linkTo: "/", color: "#000000" },
-  { id: 7, name: "NOTIFICATION ENQUIRY", linkTo: "/", color: "#000000" },
-  { id: 8, name: "BRANCH LOCATION ENQUIRY", linkTo: "/", color: "#000000" },
-  { id: 9, name: "LIVE CHAT ENQUIRY", linkTo: "/", color: "#000000" },
-  { id: 10, name: "MARKETING ADS ENQUIRY", linkTo: "/", color: "#000000" },
-  { id: 11, name: "DASHBOARD & REPORTS", linkTo: "/", color: "#000000" },
-  { id: 12, name: "BUSINESS PARAMETERS SETUP", linkTo: "/", color: "#000000" },
-  { id: 13, name: "USER ACCESS MANAGEMENT ENQUIRY", linkTo: "/", color: "#000000" },
-  { id: 14, name: "DEVICE ENQUIRY", linkTo: "/", color: "#000000" },
-]
+const INIT_ANIMATION = {
+  height: '100%',
+}
+
+const END_ANIMATION = {
+  height: '0%',
+}
+
+const BUTTON_DIV = {
+  display: 'flex',
+  flexDirection: 'column',
+  justifyContent: 'center',
+  minHeight: 52,
+  backgroundColor: '#707070',
+  flexDirection: 'row',
+  borderRadius: 10,
+  padding: 10,
+  paddingRight: 10,
+  paddingLeft: 10,
+}
 
 const AdminMenu = (props) => {
+  const [Bergur, setBergur] = useState({})
+  const [ButtonDiv, setButtonDiv] = useState(BUTTON_DIV)
+  const [ShowAnimation, setShowAnimation] = useState(INIT_ANIMATION)
+  const [HideAnimation, setHideAnimation] = useState(END_ANIMATION)
+  const [isShow, setIsShow] = useState(true)
   const context = useContext(VersatileStore)
+  const contextBar = useContext(TestStore3)
+
+  const setSideBar = () => {
+    if (isShow) {
+      context.setSidebarWidth(58)
+      setButtonDiv({
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'center',
+        minHeight: 52,
+        backgroundColor: '#707070',
+        borderRadius: 10,
+        padding: 10,
+        paddingRight: 10,
+        paddingLeft: 10,
+      })
+      setShowAnimation({
+        height: '100%',
+      })
+      setIsShow(!isShow)
+      setBergur({
+        paddingTop: 0,
+        paddingRight: 0,
+        paddingLeft: 2.5,
+        paddingBottom: 2.5
+      })
+    } else {
+      context.setSidebarWidth(288)
+      setHideAnimation({
+        height: '0%',
+      })
+      setBergur({
+        paddingTop: 15,
+        paddingRight: 15,
+        paddingLeft: 0,
+        paddingBottom: 0
+      })
+      setIsShow(!isShow)
+    }
+  }
+  console.log("---------------- Admin Menu Screen ----------------")
+  console.log(context.sidebarWidth)
   return <MainContainerMenu>
 
     <SubMainContainer>
 
-      <MainTitleMenuDiv>
-        <TitleDiv>FUNCTIONS MENU</TitleDiv>
-
-        <TitleDiv2>
+      <MainTitleMenuDiv style={!isShow ? ButtonDiv : {}}>
+        {isShow && <TitleDiv>FUNCTIONS MENU</TitleDiv>}
+        <TitleDiv2 onClick={() => setSideBar()} style={Bergur}>
           <MenuIcon />
           <MenuIcon />
           <MenuIcon2 />
         </TitleDiv2>
       </MainTitleMenuDiv>
 
-      <MainDivMenu>
+      {isShow == true && <MainDivMenu style={ShowAnimation}>
         <MainUl>
-          {listMenu && listMenu.map((e, i) => {
+          {contextBar.getMenu && contextBar.getMenu.map((e, i) => {
             return <BorderMenu><Link key={"link-menu-" + e.id} href={e.linkTo}>
-              <SpanText id={"span-text-"+e.id}><LinkColorMenu>{e.name}</LinkColorMenu></SpanText>
+              <SpanText id={"span-text-" + e.id}><LinkColorMenu>{e.name}</LinkColorMenu></SpanText>
             </Link></BorderMenu>
           })}
         </MainUl>
-      </MainDivMenu>
+      </MainDivMenu>}
+      {isShow == false && <MainHideDivMenu style={HideAnimation} />}
 
     </SubMainContainer>
 

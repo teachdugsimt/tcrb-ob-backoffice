@@ -1,25 +1,23 @@
 import React, { useContext } from 'react'
 import Router, { withRouter } from 'next/router'
 import MainLayout from './MainLayout'
-// import Login from '../../pages/Login'
-
+import Login from '../pages/Login'
+import TestStore3 from '../mobx-store/TestStore3'
 
 const EmptyLayout = (props) => {
-
-  // const context = useContext(TestStore3)
-
-  // if (context.password && context.id) {
-  return (
-    <MainLayout>
-      {props.children}
-    </MainLayout>
-  )
-  // }
-  // else if (props.router && props.router.route == "/_error") {
-  //   return <div>{props.children}</div>
-  // }
-  // else {
-  //   return <Login />
-  // }
+  const context = useContext(TestStore3)
+  if (context.password && context.id) {
+    return (
+      <MainLayout>
+        {props.children}
+      </MainLayout>
+    )
+  }
+  else if (props.router && props.router.route == "/_error") {
+    return <div>{props.children}</div>
+  }
+  else {
+    return <Login />
+  }
 }
 export default withRouter(EmptyLayout)

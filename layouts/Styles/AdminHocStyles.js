@@ -37,31 +37,6 @@ const ContentPadding = styled.div`
   padding: ${({ theme }) => theme.spacing.large}px;
 `
 
-const MenuIcon = styled.div`
-width: 30px;
-height: 2px;
-border-radius: 1px;
-background-color: white;
-margin-top: 5px;
-`
-const MenuIcon2 = styled.div`
-width: 7.5px;
-height: 2px;
-border-radius: 1px;
-background-color: white;
-margin-top: 5px;
-`
-
-const MainDivMenu = styled.div`
-display: flex;
-height: 100%;
-background-color: #fff5;
-border-color: black;
-overflow-y: scroll;
-border-bottom-right-radius: 10px;
-border-bottom-left-radius: 10px;
-`
-
 const MainContainerMenu = styled.div`
 width: ${width}px;
 display: flex;
@@ -98,16 +73,8 @@ padding-left: 15px;
 font-size: 18px;
 `
 
-const TitleDiv2 = styled.div`
-padding-top: 15px;
-padding-right: 15px;
-display: flex;
-flex-direction: column;
-`
-
 const SpanText = styled.span`
 width: 100%;
-margin-top: 15px;
 margin-right: 10px;
 font-size: 12px;
 `
@@ -125,13 +92,16 @@ flex: 1;
 flex-direction: column;
 justify-content: center;
 align-items: flex-start;
-margin-top: 10px;
+margin-top: 20px;
 `
 
 const BorderMenu = styled.div`
 display: flex;
 flex: 1;
-min-height: 40px;
+flex-direction: row;
+justify-content: center;
+align-items: center;
+min-height: 48px;
 width: 100%;
 margin-left: -10px;
 border-bottom: 1px solid lightgrey;
@@ -142,6 +112,72 @@ border-bottom: 1px solid lightgrey;
   color: #587FFF
 }
 `
+
+
+const MainDivMenu = styled.div`
+display: flex;
+height: 100%;
+padding-top: 10px;
+background-color: #fff5;
+border-color: black;
+overflow-y: scroll;
+border-bottom-right-radius: 10px;
+border-bottom-left-radius: 10px;
+`
+
+const MenuIcon = styled.div`
+width: 30px;
+height: 2px;
+border-radius: 1px;
+background-color: white;
+margin-top: 5px;
+`
+const MenuIcon2 = styled.div`
+width: 7.5px;
+height: 2px;
+border-radius: 1px;
+background-color: white;
+margin-top: 5px;
+`
+
+const TitleDiv2 = styled.div`
+padding-top: 15px;
+padding-right: 15px;
+display: flex;
+flex-direction: column;
+cursor: pointer;
+&:hover ${MenuIcon} {
+  height: 4px;
+  border-radius: 2px;
+  background-color: #587FFF;
+}
+&:hover ${MenuIcon2} {
+  height: 4px;
+  border-radius: 2px;
+  background-color: #587FFF;
+}
+`
+
+
+const MainHideDivMenu = styled.div`
+display: flex;
+height: 0%;
+background-color: #fff5;
+border-color: black;
+border-bottom-right-radius: 10px;
+border-bottom-left-radius: 10px;
+
+`
+
+// const WrapperMainDivMenu = (props) => {
+//   console.log("Props. IS_SHOW : ", props)
+//   if (props.isShow == true) {
+//     return <MainDivMenu />
+//   }
+//   else {
+//     return <MainHideDivMenu />
+//   }
+// }
 
 export {
   FirstLayer,
@@ -161,5 +197,6 @@ export {
   MainUl,
   SpanText,
   LinkColorMenu,
+  MainHideDivMenu,
+  // WrapperMainDivMenu,
 }
-

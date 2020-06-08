@@ -4,11 +4,18 @@ import DropdownTopRight from '../components/DropdownTopRight'
 import account from '../images/account.png'
 import {
   MainHeader, SubHeader, SubHeader2, DivImageLogo, WrapperImageLogo, InsideTopRightDiv,
-  ContentMainDiv, TextMenu, DivAccount, WrapperImageAccount, DivName, TextName,WrapperButtonAnt
+  ContentMainDiv, TextMenu, DivAccount, WrapperImageAccount, DivName, TextName, WrapperButtonAnt
 } from "./Styles/AdminHeaderStyles"
-import { Button } from 'antd';
+import Router from 'next/router'
+import { observer } from 'mobx-react'
+import TestStore3 from '../mobx-store/TestStore3'
 
-const AdminHeader = (props) => {
+const AdminHeader = observer((props) => {
+  const context = useContext(TestStore3)
+  const goLogin = () => {
+    context.clear()
+    Router.push("/login")
+  }
 
   return (
     <MainHeader>
@@ -18,8 +25,8 @@ const AdminHeader = (props) => {
         </DivImageLogo>
         <InsideTopRightDiv>
           <ContentMainDiv>
-            <WrapperButtonAnt title={"Support"}/>
-            <WrapperButtonAnt title={"Signout"}/>
+            <WrapperButtonAnt title={"Support"} />
+            <WrapperButtonAnt title={"Signout"} onClick={() => goLogin()} />
             <DivAccount>
               <WrapperImageAccount src={account} />
               <DivName>
@@ -39,6 +46,6 @@ const AdminHeader = (props) => {
 
     </MainHeader>
   )
-}
+})
 
 export default AdminHeader
