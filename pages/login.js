@@ -14,7 +14,7 @@ const Login = observer((props) => {
         if (!id && !password) alert("Please entry id & password")
         else {
             tmp.setProfile(id, password)
-            tmp.setType("42")
+            tmp.setType("50")
             Router.push("/")
         }
     }

@@ -15,22 +15,22 @@ const MainLayout = (props) => {
   console.log(width)
   console.log(props)
 
-  const setWidthState = (width) => {
-    if (width < 100)
-      setWidth(76)
-    else if (width > 100)
-      setWidth(288)
-  }
+  // const setWidthState = (width) => {
+  //   if (width < 100)
+  //     setWidth(76)
+  //   else if (width > 100)
+  //     setWidth(288)
+  // }
 
-  const memoizedValue = useMemo(() => setWidthState(context.sidebarWidth), [context.sidebarWidth]);
+  // const memoizedValue = useMemo(() => setWidthState(context.sidebarWidth), [context.sidebarWidth]);
 
   useEffect(() => {
     console.log("------------------------ Use Effect Main Layout ----------------------")
     console.log(context.sidebarWidth)
-    if (context.sidebarWidth < 100)
-      setWidth(76)
-    else if (context.sidebarWidth > 100)
-      setWidth(288)
+    // if (context.sidebarWidth < 100)
+    //   setWidth(76)
+    // else if (context.sidebarWidth > 100)
+    //   setWidth(288)
     return () => {
       // cleanup
       console.log("------------------ Clean up Main Layout -------------------")
@@ -43,8 +43,9 @@ const MainLayout = (props) => {
       <EmptyDiv />
       <SecondLayer>
         <AdminMenu />
-        {context.sidebarWidth < 100 && <EmptySidebar />}
-        {context.sidebarWidth > 100 && <EmptySidebar style={{ paddingLeft: 288 }} />}
+        {/* {context.sidebarWidth < 100 && <EmptySidebar />}
+        {context.sidebarWidth > 100 && <EmptySidebar style={{ paddingLeft: 288 }} />} */}
+        <EmptySidebar style={{ paddingLeft: context.sidebarWidth > 100 ? 288 : 78 }} />
         <ContentPadding>
           {props.children}
         </ContentPadding>
