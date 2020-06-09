@@ -11,14 +11,14 @@ display: flex;
 flex: 1;
 flex-direction: column;
 width: 100%;
-height: 100%
+height: 100%;
 `;
 
 const EmptyDiv = styled.div`
 padding-top: 100px;
 `
 
-const EmptySidebar = styled.div`
+const EmptySidebar = styled.div` x
 padding-left: ${width}px;
 `
 
@@ -168,15 +168,16 @@ border-bottom-left-radius: 10px;
 
 `
 
-// const WrapperMainDivMenu = (props) => {
-//   console.log("Props. IS_SHOW : ", props)
-//   if (props.isShow == true) {
-//     return <MainDivMenu />
-//   }
-//   else {
-//     return <MainHideDivMenu />
-//   }
-// }
+const ImgBackground = styled.img`
+position: fixed;
+width: 100%;
+height: 100%;
+background-repeat: no-repeat;
+`;
+
+const WrapperImageBackground = (props) => {
+  return <ImgBackground src={props.src} alt='background' id='backgorundImage' />
+}
 
 export {
   FirstLayer,
@@ -197,5 +198,6 @@ export {
   SpanText,
   LinkColorMenu,
   MainHideDivMenu,
+  WrapperImageBackground,
   // WrapperMainDivMenu,
 }
