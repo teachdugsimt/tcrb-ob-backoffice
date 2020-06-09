@@ -7,6 +7,12 @@ import 'antd/dist/antd.css'
 
 class CustomApp extends App {
 
+  componentDidMount() {
+    let fixedNextDimension = document.getElementById("__next")
+    fixedNextDimension.style.height = "100%"
+    fixedNextDimension.style.width = "100%"
+  }
+
   render() {
     const { Component, pageProps } = this.props;
     const events = [
@@ -18,11 +24,11 @@ class CustomApp extends App {
       "BadEvent"
     ];
     return (
-        <ThemeProvider theme={theme}>
-          <EmptyLayout>
-            <Component {...pageProps} events={events} />
-          </EmptyLayout>
-        </ThemeProvider>
+      <ThemeProvider theme={theme}>
+        <EmptyLayout>
+          <Component {...pageProps} events={events} />
+        </EmptyLayout>
+      </ThemeProvider>
     )
   }
 }

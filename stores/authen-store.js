@@ -36,6 +36,11 @@ class AuthenStore {
     this.id = null
   }
 
+  @action
+  setMenu = (menu) => {
+    this.menu = menu
+  }
+
   @computed get getMenu() {
     let arr = this.menu.filter(e => e.typeLv <= this.type)
     return arr
