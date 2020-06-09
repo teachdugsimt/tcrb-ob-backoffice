@@ -1,27 +1,31 @@
 import React, { useState, useEffect } from 'react'
 import { Button, Table, Popconfirm, Row, Col } from 'antd'
-export default function ProductLimitSetup() {
+import { useStores } from '../../hooks/use-stores'
+import { observer } from 'mobx-react'
+
+export default (observer(function ProductLimitSetup() {
   const [dataSource, setDataSource] = useState([])
-  // console.log(dataSource)
-  // setDataSource(mockDataSource)
+  const { businessParametersSetupStore } = useStores()
+
   useEffect(() => {
       setDataSource(mockDataSource)
 
   }, []);
   const handleDelete = key => {
     // const dataSource = [...this.state.dataSource];
-    setDataSource(dataSource.filter(item => item.key !== key))
+    // setDataSource(dataSource.filter(item => item.key !== key))
+    console.log(key)
 
   };
-
+  console.log(businessParametersSetupStore.pendingApprovals)
   const columns = [
     {
       // title: 'Specific Channel Limit',
       dataIndex: 'operation',
       render: (text, record) =>
         dataSource.length >= 1 ? (
-          <Popconfirm title="Sure to delete?" onConfirm={() => handleDelete(record.key)}>
-            <a>Delete</a>
+          <Popconfirm title="Sure to delete?" onConfirm={() => businessParametersSetupStore.selectProductToDelete(record)} >
+            <a >Delete</a>
           </Popconfirm>
         ) : null,
     },
@@ -96,4 +100,4 @@ export default function ProductLimitSetup() {
       </Row>
     </div>
   )
-}
+}))
