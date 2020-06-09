@@ -1,8 +1,10 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import { Input, Row, Col, Layout, Modal, Switch } from 'antd'
 import styled from 'styled-components';
 import SimpleSearch from '../simple-search'
 import SimpleModal from '../simple-modal'
+import { observer, inject } from 'mobx-react';
+import TestStore3 from '../../mobx-store/TestStore3'
 const { Header, Footer, Sider, Content } = Layout;
 
 
@@ -11,12 +13,16 @@ const StyledP = styled.p`
   display: initial;
   padding-left: ${({ theme }) => theme.spacing.medium}px !important;
 `
-export default function OtpUnlocking() {
+
+const OtpUnlocking =
+(observer(() => {
   const [idCard, setIdCard] = useState('');
   const [isSearch, setIsSearch] = useState(false);
   const [visible, setVisble] = useState(false)
   const [isChecked, setIsChecked] = useState(false)
   const [modalString, setModalString] = useState('')
+  const context = useContext(TestStore3)
+
   const searchIdCardNumber = (value) => {
     console.log('eiei search:' + value)
     setIdCard(value)
@@ -53,7 +59,7 @@ export default function OtpUnlocking() {
   return (
     <div style={{ marginTop: 20 }}>
       <Row>
-        <SimpleSearch search={searchIdCardNumber} prefixWording="ID Card Number" />
+        <SimpleSearch search={context.setCitizenId} prefixWording="ID Card Number" />
       </Row>
       {(isSearch) ? (<Col span={12}>
         <Switch defaultChecked={false} onChange={checked => onChange(checked)} />
@@ -69,4 +75,5 @@ export default function OtpUnlocking() {
       />
     </div>
   )
-}
+}))
+export default OtpUnlocking

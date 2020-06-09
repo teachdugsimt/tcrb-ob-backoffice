@@ -42,6 +42,16 @@ class TestStore3 {
     return arr
   }
 
+
+    @observable citizenId = ''
+    @action setProfile = (id, password) => {
+        this.id = id
+        this.password = password
+    }
+    @action setCitizenId = (id) => {
+      console.log(id)
+      this.citizenId = id
+    }
 }
 
 export default createContext(new TestStore3)
