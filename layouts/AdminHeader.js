@@ -1,6 +1,6 @@
 import React, { Component, useContext } from 'react'
 import logo02 from '../images/logo02.png'
-import DropdownTopRight from '../components/DropdownTopRight'
+import DropdownTopRight from '../components/dropdown-top-right'
 import account from '../images/account.png'
 import {
   MainHeader, SubHeader, SubHeader2, DivImageLogo, WrapperImageLogo, InsideTopRightDiv,
@@ -8,12 +8,12 @@ import {
 } from "./Styles/AdminHeaderStyles"
 import Router from 'next/router'
 import { observer } from 'mobx-react'
-import TestStore3 from '../mobx-store/TestStore3'
+import { useStores } from '../hooks/use-stores'
 
-const AdminHeader = observer((props) => {
-  const context = useContext(TestStore3)
+const AdminHeader = (observer((props) => {
+  const { authenStore } = useStores()
   const goLogin = () => {
-    context.clear()
+    authenStore.clear()
     Router.push("/login")
   }
 
@@ -46,6 +46,6 @@ const AdminHeader = observer((props) => {
 
     </MainHeader>
   )
-})
+}))
 
 export default AdminHeader

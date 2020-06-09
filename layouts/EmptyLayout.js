@@ -1,12 +1,13 @@
 import React, { useContext } from 'react'
 import Router, { withRouter } from 'next/router'
 import MainLayout from './MainLayout'
+import { useStores } from '../hooks/use-stores'
+import { observer } from 'mobx-react'
 import Login from '../pages/Login'
-import TestStore3 from '../mobx-store/TestStore3'
 
-const EmptyLayout = (props) => {
-  const context = useContext(TestStore3)
-  if (context.password && context.id) {
+const EmptyLayout = (observer((props) => {
+  const { authenStore } = useStores()
+  if (authenStore.password && authenStore.id) {
     return (
       <MainLayout>
         {props.children}
@@ -19,5 +20,5 @@ const EmptyLayout = (props) => {
   else {
     return <Login />
   }
-}
+}))
 export default withRouter(EmptyLayout)

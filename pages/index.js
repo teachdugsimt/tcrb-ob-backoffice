@@ -1,36 +1,26 @@
 import React, { useContext, useState } from 'react'
-import TestStore3 from '../mobx-store/TestStore3'
 import { observer } from 'mobx-react'
+import { useStores } from '../hooks/use-stores'
 import Link from 'next/link'
 
-const index = observer(() => {
+const index = (observer(() => {
   const [id, setId] = useState("")
   const [password, setPassword] = useState("")
 
-  const context = useContext(TestStore3)
-
-  console.log("--- index ---")
-  console.log(context)
-
-  const _setProfile = () => {
-    if (id && password)
-      context.setProfile(id, password)
-    else alert("Invalid data")
-  }
+  const { counterStore, authenStore } = useStores()
 
   return <div>
     DashboardV1
-    <h1>{context.id ? "ID :" + context.id : ""}</h1>
-    <h1>{context.password ? "Password : " + context.password : ""}</h1>
-    <h1>{context.type ? "Type :" + context.type : ""}</h1>
+    <h1>{authenStore.id ? "ID :" + authenStore.id : ""}</h1>
+    <h1>{authenStore.password ? "Password : " + authenStore.password : ""}</h1>
+    <h1>{authenStore.type ? "Type :" + authenStore.type : ""}</h1>
 
-    {/* <input value={id} onChange={(e) => setId(e.target.value)} />
-    <input value={password} onChange={(e) => setPassword(e.target.value)} />
-    <button onClick={() => _setProfile()}>Set Profile</button>
+    <div>{counterStore.count}</div>
+    <button onClick={() => counterStore.increment()}>++</button>
+    <button onClick={() => counterStore.decrement()}>--</button>
 
-    <Link href="/dashboard"><a><h1> Go To Dashboard</h1></a></Link> */}
   </div >
-})
+}))
 
 export default index
 

@@ -1,7 +1,6 @@
 import React, { Component, useContext, useState } from 'react'
-import VersatileStore from '../mobx-store/VersatileStore'
-import TestStore3 from '../mobx-store/TestStore3'
 import Link from 'next/link'
+import { useStores } from '../hooks/use-stores'
 import { colors } from '../theme/colors'
 import styled from 'styled-components';
 import {
@@ -37,12 +36,11 @@ const AdminMenu = (props) => {
   const [ShowAnimation, setShowAnimation] = useState(INIT_ANIMATION)
   const [HideAnimation, setHideAnimation] = useState(END_ANIMATION)
   const [isShow, setIsShow] = useState(true)
-  const context = useContext(VersatileStore)
-  const contextBar = useContext(TestStore3)
+  const { authenStore, versatileStore } = useStores()
 
   const setSideBar = () => {
     if (isShow) {
-      context.setSidebarWidth(58)
+      versatileStore.setSidebarWidth(58)
       setButtonDiv({
         display: 'flex',
         flexDirection: 'column',
@@ -65,7 +63,7 @@ const AdminMenu = (props) => {
         paddingBottom: 2.5
       })
     } else {
-      context.setSidebarWidth(288)
+      versatileStore.setSidebarWidth(288)
       setHideAnimation({
         height: '0%',
       })
@@ -79,7 +77,7 @@ const AdminMenu = (props) => {
     }
   }
   console.log("---------------- Admin Menu Screen ----------------")
-  console.log(context.sidebarWidth)
+  console.log(versatileStore.sidebarWidth)
   return <MainContainerMenu>
 
     <SubMainContainer>
@@ -95,7 +93,7 @@ const AdminMenu = (props) => {
 
       {isShow == true && <MainDivMenu style={ShowAnimation}>
         <MainUl>
-          {contextBar.getMenu && contextBar.getMenu.map((e, i) => {
+          {authenStore.getMenu && authenStore.getMenu.map((e, i) => {
             return <BorderMenu><Link key={"link-menu-" + e.id} href={e.linkTo}>
               <SpanText id={"span-text-" + e.id}><LinkColorMenu>{e.name}</LinkColorMenu></SpanText>
             </Link></BorderMenu>

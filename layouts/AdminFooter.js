@@ -1,10 +1,10 @@
 import React, { Component, useContext } from 'react'
 import { MainFooter, SubFooter, TextFooter } from './Styles/AdminFooterStyles'
-import TestStore3 from '../mobx-store/TestStore3'
+import { useStores } from '../hooks/use-stores'
 
 const AdminFooter = (props) => {
-  const context = useContext(TestStore3)
-  const footName = context.footName ? context.footName : "IT SERVICE DESK CONTACT NUMBER IS 02-6xx-1234"
+  const { authenStore } = useStores()
+  const footName = authenStore.footName ? authenStore.footName : "IT SERVICE DESK CONTACT NUMBER IS 02-6xx-1234"
   return (
     <MainFooter>
       <SubFooter>

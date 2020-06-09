@@ -1,17 +1,17 @@
 import React, { useContext } from 'react'
 import { observer } from 'mobx-react'
-import TestStore3 from '../mobx-store/TestStore3'
 import Link from 'next/link'
+import { useStores } from '../hooks/use-stores'
 
 const Dashboard = observer((props) => {
-  const context = useContext(TestStore3)
+  const { authenStore } = useStores()
   console.log("---------- Dashboard -----------")
-  console.log(context)
+  console.log(authenStore)
 
   return <div>
     Dashboard Screen
-    <h1>{context.id}</h1>
-    <h1>{context.password}</h1>
+    <h1>{authenStore.id}</h1>
+    <h1>{authenStore.password}</h1>
     <Link href="/"><a>Go back</a></Link>
   </div>
 })

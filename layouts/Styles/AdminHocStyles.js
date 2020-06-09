@@ -1,10 +1,9 @@
 import React, { useContext } from 'react'
 import styled from 'styled-components';
-import VersatileStore from '../../mobx-store/VersatileStore'
-
+import { useStores } from '../../hooks/use-stores'
 const width = () => {
-  const context = useContext(VersatileStore)
-  return context.sidebarWidth
+  const { versatileStore } = useStores()
+  return versatileStore.sidebarWidth
 }
 
 const FirstLayer = styled.div`
