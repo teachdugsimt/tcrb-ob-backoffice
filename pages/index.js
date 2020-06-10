@@ -19,38 +19,6 @@ const index = (observer(() => {
     <button onClick={() => counterStore.increment()}>++</button>
     <button onClick={() => counterStore.decrement()}>--</button>
     <h1>Dashboard index</h1>
-    <h1>Dashboard index</h1>
-    <h1>Dashboard index</h1>
-    <h1>Dashboard index</h1>
-    <h1>Dashboard index</h1>
-    <h1>Dashboard index</h1>
-    <h1>Dashboard index</h1>
-    <h1>Dashboard index</h1>
-    <h1>Dashboard index</h1>
-    <h1>Dashboard index</h1>
-    <h1>Dashboard index</h1>
-    <h1>Dashboard index</h1>
-    <h1>Dashboard index</h1>
-    <h1>Dashboard index</h1>
-    <h1>Dashboard index</h1>
-    <h1>Dashboard index</h1>
-    <h1>Dashboard index</h1>
-    <h1>Dashboard index</h1>
-    <h1>Dashboard index</h1>
-    <h1>Dashboard index</h1>
-    <h1>Dashboard index</h1>
-    <h1>Dashboard index</h1>
-    <h1>Dashboard index</h1>
-    <h1>Dashboard index</h1>
-    <h1>Dashboard index</h1>
-    <h1>Dashboard index</h1>
-    <h1>Dashboard index</h1>
-    <h1>Dashboard index</h1>
-    <h1>Dashboard index</h1>
-    <h1>Dashboard index</h1>
-    <h1>Dashboard index</h1>
-    <h1>Dashboard index</h1>
-    <h1>Dashboard index</h1>
 
   </div >
 }))
