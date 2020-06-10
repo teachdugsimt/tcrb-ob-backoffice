@@ -11,14 +11,15 @@ display: flex;
 flex: 1;
 flex-direction: column;
 width: 100%;
-height: 100%
+height: 100%;
+overflow: hidden;
 `;
 
 const EmptyDiv = styled.div`
 padding-top: 100px;
 `
 
-const EmptySidebar = styled.div`
+const EmptySidebar = styled.div` x
 padding-left: ${width}px;
 `
 
@@ -32,7 +33,7 @@ width: 100%
 const ContentPadding = styled.div`
   width: 100% ;
   height: 100%;
-  margin-bottom: 42px;
+  z-index: 99;
   padding: ${({ theme }) => theme.spacing.large}px;
 `
 
@@ -44,6 +45,7 @@ position: fixed;
 top: 108px;
 bottom: 56px;
 left: 8px;
+z-index: 999;
 `
 
 const SubMainContainer = styled.div`
@@ -117,7 +119,7 @@ const MainDivMenu = styled.div`
 display: flex;
 height: 100%;
 padding-top: 10px;
-background-color: #fff5;
+background-color: #ececec91;
 border-color: black;
 overflow-y: scroll;
 border-bottom-right-radius: 10px;
@@ -161,22 +163,24 @@ cursor: pointer;
 const MainHideDivMenu = styled.div`
 display: flex;
 height: 0%;
-background-color: #fff5;
+background-color: #ececec91;
 border-color: black;
 border-bottom-right-radius: 10px;
 border-bottom-left-radius: 10px;
 
 `
 
-// const WrapperMainDivMenu = (props) => {
-//   console.log("Props. IS_SHOW : ", props)
-//   if (props.isShow == true) {
-//     return <MainDivMenu />
-//   }
-//   else {
-//     return <MainHideDivMenu />
-//   }
-// }
+const ImgBackground = styled.img`
+z-index: 0;
+position: fixed;
+width: 100%;
+height: 100%;
+background-repeat: no-repeat;
+`;
+
+const WrapperImageBackground = (props) => {
+  return <ImgBackground src={props.src} alt='background' id='backgorundImage' />
+}
 
 export {
   FirstLayer,
@@ -197,5 +201,6 @@ export {
   SpanText,
   LinkColorMenu,
   MainHideDivMenu,
+  WrapperImageBackground,
   // WrapperMainDivMenu,
 }
