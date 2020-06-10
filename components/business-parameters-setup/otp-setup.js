@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, createRef, useRef } from 'react'
 import { Input, Row, Col, Button } from 'antd'
 import styled from 'styled-components'
 import SimpleModal from '../simple-modal'
@@ -16,13 +16,19 @@ const StyledInput = styled(Input)`
 `
 export default function OtpSetup() {
   const [disableEditOtp, setDisableEditOtp] = useState(true)
+  const [disableEditOtpExpire, setDisableEditOtpExpire] = useState(true)
   const [visible, setVisble] = useState(false)
   const [modalString, setModalString] = useState('')
+  const textInput = createRef();
+
 
   const editOtpMaximum = () => {
+    console.log(textInput.current);
+
     if(disableEditOtp){
       setDisableEditOtp(false)
     }else{
+      setVisble(true)
       setModalString(
         <div>
           <p>Changing OTP Maximum Retrying!!</p>
@@ -32,13 +38,27 @@ export default function OtpSetup() {
     }
   }
   const changeOtpMaximum = ()=>{
+    console.log(textInput.current.value);
+    //some action
+    setDisableEditOtp(true)
+    setVisble(false)
+  }
+  const changeOtpExpire = () => {
 
+  }
+  const confirmModal = ()=>{
+    if(disableEditOtp === false){
+      changeOtpMaximum()
+    }else{
+      changeOtpExpire()
+    }
   }
   return (
     <div>
       <Row gutter={[8, 8]}>
         <Col span={8}>
-          <StyledInput prefix="OTP Maximum Retrying" suffix="Times" readOnly={disableEditOtp}/>
+          <StyledInput type="text" prefix="OTP Maximum Retrying" suffix="Times" readOnly={disableEditOtp}  ref={textInput}/>
+          {/* <Input ref={textInput}/> */}
         </Col>
         <Col span={6}>
           <Button onClick={editOtpMaximum}> {disableEditOtp ? 'Edit':'Submit'} </Button>
@@ -46,14 +66,15 @@ export default function OtpSetup() {
       </Row>
       <Row gutter={[8, 8]}>
         <Col span={8}>
-          <StyledInput prefix="OTP Expiration Perlod" suffix="Seconds" />
+          <StyledInput prefix="OTP Expiration Perlod" suffix="Seconds" disabled={!disableEditOtp} readOnly={disableEditOtpExpire} />
         </Col>
         <Col span={6}>
-          <Button> Edit </Button>
+          <Button disabled={!disableEditOtp}> {disableEditOtpExpire ? 'Edit':'Submit'} </Button>
         </Col>
       </Row>
+
       <SimpleModal
-        onOk={()=> unlockOTP()}
+        onOk={()=> confirmModal()}
         onCancel={() => setVisble(false)}
         okText="Confirm"
         cancelText="Cancel"
