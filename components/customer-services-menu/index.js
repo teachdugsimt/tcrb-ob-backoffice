@@ -10,14 +10,14 @@ const { TabPane } = Tabs;
 export default function CustomerServicesMenu() {
 
   return (
-    <div style={{ width: 100 + 'vh' }}>
-      <Row>
+    <div>
+      <Row flex={100}>
         <Col flex={100}>
-          <Tabs defaultActiveKey="1" >
-            <TabPane tab="Account Unbinding" key="1">
+          <Tabs defaultActiveKey="1" destroyInactiveTabPane={true}>
+            <TabPane tab="Account Unbinding" key="1" >
               <AccountUnbinding />
             </TabPane>
-            <TabPane tab="OTP-Unlocking" key="2">
+            <TabPane tab="OTP-Unlocking" key="2" >
               <OtpUnlocking />
             </TabPane>
           </Tabs>

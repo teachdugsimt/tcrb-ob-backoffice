@@ -22,6 +22,7 @@ const StyledSearch = styled(Search)`
             display: ${props => props.disabled ? "none" : "table-cell"};
 
       }
+
   `
 
 
@@ -36,8 +37,8 @@ export default function SimpleSearch(props) {
         size="large"
         disabled={props.disabled}
         onSearch={value => props.search(value)}
-        onChange={()=>console.log('change')}
-        defaultValue= { props.defaultValue }
+        onChange={() => console.log('change')}
+        defaultValue={props.defaultValue}
 
       />
     </div>
