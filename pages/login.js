@@ -9,7 +9,7 @@ const Login = observer((props) => {
 
   let customerMenu = [
     { id: 1, name: "CUSTOMER SERVICES ENQUIRY", translate: "customerServicesEnquiry", linkTo: "/Natty", color: "#000000", typeLv: "42" },
-    { id: 2, name: "CUSTOMER SERVICES MENU", translate: "customerServiceMenu", linkTo: "/test-customer-service-menu", color: "#000000", typeLv: "38" },
+    { id: 2, name: "CUSTOMER SERVICES MENU", translate: "customerServiceMenu", linkTo: "/customer-service-menu", color: "#000000", typeLv: "38" },
     { id: 3, name: "PARTNER MANAGEMENT", translate: "partnerManagement", linkTo: "/", color: "#000000", typeLv: "38" },
     { id: 4, name: "CONSENT MANAGEMENT", translate: "consentManagement", linkTo: "/", color: "#000000", typeLv: "30" },
     { id: 5, name: "TERM & CONDITION MANAGEMENT", translate: "term&conditionManagement", linkTo: "/", color: "#000000", typeLv: "30" },
@@ -19,7 +19,7 @@ const Login = observer((props) => {
 
   let adminMenu = [
     { id: 1, name: "CUSTOMER SERVICES ENQUIRY", translate: "customerServicesEnquiry", linkTo: "/Natty", color: "#000000", typeLv: "42" },
-    { id: 2, name: "CUSTOMER SERVICES MENU", translate: "customerServiceMenu", linkTo: "/test-customer-service-menu", color: "#000000", typeLv: "38" },
+    { id: 2, name: "CUSTOMER SERVICES MENU", translate: "customerServiceMenu", linkTo: "/customer-service-menu", color: "#000000", typeLv: "38" },
     { id: 3, name: "PARTNER MANAGEMENT", translate: "partnerManagement", linkTo: "/", color: "#000000", typeLv: "38" },
     { id: 4, name: "CONSENT MANAGEMENT", translate: "consentManagement", linkTo: "/", color: "#000000", typeLv: "30" },
     { id: 5, name: "TERM & CONDITION MANAGEMENT", translate: "term&conditionManagement", linkTo: "/", color: "#000000", typeLv: "30" },
@@ -36,7 +36,7 @@ const Login = observer((props) => {
 
   let userMenu = [
     { id: 1, name: "CUSTOMER SERVICES ENQUIRY", translate: "customerServicesEnquiry", linkTo: "/Natty", color: "#000000", typeLv: "42" },
-    { id: 2, name: "CUSTOMER SERVICES MENU", translate: "customerServiceMenu", linkTo: "/test-customer-service-menu", color: "#000000", typeLv: "38" },
+    { id: 2, name: "CUSTOMER SERVICES MENU", translate: "customerServiceMenu", linkTo: "/customer-service-menu", color: "#000000", typeLv: "38" },
     { id: 12, name: "BUSINESS PARAMETERS SETUP", translate: "businessParametersSetup", linkTo: "/parameters-setup", color: "#000000", typeLv: "42" },
   ]
 

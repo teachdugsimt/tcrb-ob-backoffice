@@ -21,7 +21,8 @@
     "next-images": "^1.4.0",
     "react": "16.13.1",
     "react-dom": "16.13.1",
-    "styled-components": "^5.1.1"
+    "styled-components": "^5.1.1",
+    "utilitylayer": "git+https://git-codecommit.ap-southeast-1.amazonaws.com/v1/repos/utilitylayer"
   },
   "devDependencies": {
     "@babel/plugin-proposal-class-properties": "^7.1.0",
