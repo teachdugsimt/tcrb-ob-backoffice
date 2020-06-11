@@ -1,0 +1,19 @@
+{
+  "title": "TCRB ob Backoffice",
+  "bank": "ธนาคาร",
+  "thaicredit": "ไทยเครดิต",
+  "customerServicesEnquiry": "บริการตรวจสอบข้อมูลลูกค้า",
+  "customerServiceMenu": "บริการรายการลูค้า",
+  "partnerManagement": "จัดการ partner",
+  "consentManagement": "จัดการ consent",
+  "term&conditionManagement": "จัดการ term & condition",
+  "securityCodeEnquiry": "ตรวจสอบการเข้ารหัส",
+  "notificationEnquiry": "ตรวจสอบการแจ้งเตือน",
+  "branchLocation": "ตรวจสอบสาขา",
+  "liveChat": "แชทออนไลน์",
+  "marketingAds": "ตรวจสอบโฆษณาการตลาด",
+  "dashboardReports" : "หน้าหลัก และรายงาน",
+  "businessParametersSetup": "ตั้งค่าตัวแปรธุรกิจ",
+  "useAccessManagementEnquiry": "การจัดการการเข้าถึงของ user",
+  "deviceEnquiry": "ตรวจสอบอุปกรณ์"
+}

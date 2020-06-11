@@ -1,0 +1,19 @@
+{
+  "title": "TCRB ob Backoffice",
+  "bank": "bank",
+  "thaicredit": "Thai credit",
+  "customerServicesEnquiry": "CUSTOMER SERVICES ENQUIRY",
+  "customerServiceMenu": "CUSTOMER SERVICE MENU",
+  "partnerManagement": "PARTNER MANAGEMENT",
+  "consentManagement": "CONSENT MANAGEMENT",
+  "term&conditionManagement": "TERM & CONDITION MANAGEMENT",
+  "securityCodeEnquiry": "SECURITY CODE ENQUIRY",
+  "notificationEnquiry": "NOTIFICATION ENQUIRY",
+  "branchLocation": "BRANCH LOCATION ENQUIRY",
+  "liveChat": "LIVE CHAT ENQUIRY",
+  "marketingAds": "MARKETING ADS ENQUIRY",
+  "dashboardReports" : "DASHBOARD & REPORTS",
+  "businessParametersSetup": "BUSINESS PARAMETERS SETUP",
+  "useAccessManagementEnquiry": "USER ACCESS MANAGEMENT ENQUIRY",
+  "deviceEnquiry": "DEVICE ENQUIRY"
+}
