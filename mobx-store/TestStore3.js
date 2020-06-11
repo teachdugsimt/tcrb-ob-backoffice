@@ -7,7 +7,7 @@ class TestStore3 {
   @observable type = ""
   @observable menu = [
     { id: 1, name: "CUSTOMER SERVICES ENQUIRY", linkTo: "/", color: "#000000", typeLv: "42" },
-    { id: 2, name: "CUSTOMER SERVICES MENU", linkTo: "/test-customer-service-menu", color: "#000000", typeLv: "38" },
+    { id: 2, name: "CUSTOMER SERVICES MENU", linkTo: "/customer-service-menu", color: "#000000", typeLv: "38" },
     { id: 3, name: "PARTNER MANAGEMENT", linkTo: "/", color: "#000000", typeLv: "38" },
     { id: 4, name: "CONSENT MANAGEMENT", linkTo: "/", color: "#000000", typeLv: "30" },
     { id: 5, name: "TERM & CONDITION MANAGEMENT", linkTo: "/", color: "#000000", typeLv: "30" },
