@@ -46,6 +46,9 @@ top: 108px;
 bottom: 56px;
 left: 8px;
 z-index: 999;
+margin-top: ${({ theme }) => theme.spacing.medium}px;
+margin-left: ${({ theme }) => theme.spacing.medium}px;
+margin-bottom: ${({ theme }) => theme.spacing.medium}px;
 `
 
 const SubMainContainer = styled.div`
@@ -62,8 +65,8 @@ background-color: #707070;
 flex-direction: row;
 justify-content: space-between;
 align-items: flex-start;
-border-top-right-radius: 10px;
-border-top-left-radius: 10px;
+border-top-right-radius: 4px;
+border-top-left-radius: 4px;
 `
 
 const TitleDiv = styled.div`
@@ -124,8 +127,8 @@ padding-top: 10px;
 background-color: #ececec91;
 border-color: black;
 overflow-y: scroll;
-border-bottom-right-radius: 10px;
-border-bottom-left-radius: 10px;
+border-bottom-right-radius: 4px;
+border-bottom-left-radius: 4px;
 `
 
 const MenuIcon = styled.div`
@@ -167,8 +170,8 @@ display: flex;
 height: 0%;
 background-color: #ececec91;
 border-color: black;
-border-bottom-right-radius: 10px;
-border-bottom-left-radius: 10px;
+border-bottom-right-radius: 4px;
+border-bottom-left-radius: 4px;
 
 `
 

@@ -7,7 +7,7 @@ import { FirstLayer, SecondLayer, EmptyDiv, EmptySidebar, ContentPadding, Wrappe
 import { observer } from 'mobx-react'
 import { useStores } from '../hooks/use-stores'
 import backgroundImage from '../images/background.png'
-
+import { spacing } from '../theme/'
 import { Layout, Menu, Breadcrumb } from 'antd';
 import { UserOutlined, LaptopOutlined, NotificationOutlined } from '@ant-design/icons';
 
@@ -32,9 +32,11 @@ const MainLayout = (observer((props) => {
         <Layout>
           <AdminMenu />
           <EmptySidebar />
-          <ContentPadding style={{ paddingLeft: versatileStore.sidebarWidth > 100 ? 312 : 98 }}>
-            <Content style={{ backgroundColor: 'white', height: '97%', overflowY: 'scroll', marginTop: -10 }}>
-              {props.children}
+          <ContentPadding style={{ paddingLeft: versatileStore.sidebarWidth > 100 ? 330 : 110, marginBottom: 19 }}>
+            <Content style={{ backgroundColor: 'white', height: '97%', overflowY: 'scroll', marginTop: -2, borderRadius:4  }}>
+              <div style={{ padding: 24 }}>
+                {props.children}
+              </div>
             </Content>
           </ContentPadding>
         </Layout>
