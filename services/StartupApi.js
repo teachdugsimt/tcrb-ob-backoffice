@@ -1,6 +1,6 @@
 import { ApisauceInstance, create, ApiResponse } from 'apisauce'
-import Header from './structor-01/Header'
-import getGeneralApiProblem from './structor-01/ErrorHandler'
+import Header from './api-integrations/Header'
+import getGeneralApiProblem from './api-integrations/ErrorHandler'
 
 class StartupApi {
 

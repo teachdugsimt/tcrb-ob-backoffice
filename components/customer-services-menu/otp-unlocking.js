@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import { Input, Row, Col, Layout, Modal, Switch } from 'antd'
 import styled from 'styled-components';
-import SimpleSearch from '../components/simple-search'
-import SimpleModal from '../components/simple-modal'
+import SimpleSearch from '../simple-search'
+import SimpleModal from '../simple-modal'
 const { Header, Footer, Sider, Content } = Layout;
 
 

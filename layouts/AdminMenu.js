@@ -8,6 +8,7 @@ import {
   MainTitleMenuDiv, MainUl, SpanText, LinkColorMenu, TitleDiv,
   MenuIcon, MenuIcon2, TitleDiv2, WrapperMainDivMenu, MainHideDivMenu
 } from './Styles/AdminHocStyles'
+import { i18n, withNamespaces } from '../i18n'
 
 const INIT_ANIMATION = {
   height: '100%',
@@ -94,8 +95,9 @@ const AdminMenu = (props) => {
       {isShow == true && <MainDivMenu style={ShowAnimation}>
         <MainUl>
           {authenStore.getMenu && authenStore.getMenu.map((e, i) => {
-            return <BorderMenu><Link key={"link-menu-" + e.id} href={e.linkTo}>
-              <SpanText id={"span-text-" + e.id}><LinkColorMenu>{e.name}</LinkColorMenu></SpanText>
+            return <BorderMenu style={{ marginBottom: i == (authenStore.getMenu.length - 1) ? 10: 0  }}><Link key={"link-menu-" + e.id} href={e.linkTo}>
+              <SpanText id={"span-text-" + e.id}><LinkColorMenu>{i18n.t(e.translate)}</LinkColorMenu></SpanText>
+              {/* <SpanText id={"span-text-" + e.id}><LinkColorMenu>{e.name}</LinkColorMenu></SpanText> */}
             </Link></BorderMenu>
           })}
         </MainUl>

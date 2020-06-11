@@ -91,9 +91,10 @@ const MainUl = styled.ul`
 display: flex;
 flex: 1;
 flex-direction: column;
-justify-content: center;
+justify-content: flex-start;
 align-items: flex-start;
-margin-top: 20px;
+margin-top: 1px;
+margin-bottom: 10px;
 `
 
 const BorderMenu = styled.div`
@@ -103,6 +104,7 @@ flex-direction: row;
 justify-content: center;
 align-items: center;
 min-height: 48px;
+max-height: 48px;
 width: 100%;
 margin-left: -10px;
 border-bottom: 1px solid lightgrey;

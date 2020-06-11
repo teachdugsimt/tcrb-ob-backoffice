@@ -1,8 +1,14 @@
 import { Select } from 'antd';
+import { i18n, withNamespaces } from '../i18n'
 
 const { Option } = Select;
 
 function handleChange(value) {
+  if (value == "en") {
+    i18n.changeLanguage('en')
+  } else if (value == "th") {
+    i18n.changeLanguage('th')
+  }
   console.log(`selected ${value}`);
 }
 
@@ -16,6 +22,8 @@ const DropdownTopRight = (props) => {
           Disabled
         </Option>
         <Option value="Yiminghe">yiminghe</Option>
+        <Option value="en">EN</Option>
+        <Option value="th">TH</Option>
       </Select>
     </div>)
 }

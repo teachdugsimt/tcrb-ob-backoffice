@@ -4,7 +4,7 @@ import EmptyLayout from '../layouts/EmptyLayout'
 import { ThemeProvider } from 'styled-components'
 import theme from '../theme'
 import 'antd/dist/antd.css'
-
+import { appWithTranslation } from '../I18n'
 class CustomApp extends App {
 
   componentDidMount() {
@@ -32,4 +32,4 @@ class CustomApp extends App {
     )
   }
 }
-export default CustomApp;
+export default appWithTranslation(CustomApp);
