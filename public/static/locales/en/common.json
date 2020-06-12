@@ -15,5 +15,10 @@
   "dashboardReports" : "DASHBOARD & REPORTS",
   "businessParametersSetup": "BUSINESS PARAMETERS SETUP",
   "useAccessManagementEnquiry": "USER ACCESS MANAGEMENT ENQUIRY",
-  "deviceEnquiry": "DEVICE ENQUIRY"
+  "deviceEnquiry": "DEVICE ENQUIRY",
+  "support": "Support",
+  "signout": "Signout",
+  "mockName": "Korkaew",
+  "mockLastName": "Tribamrongsuk",
+  "functionMenu": "Function Menu"
 }
