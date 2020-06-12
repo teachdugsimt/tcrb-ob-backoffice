@@ -19,7 +19,8 @@ const StyledSearch = styled(Search)`
 }
 .ant-input-group-addon{
   display: ${props => props.disabled ? "none" : "table-cell"};
-}`
+}
+`
 
 
 export default function SimpleSearch(props) {
@@ -35,7 +36,6 @@ export default function SimpleSearch(props) {
         onSearch={value => props.search(value)}
         onChange={() => console.log('change')}
         defaultValue={props.defaultValue}
-        loading={false}
       />
     </div>
   )

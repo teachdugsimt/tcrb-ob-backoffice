@@ -1,18 +1,35 @@
 import React, { useState } from 'react'
 import SimpleSearch from '../simple-search'
 import styled from 'styled-components'
-import { Row, Switch, Col } from 'antd';
+import { Row, Switch, Col, Button, Input } from 'antd';
+import { useStores } from '../../hooks/use-stores'
 import SimpleModal from '../simple-modal'
 
 const StyledA = styled.a`
   display: initial;
   padding-right: ${({ theme }) => theme.spacing.medium}px !important;
-  text-decoration-color: initial;
+  color: #F88008 !important;
+  text-decoration-color: #F88008;
   text-decoration-line: underline;
 `
 const StyledP = styled.p`
   display: initial;
   padding-left: ${({ theme }) => theme.spacing.medium}px !important;
+`
+const StyledSpan = styled.span`
+
+  display: initial;
+  padding-left: ${({ theme }) => theme.spacing.medium}px !important;
+`
+const StyledInput = styled(Input)`
+      ${({ readOnly }) => readOnly && `
+          border-style: solid !important;
+          border-width: 0px 0px 1px 0px !important;
+          border-color: black !important;
+          box-shadow: none !important;
+          border-right-style: unset !important;
+          border-right-width: 0px !important
+      `}
 `
 export default function AccountUnbinding() {
   const [isSearch, setIsSearch] = useState(false);
@@ -20,49 +37,61 @@ export default function AccountUnbinding() {
   const [visible, setVisble] = useState(false)
   const [modalString, setModalString] = useState('')
   const [accountId, setAccountId] = useState('')
+  const { customerServicesMenuStore } = useStores()
   const numbers = [1, 2, 3, 4, 5];
-  const stringSwitch = ['Binding to TCRB Mobile Banking', 'Binding to Micro Pay', 'Binding to True Money Wallet']
+  const stringSwitch = [{ accountName: 'Binding to TCRB Mobile Banking', accountBindingStatus: true, accountType: '1' }, { accountName: 'Binding to Micro Pay', accountBindingStatus: true, accountType: '2' }, { accountName: 'Binding to True Money Wallet', accountBindingStatus: true, accountType: '3' }]
+  const stringAccount = [{ accountNumber: '2233344514', accountName: 'Normal Saving', accountType: '1' }, { accountNumber: '123456789032', accountName: 'Revolving Loan Non TCG Nano', accountType: '2' }]
 
   const searchIdCardNumber = (value) => {
     // console.log('eiei search:' + value)
     // setIdCard(value)
     setIsSearch(true)
   }
-  const selectedMenu = (menu, accountId) => {
-    switch (menu) {
+  const selectedMenu = (selectedAccount) => {
+    switch (selectedAccount.accountType) {
       case '1':
-
+        customerServicesMenuStore.setAccountId(selectedAccount.accountNumber)
+        setViewDetail(true)
         break;
       case '2':
-        console.log('eiei menu2')
-        setAccountId(accountId)
+        console.log('eiei menu2', selectedAccount)
+        customerServicesMenuStore.setAccountId(selectedAccount.accountNumber)
+        // setAccountId(accountId)
         setViewDetail(true)
         break;
       default:
         break;
     }
   }
-  const onChange = (value, index) => {
-    console.log("change:" + value + ",indexOf :" + index)
+  const onChange = (switchSelected, index) => {
+    // console.log("change:" + value + ",indexOf :" + index)
 
-    if (value === true) {
+    if (switchSelected.accountBindingStatus === true) {
       setVisble(true)
-      // setIsChecked(true)
-      switch (index) {
-        case 0:
+      switch (switchSelected.accountType) {
+        case '1':
           setModalString(
-            <div>
-              <p>Unlocking OTP!!</p>
-              <p>Customer ID Card Number</p>
-              <p>Mobile Number </p>
-              </div>
+            <div style={{ textAlign: "center" }}>
+              <p>Unbinding !!!</p>
+              <p>Account {customerServicesMenuStore.accountId} from Mobile Banking</p>
+            </div>
           )
           break;
-        case 1:
-
+        case '2':
+          setModalString(
+            <div style={{ textAlign: "center" }}>
+              <p>Unbinding !!!</p>
+              <p>Account {customerServicesMenuStore.accountId} from Micro Pay</p>
+            </div>
+          )
           break;
-        case 2:
-
+        case '3':
+          setModalString(
+            <div style={{ textAlign: "center" }}>
+              <p>Unbinding !!!</p>
+              <p>Account {customerServicesMenuStore.accountId} from True Money Wallet</p>
+            </div>
+          )
           break;
         default:
           break;
@@ -80,7 +109,20 @@ export default function AccountUnbinding() {
     const listItems = stringSwitch.map((string, index) =>
       <Row key={index}>
         <Col span={24}>
-          <Switch defaultChecked={false} onChange={checked => onChange(checked, index)} /><StyledP>{string}</StyledP>
+          <Switch defaultChecked={string.accountBindingStatus} onChange={checked => onChange(string)} /><StyledP>{string.accountName}</StyledP>
+        </Col>
+      </Row>
+    );
+    return (
+      <ul>{listItems}</ul>
+    );
+  }
+  const AccountList = () => {
+    const listItems = stringAccount.map((string, index) =>
+      <Row key={index}>
+        <Col span={24}>
+          <StyledA onClick={() => { selectedMenu(string) }}>{string.accountNumber}</StyledA><StyledSpan> {string.accountName}</StyledSpan>
+
         </Col>
       </Row>
     );
@@ -89,24 +131,28 @@ export default function AccountUnbinding() {
     );
   }
   const newSearch = (
-    <div style={{ marginTop: 20 }}>
-      <Row>
-        <SimpleSearch search={searchIdCardNumber}  prefixWording="ID Card Number"/>
+    <div style={{ margin: 20 }}>
+      <Row gutter={[4, 24]}>
+        <SimpleSearch search={searchIdCardNumber} prefixWording="ID Card Number" />
       </Row>
       {(isSearch) ? (
-        <div style={{ marginTop: 20 }}>
-          <Row><StyledA onClick={() => { selectedMenu('1') }}>2233344514</StyledA>Normal Saving</Row>
-          <Row><StyledA onClick={() => { selectedMenu('2', '123456789032') }}>123456789032</StyledA>Resolving Loan-Non TCG Nano</Row>
-        </div>) : ('')}
+        <AccountList />
+      ) : ('')}
     </div>)
 
   const accountDetail = (
-    <div style={{ marginTop: 20 }}>
-      <Row>
-        <SimpleSearch disabled={true} defaultValue={"1234"} prefixWording="Account No"/>
+    <div style={{ margin: 20 }}>
+      <Row gutter={[4, 24]}>
+        <Button onClick={() => setViewDetail(false)}>Back</Button>
+      </Row>
+      <Row gutter={[4, 24]}>
+        <Col span={6}>
+          <StyledInput readOnly={true} prefix={'Account No'} defaultValue={customerServicesMenuStore.accountId} />
+
+        </Col>
       </Row>
       <div style={{ marginTop: 20 }} >
-        <SwitchList/>
+        <SwitchList />
         <SimpleModal
           onOk={() => setVisble(false)}
           onCancel={() => setVisble(false)}
