@@ -34,7 +34,14 @@ export default function OtpUnlocking
   const [visible, setVisble] = useState(false)
   const [isChecked, setIsChecked] = useState(false)
   const [modalString, setModalString] = useState('')
-  const [stringSwitch, setStringSwitch] = useState([{ accountNumber: '123123123123', accountType: 'Binding to TCRB Mobile Banking', accountStatus: true }, { accountNumber: '00993445123123', accountType: 'Binding to Micro Pay', accountStatus: false }])
+  // const [stringSwitch, setStringSwitch] = useState([
+  //   { accountNumber: '123123123123', accountType: 'Binding to TCRB Mobile Banking', accountStatus: true },
+  //   { accountNumber: '00993445123123', accountType: 'Binding to Micro Pay', accountStatus: false }
+  // ])
+  const [stringSwitch, setStringSwitch] = useState([
+    [true, '123123123123', 'Binding to TCRB Mobile Banking'],
+    [false, '00993445123123', 'Binding to Micro Pay'],
+  ])
   const { customerServicesMenuStore } = useStores()
   const searchIdCardNumber = (value) => {
     console.log('eiei search:' + value)
@@ -54,14 +61,14 @@ export default function OtpUnlocking
   };
   const onChange = (switchSelected, index) => {
     console.log(switchSelected)
-    if (switchSelected.accountStatus === true) {
+    if (switchSelected === true) {
       customerServicesMenuStore.accountSelected = switchSelected
       setVisble(true)
       setIsChecked(true)
       setModalString(
         <div style={{ textAlign: "center" }}>
           <p>Unlocking OTP!!</p>
-          <p>Account Number {switchSelected.accountNumber}</p>
+          {/* <p>Account Number {switchSelected.accountNumber}</p> */}
         </div>
       )
     } else {
@@ -75,25 +82,7 @@ export default function OtpUnlocking
     setVisble(false)
     replaceNewDataForSetString()
   }
-  const SwitchList = () => {
-    const listItems = stringSwitch.map((string, index) =>
-      <Row key={index} gutter={[4, 8]}>
-        <Col span={5}>
-          <StyledSwitch defaultChecked={string.accountStatus} onChange={checked => onChange(checked, string, index)} disabled={string.accountStatus === false} />
-          <StyledA>{string.accountNumber}</StyledA>
-        </Col>
-        <Col span={6}>
-          <StyledSpan> {string.accountType}</StyledSpan>
-        </Col>
-        <Col span={4}>
-          {string.accountStatus ? (<StyledSpan>OTP is Locked</StyledSpan>) : (<StyledSpan>OTP is ready for using</StyledSpan>)}
-        </Col>
-      </Row>
-    );
-    return (
-      <ul>{listItems}</ul>
-    );
-  }
+
 
   return (
     <div style={{ margin: 20 }}>
@@ -101,7 +90,9 @@ export default function OtpUnlocking
         <SimpleSearch search={searchIdCardNumber} prefixWording="ID Card Number" />
       </Row>
       {(isSearch) ? (
-        <SimpleSwitch string={stringSwitch} onChange={(switchSelected) => onChange(switchSelected)} />
+        <SimpleSwitch
+          data={stringSwitch}
+          onChange={(switchSelected) => onChange(switchSelected)} />
       ) : ('')}
       <SimpleModal
         onOk={() => unlockOTP()}
