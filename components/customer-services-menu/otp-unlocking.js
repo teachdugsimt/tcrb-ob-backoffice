@@ -40,31 +40,14 @@ export default function OtpUnlocking
     { accountNumber: '123123123123', accountType: 'Binding to TCRB Mobile Banking', accountStatus: true },
     { accountNumber: '00993445123123', accountType: 'Binding to Micro Pay', accountStatus: false }
   ]
-  // const [stringSwitch, setStringSwitch] = useState([
-  //   [true, '123123123123', 'Binding to TCRB Mobile Banking'],
-  //   [false, '00993445123123', 'Binding to Micro Pay'],
-  // ])
-
   const { customerServicesMenuStore } = useStores()
-
-  useEffect(() => {
-    console.log(customerServicesMenuStore.getAccountInfo)
-    convertArrayObjectToArray(customerServicesMenuStore.getAccountInfo).then(result => {
-      customerServicesMenuStore.arrayAccountInfo = result
-      // setStringSwitch(result)
-    })
-  })
-
-  // useEffect(() => {
-  //   // setStringSwitch(toJS(customerServicesMenuStore.arrayAccountInfo))
-  // }, [visible])
 
   const searchIdCardNumber = async (value) => {
     console.log('eiei search:' + value)
     setIdCard(value)
     setIsSearch(true)
+    customerServicesMenuStore.setCitizenId(value)
     //call api
-    // customerServicesMenuStore.getAccountInfo = mockData
     await customerServicesMenuStore.getData()
     // console.log(toJS(customerServicesMenuStore.getAccountInfo))
     convertArrayObjectToArray(toJS(customerServicesMenuStore.getAccountInfo)).then(result => {
