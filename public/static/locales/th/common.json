@@ -22,5 +22,22 @@
   "mockLastName": "ไตรบำรุงสุข",
   "functionMenu": "เมนูทั้งหมด",
   "language": "เลือกภาษา",
-  "accountType" : "Digital Back Office Master"
+  "digitalBackOfficeMaster": "ดิจิทัล Back Office Master",
+  "accountType" : "Digital Back Office Master",
+  "accountUnbinding": "ยกเลิกการเชื่อมต่อ",
+  "otpUnlock": "ปลดล็อค OTP",
+  "idCard": "หมายเลขบัตร",
+  "inputIdCard": "ใส่หมายเลขบัตร",
+  "unlockingOtp": "ปลดล็อค OTP",
+  "confirm": "ยืนยัน",
+  "cancel": "ยกเลิก",
+  "accountNumber": "หมายเลขแอคเคาท์",
+  "otpIsReady": "OTP กำลังใช้งาน",
+  "otpIsLock": "OTP กำลังถูกล็อค",
+  "back": "ย้อนกลับ",
+  "bindingTCRBMobilBanking": "ผูกบัญชี TCRB Mobile Banking",
+  "bindingMicroPay": "ผูกบัญชี Micro Pay",
+  "bindingTrueMoneyWallet": "ผูกบัญชี True Money Wallet",
+  "normalSaving": "เก็บค่าปกติ",
+  "revolvingLoanNonTCG": "Revolving Loan ไม่มี TCG Nano"
 }

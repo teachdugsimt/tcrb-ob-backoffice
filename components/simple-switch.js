@@ -3,6 +3,7 @@ import { Input, Row, Col, Layout, Modal, Switch } from 'antd'
 import styled from 'styled-components';
 import SimpleModal from './simple-modal'
 import { toJS } from 'mobx';
+import { i18n, withNamespaces } from '../i18n'
 
 const StyledA = styled.a`
   display: initial;
@@ -39,7 +40,7 @@ export default function SimpleSwitch(props) {
         </Col>)
         }
         <Col span={4}>
-          {switchOn[0] ? (<StyledSpan>OTP is Locked</StyledSpan>) : (<StyledSpan>OTP is ready for using</StyledSpan>)}
+          {switchOn[0] ? (<StyledSpan>{i18n.t("otpIsLock")}</StyledSpan>) : (<StyledSpan>{i18n.t("otpIsReady")}</StyledSpan>)}
         </Col>
       </Row>)
     }

@@ -7,6 +7,7 @@ import SimpleSwitch from '../simple-switch'
 import { useStores } from '../../hooks/use-stores'
 import { StartupApi } from '../../services'
 import { toJS } from 'mobx';
+import { i18n, withNamespaces } from '../../i18n'
 
 
 const StyledA = styled.a`
@@ -91,8 +92,8 @@ export default function OtpUnlocking
       setVisble(true)
       setModalString(
         <div style={{ textAlign: "center" }}>
-          <p>Unlocking OTP!!</p>
-          <p>Account Number {customerServicesMenuStore.accountSelected.main_account_no}</p>
+          <p>{i18n.t("unlockingOtp")}</p>
+          <p> {i18n.t("accountNumber") +" "+ customerServicesMenuStore.accountSelected.main_account_no}</p>
         </div>
       )
     } else {
@@ -112,7 +113,7 @@ export default function OtpUnlocking
   return (
     <div style={{ marginTop: 20 }}>
       <Row gutter={[4, 24]}>
-        <SimpleSearch search={searchIdCardNumber} prefixWording="ID Card Number" />
+        <SimpleSearch search={searchIdCardNumber} prefixWording={i18n.t("idCard")} />
       </Row>
       {(isSearch) ? (
         <SimpleSwitch
@@ -122,8 +123,8 @@ export default function OtpUnlocking
       <SimpleModal
         onOk={() => unlockOTP()}
         onCancel={() => closeModal()}
-        okText="Confirm"
-        cancelText="Cancel"
+        okText={i18n.t("confirm")}
+        cancelText={i18n.t("cancel")}
         modalString={modalString}
         visible={visible}
       />

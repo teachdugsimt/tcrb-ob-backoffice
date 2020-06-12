@@ -5,7 +5,6 @@ function Natty() {
     <div>
       <button
         onClick={() => {
-          console.log("Now language : ", i18n.language)
           i18n.changeLanguage(i18n.language == 'en' ? 'th' : 'en')
         }}
       >Change Language</button>

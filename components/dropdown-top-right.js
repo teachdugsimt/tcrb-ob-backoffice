@@ -1,5 +1,5 @@
 import { Select } from 'antd';
-import { i18n, withNamespaces } from '../i18n'
+import { i18n, withNamespaces, withTranslation } from '../i18n'
 import { DropdownContainer } from './styles/dropdown-top-right-styles'
 import { spacing } from '../theme/spacing'
 const { Option } = Select;
@@ -17,12 +17,12 @@ const DropdownTopRight = (props) => {
   return (
     <DropdownContainer>
 
-      <Select defaultValue="Language" style={{ flex: 0.137, marginRight: spacing.medium }} onChange={handleChange}>
+      <Select defaultValue={"Language"} style={{ flex: 0.137, marginRight: spacing.medium }} onChange={handleChange}>
         <Option value="en">EN</Option>
         <Option value="th">TH</Option>
       </Select>
 
-      <Select defaultValue="Digital Back Office Master" style={{ flex: 0.137 }} onChange={handleChange}>
+      <Select defaultValue={"Digital Back Office Master"} style={{ flex: 0.137 }} onChange={handleChange}>
         <Option value="jack">Jack</Option>
         <Option value="lucy">Lucy</Option>
         <Option value="disabled" disabled>
@@ -34,4 +34,7 @@ const DropdownTopRight = (props) => {
     </DropdownContainer>)
 }
 
-export default DropdownTopRight
+DropdownTopRight.getInitialProps = async () => ({
+  namespacesRequired: ['DropdownTopRight', 'digitalBackOfficeMaster', 'language'],
+})
+export default withTranslation('DropdownTopRight')(DropdownTopRight)

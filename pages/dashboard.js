@@ -5,8 +5,6 @@ import { useStores } from '../hooks/use-stores'
 
 const Dashboard = observer((props) => {
   const { authenStore } = useStores()
-  console.log("---------- Dashboard -----------")
-  console.log(authenStore)
 
   return <div>
     Dashboard Screen

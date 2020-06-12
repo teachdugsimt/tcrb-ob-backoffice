@@ -4,6 +4,7 @@ import OtpUnlocking from './otp-unlocking'
 import AccountUnbinding from './account-unbinding'
 const { Header, Footer, Sider, Content } = Layout;
 const { TabPane } = Tabs;
+import { i18n, withNamespaces } from '../../i18n'
 
 
 
@@ -14,10 +15,10 @@ export default function CustomerServicesMenu() {
       <Row flex={100}>
         <Col flex={100}>
           <Tabs defaultActiveKey="1" destroyInactiveTabPane={true}>
-            <TabPane tab="Account Unbinding" key="1" >
+            <TabPane tab={i18n.t("accountUnbinding")} key="1" >
               <AccountUnbinding />
             </TabPane>
-            <TabPane tab="OTP-Unlocking" key="2" >
+            <TabPane tab={i18n.t("otpUnlock")} key="2" >
               <OtpUnlocking />
             </TabPane>
           </Tabs>

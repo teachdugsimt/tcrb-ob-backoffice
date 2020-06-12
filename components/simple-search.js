@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react'
 import { Input, Button } from 'antd'
 import styled from 'styled-components';
+import { i18n, withNamespaces } from '../i18n'
 
 const { Search } = Input;
 
@@ -29,7 +30,7 @@ export default function SimpleSearch(props) {
     <div>
       <StyledSearch
         prefix={props.prefixWording}
-        placeholder="input ID Card"
+        placeholder={i18n.t("inputIdCard")}
         enterButton="Search"
         size="large"
         disabled={props.disabled}
