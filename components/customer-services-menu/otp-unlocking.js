@@ -5,6 +5,7 @@ import SimpleSearch from '../simple-search'
 import SimpleModal from '../simple-modal'
 import SimpleSwitch from '../simple-switch'
 import { useStores } from '../../hooks/use-stores'
+import { StartupApi } from '../../services'
 import { toJS } from 'mobx';
 
 
@@ -34,41 +35,81 @@ export default function OtpUnlocking
   const [visible, setVisble] = useState(false)
   const [isChecked, setIsChecked] = useState(false)
   const [modalString, setModalString] = useState('')
+  const [stringSwitch, setStringSwitch] = useState([])
+  const mockData = [
+    { accountNumber: '123123123123', accountType: 'Binding to TCRB Mobile Banking', accountStatus: true },
+    { accountNumber: '00993445123123', accountType: 'Binding to Micro Pay', accountStatus: false }
+  ]
   // const [stringSwitch, setStringSwitch] = useState([
-  //   { accountNumber: '123123123123', accountType: 'Binding to TCRB Mobile Banking', accountStatus: true },
-  //   { accountNumber: '00993445123123', accountType: 'Binding to Micro Pay', accountStatus: false }
+  //   [true, '123123123123', 'Binding to TCRB Mobile Banking'],
+  //   [false, '00993445123123', 'Binding to Micro Pay'],
   // ])
-  const [stringSwitch, setStringSwitch] = useState([
-    [true, '123123123123', 'Binding to TCRB Mobile Banking'],
-    [false, '00993445123123', 'Binding to Micro Pay'],
-  ])
+
   const { customerServicesMenuStore } = useStores()
-  const searchIdCardNumber = (value) => {
+
+  useEffect(() => {
+    console.log(customerServicesMenuStore.getAccountInfo)
+    convertArrayObjectToArray(customerServicesMenuStore.getAccountInfo).then(result => {
+      customerServicesMenuStore.arrayAccountInfo = result
+      // setStringSwitch(result)
+    })
+  })
+
+  // useEffect(() => {
+  //   // setStringSwitch(toJS(customerServicesMenuStore.arrayAccountInfo))
+  // }, [visible])
+
+  const searchIdCardNumber = async (value) => {
     console.log('eiei search:' + value)
     setIdCard(value)
     setIsSearch(true)
+    //call api
+    // customerServicesMenuStore.getAccountInfo = mockData
+    await customerServicesMenuStore.getData()
+    // console.log(toJS(customerServicesMenuStore.getAccountInfo))
+    convertArrayObjectToArray(toJS(customerServicesMenuStore.getAccountInfo)).then(result => {
+      customerServicesMenuStore.arrayAccountInfo = result
+      setStringSwitch(result)
+    })
+    // convertArrayObjectToArray(mockData).then(result => {
+    //   console.log(result)
+    //   customerServicesMenuStore.arrayAccountInfo = result
+    //   setStringSwitch(result)
+    // })
+    // console.log(stringSwitch)
   }
-
+  const convertArrayObjectToArray = (arrayObject) => {
+    return new Promise((resolve, reject) => {
+      let result = arrayObject.map(a => [a.otp_is_locked, a.main_account_no, a.product_name_english]);
+      resolve(result)
+    })
+  }
   const replaceNewDataForSetString = () => {
-    let newArray = stringSwitch.filter(accountInfo => accountInfo.accountNumber !== toJS(customerServicesMenuStore.accountSelected.accountNumber))
-    setStringSwitch([...newArray, toJS(customerServicesMenuStore.accountSelected)])
+    let arrayAccountInfo = toJS(customerServicesMenuStore.getAccountInfo)
+    let accountSelected = toJS(customerServicesMenuStore.accountSelected)
+    // let newArray = stringSwitch.filter(accountInfo => accountInfo.accountNumber !== toJS(customerServicesMenuStore.accountSelected.accountNumber))
+    let newArray = arrayAccountInfo.filter(accountInfo => accountInfo.main_account_no !== accountSelected.main_account_no)
+
+    console.log(newArray, arrayAccountInfo)
+    convertArrayObjectToArray([...newArray, accountSelected]).then(result => {
+      console.log(result)
+      setStringSwitch(result)
+    })
   }
 
-  const hideModal = () => {
-    this.setState({
-      visible: false,
-    });
+  const closeModal = () => {
+    setVisble(false)
+    setStringSwitch(toJS(customerServicesMenuStore.arrayAccountInfo))
   };
   const onChange = (switchSelected, index) => {
-    console.log(switchSelected)
+    console.log(switchSelected, index)
     if (switchSelected === true) {
-      customerServicesMenuStore.accountSelected = switchSelected
+      customerServicesMenuStore.accountSelected = toJS(customerServicesMenuStore.getAccountInfo)[index]
       setVisble(true)
-      setIsChecked(true)
       setModalString(
         <div style={{ textAlign: "center" }}>
           <p>Unlocking OTP!!</p>
-          {/* <p>Account Number {switchSelected.accountNumber}</p> */}
+          <p>Account Number {customerServicesMenuStore.accountSelected.main_account_no}</p>
         </div>
       )
     } else {
@@ -77,26 +118,27 @@ export default function OtpUnlocking
   }
 
   const unlockOTP = () => {
-    //some action
-    customerServicesMenuStore.accountSelected.accountStatus = false
     setVisble(false)
+
+    //some action
+    customerServicesMenuStore.accountSelected.otp_is_locked = false
     replaceNewDataForSetString()
   }
 
 
   return (
-    <div style={{ margin: 20 }}>
+    <div style={{ marginTop: 20 }}>
       <Row gutter={[4, 24]}>
         <SimpleSearch search={searchIdCardNumber} prefixWording="ID Card Number" />
       </Row>
       {(isSearch) ? (
         <SimpleSwitch
           data={stringSwitch}
-          onChange={(switchSelected) => onChange(switchSelected)} />
+          onChange={(switchSelected, index) => onChange(switchSelected, index)} />
       ) : ('')}
       <SimpleModal
         onOk={() => unlockOTP()}
-        onCancel={() => setVisble(false)}
+        onCancel={() => closeModal()}
         okText="Confirm"
         cancelText="Cancel"
         modalString={modalString}
