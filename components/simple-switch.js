@@ -17,7 +17,6 @@ const StyledSpan = styled.span`
   padding-left: ${({ theme }) => theme.spacing.medium}px !important;
 `
 const StyledSwitch = styled(Switch)`
-
       ${({ defaultChecked }) => defaultChecked && `
       background-color: #F88008 !important;
   `}
