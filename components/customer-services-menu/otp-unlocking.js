@@ -61,14 +61,14 @@ export default function OtpUnlocking
   };
   const onChange = (switchSelected, index) => {
     console.log(switchSelected)
-    if (switchSelected.accountStatus === true) {
+    if (switchSelected === true) {
       customerServicesMenuStore.accountSelected = switchSelected
       setVisble(true)
       setIsChecked(true)
       setModalString(
         <div style={{ textAlign: "center" }}>
           <p>Unlocking OTP!!</p>
-          <p>Account Number {switchSelected.accountNumber}</p>
+          {/* <p>Account Number {switchSelected.accountNumber}</p> */}
         </div>
       )
     } else {

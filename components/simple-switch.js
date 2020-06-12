@@ -30,12 +30,14 @@ export default function SimpleSwitch(props) {
       const textList = switchOn.splice(1)
 
       return <Row key={index} gutter={[4, 8]}>
-        <Col span={5}>
-          <StyledSwitch defaultChecked={switchOn} onChange={checked => props.onChange(string, index)} disabled={string.accountStatus === false} />
+        <Col span={2}>
+          <StyledSwitch defaultChecked={switchOn[0]}
+            onChange={checked => props.onChange(switchOn[0], index)}
+            disabled={switchOn[0] === false} />
           {/* <StyledA>{string.accountNumber}</StyledA> */}
         </Col>
         {textList.map(e => <Col span={6}>
-          <StyledSpan> {string.accountType}</StyledSpan>
+          <StyledSpan> {e}</StyledSpan>
         </Col>)
         }
         <Col span={4}>
