@@ -31,6 +31,7 @@
   "unlockingOtp": "ปลดล็อค OTP",
   "confirm": "ยืนยัน",
   "cancel": "ยกเลิก",
+  "account": "แอคเคาท์",
   "accountNumber": "หมายเลขแอคเคาท์",
   "otpIsReady": "OTP กำลังใช้งาน",
   "otpIsLock": "OTP กำลังถูกล็อค",
@@ -39,5 +40,6 @@
   "bindingMicroPay": "ผูกบัญชี Micro Pay",
   "bindingTrueMoneyWallet": "ผูกบัญชี True Money Wallet",
   "normalSaving": "เก็บค่าปกติ",
-  "revolvingLoanNonTCG": "Revolving Loan ไม่มี TCG Nano"
+  "revolvingLoanNonTCG": "Revolving Loan ไม่มี TCG Nano",
+  "unbinding": "Unbinding !!!"
 }

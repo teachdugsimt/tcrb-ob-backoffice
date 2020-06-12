@@ -73,24 +73,24 @@ export default function AccountUnbinding() {
         case '1':
           setModalString(
             <div style={{ textAlign: "center" }}>
-              <p>Unbinding !!!</p>
-              <p>Account {customerServicesMenuStore.accountId} from Mobile Banking</p>
+              <p>{i18n.t("unbinding")}</p>
+              <p> {i18n.t("account")+" "+customerServicesMenuStore.accountId} from Mobile Banking</p>
             </div>
           )
           break;
         case '2':
           setModalString(
             <div style={{ textAlign: "center" }}>
-              <p>Unbinding !!!</p>
-              <p>Account {customerServicesMenuStore.accountId} from Micro Pay</p>
+              <p>{i18n.t("unbinding")}</p>
+              <p> {i18n.t("account")+" "+customerServicesMenuStore.accountId} from Micro Pay</p>
             </div>
           )
           break;
         case '3':
           setModalString(
             <div style={{ textAlign: "center" }}>
-              <p>Unbinding !!!</p>
-              <p>Account {customerServicesMenuStore.accountId} from True Money Wallet</p>
+              <p>{i18n.t("unbinding")}</p>
+              <p> {i18n.t("account")+" "+customerServicesMenuStore.accountId} from True Money Wallet</p>
             </div>
           )
           break;
