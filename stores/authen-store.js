@@ -30,7 +30,6 @@ class AuthenStore {
   }
 
   @action clear = () => {
-    console.log("=++++++++++ On Sign out ++++++++++++=")
     this.password = null
     this.type = null
     this.id = null

@@ -1,6 +1,7 @@
 import React, { useContext } from 'react'
 import styled from 'styled-components';
 import { useStores } from '../../hooks/use-stores'
+
 const width = () => {
   const { versatileStore } = useStores()
   return versatileStore.sidebarWidth
@@ -35,6 +36,7 @@ const ContentPadding = styled.div`
   height: 100%;
   z-index: 99;
   padding: ${({ theme }) => theme.spacing.large}px;
+  margin-bottom: 16px;
 `
 
 const MainContainerMenu = styled.div`
@@ -56,6 +58,10 @@ display: flex;
 flex: 1;
 width: 100%;
 flex-direction: column;
+`
+
+const ContentSubDiv = styled.div`
+padding: 24px;
 `
 
 const MainTitleMenuDiv = styled.div`
@@ -118,7 +124,6 @@ border-bottom: 1px solid lightgrey;
   color: #587FFF
 }
 `
-
 
 const MainDivMenu = styled.div`
 display: flex;
@@ -206,6 +211,6 @@ export {
   SpanText,
   LinkColorMenu,
   MainHideDivMenu,
+  ContentSubDiv,
   WrapperImageBackground,
-  // WrapperMainDivMenu,
 }

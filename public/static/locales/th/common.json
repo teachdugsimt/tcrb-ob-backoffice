@@ -20,5 +20,7 @@
   "signout": "ออกจากระบบ",
   "mockName": "กอแก้ว",
   "mockLastName": "ไตรบำรุงสุข",
-  "functionMenu": "เมนูทั้งหมด"
+  "functionMenu": "เมนูทั้งหมด",
+  "language": "เลือกภาษา",
+  "accountType" : "Digital Back Office Master"
 }

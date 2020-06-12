@@ -1,27 +1,22 @@
-import React, { Component, useContext, useEffect, useState, useMemo } from 'react'
+import React from 'react'
 import AdminHeader from './AdminHeader'
 import AdminMenu from './AdminMenu'
 import AdminFooter from './AdminFooter'
 import { withRouter } from 'next/router'
-import { FirstLayer, SecondLayer, EmptyDiv, EmptySidebar, ContentPadding, WrapperImageBackground } from './Styles/AdminHocStyles'
+import {
+  FirstLayer, SecondLayer, EmptyDiv, EmptySidebar, ContentPadding, WrapperImageBackground,
+  ContentSubDiv
+} from './Styles/AdminHocStyles'
 import { observer } from 'mobx-react'
 import { useStores } from '../hooks/use-stores'
 import backgroundImage from '../images/background.png'
-import { spacing } from '../theme/'
+import { spacing } from '../theme/spacing'
 import { Layout, Menu, Breadcrumb } from 'antd';
-import { UserOutlined, LaptopOutlined, NotificationOutlined } from '@ant-design/icons';
 
-const { SubMenu } = Menu;
-const { Header, Footer, Sider, Content } = Layout;
+const { Content } = Layout;
 
 const MainLayout = (observer((props) => {
-  const [width, setWidth] = useState(288)
   const { versatileStore } = useStores()
-  useEffect(() => {
-    return () => {
-      // clean up
-    }
-  }, [versatileStore.sidebarWidth])
 
   return (
     <FirstLayer>
@@ -32,11 +27,11 @@ const MainLayout = (observer((props) => {
         <Layout>
           <AdminMenu />
           <EmptySidebar />
-          <ContentPadding style={{ paddingLeft: versatileStore.sidebarWidth > 100 ? 330 : 110, marginBottom: 19 }}>
-            <Content style={{ backgroundColor: 'white', height: '97%', overflowY: 'scroll', marginTop: -2, borderRadius:4  }}>
-              <div style={{ padding: 24 }}>
+          <ContentPadding style={{ paddingLeft: versatileStore.sidebarWidth > 100 ? spacing.full : spacing.pass }}>
+            <Content style={{ marginTop: spacing.tiny - 8, borderRadius: spacing.tiny, backgroundColor: 'white', height: '97%', overflowY: 'scroll', }}>
+              <ContentSubDiv>
                 {props.children}
-              </div>
+              </ContentSubDiv>
             </Content>
           </ContentPadding>
         </Layout>
@@ -47,68 +42,3 @@ const MainLayout = (observer((props) => {
 }))
 
 export default withRouter(MainLayout)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// import React, { Component, useContext, useEffect, useState, useMemo } from 'react'
-// import AdminHeader from './AdminHeader'
-// import AdminMenu from './AdminMenu'
-// import AdminFooter from './AdminFooter'
-// import { withRouter } from 'next/router'
-// import { FirstLayer, SecondLayer, EmptyDiv, EmptySidebar, ContentPadding, WrapperImageBackground } from './Styles/AdminHocStyles'
-// import { observer } from 'mobx-react'
-// import { useStores } from '../hooks/use-stores'
-// import backgroundImage from '../images/background.png'
-// import { Layout } from 'antd';
-// const { Header, Footer, Sider, Content } = Layout;
-
-// const MainLayout = (observer((props) => {
-//   const [width, setWidth] = useState(288)
-//   const { versatileStore } = useStores()
-//   useEffect(() => {
-//     return () => {
-//       // clean up
-//     }
-//   }, [versatileStore.sidebarWidth])
-
-//   return (
-//     <FirstLayer>
-//       <WrapperImageBackground src={backgroundImage} />
-//       <AdminHeader />
-//       <EmptyDiv />
-//       <SecondLayer>
-//         <AdminMenu />
-//         <EmptySidebar style={{ paddingLeft: versatileStore.sidebarWidth > 100 ? 288 : 74 }} />
-//         <ContentPadding>
-//           <div style={{ backgroundColor: '#FFFFFF', width: "100%", height: '100%', marginTop: -15 }}>
-//             <div style={{ height: "100%", overflowY: 'scroll' }}>
-//               {props.children}
-//             </div>
-//           </div>
-//         </ContentPadding>
-//       </SecondLayer>
-//       <AdminFooter />
-//     </FirstLayer>
-
-//   )
-// }))
-
-// export default withRouter(MainLayout)

@@ -20,5 +20,7 @@
   "signout": "Signout",
   "mockName": "Korkaew",
   "mockLastName": "Tribamrongsuk",
-  "functionMenu": "Function Menu"
+  "functionMenu": "Function Menu",
+  "language": "language",
+  "accountType" : "Digital Back Office Master"
 }

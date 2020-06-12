@@ -8,10 +8,10 @@ class StartupApi {
         const api = create(Header)
         const response = await api.post('v1/calculator/calculate', params)
         if (response.ok) {
-            console.log("Fetch value : ", response)
+            console.log("Fetch value api test : ", response)
             return response.data
         } else {
-            console.log("Error fetchinh : ", response)
+            console.log("Error fetching api test : ", response)
             let problem = getGeneralApiProblem(response)
             return problem
         }
