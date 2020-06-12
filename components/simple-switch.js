@@ -26,24 +26,22 @@ const StyledSwitch = styled(Switch)`
 export default function SimpleSwitch(props) {
   const SwitchList = () => {
     const listItems = props.data.map((switchOn, index) => {
-
       const textList = switchOn.splice(1)
-
-      return <Row key={index} gutter={[4, 8]}>
+      return (<Row key={index} gutter={[4, 8]}>
         <Col span={2}>
           <StyledSwitch defaultChecked={switchOn[0]}
             onChange={checked => props.onChange(switchOn[0], index)}
             disabled={switchOn[0] === false} />
           {/* <StyledA>{string.accountNumber}</StyledA> */}
         </Col>
-        {textList.map(e => <Col span={6}>
-          <StyledSpan> {e}</StyledSpan>
+        {textList.map((textDetail, index) => <Col key={index} span={6}>
+          {index == 0 ? <StyledA>{textDetail}</StyledA> : <StyledSpan> {textDetail}</StyledSpan>}
         </Col>)
         }
         <Col span={4}>
-          {switchOn ? (<StyledSpan>OTP is Locked</StyledSpan>) : (<StyledSpan>OTP is ready for using</StyledSpan>)}
+          {switchOn[0] ? (<StyledSpan>OTP is Locked</StyledSpan>) : (<StyledSpan>OTP is ready for using</StyledSpan>)}
         </Col>
-      </Row>
+      </Row>)
     }
     );
     return (
