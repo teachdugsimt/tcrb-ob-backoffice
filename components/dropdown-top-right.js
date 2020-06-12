@@ -14,8 +14,6 @@ function handleChange(value) {
 }
 
 const DropdownTopRight = (props) => {
-  console.log("---------------- DropDown SCreen ------------------")
-  console.log(spacing)
   return (
     <DropdownContainer>
 

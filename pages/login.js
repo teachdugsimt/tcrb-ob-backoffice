@@ -41,8 +41,6 @@ const Login = observer((props) => {
   ]
 
   const { authenStore } = useStores()
-  console.log("------------ Login screen ------------")
-  console.log(authenStore)
   const [id, setId] = useState("")
   const [password, setPassword] = useState("")
 
