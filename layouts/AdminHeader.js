@@ -9,6 +9,8 @@ import {
 import Router from 'next/router'
 import { observer } from 'mobx-react'
 import { useStores } from '../hooks/use-stores'
+import { i18n, withNamespaces } from '../i18n'
+import { Button } from 'antd';
 
 const AdminHeader = (observer((props) => {
   const { authenStore } = useStores()
@@ -25,13 +27,13 @@ const AdminHeader = (observer((props) => {
         </DivImageLogo>
         <InsideTopRightDiv>
           <ContentMainDiv>
-            <WrapperButtonAnt title={"Support"} />
-            <WrapperButtonAnt title={"Signout"} onClick={() => goLogin()} />
+            <WrapperButtonAnt title={i18n.t('support')} />
+            <WrapperButtonAnt title={i18n.t("signout")} onClick={() => goLogin()} />
             <DivAccount>
               <WrapperImageAccount src={account} />
               <DivName>
-                <TextName>Korkaew</TextName>
-                <TextName>Tribamrongsuk</TextName>
+                <TextName>{i18n.t('mockName')}</TextName>
+                <TextName>{i18n.t('mockLastName')}</TextName>
               </DivName>
             </DivAccount>
           </ContentMainDiv>

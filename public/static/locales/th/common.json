@@ -15,5 +15,10 @@
   "dashboardReports" : "หน้าหลัก และรายงาน",
   "businessParametersSetup": "ตั้งค่าตัวแปรธุรกิจ",
   "useAccessManagementEnquiry": "การจัดการการเข้าถึงของ user",
-  "deviceEnquiry": "ตรวจสอบอุปกรณ์"
+  "deviceEnquiry": "ตรวจสอบอุปกรณ์",
+  "support": "ซัพพอร์ท",
+  "signout": "ออกจากระบบ",
+  "mockName": "กอแก้ว",
+  "mockLastName": "ไตรบำรุงสุข",
+  "functionMenu": "เมนูทั้งหมด"
 }

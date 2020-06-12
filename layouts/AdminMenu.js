@@ -84,7 +84,7 @@ const AdminMenu = (props) => {
     <SubMainContainer>
 
       <MainTitleMenuDiv style={!isShow ? ButtonDiv : {}}>
-        {isShow && <TitleDiv>FUNCTIONS MENU</TitleDiv>}
+        {isShow && <TitleDiv>{i18n.t("functionMenu")}</TitleDiv>}
         <TitleDiv2 onClick={() => setSideBar()} style={Bergur}>
           <MenuIcon />
           <MenuIcon />
@@ -95,7 +95,7 @@ const AdminMenu = (props) => {
       {isShow == true && <MainDivMenu style={ShowAnimation}>
         <MainUl>
           {authenStore.getMenu && authenStore.getMenu.map((e, i) => {
-            return <BorderMenu style={{ marginBottom: i == (authenStore.getMenu.length - 1) ? 10: 0  }}><Link key={"link-menu-" + e.id} href={e.linkTo}>
+            return <BorderMenu style={{ marginBottom: i == (authenStore.getMenu.length - 1) ? 10 : 0 }}><Link key={"link-menu-" + e.id} href={e.linkTo}>
               <SpanText id={"span-text-" + e.id}><LinkColorMenu>{i18n.t(e.translate)}</LinkColorMenu></SpanText>
               {/* <SpanText id={"span-text-" + e.id}><LinkColorMenu>{e.name}</LinkColorMenu></SpanText> */}
             </Link></BorderMenu>
