@@ -1,4 +1,4 @@
-import React, { Component, useContext } from 'react'
+import React, { Component, useEffect } from 'react'
 import logo02 from '../images/logo02.png'
 import DropdownTopRight from '../components/dropdown-top-right'
 import account from '../images/account.png'
@@ -9,7 +9,7 @@ import {
 import Router from 'next/router'
 import { observer } from 'mobx-react'
 import { useStores } from '../hooks/use-stores'
-import { i18n, withNamespaces } from '../i18n'
+import { i18n, withNamespaces, withTranslation } from '../i18n'
 import { Button } from 'antd';
 
 const AdminHeader = (observer((props) => {
@@ -50,4 +50,8 @@ const AdminHeader = (observer((props) => {
   )
 }))
 
-export default AdminHeader
+// AdminHeader.getInitialProps = async () => ({
+//   namespacesRequired: ['AdminHeader'],
+// })
+
+export default withTranslation('AdminHeader')(AdminHeader)
