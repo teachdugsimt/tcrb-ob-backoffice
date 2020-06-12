@@ -18,7 +18,7 @@ class StartupApi {
   }
   getAccountInfo = async (params) => {
     const api = create(Header)
-    const response = await api.get('api/get-account-product-by-citizenid', { idCard: '2222222222' })
+    const response = await api.get('api/get-account-product-by-citizenid', params)
     if (response.ok) {
       console.log("Fetch value : ", response)
       return response.data
