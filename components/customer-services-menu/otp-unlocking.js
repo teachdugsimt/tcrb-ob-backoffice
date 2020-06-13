@@ -47,14 +47,14 @@ export default function OtpUnlocking
     console.log('eiei search:' + value)
     setIdCard(value)
     setIsSearch(true)
-    customerServicesMenuStore.setCitizenId(value)
+    // customerServicesMenuStore.setCitizenId(value)
     //call api
-    await customerServicesMenuStore.getData()
+    await customerServicesMenuStore.getData(value)
     // console.log(toJS(customerServicesMenuStore.getAccountInfo))
-    convertArrayObjectToArray(toJS(customerServicesMenuStore.getAccountInfo)).then(result => {
-      customerServicesMenuStore.arrayAccountInfo = result
-      setStringSwitch(result)
-    })
+    result = await convertArrayObjectToArray(toJS(customerServicesMenuStore.accountInfo))
+    console.log(result)
+    // customerServicesMenuStore.arrayAccountInfo = result
+    setStringSwitch(result)
     // convertArrayObjectToArray(mockData).then(result => {
     //   console.log(result)
     //   customerServicesMenuStore.arrayAccountInfo = result
@@ -93,7 +93,7 @@ export default function OtpUnlocking
       setModalString(
         <div style={{ textAlign: "center" }}>
           <p>{i18n.t("unlockingOtp")}</p>
-          <p> {i18n.t("accountNumber") +" "+ customerServicesMenuStore.accountSelected.main_account_no}</p>
+          <p> {i18n.t("accountNumber") + " " + customerServicesMenuStore.accountSelected.main_account_no}</p>
         </div>
       )
     } else {

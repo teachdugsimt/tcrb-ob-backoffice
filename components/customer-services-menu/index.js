@@ -24,8 +24,6 @@ export default function CustomerServicesMenu() {
           </Tabs>
         </Col>
       </Row>
-
-
     </div>
   )
 }
