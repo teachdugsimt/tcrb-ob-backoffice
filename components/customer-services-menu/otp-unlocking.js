@@ -62,6 +62,7 @@ export default function OtpUnlocking
     // })
     // console.log(stringSwitch)
   }
+
   const convertArrayObjectToArray = (arrayObject) => {
     return new Promise((resolve, reject) => {
       let result = arrayObject.map(a => [a.otp_is_locked, a.main_account_no, a.product_name_english]);

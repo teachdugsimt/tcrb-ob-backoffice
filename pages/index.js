@@ -1,7 +1,10 @@
 import React, { useContext, useState } from 'react'
+import PropTypes from 'prop-types'
 import { observer } from 'mobx-react'
 import { useStores } from '../hooks/use-stores'
-import Link from 'next/link'
+// import Link from 'next/link'
+
+import { i18n, Link, withTranslation } from '../i18n'
 
 const index = (observer(() => {
   const [id, setId] = useState("")
@@ -23,7 +26,15 @@ const index = (observer(() => {
   </div >
 }))
 
-export default index
+index.getInitialProps = async () => ({
+  namespacesRequired: ['common'],
+})
+
+index.propTypes = {
+  t: PropTypes.func.isRequired,
+}
+
+export default withTranslation('common')(index)
 
 
 
