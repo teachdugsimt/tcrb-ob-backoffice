@@ -1,4 +1,4 @@
-export default function getGeneralApiProblem(response) {
+export function buildProblem(response) {
   switch (response.problem) {
     case "CONNECTION_ERROR":
       return { kind: "cannot-connect", temporary: true }
@@ -26,4 +26,11 @@ export default function getGeneralApiProblem(response) {
   }
 
   return null
+}
+
+export function buildResponse(data) {
+  return {
+    data: data,
+    error
+  }
 }

@@ -23,8 +23,6 @@ class StartupApi {
       let problem = getGeneralApiProblem(response)
       return problem
     }
-
   }
-
 }
 export default new StartupApi()
