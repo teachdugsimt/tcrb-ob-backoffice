@@ -64,7 +64,7 @@ const AdminMenu = (props) => {
         paddingBottom: 2.5
       })
     } else {
-      versatileStore.setSidebarWidth(288)
+      versatileStore.setSidebarWidth(300)
       setHideAnimation({
         height: '0%',
       })
