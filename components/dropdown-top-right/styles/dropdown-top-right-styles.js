@@ -1,6 +1,6 @@
 import React, { useContext } from 'react'
 import styled from 'styled-components';
-import { useStores } from '../../hooks/use-stores'
+import { useStores } from '../../../hooks/use-stores'
 import { Select } from 'antd';
 const { Option } = Select;
 
