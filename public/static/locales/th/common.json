@@ -36,6 +36,7 @@
   "otpIsReady": "OTP กำลังใช้งาน",
   "otpIsLock": "OTP กำลังถูกล็อค",
   "back": "ย้อนกลับ",
+  "submit": "ตกลง",
   "bindingTCRBMobilBanking": "ผูกบัญชี TCRB Mobile Banking",
   "bindingMicroPay": "ผูกบัญชี Micro Pay",
   "bindingTrueMoneyWallet": "ผูกบัญชี True Money Wallet",

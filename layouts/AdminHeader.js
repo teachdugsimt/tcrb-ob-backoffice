@@ -1,6 +1,6 @@
 import React, { Component, useEffect } from 'react'
 import logo02 from '../images/logo02.png'
-import DropdownTopRight from '../components/dropdown-top-right'
+import DropdownTopRight from '../components/dropdown-top-right/dropdown-top-right'
 import account from '../images/account.png'
 import {
   MainHeader, SubHeader, SubHeader2, DivImageLogo, WrapperImageLogo, InsideTopRightDiv,

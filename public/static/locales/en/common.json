@@ -36,6 +36,7 @@
   "otpIsReady": "OTP is ready for using",
   "otpIsLock": "OTP is Locked",
   "back": "Back",
+  "submit": "submit",
   "bindingTCRBMobilBanking": "Binding to TCRB Mobile Banking",
   "bindingMicroPay": "Binding to Micro Pay",
   "bindingTrueMoneyWallet": "Binding to True Money Wallet",
