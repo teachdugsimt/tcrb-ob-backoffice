@@ -1,7 +1,6 @@
 import React, { useContext, useState } from 'react'
 import PropTypes from 'prop-types'
 import { inject, observer } from 'mobx-react'
-// import { useStores } from '../hooks/use-stores'
 import CircleButton from '../components/button-circle/circle-button'
 // import Link from 'next/link'
 
@@ -26,7 +25,7 @@ const index =
         <button onClick={() => props.counterStore.decrement()}>--</button>
         <h1>Dashboard index</h1>
         <CircleButton title={i18n.t("confirm")} type={"primary"} shape={"round"} size={"large"}
-          loading={false} onClick={() => console.log("Success Click!!")} />
+          loading={false} onClick={() => console.log("Success Click!!", props.counterStore.count)} />
 
       </div >
     }))

@@ -1,7 +1,6 @@
 import React, { Component, useState, useContext } from 'react'
 import { inject, observer } from 'mobx-react'
 import Router, { withRouter } from 'next/router'
-// import { useStores } from '../hooks/use-stores'
 
 
 

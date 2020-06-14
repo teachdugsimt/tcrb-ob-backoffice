@@ -1,11 +1,25 @@
 import React, { useContext } from 'react'
 import styled from 'styled-components';
-import { useStores } from '../../hooks/use-stores'
+// import { useStores } from '../../hooks/use-stores'
+import { inject, observer } from 'mobx-react'
+import initializeStore from '../../stores/stores';
+
+// const width = inject('versatileStore')(observer((props) => {
+//   console.log("Props : ",props)
+//   let { versatileStore } = props
+//   console.log("Width : ", versatileStore)
+//   return versatileStore ? versatileStore : 329;
+// }))
 
 const width = () => {
-  const { versatileStore } = useStores()
-  return versatileStore.sidebarWidth
+  let store = initializeStore()
+  return store.versatileStore.sidebarWidth
 }
+
+// const width = () => {
+//   const { versatileStore } = useStores()
+//   return versatileStore.sidebarWidth
+// }
 
 const FirstLayer = styled.div`
 display: flex;
@@ -40,14 +54,6 @@ const ContentPadding = styled.div`
   margin-bottom: 16px;
 `
 
-// const ContentPadding = styled.div`
-//   width: 100% ;
-//   height: 100%;
-//   z-index: 99;
-//   padding: ${({ theme }) => theme.spacing.large}px;
-//   margin-bottom: 16px;
-// `
-
 const MainContainerMenu = styled.div`
 width: ${width}px;
 display: flex;
@@ -61,20 +67,6 @@ margin-top: ${({ theme }) => theme.spacing.medium - 9}px;
 margin-left: ${({ theme }) => theme.spacing.medium - 9}px;
 margin-bottom: ${({ theme }) => theme.spacing.medium - 9}px;
 `
-
-// const MainContainerMenu = styled.div`
-// width: ${width}px;
-// display: flex;
-// flex: 0.25;
-// position: fixed;
-// top: 108px;
-// bottom: 56px;
-// left: 8px;
-// z-index: 999;
-// margin-top: ${({ theme }) => theme.spacing.medium}px;
-// margin-left: ${({ theme }) => theme.spacing.medium}px;
-// margin-bottom: ${({ theme }) => theme.spacing.medium}px;
-// `
 
 const SubMainContainer = styled.div`
 display: flex;
@@ -115,7 +107,7 @@ font-size: 12px;
 const LinkColorMenu = styled.a`
 color: #000000;
 &:hover {
-  color: #587FFF;
+  color: ${({ theme }) => theme.colors.palette.orange};
 }
 `
 
@@ -144,7 +136,7 @@ border-bottom: 1px solid lightgrey;
   border-bottom: 4px inset lightgrey;
 }
 &:hover ${LinkColorMenu} {
-  color: #587FFF
+  color: ${({ theme }) => theme.colors.palette.orange};
 }
 `
 
@@ -183,12 +175,12 @@ cursor: pointer;
 &:hover ${MenuIcon} {
   height: 4px;
   border-radius: 2px;
-  background-color: #587FFF;
+  background-color: ${({ theme }) => theme.colors.palette.orange};;
 }
 &:hover ${MenuIcon2} {
   height: 4px;
   border-radius: 2px;
-  background-color: #587FFF;
+  background-color: ${({ theme }) => theme.colors.palette.orange};;
 }
 `
 

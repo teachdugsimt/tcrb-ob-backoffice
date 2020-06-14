@@ -2,9 +2,11 @@ import React, { useState } from 'react'
 import SimpleSearch from '../simple-search'
 import styled from 'styled-components'
 import { Row, Switch, Col, Button, Input } from 'antd';
-import { useStores } from '../../hooks/use-stores'
+// import { useStores } from '../../hooks/use-stores'
+import { inject, observer } from 'mobx-react'
 import SimpleModal from '../simple-modal'
-import { i18n, withNamespaces } from '../../i18n'
+// import { i18n, withNamespaces } from '../../i18n'
+import { withTranslation } from '../../i18n'
 import { toJS } from 'mobx';
 
 const StyledA = styled.a`
@@ -33,15 +35,16 @@ const StyledInput = styled(Input)`
           border-right-width: 0px !important
       `}
 `
-export default function AccountUnbinding() {
+const AccountUnbinding = inject('customerServicesMenuStore')(observer((props) => {
   const [isSearch, setIsSearch] = useState(false);
   const [viewDetail, setViewDetail] = useState(false);
   const [visible, setVisble] = useState(false)
   const [modalString, setModalString] = useState('')
   const [accountId, setAccountId] = useState('')
-  const { customerServicesMenuStore } = useStores()
-  // const stringSwitch = [{ accountName: i18n.t("bindingTCRBMobilBanking"), accountBindingStatus: true, accountType: '1' }, { accountName: i18n.t("bindingMicroPay"), accountBindingStatus: true, accountType: '2' }, { accountName: i18n.t("bindingTrueMoneyWallet"), accountBindingStatus: true, accountType: '3' }]
-  // const stringAccount = [{ accountNumber: '2233344514', accountName: i18n.t("normalSaving"), accountType: '1' }, { accountNumber: '123456789032', accountName: i18n.t("revolvingLoanNonTCG"), accountType: '2' }]
+  // const { customerServicesMenuStore } = useStores()
+  const { t, customerServicesMenuStore } = props
+  // const stringSwitch = [{ accountName: t("bindingTCRBMobilBanking"), accountBindingStatus: true, accountType: '1' }, { accountName: t("bindingMicroPay"), accountBindingStatus: true, accountType: '2' }, { accountName: t("bindingTrueMoneyWallet"), accountBindingStatus: true, accountType: '3' }]
+  // const stringAccount = [{ accountNumber: '2233344514', accountName: t("normalSaving"), accountType: '1' }, { accountNumber: '123456789032', accountName: t("revolvingLoanNonTCG"), accountType: '2' }]
   const stringSwitch = [{ accountName: 'Binding to TCRB Mobile Banking', accountBindingStatus: true, accountType: '1' }, { accountName: 'Binding to Micro Pay', accountBindingStatus: true, accountType: '2' }, { accountName: 'Binding to True Money Wallet', accountBindingStatus: true, accountType: '3' }]
   const [stringAccount, setStringAccount] = useState([])
 
@@ -93,24 +96,24 @@ export default function AccountUnbinding() {
         case '1':
           setModalString(
             <div style={{ textAlign: "center" }}>
-              <p>{i18n.t("unbinding")}</p>
-              <p> {i18n.t("account")+" "+customerServicesMenuStore.accountId} from Mobile Banking</p>
+              <p>{t("unbinding")}</p>
+              <p> {t("account")+" "+customerServicesMenuStore.accountId} from Mobile Banking</p>
             </div>
           )
           break;
         case '2':
           setModalString(
             <div style={{ textAlign: "center" }}>
-              <p>{i18n.t("unbinding")}</p>
-              <p> {i18n.t("account")+" "+customerServicesMenuStore.accountId} from Micro Pay</p>
+              <p>{t("unbinding")}</p>
+              <p> {t("account")+" "+customerServicesMenuStore.accountId} from Micro Pay</p>
             </div>
           )
           break;
         case '3':
           setModalString(
             <div style={{ textAlign: "center" }}>
-              <p>{i18n.t("unbinding")}</p>
-              <p> {i18n.t("account")+" "+customerServicesMenuStore.accountId} from True Money Wallet</p>
+              <p>{t("unbinding")}</p>
+              <p> {t("account")+" "+customerServicesMenuStore.accountId} from True Money Wallet</p>
             </div>
           )
           break;
@@ -154,7 +157,7 @@ export default function AccountUnbinding() {
   const newSearch = (
     <div style={{ marginTop: 20 }}>
       <Row gutter={[4, 24]}>
-        <SimpleSearch search={searchIdCardNumber} prefixWording={i18n.t("idCard")} />
+        <SimpleSearch search={searchIdCardNumber} prefixWording={t("idCard")} />
       </Row>
       {(isSearch) ? (
         <AccountList />
@@ -164,11 +167,11 @@ export default function AccountUnbinding() {
   const accountDetail = (
     <div style={{ margin: 20 }}>
       {/* <Row gutter={[4, 24]}>
-        <Button onClick={() => setViewDetail(false)}>{i18n.t("back")}</Button>
+        <Button onClick={() => setViewDetail(false)}>{t("back")}</Button>
       </Row> */}
       <Row gutter={[4, 24]} align="top">
         <Col span={6}>
-          <StyledInput readOnly={true} prefix={i18n.t('accountNumber')} defaultValue={customerServicesMenuStore.accountId} />
+          <StyledInput readOnly={true} prefix={t('accountNumber')} defaultValue={customerServicesMenuStore.accountId} />
 
         </Col>
       </Row>
@@ -206,4 +209,7 @@ export default function AccountUnbinding() {
 
 
 
-}
+}))
+
+
+export default withTranslation('common')(AccountUnbinding)

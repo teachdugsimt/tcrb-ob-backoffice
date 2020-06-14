@@ -8,7 +8,6 @@ import {
 } from "./Styles/AdminHeaderStyles"
 import Router from 'next/router'
 import { inject, observer } from 'mobx-react'
-// import { useStores } from '../hooks/use-stores'
 import { withTranslation } from '../i18n'
 import { Button } from 'antd';
 
@@ -50,9 +49,5 @@ const AdminHeader = inject('authenStore')(observer((props) => {
     </MainHeader>
   )
 }))
-
-// AdminHeader.getInitialProps = async () => ({
-//   namespacesRequired: ['AdminHeader'],
-// })
 
 export default withTranslation('common')(AdminHeader)
