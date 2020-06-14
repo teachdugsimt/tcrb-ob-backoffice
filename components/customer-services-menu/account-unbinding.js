@@ -5,6 +5,7 @@ import { Row, Switch, Col, Button, Input } from 'antd';
 import { useStores } from '../../hooks/use-stores'
 import SimpleModal from '../simple-modal'
 import { i18n, withNamespaces } from '../../i18n'
+import { toJS } from 'mobx';
 
 const StyledA = styled.a`
   display: initial;
@@ -39,30 +40,49 @@ export default function AccountUnbinding() {
   const [modalString, setModalString] = useState('')
   const [accountId, setAccountId] = useState('')
   const { customerServicesMenuStore } = useStores()
-  const numbers = [1, 2, 3, 4, 5];
-  const stringSwitch = [{ accountName: i18n.t("bindingTCRBMobilBanking"), accountBindingStatus: true, accountType: '1' }, { accountName: i18n.t("bindingMicroPay"), accountBindingStatus: true, accountType: '2' }, { accountName: i18n.t("bindingTrueMoneyWallet"), accountBindingStatus: true, accountType: '3' }]
-  const stringAccount = [{ accountNumber: '2233344514', accountName: i18n.t("normalSaving"), accountType: '1' }, { accountNumber: '123456789032', accountName: i18n.t("revolvingLoanNonTCG"), accountType: '2' }]
+  // const stringSwitch = [{ accountName: i18n.t("bindingTCRBMobilBanking"), accountBindingStatus: true, accountType: '1' }, { accountName: i18n.t("bindingMicroPay"), accountBindingStatus: true, accountType: '2' }, { accountName: i18n.t("bindingTrueMoneyWallet"), accountBindingStatus: true, accountType: '3' }]
+  // const stringAccount = [{ accountNumber: '2233344514', accountName: i18n.t("normalSaving"), accountType: '1' }, { accountNumber: '123456789032', accountName: i18n.t("revolvingLoanNonTCG"), accountType: '2' }]
+  const stringSwitch = [{ accountName: 'Binding to TCRB Mobile Banking', accountBindingStatus: true, accountType: '1' }, { accountName: 'Binding to Micro Pay', accountBindingStatus: true, accountType: '2' }, { accountName: 'Binding to True Money Wallet', accountBindingStatus: true, accountType: '3' }]
+  const [stringAccount, setStringAccount] = useState([])
 
-  const searchIdCardNumber = (value) => {
+  const searchIdCardNumber = async (value) => {
     // console.log('eiei search:' + value)
     // setIdCard(value)
     setIsSearch(true)
+    // customerServicesMenuStore.setCitizenId(value)
+    await customerServicesMenuStore.getData(value)
+    setStringAccount(toJS(customerServicesMenuStore.accountInfo))
+
+    // convertArrayObjectToArray(toJS(customerServicesMenuStore.getAccountInfo)).then(result => {
+    //   customerServicesMenuStore.arrayAccountInfo = result
+    //   setStringAccount(result)
+    // })
+  }
+
+  const convertArrayObjectToArray = (arrayObject) => {
+    return new Promise((resolve, reject) => {
+      let result = arrayObject.map(a => [a.otp_is_locked, a.main_account_no, a.product_name_english]);
+      resolve(result)
+    })
   }
   const selectedMenu = (selectedAccount) => {
-    switch (selectedAccount.accountType) {
-      case '1':
-        customerServicesMenuStore.setAccountId(selectedAccount.accountNumber)
-        setViewDetail(true)
-        break;
-      case '2':
-        console.log('eiei menu2', selectedAccount)
-        customerServicesMenuStore.setAccountId(selectedAccount.accountNumber)
-        // setAccountId(accountId)
-        setViewDetail(true)
-        break;
-      default:
-        break;
-    }
+    console.log(selectedAccount)
+    customerServicesMenuStore.setAccountId(selectedAccount.main_account_no)
+    setViewDetail(true)
+    // switch (selectedAccount.accountType) {
+    //   case '1':
+    //     customerServicesMenuStore.setAccountId(selectedAccount.accountNumber)
+    //     setViewDetail(true)
+    //     break;
+    //   case '2':
+    //     console.log('eiei menu2', selectedAccount)
+    //     customerServicesMenuStore.setAccountId(selectedAccount.accountNumber)
+    //     // setAccountId(accountId)
+    //     setViewDetail(true)
+    //     break;
+    //   default:
+    //     break;
+    // }
   }
   const onChange = (switchSelected, index) => {
     // console.log("change:" + value + ",indexOf :" + index)
@@ -122,7 +142,7 @@ export default function AccountUnbinding() {
     const listItems = stringAccount.map((string, index) =>
       <Row key={index}>
         <Col span={24}>
-          <StyledA onClick={() => { selectedMenu(string) }}>{string.accountNumber}</StyledA><StyledSpan> {string.accountName}</StyledSpan>
+          <StyledA onClick={() => { selectedMenu(string) }}>{string.main_account_no}</StyledA><StyledSpan> {string.product_name_english}</StyledSpan>
 
         </Col>
       </Row>
@@ -132,7 +152,7 @@ export default function AccountUnbinding() {
     );
   }
   const newSearch = (
-    <div style={{ margin: 20 }}>
+    <div style={{ marginTop: 20 }}>
       <Row gutter={[4, 24]}>
         <SimpleSearch search={searchIdCardNumber} prefixWording={i18n.t("idCard")} />
       </Row>
@@ -143,16 +163,16 @@ export default function AccountUnbinding() {
 
   const accountDetail = (
     <div style={{ margin: 20 }}>
-      <Row gutter={[4, 24]}>
+      {/* <Row gutter={[4, 24]}>
         <Button onClick={() => setViewDetail(false)}>{i18n.t("back")}</Button>
-      </Row>
-      <Row gutter={[4, 24]}>
+      </Row> */}
+      <Row gutter={[4, 24]} align="top">
         <Col span={6}>
           <StyledInput readOnly={true} prefix={i18n.t('accountNumber')} defaultValue={customerServicesMenuStore.accountId} />
 
         </Col>
       </Row>
-      <div style={{ marginTop: 20 }} >
+      <Row gutter={[4, 24]} align="middle">
         <SwitchList />
         <SimpleModal
           onOk={() => setVisble(false)}
@@ -162,7 +182,24 @@ export default function AccountUnbinding() {
           modalString={modalString}
           visible={visible}
         />
-      </div>
+      </Row>
+      {/* <div style={{ marginTop: 20 }} >
+        <SwitchList />
+        <SimpleModal
+          onOk={() => setVisble(false)}
+          onCancel={() => setVisble(false)}
+          okText="Confirm"
+          cancelText="Cancel"
+          modalString={modalString}
+          visible={visible}
+        />
+      </div> */}
+      <Row gutter={[4, 24]} align="bottom" justify="center">
+        <Col span={6}>
+          <Button shape="round" onClick={() => setViewDetail(false)}>Back</Button>
+
+        </Col>
+      </Row>
     </div>
   )
   return (viewDetail) ? accountDetail : newSearch

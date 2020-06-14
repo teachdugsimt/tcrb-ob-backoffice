@@ -25,7 +25,30 @@ const StyledSearch = styled(Search)`
 
 
 export default function SimpleSearch(props) {
-  // console.log(props.defaultValue)
+  // const RegSearch = () => {
+  //   return (
+  //     <div>
+  //       <StyledSearch
+  //         prefix={props.prefixWording}
+  //         placeholder="input ID Card"
+  //         enterButton="Search"
+  //         size="large"
+  //         disabled={props.disabled}
+  //         onSearch={value => props.search(value)}
+  //         onChange={() => console.log('change')}
+  //         defaultValue={props.defaultValue}
+  //         loading={props.loading}
+  //       />
+  //     </div>
+  //   )
+  // }
+  // const onChange = e => {
+  //   const { value } = e.target;
+  //   const reg = /^-?\d*(\.\d*)?$/;
+  //   if ((!isNaN(value) && reg.test(value)) || value === '' || value === '-') {
+  //     this.props.onChange(value);
+  //   }
+  // };
   return (
     <div>
       <StyledSearch
@@ -37,7 +60,9 @@ export default function SimpleSearch(props) {
         onSearch={value => props.search(value)}
         onChange={() => console.log('change')}
         defaultValue={props.defaultValue}
+        loading={props.loading}
       />
+      {/* <RegSearch /> */}
     </div>
   )
 }

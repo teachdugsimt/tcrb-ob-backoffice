@@ -16,13 +16,19 @@ class StartupApi {
   }
   getAccountInfo = async (params) => {
     const api = create(Header)
-    const response = await api.get('api/get-account-product-by-citizenid', params)
-    if (response.ok) {
-      return response.data
-    } else {
-      let problem = getGeneralApiProblem(response)
-      return problem
-    }
+    const response = await api.get('api/backoffice/v1/otp/blacklist', params)
+    console.log(response)
+    return response
+
+    // get-account-product-by-citizenid
+    // https://hgr766mso6.execute-api.ap-southeast-1.amazonaws.com/api/backoffice/v1/otp/blacklist
+    // if (response.ok) {
+    //   return response.data
+    // } else {
+    //   let problem = getGeneralApiProblem(response)
+    //   return problem
+    // }
+
   }
 }
 export default new StartupApi()
