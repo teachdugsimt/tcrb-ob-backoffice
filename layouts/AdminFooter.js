@@ -1,9 +1,10 @@
 import React, { Component, useContext } from 'react'
 import { MainFooter, SubFooter, TextFooter } from './Styles/AdminFooterStyles'
-import { useStores } from '../hooks/use-stores'
+// import { useStores } from '../hooks/use-stores'
+import { inject, observer } from 'mobx-react'
 
-const AdminFooter = (props) => {
-  const { authenStore } = useStores()
+const AdminFooter = inject('authenStore')(observer((props) => {
+  const { authenStore } = props
   const footName = authenStore.footName ? authenStore.footName : "IT SERVICE DESK CONTACT NUMBER IS 02-6xx-1234"
   return (
     <MainFooter>
@@ -13,5 +14,5 @@ const AdminFooter = (props) => {
       </SubFooter>
     </MainFooter>
   )
-}
+}))
 export default AdminFooter
