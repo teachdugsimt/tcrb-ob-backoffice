@@ -1,24 +1,23 @@
 import React, { useState, useEffect } from 'react'
 import { Input, Row, Col, Layout, Modal, Tabs } from 'antd'
 import OtpUnlocking from './otp-unlocking'
+import styled from 'styled-components'
 import AccountUnbinding from './account-unbinding'
 const { Header, Footer, Sider, Content } = Layout;
 const { TabPane } = Tabs;
-import { i18n, withNamespaces } from '../../i18n'
+import { withTranslation } from '../../i18n'
 
-
-
-export default function CustomerServicesMenu() {
-
+const CustomerServicesMenu = (props) => {
+  const { t } = props
   return (
     <div>
       <Row flex={100}>
         <Col flex={100}>
           <Tabs defaultActiveKey="1" destroyInactiveTabPane={true}>
-            <TabPane tab={i18n.t("accountUnbinding")} key="1" >
+            <TabPane tab={t("accountUnbinding")} key="1" >
               <AccountUnbinding />
             </TabPane>
-            <TabPane tab={i18n.t("otpUnlock")} key="2" >
+            <TabPane tab={t("otpUnlock")} key="2" >
               <OtpUnlocking />
             </TabPane>
           </Tabs>
@@ -27,3 +26,4 @@ export default function CustomerServicesMenu() {
     </div>
   )
 }
+export default withTranslation('common')(CustomerServicesMenu)
