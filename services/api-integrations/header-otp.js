@@ -5,7 +5,6 @@ if (process.env.PROD === 'production') {
   baseURL = 'https://hgr766mso6.execute-api.ap-southeast-1.amazonaws.com/api/backoffice/'
   // https://hgr766mso6.execute-api.ap-southeast-1.amazonaws.com/api/backoffice/v1/parameterstore
 }
-const unixTimestamp = Math.round(new Date().getTime()/1000.0)
 
 const Header = {
   baseURL,
@@ -25,6 +24,8 @@ const Header = {
 }
 
 export default Header
+
+// const unixTimestamp = Math.round(new Date().getTime()/1000.0)
 
 // HEADER REAL API **
 // -H' => x-api-key: 'key of ob : ""'
