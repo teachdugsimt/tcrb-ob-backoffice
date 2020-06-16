@@ -6,6 +6,7 @@ import SimpleModal from '../simple-modal'
 import SimpleSwitch from '../simple-switch'
 import SimpleAlert from '../simple-alert'
 import { inject, observer } from 'mobx-react'
+import { get } from 'lodash'
 import { toJS } from 'mobx';
 // import { i18n, withNamespaces } from '../../i18n'
 import { withTranslation } from '../../i18n'
@@ -127,9 +128,20 @@ const OtpUnlocking =
           <Row gutter={[4, 24]}>
             <SimpleSearch search={searchIdCardNumber} prefixWording={t("idCard")} loading={customerServicesMenuStore.searchFetching} />
           </Row>
+
           <Row gutter={[16, 24]}>
             <Col span={9}>
-              {(showAlertError) ? (<SimpleAlert message={customerServicesMenuStore.accountInfoError.responseData.message} type="error" showIcon />) : ('')}
+              {/* {(customerServicesMenuStore.accountInfoError) ? (<SimpleAlert message={
+                get(customerServicesMenuStore.accountInfoError, 'responseData.message', 'Unknown Error')
+              } type="error" showIcon />) : ('')} */}
+              {customerServicesMenuStore.accountInfoError && <Alert
+                message={customerServicesMenuStore.accountInfoError}
+                description={''}
+                type="error"
+                closable
+                onClose={() => customerServicesMenuStore.accountInfoError = null}
+              />
+              }
             </Col>
           </Row>
           {(isSearch) ? (

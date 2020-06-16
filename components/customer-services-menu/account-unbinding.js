@@ -162,16 +162,20 @@ const AccountUnbinding =
           <div style={{ margin: 20 }}>
             <Row gutter={[4, 24]}>
               <SimpleSearch search={searchIdCardNumber} prefixWording={t("idCard")} loading={customerServicesMenuStore.searchFetching} />
-              <div style={{ marginTop: 20 }}>
-                {customerServicesMenuStore.accountInfoError && <Alert
-                  message="customerServicesMenuStore.accountInfoError"
-                  description="Error Description Error Description Error Description Error Description Error Description Error Description"
-                  type="error"
-                  closable
-                // onClose={onClose}
-                />
-                }
-              </div>
+            </Row>
+            <Row gutter={[16, 24]}>
+              <Col span={9}>
+                <div style={{}}>
+                  {customerServicesMenuStore.accountInfoError && <Alert
+                    message={customerServicesMenuStore.accountInfoError}
+                    description={''}
+                    type="error"
+                    closable
+                    onClose={() => customerServicesMenuStore.accountInfoError = null}
+                  />
+                  }
+                </div>
+              </Col>
             </Row>
             {(isSearch) ? (
               <AccountList />
@@ -189,6 +193,21 @@ const AccountUnbinding =
               <StyledInput readOnly={true} prefix={t('accountNumber')} defaultValue={customerServicesMenuStore.accountId} />
             </Col>
           </Row>
+          <Row gutter={[16, 24]}>
+            <Col span={9}>
+              <div style={{}}>
+                {customerServicesMenuStore.accountInfoError && <Alert
+                  message={customerServicesMenuStore.accountInfoError}
+                  description={''}
+                  type="error"
+                  closable
+                  onClose={() => customerServicesMenuStore.accountInfoError = null}
+                />
+                }
+              </div>
+            </Col>
+          </Row>
+
           <Row gutter={[4, 24]} align="middle">
             {/* <SwitchList /> */}
             <SimpleSwitch

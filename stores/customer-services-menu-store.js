@@ -8,9 +8,11 @@ class CustomerServicesMenuStore {
   @observable accountSelected = {}
   @observable apiFetching = false
   @observable searchFetching = false
+
   @observable accountInfo = null
   @observable arrayAccountInfo = []
   @observable accountInfoError = null
+
   @observable unlockOtpError = []
   @observable unlockOtpInfo = null
   @observable unbindAccountInfo = null
@@ -37,8 +39,8 @@ class CustomerServicesMenuStore {
       } else {
         this.searchFetching = false
         // this.accountInfoError = JSON.parse(temp.data.body)
-        console.log(temp.problem)
-        this.accountInfoError = temp.problem
+        // console.log(temp.problem)
+        this.accountInfoError = temp.originalError.message
       }
 
     }
@@ -71,8 +73,7 @@ class CustomerServicesMenuStore {
       this.searchFetching = false
       // let problem = getGeneralApiProblem(response)
       // this.accountInfoError = JSON.parse(temp.data.body)
-      this.accountInfoError = temp.data
-
+      this.accountInfoError = temp.originalError.message
     }
   }
 
