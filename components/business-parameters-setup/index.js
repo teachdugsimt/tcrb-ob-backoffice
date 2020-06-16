@@ -6,7 +6,7 @@ import PendingApprovals from './pending-approvals'
 import { withTranslation } from '../../i18n'
 
 const { TabPane } = Tabs
-
+import { MainTab } from '../antd-styles/styles'
 const BusinessParametersSetup = (props) => {
 
   const { t } = props
@@ -15,7 +15,7 @@ const BusinessParametersSetup = (props) => {
     <div>
       <Row>
         <Col flex={100}>
-          <Tabs defaultActiveKey="1" >
+          <Tabs defaultActiveKey="1" destroyInactiveTabPane={true} >
             <TabPane tab={t("otpSetup")} key="1">
               <OtpSetup />
             </TabPane>

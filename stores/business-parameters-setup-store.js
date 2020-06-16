@@ -56,7 +56,7 @@ class BusinessParameterSetup {
     this.fetchingUpdateOtp = true
     let response = await BusinessParameterSetupApi.setOtpValue(params)
     if (response.ok && response.status == 200) {
-      console.log("Update OTP Success :: ", resopnse)
+      console.log("Update OTP Success :: ", response)
       this.responseUpdateOtp = response.data
       this.fetchingUpdateOtp = false
       this.errorUpdateOtp = null
@@ -64,7 +64,7 @@ class BusinessParameterSetup {
       console.log("Update OTP FAIL :: ", response)
       this.fetchingUpdateOtp = false
       this.responseUpdateOtp = null
-      this.errorUpdateOtp = resopnse.problem
+      this.errorUpdateOtp = response.problem ? response.problem : "Client Error"
     }
   }
 

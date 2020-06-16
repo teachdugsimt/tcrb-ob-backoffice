@@ -31,11 +31,13 @@ const OtpSetup =
       const [visibleExpireEdit, setvisibleExpireEdit] = useState(true)
       const [visibleExpireSubmit, setvisibleExpireSubmit] = useState(false)
       const [disExpire, setdisExpire] = useState(false)
+      const [disExpireSubmit, setdisExpireSubmit] = useState(false)
 
       const [maximumOtp, setMaximum] = useState(null)
       const [visibleEditMaximum, setvisibleEditMaximum] = useState(true)
       const [visibleSubmitMaximum, setvisibleSubmitMaximum] = useState(false)
       const [disMaximum, setdisMaximum] = useState(false)
+      const [disMaximumSubmit, setdisMaximumSubmit] = useState(false)
 
       const [visible, setVisible] = useState(false)
       const [modalString, setModal] = useState("")
@@ -80,6 +82,18 @@ const OtpSetup =
         setModal("Confirm update otp " + text)
       }
 
+      const _setUnfocus = (type) => {
+        if (type == "expire") {
+          let expire = document.getElementById("otp-expiration-period")
+          expire.style.color = "rgba(0, 0, 0, 0.65)"
+          expire.blur()
+        } else {
+          let maximum = document.getElementById("otp-maximum-retrying")
+          maximum.style.color = "rgba(0, 0, 0, 0.65)"
+          maximum.focus()
+        }
+      }
+
       const _onConfirm = async () => {
         if (modalString.includes("expire")) {
           if (getValueFromStore("expire") != expireOtp) {
@@ -87,7 +101,10 @@ const OtpSetup =
               OTP_EXPIRE_TIME: expireOtp
             })
             businessParametersSetupStore.closeExpire(true)
+            setdisExpireSubmit(true)
+            _setUnfocus("expire")
             setdisExpire(false)
+            setVisible(false)
           } else {
             // alert("don't have any change")
           }
@@ -97,7 +114,10 @@ const OtpSetup =
               OTP_MAXIMUN_ENTERED: maximumOtp
             })
             businessParametersSetupStore.closeMaximum(true)
+            setdisMaximumSubmit(true)
+            _setUnfocus("maximum")
             setdisMaximum(false)
+            setVisible(false)
           } else {
             // alert("don't have any change")
           }
@@ -144,7 +164,7 @@ const OtpSetup =
             </Col>
             <Col span={6}>
               {visibleEditMaximum && <Button onClick={() => _onClickMaximumRetry()}>{t("edit")}</Button>}
-              {visibleSubmitMaximum && <Button onClick={() => _openPopup("maximum")}>{t("submit")}</Button>}
+              {visibleSubmitMaximum && <Button disabled={disMaximumSubmit} onClick={() => _openPopup("maximum")}>{t("submit")}</Button>}
             </Col>
           </Row>
           <Row gutter={[8, 8]}>
@@ -153,7 +173,7 @@ const OtpSetup =
             </Col>
             <Col span={6}>
               {visibleExpireEdit && <Button /*onClick={setInputFocus}*/ onClick={() => _onClickExpiration()} >{t("edit")}</Button>}
-              {visibleExpireSubmit && <Button /*onClick={setInputFocus}*/ onClick={() => _openPopup("expire")} >{t("submit")}</Button>}
+              {visibleExpireSubmit && <Button disabled={disExpireSubmit}/*onClick={setInputFocus}*/ onClick={() => _openPopup("expire")} >{t("submit")}</Button>}
             </Col>
           </Row>
           <SimpleModal

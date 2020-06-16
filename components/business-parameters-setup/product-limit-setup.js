@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { Button, Table, Popconfirm, Row, Col } from 'antd'
-import { useStores } from '../../hooks/use-stores'
+// import { useStores } from '../../hooks/use-stores'
 import { inject, observer } from 'mobx-react'
 import { withTranslation } from '../../i18n'
 
