@@ -1,72 +1,152 @@
 import React, { useState, useEffect } from 'react'
-import { Input, Row, Col, Layout, Modal, Switch } from 'antd'
+import { Input, Row, Col, Layout, Modal, Switch, Alert } from 'antd'
 import styled from 'styled-components';
 import SimpleSearch from '../simple-search'
 import SimpleModal from '../simple-modal'
-const { Header, Footer, Sider, Content } = Layout;
+import SimpleSwitch from '../simple-switch'
+import SimpleAlert from '../simple-alert'
+import { inject, observer } from 'mobx-react'
+import { toJS } from 'mobx';
+// import { i18n, withNamespaces } from '../../i18n'
+import { withTranslation } from '../../i18n'
 
 
-const StyledP = styled.p`
+const StyledA = styled.a`
+  display: initial;
+  padding-left: ${({ theme }) => theme.spacing.medium}px !important;
+  color: #F88008 !important;
+  text-decoration-color: #F88008;
+  text-decoration-line: underline;
+`
+const StyledSpan = styled.span`
 
   display: initial;
   padding-left: ${({ theme }) => theme.spacing.medium}px !important;
 `
-export default function OtpUnlocking() {
-  const [idCard, setIdCard] = useState('');
-  const [isSearch, setIsSearch] = useState(false);
-  const [visible, setVisble] = useState(false)
-  const [isChecked, setIsChecked] = useState(false)
-  const [modalString, setModalString] = useState('')
-  const searchIdCardNumber = (value) => {
-    console.log('eiei search:' + value)
-    setIdCard(value)
-    setIsSearch(true)
-  }
+const StyledSwitch = styled(Switch)`
+
+      ${({ defaultChecked }) => defaultChecked && `
+      background-color: #F88008 !important;
+  `}
+`
+const OtpUnlocking =
+  inject('customerServicesMenuStore')
+    (observer((props) => {
+      const [idCard, setIdCard] = useState('');
+      const [isSearch, setIsSearch] = useState(false);
+      const [visible, setVisble] = useState(false)
+      const [isChecked, setIsChecked] = useState(false)
+      const [modalString, setModalString] = useState('')
+      const [stringSwitch, setStringSwitch] = useState([])
+      const [showAlertError, setShowAlertError] = useState(false)
+      const { customerServicesMenuStore, t } = props
+
+      useEffect(() => {
+        if (isSearch) {
+          setShowAlertError(true)
+          setIsSearch(false)
+        }
+      }, [customerServicesMenuStore.accountInfoError])
+
+      useEffect(() => {
+        if (isSearch) {
+          convertArrayObjectToArray(customerServicesMenuStore.accountInfo).then(result => {
+            console.log(result)
+            customerServicesMenuStore.arrayAccountInfo = result
+            setStringSwitch(result)
+          })
+        }
+      }, [customerServicesMenuStore.accountInfo])
+
+      useEffect(() => {
+        if (isSearch) {
+          if (customerServicesMenuStore.unlockOtpInfo.ok) {
+            customerServicesMenuStore.accountSelected.otp_is_locked = false
+            replaceNewDataForSetString()
+          }
+        }
+      }, [customerServicesMenuStore.unlockOtpInfo])
+
+      const searchIdCardNumber = async (value) => {
+        setIdCard(value)
+        setIsSearch(true)
+        //call api
+        await customerServicesMenuStore.getDataAccountOtpUnlock(value)
+      }
+
+      const convertArrayObjectToArray = (arrayObject) => {
+        return new Promise((resolve, reject) => {
+          let result = arrayObject.map(a => [a.otp_is_locked, a.main_account_no, a.product_name_english]);
+          resolve(result)
+        })
+      }
+      const replaceNewDataForSetString = () => {
+        let arrayAccountInfo = customerServicesMenuStore.accountInfo
+        let accountSelected = customerServicesMenuStore.accountSelected
+        // let newArray = stringSwitch.filter(accountInfo => accountInfo.accountNumber !== toJS(customerServicesMenuStore.accountSelected.accountNumber))
+        let newArray = arrayAccountInfo.filter(accountInfo => accountInfo.main_account_no !== accountSelected.main_account_no)
+
+        convertArrayObjectToArray([...newArray, accountSelected]).then(result => {
+          setStringSwitch(result)
+        })
+      }
+
+      const closeModal = () => {
+        setVisble(false)
+        setStringSwitch(customerServicesMenuStore.arrayAccountInfo)
+
+      };
+      const onChange = (switchSelected, index) => {
+
+        if (switchSelected === true) {
+
+          customerServicesMenuStore.accountSelected = customerServicesMenuStore.accountInfo[index]
+          setStringSwitch(customerServicesMenuStore.arrayAccountInfo)
+          setVisble(true)
+          setModalString(
+            <div style={{ textAlign: "center" }}>
+              <p>{t("unlockingOtp")}</p>
+              <p> {t("accountNumber") + " " + customerServicesMenuStore.accountSelected.main_account_no}</p>
+            </div>
+          )
+
+        } else {
+          // setIsChecked(false)
+        }
+      }
+
+      const unlockOTP = async () => {
+        setVisble(false)
+        await customerServicesMenuStore.submitUnlockOTP()
+
+      }
 
 
-  const hideModal = () => {
-    this.setState({
-      visible: false,
-    });
-  };
-  const onChange = (value) => {
-    console.log("change:" + value)
-
-    if (value === true) {
-      setVisble(true)
-      setIsChecked(true)
-      setModalString(
-        <div>
-          <p>Unlocking OTP!!</p>
-          <p>Customer ID Card Number {idCard}</p>
-          <p>Mobile Number </p>
-          </div>
+      return (
+        <div style={{ margin: 20 }}>
+          <Row gutter={[4, 24]}>
+            <SimpleSearch search={searchIdCardNumber} prefixWording={t("idCard")} loading={customerServicesMenuStore.searchFetching} />
+          </Row>
+          <Row gutter={[16, 24]}>
+            <Col span={9}>
+              {(showAlertError) ? (<SimpleAlert message={customerServicesMenuStore.accountInfoError.responseData.message} type="error" showIcon />) : ('')}
+            </Col>
+          </Row>
+          {(isSearch) ? (
+            <SimpleSwitch
+              data={stringSwitch}
+              onChange={(switchSelected, index) => onChange(switchSelected, index)} />
+          ) : ('')}
+          <SimpleModal
+            onOk={() => unlockOTP()}
+            onCancel={() => closeModal()}
+            okText={t("confirm")}
+            cancelText={t("cancel")}
+            modalString={modalString}
+            visible={visible}
+          />
+        </div>
       )
-    } else {
-      setIsChecked(false)
-    }
-  }
-  const unlockOTP = () => {
-    //somaction
-    setVisble(false)
-  }
-  return (
-    <div style={{ marginTop: 20 }}>
-      <Row>
-        <SimpleSearch search={searchIdCardNumber} prefixWording="ID Card Number" />
-      </Row>
-      {(isSearch) ? (<Col span={12}>
-        <Switch defaultChecked={false} onChange={checked => onChange(checked)} />
-        {isChecked ? (<StyledP>OTP is Locked</StyledP>) : (<StyledP>OTP is ready for using</StyledP>)}
-      </Col>) : ('')}
-      <SimpleModal
-        onOk={()=> unlockOTP()}
-        onCancel={() => setVisble(false)}
-        okText="Confirm"
-        cancelText="Cancel"
-        modalString={modalString}
-        visible={visible}
-      />
-    </div>
-  )
-}
+    }))
+
+export default withTranslation('common')(OtpUnlocking)

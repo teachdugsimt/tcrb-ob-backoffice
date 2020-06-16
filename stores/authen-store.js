@@ -5,10 +5,10 @@ class AuthenStore {
   @observable password = ""
   @observable type = ""
   @observable menu = [
-    { id: 1, name: "CUSTOMER SERVICES ENQUIRY", linkTo: "/", color: "#000000", typeLv: "42" },
-    { id: 2, name: "CUSTOMER SERVICES MENU", linkTo: "/test-customer-service-menu", color: "#000000", typeLv: "38" },
-    { id: 3, name: "PARTNER MANAGEMENT", linkTo: "/", color: "#000000", typeLv: "38" },
-    { id: 4, name: "CONSENT MANAGEMENT", linkTo: "/", color: "#000000", typeLv: "30" },
+    { id: 1, name: "CUSTOMER SERVICES ENQUIRY", linkTo: "/natty", color: "#000000", typeLv: "42" },
+    { id: 2, name: "CUSTOMER SERVICES MENU", linkTo: "/customer-service-menu", color: "#000000", typeLv: "38" },
+    { id: 3, name: "PARTNER MANAGEMENT", linkTo: "/natty", color: "#000000", typeLv: "38" },
+    { id: 4, name: "CONSENT MANAGEMENT", linkTo: "/natty", color: "#000000", typeLv: "30" },
     { id: 5, name: "TERM & CONDITION MANAGEMENT", linkTo: "/", color: "#000000", typeLv: "30" },
     { id: 6, name: "SECURITY CODE ENQUIRY", linkTo: "/", color: "#000000", typeLv: "50" },
     { id: 7, name: "NOTIFICATION ENQUIRY", linkTo: "/", color: "#000000", typeLv: "50" },
@@ -30,10 +30,14 @@ class AuthenStore {
   }
 
   @action clear = () => {
-    console.log("=++++++++++ On Sign out ++++++++++++=")
     this.password = null
     this.type = null
     this.id = null
+  }
+
+  @action
+  setMenu = (menu) => {
+    this.menu = menu
   }
 
   @computed get getMenu() {

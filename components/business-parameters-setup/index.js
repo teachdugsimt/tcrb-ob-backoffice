@@ -3,21 +3,26 @@ import { Row, Col, Layout, Tabs } from 'antd'
 import OtpSetup from './otp-setup'
 import ProductLimitSetup from './product-limit-setup'
 import PendingApprovals from './pending-approvals'
+import { withTranslation } from '../../i18n'
 
-const {TabPane} = Tabs
-export default function BusinessParametersSetup() {
+const { TabPane } = Tabs
+
+const BusinessParametersSetup = (props) => {
+
+  const { t } = props
+
   return (
     <div>
       <Row>
         <Col flex={100}>
           <Tabs defaultActiveKey="1" >
-            <TabPane tab="OTP Setup" key="1">
+            <TabPane tab={t("otpSetup")} key="1">
               <OtpSetup />
             </TabPane>
-            <TabPane tab="Product Limit Setup" key="2">
+            <TabPane tab={t("productLimitSetup")} key="2">
               <ProductLimitSetup />
             </TabPane>
-            <TabPane tab="Pending Approvals" key="3">
+            <TabPane tab={t("pendingApprovals")} key="3">
               <PendingApprovals />
             </TabPane>
           </Tabs>
@@ -26,3 +31,5 @@ export default function BusinessParametersSetup() {
     </div>
   )
 }
+
+export default withTranslation('common')(BusinessParametersSetup)

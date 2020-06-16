@@ -1,17 +1,19 @@
-import React, { Component, useContext } from 'react'
+import React, { Component, useEffect } from 'react'
 import logo02 from '../images/logo02.png'
-import DropdownTopRight from '../components/dropdown-top-right'
+import DropdownTopRight from '../components/dropdown-top-right/dropdown-top-right'
 import account from '../images/account.png'
 import {
   MainHeader, SubHeader, SubHeader2, DivImageLogo, WrapperImageLogo, InsideTopRightDiv,
   ContentMainDiv, TextMenu, DivAccount, WrapperImageAccount, DivName, TextName, WrapperButtonAnt
 } from "./Styles/AdminHeaderStyles"
 import Router from 'next/router'
-import { observer } from 'mobx-react'
-import { useStores } from '../hooks/use-stores'
+import { inject, observer } from 'mobx-react'
+import { withTranslation } from '../i18n'
+import { Button } from 'antd';
 
-const AdminHeader = (observer((props) => {
-  const { authenStore } = useStores()
+const AdminHeader = inject('authenStore')(observer((props) => {
+  // const { authenStore } = useStores()
+  const { t, authenStore } = props
   const goLogin = () => {
     authenStore.clear()
     Router.push("/login")
@@ -25,13 +27,13 @@ const AdminHeader = (observer((props) => {
         </DivImageLogo>
         <InsideTopRightDiv>
           <ContentMainDiv>
-            <WrapperButtonAnt title={"Support"} />
-            <WrapperButtonAnt title={"Signout"} onClick={() => goLogin()} />
+            <WrapperButtonAnt title={t('support')} />
+            <WrapperButtonAnt title={t("signout")} onClick={() => goLogin()} />
             <DivAccount>
               <WrapperImageAccount src={account} />
               <DivName>
-                <TextName>Korkaew</TextName>
-                <TextName>Tribamrongsuk</TextName>
+                <TextName>{t('mockName')}</TextName>
+                <TextName>{t('mockLastName')}</TextName>
               </DivName>
             </DivAccount>
           </ContentMainDiv>
@@ -48,4 +50,4 @@ const AdminHeader = (observer((props) => {
   )
 }))
 
-export default AdminHeader
+export default withTranslation('common')(AdminHeader)

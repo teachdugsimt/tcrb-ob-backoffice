@@ -2,7 +2,7 @@ import { observable, action, computed } from "mobx"
 
 class VersatileStore {
 
-  @observable sidebarWidth = 288
+  @observable sidebarWidth = 300
   @observable isShow = true
 
   @computed get getSidebar() {

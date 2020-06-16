@@ -3,10 +3,12 @@ import CounterStore from './counter-store'
 import AuthenStore from './authen-store'
 import VersatileStore from './versatile-store'
 import BusinessParametersSetupStore from './business-parameters-setup-store'
+import CustomerServicesMenuStore from './customer-services-menu-store'
 export {
   ThemeStore,
   CounterStore,
   AuthenStore,
   VersatileStore,
-  BusinessParametersSetupStore
+  BusinessParametersSetupStore,
+  CustomerServicesMenuStore
 }

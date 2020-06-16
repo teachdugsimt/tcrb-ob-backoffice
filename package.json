@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "NODE_OPTIONS='--inspect' next dev",
     "build": "next build",
     "start": "next start",
     "test": "jest --coverage --env=node"
@@ -12,13 +12,18 @@
     "antd": "^4.3.1",
     "apisauce": "^1.1.1",
     "axios": "^0.19.2",
+    "enzyme": "^3.11.0",
+    "enzyme-adapter-react-16": "^1.15.2",
+    "express": "^4.17.1",
     "mobx": "^5.15.4",
     "mobx-react": "^6.2.2",
     "next": "9.4.4",
+    "next-i18next": "^4.4.2",
     "next-images": "^1.4.0",
     "react": "16.13.1",
     "react-dom": "16.13.1",
-    "styled-components": "^5.1.1"
+    "styled-components": "^5.1.1",
+    "utilitylayer": "git+https://git-codecommit.ap-southeast-1.amazonaws.com/v1/repos/utilitylayer"
   },
   "devDependencies": {
     "@babel/plugin-proposal-class-properties": "^7.1.0",

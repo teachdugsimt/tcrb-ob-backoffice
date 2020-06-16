@@ -1,6 +1,7 @@
 import React, { Component, useContext, useState } from 'react'
 import Link from 'next/link'
-import { useStores } from '../hooks/use-stores'
+import { inject, observer } from 'mobx-react'
+// import { useStores } from '../hooks/use-stores'
 import { colors } from '../theme/colors'
 import styled from 'styled-components';
 import {
@@ -8,6 +9,7 @@ import {
   MainTitleMenuDiv, MainUl, SpanText, LinkColorMenu, TitleDiv,
   MenuIcon, MenuIcon2, TitleDiv2, WrapperMainDivMenu, MainHideDivMenu
 } from './Styles/AdminHocStyles'
+import { withTranslation } from '../i18n'
 
 const INIT_ANIMATION = {
   height: '100%',
@@ -24,19 +26,20 @@ const BUTTON_DIV = {
   minHeight: 52,
   backgroundColor: '#707070',
   flexDirection: 'row',
-  borderRadius: 10,
+  borderRadius: 4,
   padding: 10,
   paddingRight: 10,
   paddingLeft: 10,
 }
 
-const AdminMenu = (props) => {
+const AdminMenu = inject('authenStore', 'versatileStore')(observer((props) => {
   const [Bergur, setBergur] = useState({})
   const [ButtonDiv, setButtonDiv] = useState(BUTTON_DIV)
   const [ShowAnimation, setShowAnimation] = useState(INIT_ANIMATION)
   const [HideAnimation, setHideAnimation] = useState(END_ANIMATION)
   const [isShow, setIsShow] = useState(true)
-  const { authenStore, versatileStore } = useStores()
+  // const { authenStore, versatileStore } = useStores()
+  const { t, authenStore, versatileStore } = props
 
   const setSideBar = () => {
     if (isShow) {
@@ -47,7 +50,7 @@ const AdminMenu = (props) => {
         justifyContent: 'center',
         minHeight: 52,
         backgroundColor: '#707070',
-        borderRadius: 10,
+        borderRadius: 4,
         padding: 10,
         paddingRight: 10,
         paddingLeft: 10,
@@ -63,7 +66,7 @@ const AdminMenu = (props) => {
         paddingBottom: 2.5
       })
     } else {
-      versatileStore.setSidebarWidth(288)
+      versatileStore.setSidebarWidth(300)
       setHideAnimation({
         height: '0%',
       })
@@ -76,14 +79,13 @@ const AdminMenu = (props) => {
       setIsShow(!isShow)
     }
   }
-  console.log("---------------- Admin Menu Screen ----------------")
-  console.log(versatileStore.sidebarWidth)
+
   return <MainContainerMenu>
 
     <SubMainContainer>
 
       <MainTitleMenuDiv style={!isShow ? ButtonDiv : {}}>
-        {isShow && <TitleDiv>FUNCTIONS MENU</TitleDiv>}
+        {isShow && <TitleDiv>{t("functionMenu")}</TitleDiv>}
         <TitleDiv2 onClick={() => setSideBar()} style={Bergur}>
           <MenuIcon />
           <MenuIcon />
@@ -94,8 +96,8 @@ const AdminMenu = (props) => {
       {isShow == true && <MainDivMenu style={ShowAnimation}>
         <MainUl>
           {authenStore.getMenu && authenStore.getMenu.map((e, i) => {
-            return <BorderMenu><Link key={"link-menu-" + e.id} href={e.linkTo}>
-              <SpanText id={"span-text-" + e.id}><LinkColorMenu>{e.name}</LinkColorMenu></SpanText>
+            return <BorderMenu style={{ marginBottom: i == (authenStore.getMenu.length - 1) ? 10 : 0 }}><Link key={"link-menu-" + e.id} href={e.linkTo}>
+              <SpanText id={"span-text-" + e.id}><LinkColorMenu>{t(e.translate)}</LinkColorMenu></SpanText>
             </Link></BorderMenu>
           })}
         </MainUl>
@@ -105,6 +107,6 @@ const AdminMenu = (props) => {
     </SubMainContainer>
 
   </MainContainerMenu>
-}
+}))
 
-export default AdminMenu
+export default withTranslation('common')(AdminMenu)

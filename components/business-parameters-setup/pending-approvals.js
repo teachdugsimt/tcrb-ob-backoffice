@@ -1,90 +1,80 @@
-import React, { useState, useEffect } from 'react'
-import { Button, Table, Popconfirm, Row, Col } from 'antd'
-import { useStores } from '../../hooks/use-stores'
-import { observer } from 'mobx-react';
-import { toJS } from 'mobx'
-export default (observer(function PendingApprovals() {
-  const [dataSource, setDataSource] = useState([])
-  const { businessParametersSetupStore } = useStores()
-  const mockDataSource = []
-  // let pendingApprovalsRawData = toJS(businessParametersSetupStore.pendingApprovals)
+import React, { useState } from 'react'
+import { Table, Switch, Radio, Form } from 'antd';
+import { DownOutlined } from '@ant-design/icons';
 
-  useEffect(() => {
-    let pendingApprovalsRawData = toJS(businessParametersSetupStore.pendingApprovals)
-    if(Object.keys(pendingApprovalsRawData).length === 0){
-      //waiting action
-    }else{
-      console.log(pendingApprovalsRawData)
-      // mockDataSource.push(pendingApprovalsRawData)
-      setDataSource(pendingApprovalsRawData)
-      console.log(mockDataSource)
+const columns = [
+  {
+    title: 'Ticket#',
+    dataIndex: 'ticket',
+  },
+  {
+    title: 'Request Type',
+    dataIndex: 'requestType',
+  },
+  {
+    title: 'Request Description',
+    dataIndex: 'requestDescription',
+  },
+  {
+    title: 'Request ID',
+    dataIndex: 'requestId',
+  },
+  {
+    title: 'Request Date',
+    dataIndex: 'requestDate',
+  },
+  {
+    title: 'Action',
+    key: 'action',
+    render: () => (
+      <span>
+        <a style={{ marginRight: 16 }}>Accept</a>
+        <a className="ant-dropdown-link">
+          Reject
+        </a>
+      </span>
+    ),
+  },
+];
 
-    }
-    // console.log(businessParametersSetupStore.pendingApprovals)
-  }, [businessParametersSetupStore.pendingApprovals.length]);
-  // console.log(toJS(businessParametersSetupStore.pendingApprovals))
+const data = [{
+  id: 1, key: 1, ticket: "PAR0000001", requestType: "OTP Max Retrying", requestDescription: "Change from 3 to 5", requestId: "T630213",
+  requestDate: "21-May-2020", action: null
+}];
 
-  const handleDelete = key => {
-    // const dataSource = [...this.state.dataSource];
-    console.log(key)
-    // setDataSource(dataSource.filter(item => item.key !== key))
+const expand = { expandedRowRender: record => <p>{record.description}</p> };
+const titleTable = () => 'Here is title';
+const showHead = true;
+const foot = () => 'Here is footer';
+const page = { position: 'bottom' };
 
+export default function PendingApprovals() {
+
+  const [expandable, setExpandable] = useState(expand)
+  const [hasData, setHasData] = useState(true)
+  const [top, setTop] = useState('none')
+  const [bottom, setBottom] = useState("bottomRight")
+
+  const handleTableLayoutChange = e => {
+    setTableLayout(e.target.value)
   };
-  const columns = [
 
-    {
-      title: 'Ticket#',
-      dataIndex: 'ticket',
-      width: '10%',
-      // editable: true,
-    },
-    {
-      title: 'Request Type',
-      dataIndex: 'requestType',
-    },
-    {
-      title: 'Request Description',
-      dataIndex: 'requestDescription',
-    },
-    {
-      title: 'Requester ID',
-      dataIndex: 'requesterId',
-    },
-    {
-      title: 'Request Date',
-      dataIndex: 'requestDate',
-    },
-    {
-      title: 'Action',
-      dataIndex: 'action',
-      render: (text, record) =>
-        dataSource.length >= 1 ? (
-          <>
-          <Popconfirm title="Sure to Approve?" onConfirm={() => handleDelete(record.key)} >
-            <a style={{paddingRight: 12}}>Approve</a>
-          </Popconfirm>
-          <Popconfirm title="Sure to delete?" onConfirm={() => handleDelete(record.key)}>
-            <a>Delete</a>
-          </Popconfirm>
-          </>
-        ) : null,
-    }
-  ];
+  const handleExpandChange = enable => {
+    setExpandable(enable ? expandable : undefined)
+  };
+
+  const handleDataChange = hasData => {
+    setHasData(hasData)
+  };
+
+  const tableColumns = columns.map(item => ({ ...item }));
 
   return (
-    <div>
-      <Row>
-        <Col flex={100}>
-        <Table
-            // components={components}
-            rowClassName={() => 'editable-row'}
-            bordered
-            dataSource={dataSource}
-            columns={columns}
-          />
-        </Col>
-      </Row>
-
-    </div>
+    <Table
+      pagination={{ position: [top, bottom] }}
+      columns={tableColumns}
+      dataSource={hasData ? data : null}
+    // scroll={scroll}
+    />
   )
 }))

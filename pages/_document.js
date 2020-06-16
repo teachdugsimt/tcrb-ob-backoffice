@@ -23,18 +23,16 @@ export default class MyDocument extends Document {
     return (
       <html>
         <Head>
-          <title>My page</title>
           {/* Step 5: Output the styles in the head  */}
           {this.props.styleTags}
         </Head>
         <body style={{
-          backgroundColor: 'lightgrey'
-          // backgroundRepeat: 'no-repeat', backgroundImage: url("paper.gif"), backgrou
+          backgroundColor: 'lightgrey', width: "100%", height: "100%"
         }}>
-          <Main />
+          <Main style={{ width: "100%", height: "100%" }} />
           <NextScript />
         </body>
-      </html>
+      </html >
     );
   }
 }
