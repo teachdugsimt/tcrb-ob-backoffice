@@ -15,17 +15,17 @@ const BusinessParametersSetup = (props) => {
     <div>
       <Row>
         <Col flex={100}>
-          <Tabs defaultActiveKey="1" destroyInactiveTabPane={true} >
+          <MainTab defaultActiveKey="1" destroyInactiveTabPane={true} >
             <TabPane tab={t("otpSetup")} key="1">
               <OtpSetup />
             </TabPane>
             <TabPane tab={t("productLimitSetup")} key="2">
               <ProductLimitSetup />
             </TabPane>
-            <TabPane tab={t("pendingApprovals")} key="3" forceRender={true}>
+            <TabPane tab={t("pendingApprovals")} key="3" >
               <PendingApprovals />
             </TabPane>
-          </Tabs>
+          </MainTab>
         </Col>
       </Row>
     </div>
