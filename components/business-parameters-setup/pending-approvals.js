@@ -1,6 +1,8 @@
-import React, { useState } from 'react'
-import { Table, Switch, Radio, Form } from 'antd';
+import React, { useState, useEffect } from 'react'
+import { Table, Popconfirm } from 'antd';
+import { inject, observer } from 'mobx-react'
 import { DownOutlined } from '@ant-design/icons';
+import { withTranslation } from '../../i18n'
 
 const columns = [
   {
@@ -28,10 +30,16 @@ const columns = [
     key: 'action',
     render: () => (
       <span>
-        <a style={{ marginRight: 16 }}>Accept</a>
-        <a className="ant-dropdown-link">
+        <Popconfirm title="Sure to Accept?" onConfirm={() => businessParametersSetupStore.selectProductToDelete(record)} >
+          <a style={{ marginRight: 16 }}>Accept</a>
+        </Popconfirm>
+        {/* <a style={{ marginRight: 16 }}>Accept</a> */}
+        <Popconfirm title="Sure to Reject?" onConfirm={() => businessParametersSetupStore.selectProductToDelete(record)} >
+          <a style={{ marginRight: 16 }}>Reject</a>
+        </Popconfirm>
+        {/* <a className="ant-dropdown-link">
           Reject
-        </a>
+        </a> */}
       </span>
     ),
   },
@@ -48,33 +56,46 @@ const showHead = true;
 const foot = () => 'Here is footer';
 const page = { position: 'bottom' };
 
-export default function PendingApprovals() {
+const PendingApprovals =
+  inject('businessParametersSetupStore')
+    (observer((props) => {
+      const [expandable, setExpandable] = useState(expand)
+      const [hasData, setHasData] = useState(true)
+      const [top, setTop] = useState('none')
+      const [bottom, setBottom] = useState("bottomRight")
+      const [pendingApprovalData, setPendingApprovalData] = useState([])
+      const { businessParametersSetupStore } = props
+      useEffect(() => {
+        // console.log
+      }, [])
+      useEffect(() => {
+        if (businessParametersSetupStore.pendingApprovals.length > 0) {
+          setPendingApprovalData(businessParametersSetupStore.pendingApprovals)
+        }
+      }, [businessParametersSetupStore.pendingApprovals])
+      const handleTableLayoutChange = e => {
+        setTableLayout(e.target.value)
+      };
 
-  const [expandable, setExpandable] = useState(expand)
-  const [hasData, setHasData] = useState(true)
-  const [top, setTop] = useState('none')
-  const [bottom, setBottom] = useState("bottomRight")
+      const handleExpandChange = enable => {
+        setExpandable(enable ? expandable : undefined)
+      };
 
-  const handleTableLayoutChange = e => {
-    setTableLayout(e.target.value)
-  };
+      const handleDataChange = hasData => {
+        setHasData(hasData)
+      };
 
-  const handleExpandChange = enable => {
-    setExpandable(enable ? expandable : undefined)
-  };
+      const tableColumns = columns.map(item => ({ ...item }));
 
-  const handleDataChange = hasData => {
-    setHasData(hasData)
-  };
+      return (
+        <Table
+          pagination={{ position: [top, bottom] }}
+          columns={tableColumns}
+          dataSource={pendingApprovalData}
+        // scroll={scroll}
+        />
+      )
+    }))
 
-  const tableColumns = columns.map(item => ({ ...item }));
+export default withTranslation('common')(PendingApprovals)
 
-  return (
-    <Table
-      pagination={{ position: [top, bottom] }}
-      columns={tableColumns}
-      dataSource={hasData ? data : null}
-    // scroll={scroll}
-    />
-  )
-}

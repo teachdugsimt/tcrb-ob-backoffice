@@ -77,8 +77,13 @@ class BusinessParameterSetup {
 
   @action
   selectProductToDelete(productSelected) {
+    console.log(productSelected)
+    // [{
+    //   id: 1, key: 1, ticket: "PAR0000001", requestType: "OTP Max Retrying", requestDescription: "Change from 3 to 5", requestId: "T630213",
+    //   requestDate: "21-May-2020", action: null
+    // }]
     productSelected.ticket = '00000' + this.pendingApprovals.length + 1
-    productSelected.requestType = productSelected.ProductDescription
+    productSelected.requestDescription = productSelected.ProductDescription
     this.pendingApprovals.push(productSelected)
   }
   // @computed
