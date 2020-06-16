@@ -10,12 +10,14 @@ class CustomerServicesMenuStore {
   @observable searchFetching = false
   @observable accountInfo = null
   @observable arrayAccountInfo = []
-  @observable accountInfoError = {}
+  @observable accountInfoError = null
   @observable unlockOtpError = []
   @observable unlockOtpInfo = null
   @observable unbindAccountInfo = null
   @observable unbindAccountError = []
   @observable arrayUnbindAccountInfo = []
+
+  @observable errorMessage = null
 
   @action getDataAccountOtpUnlock = async (citizenId) => {
     this.citizenId = { citizen_id: citizenId }
@@ -35,7 +37,8 @@ class CustomerServicesMenuStore {
       } else {
         this.searchFetching = false
         // this.accountInfoError = JSON.parse(temp.data.body)
-        this.accountInfoError = temp.data
+        console.log(temp.problem)
+        this.accountInfoError = temp.problem
       }
 
     }
