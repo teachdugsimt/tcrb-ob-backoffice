@@ -56,6 +56,10 @@ const AccountUnbinding =
       }, [customerServicesMenuStore.accountInfo])
 
       useEffect(() => {
+        customerServicesMenuStore.accountInfoError = null
+      }, [])
+
+      useEffect(() => {
         if (isSearch) {
           if (customerServicesMenuStore.unbindAccountInfo) {
             convertArrayObjectToArray(customerServicesMenuStore.unbindAccountInfo).then(result => {

@@ -68,6 +68,10 @@ const OtpUnlocking =
         }
       }, [customerServicesMenuStore.unlockOtpInfo])
 
+      useEffect(() => {
+        customerServicesMenuStore.accountInfoError = null
+      }, [])
+
       const searchIdCardNumber = async (value) => {
         setIdCard(value)
         setIsSearch(true)
@@ -119,7 +123,6 @@ const OtpUnlocking =
       const unlockOTP = async () => {
         setVisble(false)
         await customerServicesMenuStore.submitUnlockOTP()
-
       }
 
 
