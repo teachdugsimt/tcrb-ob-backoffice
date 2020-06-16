@@ -36,6 +36,7 @@ class CustomerServicesMenuStore {
     } else {
       if (temp.problem == 'TIMEOUT_ERROR') {
         this.customerServicesMenuStore.accountInfoError.responseData.userMessage = temp.originalError.message
+        this.accountInfoError = null
       } else {
         this.searchFetching = false
         // this.accountInfoError = JSON.parse(temp.data.body)
@@ -55,6 +56,7 @@ class CustomerServicesMenuStore {
     if (temp.ok && temp.data.statusCode === 200) {
       this.apiFetching = false
       this.unlockOtpInfo = temp.data.responseData
+      this.accountInfoError = null
     } else {
       this.apiFetching = false
       // this.unlockOtpError = JSON.parse(temp.data.body)
@@ -69,6 +71,7 @@ class CustomerServicesMenuStore {
     if (temp.ok && temp.status === 200) {
       this.searchFetching = false
       this.accountInfo = temp.data.responseData
+      this.accountInfoError = null
     } else {
       this.searchFetching = false
       // let problem = getGeneralApiProblem(response)
