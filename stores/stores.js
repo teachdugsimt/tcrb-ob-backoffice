@@ -7,6 +7,7 @@ import CounterStore from './counter-store'
 import AuthenStore from './authen-store'
 import VersatileStore from './versatile-store'
 import CustomerServicesMenuStore from './customer-services-menu-store'
+import BusinessParameterSetup from './business-parameter-setup'
 
 const isServer = typeof window === 'undefined';
 useStaticRendering(isServer);
@@ -21,7 +22,8 @@ export default function initializeStore(initialData = {}) {
       counterStore: new CounterStore(),
       authenStore: new AuthenStore(),
       versatileStore: new VersatileStore(),
-      customerServicesMenuStore: new CustomerServicesMenuStore()
+      customerServicesMenuStore: new CustomerServicesMenuStore(),
+      businessParameterSetup: new BusinessParameterSetup()
     };
   }
   if (store === null) {
@@ -31,7 +33,8 @@ export default function initializeStore(initialData = {}) {
       counterStore: new CounterStore(),
       authenStore: new AuthenStore(),
       versatileStore: new VersatileStore(),
-      customerServicesMenuStore: new CustomerServicesMenuStore()
+      customerServicesMenuStore: new CustomerServicesMenuStore(),
+      businessParameterSetup: new BusinessParameterSetup()
     };
   }
 

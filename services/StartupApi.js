@@ -17,7 +17,7 @@ class StartupApi {
   getAccountInfo = async (params) => {
     const api = create(Header)
     const response = await api.get('api/backoffice/v1/otp/blacklist', params)
-    console.log(response)
+    console.log("Unlock Otp response : ", response)
     return response
 
     // get-account-product-by-citizenid

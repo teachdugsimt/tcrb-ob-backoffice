@@ -37,10 +37,14 @@
   "otpIsLock": "OTP is Locked",
   "back": "Back",
   "submit": "submit",
+  "edit": "Edit",
   "bindingTCRBMobilBanking": "Binding to TCRB Mobile Banking",
   "bindingMicroPay": "Binding to Micro Pay",
   "bindingTrueMoneyWallet": "Binding to True Money Wallet",
   "normalSaving": "Normal Saving",
   "revolvingLoanNonTCG": "Revolving Loan Non TCG Nano",
-  "unbinding": "Unbinding !!!"
+  "unbinding": "Unbinding !!!",
+  "otpSetup": "OTP Setup",
+  "productLimitSetup": "Product Limit Setup",
+  "pendingApprovals": "Pending Approvals"
 }

@@ -37,10 +37,14 @@
   "otpIsLock": "OTP กำลังถูกล็อค",
   "back": "ย้อนกลับ",
   "submit": "ตกลง",
+  "edit": "Edit",
   "bindingTCRBMobilBanking": "ผูกบัญชี TCRB Mobile Banking",
   "bindingMicroPay": "ผูกบัญชี Micro Pay",
   "bindingTrueMoneyWallet": "ผูกบัญชี True Money Wallet",
   "normalSaving": "เก็บค่าปกติ",
   "revolvingLoanNonTCG": "Revolving Loan ไม่มี TCG Nano",
-  "unbinding": "Unbinding !!!"
+  "unbinding": "Unbinding !!!",
+  "otpSetup": "ตั้งค่า OTP",
+  "productLimitSetup": "ตั้งค่า product limit",
+  "pendingApprovals": "รายการรออนุมัติ"
 }
