@@ -2,9 +2,10 @@ import React, { useState, useEffect } from 'react'
 import { Button, Table, Popconfirm, Row, Col } from 'antd'
 import { useStores } from '../../hooks/use-stores'
 import { inject, observer } from 'mobx-react'
+import { withTranslation } from '../../i18n'
 
 const ProductLimitSetup =
-  inject('BusinessParameterSetup')
+  inject('businessParametersSetupStore')
     (observer((props) => {
       const [dataSource, setDataSource] = useState([])
       const { businessParametersSetupStore } = props
@@ -103,3 +104,4 @@ const ProductLimitSetup =
         </div>
       )
     }))
+export default withTranslation('common')(ProductLimitSetup)
