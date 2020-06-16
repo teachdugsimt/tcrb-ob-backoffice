@@ -1,6 +1,7 @@
 import { observable, action, toJS } from 'mobx'
 import { CustomerServicesMenuApi } from '../services'
 import getGeneralApiProblem from '../services/api-integrations/error-handler'
+import { get } from 'lodash'
 
 class CustomerServicesMenuStore {
   @observable citizenId = ''
@@ -41,7 +42,8 @@ class CustomerServicesMenuStore {
         this.searchFetching = false
         // this.accountInfoError = JSON.parse(temp.data.body)
         // console.log(temp.problem)
-        this.accountInfoError = temp.originalError.message
+        // this.accountInfoError = temp.originalError.message
+        this.accountInfoError = get(temp, 'data.developerMessage', 'Unknown Error')
       }
 
     }
@@ -59,6 +61,7 @@ class CustomerServicesMenuStore {
       this.accountInfoError = null
     } else {
       this.apiFetching = false
+      this.accountInfoError = get(temp, 'data.developerMessage', 'Unknown Error')
       // this.unlockOtpError = JSON.parse(temp.data.body)
     }
   }
@@ -76,7 +79,7 @@ class CustomerServicesMenuStore {
       this.searchFetching = false
       // let problem = getGeneralApiProblem(response)
       // this.accountInfoError = JSON.parse(temp.data.body)
-      this.accountInfoError = temp.originalError.message
+      this.accountInfoError = get(temp, 'data.developerMessage', 'Unknown Error')
     }
   }
 
