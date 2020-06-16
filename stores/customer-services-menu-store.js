@@ -1,6 +1,6 @@
 import { observable, action, toJS } from 'mobx'
-import { StartupApi } from '../services'
-import getGeneralApiProblem from '../services/api-integrations/ErrorHandler'
+import { CustomerServicesMenuApi } from '../services'
+import getGeneralApiProblem from '../services/api-integrations/error-handler'
 
 class CustomerServicesMenuStore {
   @observable citizenId = ''
@@ -20,7 +20,7 @@ class CustomerServicesMenuStore {
   @action getDataAccountOtpUnlock = async (citizenId) => {
     this.citizenId = { citizen_id: citizenId }
     this.searchFetching = true
-    let temp = await StartupApi.getAccountInfo(this.citizenId)
+    let temp = await CustomerServicesMenuApi.getAccountInfo(this.citizenId)
     console.log(temp)
     if (temp.ok && temp.status === 200) {
       this.searchFetching = false
@@ -45,7 +45,7 @@ class CustomerServicesMenuStore {
     // this.accountSelected
     let { main_account_no, cif } = this.accountSelected
     this.apiFetching = true
-    let temp = await StartupApi.unlockOTPAccount({ main_account_no, cif })
+    let temp = await CustomerServicesMenuApi.unlockOTPAccount({ main_account_no, cif })
     console.log(temp)
     if (temp.ok && temp.data.statusCode === 200) {
       this.apiFetching = false
@@ -59,7 +59,7 @@ class CustomerServicesMenuStore {
   @action getDataAccountUnbind = async (accountNumber) => {
     this.citizenId = { citizen_id: accountNumber }
     this.searchFetching = true
-    let temp = await StartupApi.getAccountInfoUnbinding(this.citizenId)
+    let temp = await CustomerServicesMenuApi.getAccountInfoUnbinding(this.citizenId)
     console.log(temp)
     if (temp.ok && temp.status === 200) {
       this.searchFetching = false
@@ -76,7 +76,7 @@ class CustomerServicesMenuStore {
   @action getDataAccountProduct = async (accountNumber) => {
     this.apiFetching = true
 
-    let temp = await StartupApi.getAccountProductsInfo({ main_account_no: accountNumber })
+    let temp = await CustomerServicesMenuApi.getAccountProductsInfo({ main_account_no: accountNumber })
     console.log(temp)
     if (temp.ok && temp.status === 200) { //change to status when real api
       this.apiFetching = false
@@ -91,7 +91,7 @@ class CustomerServicesMenuStore {
   @action submitAccountUnbiding = async () => {
     this.apiFetching = true
     let { main_account_no, sub_account_no, partner_code } = this.accountSelected
-    let temp = await StartupApi.unbindAccount({ main_account_no, sub_account_no, partner_code })
+    let temp = await CustomerServicesMenuApi.unbindAccount({ main_account_no, sub_account_no, partner_code })
     if (temp.ok && temp.data.statusCode === 200) {
       this.apiFetching = false
       this.unlockOtpInfo = temp.data

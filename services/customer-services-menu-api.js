@@ -1,19 +1,8 @@
 import { ApisauceInstance, create, ApiResponse } from 'apisauce'
 import Header from './api-integrations/Header'
-import getGeneralApiProblem from './api-integrations/ErrorHandler'
 
-class StartupApi {
+class CustomerServicesMenuApi {
 
-  createProcess = async (params) => {
-    const api = create(Header)
-    const response = await api.post('v1/calculator/calculate', params)
-    if (response.ok) {
-      return response.data
-    } else {
-      let problem = getGeneralApiProblem(response)
-      return problem
-    }
-  }
   getAccountInfo = async (params) => {
     const api = create(Header)
     const response = await api.get('api/backoffice/v1/otp/blacklist', params)
@@ -44,4 +33,4 @@ class StartupApi {
     return response
   }
 }
-export default new StartupApi()
+export default new CustomerServicesMenuApi()

@@ -22,6 +22,8 @@ class BusinessParameterSetup {
   @observable
   errorUpdateOtp = null
 
+  @observable pendingApprovals = []
+
   @action
   closeExpire = (val) => {
     this.editOtpExpirationPeriod = val
@@ -73,6 +75,12 @@ class BusinessParameterSetup {
     this.accountId = id
   }
 
+  @action
+  selectProductToDelete(productSelected) {
+    productSelected.ticket = '00000' + this.pendingApprovals.length + 1
+    productSelected.requestType = productSelected.ProductDescription
+    this.pendingApprovals.push(productSelected)
+  }
   // @computed
   // get doubleCount() {
   //   return this.count * 2

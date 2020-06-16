@@ -1,6 +1,6 @@
 import { ApisauceInstance, create, ApiResponse } from 'apisauce'
-import Header from './api-integrations/HeaderOtp'
-import getGeneralApiProblem from './api-integrations/ErrorHandler'
+import Header from './api-integrations/header-otp'
+import getGeneralApiProblem from './api-integrations/error-handler'
 // v1/parameterstore
 class BusinessParameterSetupApi {
 
