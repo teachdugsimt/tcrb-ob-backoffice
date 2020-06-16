@@ -78,9 +78,12 @@ const OtpSetup = inject('businessParameterSetup')(observer((props) => {
     setModal("Confirm update otp " + text)
   }
 
-  const _onConfirm = () => {
+  const _onConfirm = async () => {
     if (modalString.includes("expire")) {
       if (getValueFromStore("expire") != expireOtp) {
+        await businessParameterSetup.updateOTPdata({
+          OTP_EXPIRE_TIME: expireOtp
+        })
         businessParameterSetup.closeExpire(true)
         setdisExpire(false)
       } else {
@@ -88,6 +91,9 @@ const OtpSetup = inject('businessParameterSetup')(observer((props) => {
       }
     } else {
       if (getValueFromStore("maximum") != maximumOtp) {
+        await businessParameterSetup.updateOTPdata({
+          OTP_MAXIMUN_ENTERED: maximumOtp
+        })
         businessParameterSetup.closeMaximum(true)
         setdisMaximum(false)
       } else {

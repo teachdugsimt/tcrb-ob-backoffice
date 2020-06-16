@@ -4,9 +4,8 @@ import styled from 'styled-components';
 import SimpleSearch from '../simple-search'
 import SimpleModal from '../simple-modal'
 import SimpleSwitch from '../simple-switch'
+import SimpleAlert from '../simple-alert'
 import { inject, observer } from 'mobx-react'
-// import { useStores } from '../../hooks/use-stores'
-import { StartupApi } from '../../services'
 import { toJS } from 'mobx';
 // import { i18n, withNamespaces } from '../../i18n'
 import { withTranslation } from '../../i18n'
@@ -30,7 +29,6 @@ const StyledSwitch = styled(Switch)`
       background-color: #F88008 !important;
   `}
 `
-
 const OtpUnlocking =
   inject('customerServicesMenuStore')
     (observer((props) => {
@@ -40,35 +38,40 @@ const OtpUnlocking =
       const [isChecked, setIsChecked] = useState(false)
       const [modalString, setModalString] = useState('')
       const [stringSwitch, setStringSwitch] = useState([])
-      const mockData = [
-        { accountNumber: '123123123123', accountType: 'Binding to TCRB Mobile Banking', accountStatus: true },
-        { accountNumber: '00993445123123', accountType: 'Binding to Micro Pay', accountStatus: false }
-      ]
-      // const { customerServicesMenuStore } = useStores()
+      const [showAlertError, setShowAlertError] = useState(false)
       const { customerServicesMenuStore, t } = props
 
       useEffect(() => {
-        // console.log(customerServicesMenuStore.accountInfo)
-      })
+        if (isSearch) {
+          setShowAlertError(true)
+          setIsSearch(false)
+        }
+      }, [customerServicesMenuStore.accountInfoError])
+
+      useEffect(() => {
+        if (isSearch) {
+          convertArrayObjectToArray(customerServicesMenuStore.accountInfo).then(result => {
+            console.log(result)
+            customerServicesMenuStore.arrayAccountInfo = result
+            setStringSwitch(result)
+          })
+        }
+      }, [customerServicesMenuStore.accountInfo])
+
+      useEffect(() => {
+        if (isSearch) {
+          if (customerServicesMenuStore.unlockOtpInfo.ok) {
+            customerServicesMenuStore.accountSelected.otp_is_locked = false
+            replaceNewDataForSetString()
+          }
+        }
+      }, [customerServicesMenuStore.unlockOtpInfo])
 
       const searchIdCardNumber = async (value) => {
-        console.log('eiei search:' + value)
         setIdCard(value)
         setIsSearch(true)
-        // customerServicesMenuStore.setCitizenId(value)
         //call api
-        await customerServicesMenuStore.getData(value)
-        // console.log(toJS(customerServicesMenuStore.getAccountInfo))
-        // result = await convertArrayObjectToArray(toJS(customerServicesMenuStore.accountInfo))
-        // console.log(result)
-        // customerServicesMenuStore.arrayAccountInfo = result
-        // setStringSwitch(result)
-        // convertArrayObjectToArray(mockData).then(result => {
-        //   console.log(result)
-        //   customerServicesMenuStore.arrayAccountInfo = result
-        //   setStringSwitch(result)
-        // })
-        // console.log(stringSwitch)
+        await customerServicesMenuStore.getDataAccountOtpUnlock(value)
       }
 
       const convertArrayObjectToArray = (arrayObject) => {
@@ -78,26 +81,27 @@ const OtpUnlocking =
         })
       }
       const replaceNewDataForSetString = () => {
-        let arrayAccountInfo = toJS(customerServicesMenuStore.getAccountInfo)
-        let accountSelected = toJS(customerServicesMenuStore.accountSelected)
+        let arrayAccountInfo = customerServicesMenuStore.accountInfo
+        let accountSelected = customerServicesMenuStore.accountSelected
         // let newArray = stringSwitch.filter(accountInfo => accountInfo.accountNumber !== toJS(customerServicesMenuStore.accountSelected.accountNumber))
         let newArray = arrayAccountInfo.filter(accountInfo => accountInfo.main_account_no !== accountSelected.main_account_no)
 
-        console.log(newArray, arrayAccountInfo)
         convertArrayObjectToArray([...newArray, accountSelected]).then(result => {
-          console.log(result)
           setStringSwitch(result)
         })
       }
 
       const closeModal = () => {
         setVisble(false)
-        setStringSwitch(toJS(customerServicesMenuStore.arrayAccountInfo))
+        setStringSwitch(customerServicesMenuStore.arrayAccountInfo)
+
       };
       const onChange = (switchSelected, index) => {
-        console.log(switchSelected, index)
+
         if (switchSelected === true) {
-          customerServicesMenuStore.accountSelected = toJS(customerServicesMenuStore.getAccountInfo)[index]
+
+          customerServicesMenuStore.accountSelected = customerServicesMenuStore.accountInfo[index]
+          setStringSwitch(customerServicesMenuStore.arrayAccountInfo)
           setVisble(true)
           setModalString(
             <div style={{ textAlign: "center" }}>
@@ -105,24 +109,28 @@ const OtpUnlocking =
               <p> {t("accountNumber") + " " + customerServicesMenuStore.accountSelected.main_account_no}</p>
             </div>
           )
+
         } else {
           // setIsChecked(false)
         }
       }
 
-      const unlockOTP = () => {
+      const unlockOTP = async () => {
         setVisble(false)
+        await customerServicesMenuStore.submitUnlockOTP()
 
-        //some action
-        customerServicesMenuStore.accountSelected.otp_is_locked = false
-        replaceNewDataForSetString()
       }
 
 
       return (
-        <div style={{ marginTop: 20 }}>
+        <div style={{ margin: 20 }}>
           <Row gutter={[4, 24]}>
-            <SimpleSearch search={searchIdCardNumber} prefixWording={t("idCard")} />
+            <SimpleSearch search={searchIdCardNumber} prefixWording={t("idCard")} loading={customerServicesMenuStore.searchFetching} />
+          </Row>
+          <Row gutter={[16, 24]}>
+            <Col span={9}>
+              {(showAlertError) ? (<SimpleAlert message={customerServicesMenuStore.accountInfoError.responseData.message} type="error" showIcon />) : ('')}
+            </Col>
           </Row>
           {(isSearch) ? (
             <SimpleSwitch

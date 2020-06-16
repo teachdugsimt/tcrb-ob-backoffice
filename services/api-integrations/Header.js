@@ -10,7 +10,7 @@ const Header = {
   baseURL,
   headers: {
     // 'Accept': 'application/json',
-    // 'Access-Control-Allow-Origin': "*"
+    // 'Access-Control-Allow-Origin': "*",
     // 'Accept': 'text/plain',
     // 'Content-Type': 'application/x-www-form-urlencoded'
     'Content-Type': 'application/json',
