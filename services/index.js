@@ -1,9 +1,9 @@
 import StartupApi from './start-up-api'
-import BusinessParameterSetupApi from './BusinessParameterSetupApi'
+import BusinessParameterSetupApi from './business-parameter-setup-api'
 
 export {
-    StartupApi,
-    BusinessParameterSetupApi
+  StartupApi,
+  BusinessParameterSetupApi
 }
 
 
