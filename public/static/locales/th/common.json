@@ -46,5 +46,9 @@
   "unbinding": "Unbinding !!!",
   "otpSetup": "ตั้งค่า OTP",
   "productLimitSetup": "ตั้งค่า product limit",
-  "pendingApprovals": "รายการรออนุมัติ"
+  "pendingApprovals": "รายการรออนุมัติ",
+  "otpExpirationPeriod": "เวลา OTP หมดอายุ",
+  "otpMaximumRetrying": "กรอก OTP ได้",
+  "otpTime": "ครั้ง",
+  "otpSecond": "วินาที"
 }

@@ -14,8 +14,8 @@ const CustomerServicesMenu =
       const { customerServicesMenuStore, t } = props
 
       return (
-        <div>
-          <Spin spinning={customerServicesMenuStore.apiFetching} size="large" tip="Loading...">
+        <div style={{ height: "100%" }}>
+          <Spin spinning={customerServicesMenuStore.apiFetching} size="large" tip="Loading..." >
             <Row flex={100}>
               <Col flex={100}>
                 <MainTab defaultActiveKey="1" destroyInactiveTabPane={true}>
