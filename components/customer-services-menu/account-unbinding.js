@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import SimpleSearch from '../simple-search'
 import SimpleSwitch from '../simple-switch'
 import styled from 'styled-components'
-import { Row, Switch, Col, Button, Input } from 'antd';
+import { Row, Switch, Col, Button, Input, Alert } from 'antd';
 import SimpleModal from '../simple-modal'
 import { inject, observer } from 'mobx-react'
 import { toJS } from 'mobx';
@@ -156,15 +156,32 @@ const AccountUnbinding =
           <ul style={{ paddingInlineStart: 0 }}>{listItems}</ul>
         );
       }
-      const newSearch = (
-        <div style={{ margin: 20 }}>
-          <Row gutter={[4, 24]}>
-            <SimpleSearch search={searchIdCardNumber} prefixWording={t("idCard")} loading={customerServicesMenuStore.searchFetching} />
-          </Row>
-          {(isSearch) ? (
-            <AccountList />
-          ) : ('')}
-        </div>)
+      const newSearch = () => {
+        console.log(customerServicesMenuStore.accountInfoError)
+        return (
+          <div style={{ margin: 20 }}>
+            <Row gutter={[4, 24]}>
+              <SimpleSearch search={searchIdCardNumber} prefixWording={t("idCard")} loading={customerServicesMenuStore.searchFetching} />
+            </Row>
+            <Row gutter={[16, 24]}>
+              <Col span={9}>
+                <div style={{}}>
+                  {customerServicesMenuStore.accountInfoError && <Alert
+                    message={customerServicesMenuStore.accountInfoError}
+                    description={''}
+                    type="error"
+                    closable
+                    onClose={() => customerServicesMenuStore.accountInfoError = null}
+                  />
+                  }
+                </div>
+              </Col>
+            </Row>
+            {(isSearch) ? (
+              <AccountList />
+            ) : ('')}
+          </div>)
+      }
 
       const accountDetail = (
         <div style={{ margin: 20 }}>
@@ -174,9 +191,23 @@ const AccountUnbinding =
           <Row gutter={[4, 24]} align="top">
             <Col span={6}>
               <StyledInput readOnly={true} prefix={t('accountNumber')} defaultValue={customerServicesMenuStore.accountId} />
-
             </Col>
           </Row>
+          <Row gutter={[16, 24]}>
+            <Col span={9}>
+              <div style={{}}>
+                {customerServicesMenuStore.accountInfoError && <Alert
+                  message={customerServicesMenuStore.accountInfoError}
+                  description={''}
+                  type="error"
+                  closable
+                  onClose={() => customerServicesMenuStore.accountInfoError = null}
+                />
+                }
+              </div>
+            </Col>
+          </Row>
+
           <Row gutter={[4, 24]} align="middle">
             {/* <SwitchList /> */}
             <SimpleSwitch
@@ -202,6 +233,6 @@ const AccountUnbinding =
           </Row>
         </div>
       )
-      return (viewDetail) ? accountDetail : newSearch
+      return (viewDetail) ? accountDetail : newSearch()
     }))
 export default withTranslation('common')(AccountUnbinding)
