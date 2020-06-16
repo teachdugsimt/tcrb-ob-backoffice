@@ -17,19 +17,31 @@ class StartupApi {
   getAccountInfo = async (params) => {
     const api = create(Header)
     const response = await api.get('api/backoffice/v1/otp/blacklist', params)
-    console.log(response)
     return response
-
-    // get-account-product-by-citizenid
-    // https://hgr766mso6.execute-api.ap-southeast-1.amazonaws.com/api/backoffice/v1/otp/blacklist
-    // if (response.ok) {
-    //   return response.data
-    // } else {
-    //   let problem = getGeneralApiProblem(response)
-    //   return problem
-    // }
-
   }
 
+  getAccountInfoUnbinding = async (params) => {
+    const api = create(Header)
+    const response = await api.get('api/backoffice/v1/accounts', params)
+    return response
+  }
+
+  getAccountProductsInfo = async (params) => {
+    const api = create(Header)
+    const response = await api.get('api/backoffice/v1/accounts/partner-info', params)
+    return response
+  }
+
+  unlockOTPAccount = async (params) => {
+    const api = create(Header)
+    const response = await api.post('api/backoffice/v1/otp/unlock', params)
+    return response
+  }
+
+  unbindAccount = async (params) => {
+    const api = create(Header)
+    const response = await api.post('api/accounts/unbind', params)
+    return response
+  }
 }
 export default new StartupApi()

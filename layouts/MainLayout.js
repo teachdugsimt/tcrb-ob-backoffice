@@ -7,16 +7,17 @@ import {
   FirstLayer, SecondLayer, EmptyDiv, EmptySidebar, ContentPadding, WrapperImageBackground,
   ContentSubDiv
 } from './Styles/AdminHocStyles'
-import { observer } from 'mobx-react'
-import { useStores } from '../hooks/use-stores'
+import { inject, observer } from 'mobx-react'
+// import { useStores } from '../hooks/use-stores'
 import backgroundImage from '../images/background.png'
 import { spacing } from '../theme/spacing'
 import { Layout, Menu, Breadcrumb } from 'antd';
 
 const { Content } = Layout;
 
-const MainLayout = (observer((props) => {
-  const { versatileStore } = useStores()
+const MainLayout = inject('versatileStore')(observer((props) => {
+  // const { versatileStore } = useStores()
+  const { versatileStore } = props
 
   return (
     <FirstLayer>

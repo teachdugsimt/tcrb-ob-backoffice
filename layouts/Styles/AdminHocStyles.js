@@ -35,9 +35,18 @@ const ContentPadding = styled.div`
   width: 100% ;
   height: 100%;
   z-index: 99;
-  padding: ${({ theme }) => theme.spacing.large}px;
+  padding: ${({ theme }) => theme.spacing.large - 9}px;
+  margin-left: ${({ theme }) => theme.spacing.tiny - 12}px;
   margin-bottom: 16px;
 `
+
+// const ContentPadding = styled.div`
+//   width: 100% ;
+//   height: 100%;
+//   z-index: 99;
+//   padding: ${({ theme }) => theme.spacing.large}px;
+//   margin-bottom: 16px;
+// `
 
 const MainContainerMenu = styled.div`
 width: ${width}px;
@@ -48,10 +57,24 @@ top: 108px;
 bottom: 56px;
 left: 8px;
 z-index: 999;
-margin-top: ${({ theme }) => theme.spacing.medium}px;
-margin-left: ${({ theme }) => theme.spacing.medium}px;
-margin-bottom: ${({ theme }) => theme.spacing.medium}px;
+margin-top: ${({ theme }) => theme.spacing.medium - 9}px;
+margin-left: ${({ theme }) => theme.spacing.medium - 9}px;
+margin-bottom: ${({ theme }) => theme.spacing.medium - 9}px;
 `
+
+// const MainContainerMenu = styled.div`
+// width: ${width}px;
+// display: flex;
+// flex: 0.25;
+// position: fixed;
+// top: 108px;
+// bottom: 56px;
+// left: 8px;
+// z-index: 999;
+// margin-top: ${({ theme }) => theme.spacing.medium}px;
+// margin-left: ${({ theme }) => theme.spacing.medium}px;
+// margin-bottom: ${({ theme }) => theme.spacing.medium}px;
+// `
 
 const SubMainContainer = styled.div`
 display: flex;
@@ -61,7 +84,7 @@ flex-direction: column;
 `
 
 const ContentSubDiv = styled.div`
-padding: 24px;
+padding: ${({ theme }) => theme.spacing.large}px;
 `
 
 const MainTitleMenuDiv = styled.div`

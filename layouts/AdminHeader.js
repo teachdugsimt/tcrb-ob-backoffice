@@ -1,19 +1,20 @@
 import React, { Component, useEffect } from 'react'
 import logo02 from '../images/logo02.png'
-import DropdownTopRight from '../components/dropdown-top-right'
+import DropdownTopRight from '../components/dropdown-top-right/dropdown-top-right'
 import account from '../images/account.png'
 import {
   MainHeader, SubHeader, SubHeader2, DivImageLogo, WrapperImageLogo, InsideTopRightDiv,
   ContentMainDiv, TextMenu, DivAccount, WrapperImageAccount, DivName, TextName, WrapperButtonAnt
 } from "./Styles/AdminHeaderStyles"
 import Router from 'next/router'
-import { observer } from 'mobx-react'
-import { useStores } from '../hooks/use-stores'
-import { i18n, withNamespaces, withTranslation } from '../i18n'
+import { inject, observer } from 'mobx-react'
+// import { useStores } from '../hooks/use-stores'
+import { withTranslation } from '../i18n'
 import { Button } from 'antd';
 
-const AdminHeader = (observer((props) => {
-  const { authenStore } = useStores()
+const AdminHeader = inject('authenStore')(observer((props) => {
+  // const { authenStore } = useStores()
+  const { t, authenStore } = props
   const goLogin = () => {
     authenStore.clear()
     Router.push("/login")
@@ -27,13 +28,13 @@ const AdminHeader = (observer((props) => {
         </DivImageLogo>
         <InsideTopRightDiv>
           <ContentMainDiv>
-            <WrapperButtonAnt title={i18n.t('support')} />
-            <WrapperButtonAnt title={i18n.t("signout")} onClick={() => goLogin()} />
+            <WrapperButtonAnt title={t('support')} />
+            <WrapperButtonAnt title={t("signout")} onClick={() => goLogin()} />
             <DivAccount>
               <WrapperImageAccount src={account} />
               <DivName>
-                <TextName>{i18n.t('mockName')}</TextName>
-                <TextName>{i18n.t('mockLastName')}</TextName>
+                <TextName>{t('mockName')}</TextName>
+                <TextName>{t('mockLastName')}</TextName>
               </DivName>
             </DivAccount>
           </ContentMainDiv>
@@ -54,4 +55,4 @@ const AdminHeader = (observer((props) => {
 //   namespacesRequired: ['AdminHeader'],
 // })
 
-export default withTranslation('AdminHeader')(AdminHeader)
+export default withTranslation('common')(AdminHeader)

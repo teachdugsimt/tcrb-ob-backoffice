@@ -5,5 +5,5 @@ export const spacing = {
   large: 24,
   huge: 64,
   full: 329,
-  pass: 98,
+  pass: 88,
 }

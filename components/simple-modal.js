@@ -8,12 +8,12 @@ export default function SimpleModal(props) {
       <Modal
         title={i18n.t("confirm")}
         visible={props.visible}
-        onOk={()=> props.onOk()}
-        onCancel={() => props.onCancel(false)}
+        onOk={() => props.onOk()}
+        onCancel={() => props.onCancel()}
         okText={i18n.t("confirm")}
         cancelText={i18n.t("cancel")}
       >
-      {props.modalString}
+        {props.modalString}
       </Modal>
     </div>
   )

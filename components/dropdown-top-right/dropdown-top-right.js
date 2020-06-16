@@ -1,7 +1,7 @@
 import { Select } from 'antd';
-import { i18n, withNamespaces, withTranslation } from '../i18n'
+import { i18n, withNamespaces, withTranslation } from '../../i18n'
 import { DropdownContainer } from './styles/dropdown-top-right-styles'
-import { spacing } from '../theme/spacing'
+import { spacing } from '../../theme/spacing'
 const { Option } = Select;
 
 function handleChange(value) {

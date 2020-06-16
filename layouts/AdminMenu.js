@@ -1,6 +1,7 @@
 import React, { Component, useContext, useState } from 'react'
 import Link from 'next/link'
-import { useStores } from '../hooks/use-stores'
+import { inject, observer } from 'mobx-react'
+// import { useStores } from '../hooks/use-stores'
 import { colors } from '../theme/colors'
 import styled from 'styled-components';
 import {
@@ -8,7 +9,7 @@ import {
   MainTitleMenuDiv, MainUl, SpanText, LinkColorMenu, TitleDiv,
   MenuIcon, MenuIcon2, TitleDiv2, WrapperMainDivMenu, MainHideDivMenu
 } from './Styles/AdminHocStyles'
-import { i18n, withNamespaces } from '../i18n'
+import { withTranslation } from '../i18n'
 
 const INIT_ANIMATION = {
   height: '100%',
@@ -31,13 +32,14 @@ const BUTTON_DIV = {
   paddingLeft: 10,
 }
 
-const AdminMenu = (props) => {
+const AdminMenu = inject('authenStore', 'versatileStore')(observer((props) => {
   const [Bergur, setBergur] = useState({})
   const [ButtonDiv, setButtonDiv] = useState(BUTTON_DIV)
   const [ShowAnimation, setShowAnimation] = useState(INIT_ANIMATION)
   const [HideAnimation, setHideAnimation] = useState(END_ANIMATION)
   const [isShow, setIsShow] = useState(true)
-  const { authenStore, versatileStore } = useStores()
+  // const { authenStore, versatileStore } = useStores()
+  const { t, authenStore, versatileStore } = props
 
   const setSideBar = () => {
     if (isShow) {
@@ -64,7 +66,7 @@ const AdminMenu = (props) => {
         paddingBottom: 2.5
       })
     } else {
-      versatileStore.setSidebarWidth(288)
+      versatileStore.setSidebarWidth(300)
       setHideAnimation({
         height: '0%',
       })
@@ -83,7 +85,7 @@ const AdminMenu = (props) => {
     <SubMainContainer>
 
       <MainTitleMenuDiv style={!isShow ? ButtonDiv : {}}>
-        {isShow && <TitleDiv>{i18n.t("functionMenu")}</TitleDiv>}
+        {isShow && <TitleDiv>{t("functionMenu")}</TitleDiv>}
         <TitleDiv2 onClick={() => setSideBar()} style={Bergur}>
           <MenuIcon />
           <MenuIcon />
@@ -95,7 +97,7 @@ const AdminMenu = (props) => {
         <MainUl>
           {authenStore.getMenu && authenStore.getMenu.map((e, i) => {
             return <BorderMenu style={{ marginBottom: i == (authenStore.getMenu.length - 1) ? 10 : 0 }}><Link key={"link-menu-" + e.id} href={e.linkTo}>
-              <SpanText id={"span-text-" + e.id}><LinkColorMenu>{i18n.t(e.translate)}</LinkColorMenu></SpanText>
+              <SpanText id={"span-text-" + e.id}><LinkColorMenu>{t(e.translate)}</LinkColorMenu></SpanText>
             </Link></BorderMenu>
           })}
         </MainUl>
@@ -105,6 +107,6 @@ const AdminMenu = (props) => {
     </SubMainContainer>
 
   </MainContainerMenu>
-}
+}))
 
-export default AdminMenu
+export default withTranslation('common')(AdminMenu)

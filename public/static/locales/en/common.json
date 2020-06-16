@@ -31,13 +31,16 @@
   "unlockingOtp": "Unlocking OTP",
   "confirm": "Confirm",
   "cancel": "Cancel",
+  "account": "Account",
   "accountNumber": "Account Number",
   "otpIsReady": "OTP is ready for using",
   "otpIsLock": "OTP is Locked",
   "back": "Back",
+  "submit": "submit",
   "bindingTCRBMobilBanking": "Binding to TCRB Mobile Banking",
   "bindingMicroPay": "Binding to Micro Pay",
   "bindingTrueMoneyWallet": "Binding to True Money Wallet",
   "normalSaving": "Normal Saving",
-  "revolvingLoanNonTCG": "Revolving Loan Non TCG Nano"
+  "revolvingLoanNonTCG": "Revolving Loan Non TCG Nano",
+  "unbinding": "Unbinding !!!"
 }

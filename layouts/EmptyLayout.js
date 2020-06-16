@@ -1,12 +1,13 @@
 import React, { useContext } from 'react'
 import Router, { withRouter } from 'next/router'
 import MainLayout from './MainLayout'
-import { useStores } from '../hooks/use-stores'
-import { observer } from 'mobx-react'
-import Login from '../pages/Login'
+// import { useStores } from '../hooks/use-stores'
+import { inject, observer } from 'mobx-react'
+import Login from '../pages/login'
 
-const EmptyLayout = (observer((props) => {
-  const { authenStore } = useStores()
+const EmptyLayout = inject('authenStore')(observer((props) => {
+  // const { authenStore } = useStores()
+  const { authenStore } = props
   if (authenStore.password && authenStore.id) {
     return (
       <MainLayout>

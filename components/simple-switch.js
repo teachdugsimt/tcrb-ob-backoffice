@@ -25,28 +25,52 @@ const StyledSwitch = styled(Switch)`
 
 
 export default function SimpleSwitch(props) {
+  // const binding = (
+  //   <div style={{ marginTop: 20 }}>
+  //     <Row gutter={[4, 24]}>
+  //       <SimpleSearch search={searchIdCardNumber} prefixWording={t("idCard")} loading={customerServicesMenuStore.apiFetching} />
+  //     </Row>
+  //     {(isSearch) ? (
+  //       <AccountList />
+  //     ) : ('')}
+  //   </div>)
+
+
   const SwitchList = () => {
     const listItems = props.data.map((switchOn, index) => {
-      const textList = switchOn.splice(1)
-      return (<Row key={index} gutter={[4, 8]}>
-        <Col span={2}>
-          <StyledSwitch defaultChecked={switchOn[0]}
-            onChange={checked => props.onChange(switchOn[0], index)}
-            disabled={switchOn[0] === false} />
-          {/* <StyledA>{string.accountNumber}</StyledA> */}
-        </Col>
-        {textList.map((textDetail, index) => <Col key={index} span={6}>
-          {index == 0 ? <StyledA>{textDetail}</StyledA> : <StyledSpan> {textDetail}</StyledSpan>}
-        </Col>)
-        }
-        <Col span={4}>
-          {switchOn[0] ? (<StyledSpan>{i18n.t("otpIsLock")}</StyledSpan>) : (<StyledSpan>{i18n.t("otpIsReady")}</StyledSpan>)}
-        </Col>
-      </Row>)
+      let tmpSwitchOn = JSON.parse(JSON.stringify(switchOn))
+      const textList = tmpSwitchOn.splice(1)
+      return (
+        <Row key={index} gutter={[4, 32]}>
+          <Col span={2}>
+            <StyledSwitch defaultChecked={tmpSwitchOn[0]}
+              onChange={checked => props.onChange(tmpSwitchOn[0], index)}
+              disabled={tmpSwitchOn[0] === false} />
+            {/* <StyledA>{string.accountNumber}</StyledA> */}
+          </Col>
+          {props.isBinding ? (
+            <div>
+              {textList.map((textDetail, index) => <Col key={index} flex={100}>
+                <StyledSpan> {textDetail}</StyledSpan>
+              </Col>)}
+            </div>
+          ) : (
+              <>
+                {textList.map((textDetail, index) => <Col key={index} span={6}>
+                  {index == 0 ? <StyledA>{textDetail}</StyledA> : <StyledSpan> {textDetail}</StyledSpan>}
+                </Col>)}
+
+                <Col span={4}>
+                  {tmpSwitchOn[0] ? (<StyledSpan>{i18n.t("otpIsLock")}</StyledSpan>) : (<StyledSpan>{i18n.t("otpIsReady")}</StyledSpan>)}
+                </Col>
+              </>
+            )
+          }
+        </Row >)
     }
     );
     return (
-      <ul>{listItems}</ul>
+      <ul style={{ paddingInlineStart: 0 }}>{listItems}</ul>
     );
   }
   return (
