@@ -1,6 +1,6 @@
 import { observable, action, toJS } from 'mobx'
 import { StartupApi } from '../services'
-import getGeneralApiProblem from '../services/api-integrations/ErrorHandler'
+import getGeneralApiProblem from '../services/api-integrations/error-handler'
 
 class CustomerServicesMenuStore {
   @observable citizenId = ''
