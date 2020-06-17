@@ -3,7 +3,7 @@ import styled from 'styled-components';
 // import { useStores } from '../../hooks/use-stores'
 import { inject, observer } from 'mobx-react'
 import initializeStore from '../../stores/stores';
-
+import { i18n } from '../../i18n'
 // const width = inject('versatileStore')(observer((props) => {
 //   console.log("Props : ",props)
 //   let { versatileStore } = props
@@ -14,6 +14,10 @@ import initializeStore from '../../stores/stores';
 const width = () => {
   let store = initializeStore()
   return store.versatileStore.sidebarWidth
+}
+
+const size = () => {
+  return i18n.language == "th" ? 18 : 14
 }
 
 // const width = () => {
@@ -95,13 +99,13 @@ font-weight: bold;
 color: white;
 padding-top: 15px;
 padding-left: 15px;
-font-size: 18px;
+font-size: ${({ theme }) => theme.size.menu}px;
 `
 
 const SpanText = styled.span`
 width: 100%;
 margin-right: 10px;
-font-size: 12px;
+font-size: ${size}px;
 `
 
 const LinkColorMenu = styled.a`

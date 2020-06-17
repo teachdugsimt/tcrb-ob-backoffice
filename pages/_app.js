@@ -48,6 +48,12 @@ class CustomApp extends App {
     return (
       <Provider {...this.mobxStore}>
         <ThemeProvider theme={theme}>
+          <style jsx={true} global>{`
+            @import url('https://fonts.googleapis.com/css2?family=Kanit:wght@100;300&display=swap');
+            body {
+              font-family: 'Kanit', sans-serif;
+            }
+          `}</style>
           <Head>
             <title>TCRB Backoffice</title>
           </Head>
