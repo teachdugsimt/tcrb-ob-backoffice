@@ -23,6 +23,8 @@ class BusinessParameterSetup {
   errorUpdateOtp = null
 
   @observable pendingApprovals = []
+  @observable fetchingApi = false
+  @observable productLimit = []
 
   @action
   closeExpire = (val) => {
@@ -77,7 +79,7 @@ class BusinessParameterSetup {
 
   @action
   selectProductToDelete(productSelected) {
-    console.log(productSelected)
+    console.log(toJS(productSelected))
     // [{
     //   id: 1, key: 1, ticket: "PAR0000001", requestType: "OTP Max Retrying", requestDescription: "Change from 3 to 5", requestId: "T630213",
     //   requestDate: "21-May-2020", action: null
@@ -85,6 +87,18 @@ class BusinessParameterSetup {
     productSelected.ticket = '00000' + this.pendingApprovals.length + 1
     productSelected.requestDescription = productSelected.ProductDescription
     this.pendingApprovals.push(productSelected)
+  }
+
+  @action
+  getDataProductLimit = async () => {
+    this.fetchingUpdateOtp = true
+    let response = await BusinessParameterSetupApi.getProductLimit({ partner_code: '' })
+    console.log(response)
+    if (response.ok && response.status == 200) {
+      this.productLimit = response.data.responseData
+    } else {
+
+    }
   }
   // @computed
   // get doubleCount() {
