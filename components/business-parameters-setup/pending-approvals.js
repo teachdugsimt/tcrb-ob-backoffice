@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useMemo } from 'react'
 import { Table, Popconfirm } from 'antd';
 import { inject, observer } from 'mobx-react'
 import { DownOutlined } from '@ant-design/icons';
@@ -11,19 +11,19 @@ const columns = [
   },
   {
     title: 'Request Type',
-    dataIndex: 'requestType',
+    dataIndex: 'product_type',
   },
   {
     title: 'Request Description',
-    dataIndex: 'requestDescription',
+    dataIndex: 'product_description',
   },
   {
     title: 'Request ID',
-    dataIndex: 'requestId',
+    dataIndex: 'request_id',
   },
   {
     title: 'Request Date',
-    dataIndex: 'requestDate',
+    dataIndex: 'request_date',
   },
   {
     title: 'Action',
@@ -66,13 +66,19 @@ const PendingApprovals =
       const [pendingApprovalData, setPendingApprovalData] = useState([])
       const { businessParametersSetupStore } = props
       useEffect(() => {
-        // console.log
+        // call api
+
       }, [])
       useEffect(() => {
         if (businessParametersSetupStore.pendingApprovals.length > 0) {
           setPendingApprovalData(businessParametersSetupStore.pendingApprovals)
         }
       }, [businessParametersSetupStore.pendingApprovals])
+
+      useMemo(() => {
+        // setPendingApprovalData(businessParametersSetupStore.pendingApprovals)
+        console.log('render')
+      }, [])
       const handleTableLayoutChange = e => {
         setTableLayout(e.target.value)
       };

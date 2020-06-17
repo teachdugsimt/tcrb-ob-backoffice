@@ -4,8 +4,9 @@ if (process.env.PROD === 'production') {
 } else {
   baseURL = 'https://hgr766mso6.execute-api.ap-southeast-1.amazonaws.com/'
 }
-// https://hgr766mso6.execute-api.ap-southeast-1.amazonaws.com
+// https://hgr766mso6.execute-api.ap-southeast-1.amazonaws.com //otp unlock & unbinding
 // https://bfwd6dw14l.execute-api.ap-southeast-1.amazonaws.com/
+// https://10uq3tql7c.execute-api.ap-southeast-1.amazonaws.com // productLimit
 const Header = {
   baseURL,
   headers: {

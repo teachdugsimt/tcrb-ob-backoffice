@@ -99,8 +99,15 @@ const OtpSetup =
       const _onConfirm = async () => {
         if (modalString.includes("expire")) {
           if (getValueFromStore("expire") != expireOtp) {
-            await businessParametersSetupStore.updateOTPdata({
-              OTP_EXPIRE_TIME: expireOtp
+            // await businessParametersSetupStore.updateOTPdata({
+            //   OTP_EXPIRE_TIME: expireOtp
+            // })
+            businessParametersSetupStore.selectProductToDelete({
+              product_type: "OTP",
+              product_description: "update expire OTP",
+              request_id: "01",
+              request_date: new Date().getTime,
+              action: "update",
             })
             businessParametersSetupStore.closeExpire(true)
             setdisExpireSubmit(true)
@@ -112,8 +119,15 @@ const OtpSetup =
           }
         } else {
           if (getValueFromStore("maximum") != maximumOtp) {
-            await businessParametersSetupStore.updateOTPdata({
-              OTP_MAXIMUN_ENTERED: maximumOtp
+            // await businessParametersSetupStore.updateOTPdata({
+            //   OTP_MAXIMUN_ENTERED: maximumOtp
+            // })
+            businessParametersSetupStore.selectProductToDelete({
+              product_type: "OTP",
+              product_description: "update OTP entry maximum",
+              request_id: "02",
+              request_date: new Date().getTime,
+              action: "update",
             })
             businessParametersSetupStore.closeMaximum(true)
             setdisMaximumSubmit(true)
