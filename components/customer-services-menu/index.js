@@ -6,23 +6,7 @@ const { TabPane } = Tabs;
 import { withTranslation } from '../../i18n'
 import { inject, observer } from 'mobx-react'
 import { MainTab } from '../antd-styles/styles'
-// import styled from 'styled-components';
-// import { palette } from '../../theme/palette'
-// const MainTab = styled(Tabs)`
-//     .ant-tabs-tab-active{
-//       color: ${palette.orange} !important;
-//     }
-//     .ant-tabs-tab:hover{
-//       color: ${palette.orange} !important;
-//     }
-//     .ant-tabs-ink-bar {
-//       background: ${palette.orange} !important;
-//     }
-//     .ant-btn {
-//       background: ${palette.orange} !important;
-//       border-color: ${palette.orange} !important;
-//     }
-// `
+
 // export default function CustomerServicesMenu
 const CustomerServicesMenu =
   inject('customerServicesMenuStore')
@@ -30,8 +14,8 @@ const CustomerServicesMenu =
       const { customerServicesMenuStore, t } = props
 
       return (
-        <div>
-          <Spin spinning={customerServicesMenuStore.apiFetching} size="large" tip="Loading...">
+        <div style={{ height: "100%" }}>
+          <Spin spinning={customerServicesMenuStore.apiFetching} size="large" tip="Loading..." >
             <Row flex={100}>
               <Col flex={100}>
                 <MainTab defaultActiveKey="1" destroyInactiveTabPane={true}>

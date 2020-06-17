@@ -28,7 +28,7 @@ const ProductLimitSetup =
           render: (text, record) =>
             dataSource.length >= 1 ? (
               <Popconfirm title="Sure to delete?" onConfirm={() => businessParametersSetupStore.selectProductToDelete(record)} >
-                <a >Delete</a>
+                <a>Delete</a>
               </Popconfirm>
             ) : null,
         },

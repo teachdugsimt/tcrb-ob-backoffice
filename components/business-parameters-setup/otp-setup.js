@@ -44,8 +44,10 @@ const OtpSetup =
       // const [inputRef, setInputFocus] = useFocus()
 
       useEffect(() => {
-        let data = { otpParamsField: "OTP_EXPIRE_TIME,OTP_MAXIMUM_ENTERED,OTP_TOKEN_EXPIRE_TIME" }
-        businessParametersSetupStore.getOTPdata(data)
+        if (!businessParametersSetupStore.responseGetOtpValue || businessParametersSetupStore.fetchingGetOtp == null) {
+          let data = { otpParamsField: "OTP_EXPIRE_TIME,OTP_MAXIMUM_ENTERED,OTP_TOKEN_EXPIRE_TIME" }
+          businessParametersSetupStore.getOTPdata(data)
+        }
       }, [])
 
       useEffect(() => {
@@ -160,7 +162,7 @@ const OtpSetup =
         <div>
           <Row gutter={[8, 8]}>
             <Col span={8}>
-              <StyledInput disabled={businessParametersSetupStore.editOtpMaximumRetry != null ? businessParametersSetupStore.editOtpMaximumRetry : disMaximum} id={"otp-maximum-retrying"} value={maximumOtp} onChange={(e) => setMaximum(e.target.value)} prefix="OTP Maximum Retrying" suffix="Times" />
+              <StyledInput disabled={businessParametersSetupStore.editOtpMaximumRetry != null ? businessParametersSetupStore.editOtpMaximumRetry : disMaximum} id={"otp-maximum-retrying"} value={maximumOtp} onChange={(e) => setMaximum(e.target.value)} prefix={t("otpMaximumRetrying")} suffix={t("otpTime")} />
             </Col>
             <Col span={6}>
               {visibleEditMaximum && <Button onClick={() => _onClickMaximumRetry()}>{t("edit")}</Button>}
@@ -169,7 +171,7 @@ const OtpSetup =
           </Row>
           <Row gutter={[8, 8]}>
             <Col span={8}>
-              <StyledInput disabled={businessParametersSetupStore.editOtpExpirationPeriod != null ? businessParametersSetupStore.editOtpExpirationPeriod : disExpire} /*ref={inputRef}*/ id={"otp-expiration-period"} value={expireOtp} onChange={(e) => setExpire(e.target.value)} prefix="OTP Expiration Perlod" suffix="Seconds" />
+              <StyledInput disabled={businessParametersSetupStore.editOtpExpirationPeriod != null ? businessParametersSetupStore.editOtpExpirationPeriod : disExpire} /*ref={inputRef}*/ id={"otp-expiration-period"} value={expireOtp} onChange={(e) => setExpire(e.target.value)} prefix={t("otpExpirationPeriod")} suffix={t("otpSecond")} />
             </Col>
             <Col span={6}>
               {visibleExpireEdit && <Button /*onClick={setInputFocus}*/ onClick={() => _onClickExpiration()} >{t("edit")}</Button>}
@@ -189,4 +191,3 @@ const OtpSetup =
     }))
 
 export default withTranslation('common')(OtpSetup)
-// original text : rgba(0, 0, 0, 0.65);

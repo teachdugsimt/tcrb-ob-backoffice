@@ -46,5 +46,9 @@
   "unbinding": "Unbinding !!!",
   "otpSetup": "OTP Setup",
   "productLimitSetup": "Product Limit Setup",
-  "pendingApprovals": "Pending Approvals"
+  "pendingApprovals": "Pending Approvals",
+  "otpExpirationPeriod": "OTP Expiration Period",
+  "otpMaximumRetrying": "OTP Maximum Retrying",
+  "otpTime": "Times",
+  "otpSecond": "Seconds"
 }
