@@ -79,6 +79,7 @@ class CustomerServicesMenuStore {
       this.searchFetching = false
       // let problem = getGeneralApiProblem(response)
       // this.accountInfoError = JSON.parse(temp.data.body)
+
       this.accountInfoError = get(temp, 'data.developerMessage', 'Unknown Error')
     }
   }
