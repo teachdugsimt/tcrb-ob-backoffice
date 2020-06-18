@@ -4,7 +4,7 @@ import styled from 'styled-components'
 import { inject, observer } from 'mobx-react'
 import { withTranslation } from '../../i18n'
 import SimpleModal from '../simple-modal'
-
+import { BusinessParameterSetupApi } from '../../services/'
 const StyledInput = styled(Input)`
   background-color: unset !important;
   border: unset !important;
@@ -44,6 +44,8 @@ const OtpSetup =
       // const [inputRef, setInputFocus] = useFocus()
 
       useEffect(() => {
+        // BusinessParameterSetupApi.getOtpValueAxios({ otpParamsField: "OTP_EXPIRE_TIME,OTP_MAXIMUM_ENTERED,OTP_TOKEN_EXPIRE_TIME" })
+
         if (!businessParametersSetupStore.responseGetOtpValue || businessParametersSetupStore.fetchingGetOtp == null) {
           let data = { otpParamsField: "OTP_EXPIRE_TIME,OTP_MAXIMUM_ENTERED,OTP_TOKEN_EXPIRE_TIME" }
           businessParametersSetupStore.getOTPdata(data)
@@ -51,6 +53,7 @@ const OtpSetup =
       }, [])
 
       useEffect(() => {
+
         let newProps = JSON.parse(JSON.stringify(businessParametersSetupStore.responseGetOtpValue))
         console.log("Will Receive props : ", newProps)
         if (newProps && newProps != undefined) {
