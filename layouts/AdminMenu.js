@@ -32,12 +32,23 @@ const BUTTON_DIV = {
   paddingLeft: 10,
 }
 
+const FOCUS_TEXT = {
+  // borderBottomWidth: 4,
+  // borderBottomColor: 'lightgrey',
+  // borderBottomStyle: 'inset'
+}
+const FOCUS_LINK = {
+  // color: "#FBA928",
+}
+
 const AdminMenu = inject('authenStore', 'versatileStore')(observer((props) => {
   const [Bergur, setBergur] = useState({})
   const [ButtonDiv, setButtonDiv] = useState(BUTTON_DIV)
   const [ShowAnimation, setShowAnimation] = useState(INIT_ANIMATION)
   const [HideAnimation, setHideAnimation] = useState(END_ANIMATION)
   const [isShow, setIsShow] = useState(true)
+  const [focusText, setfocusText] = useState(FOCUS_TEXT)
+  const [focusLink, setfocusLink] = useState(FOCUS_LINK)
   // const { authenStore, versatileStore } = useStores()
   const { t, authenStore, versatileStore } = props
 
@@ -96,8 +107,8 @@ const AdminMenu = inject('authenStore', 'versatileStore')(observer((props) => {
       {isShow == true && <MainDivMenu style={ShowAnimation}>
         <MainUl>
           {authenStore.getMenu && authenStore.getMenu.map((e, i) => {
-            return <BorderMenu style={{ marginBottom: i == (authenStore.getMenu.length - 1) ? 10 : 0 }}><Link key={"link-menu-" + e.id} href={e.linkTo}>
-              <SpanText id={"span-text-" + e.id}><LinkColorMenu>{t(e.translate)}</LinkColorMenu></SpanText>
+            return <BorderMenu style={{ marginBottom: i == (authenStore.getMenu.length - 1) ? 10 : 0, ...focusText }}><Link key={"link-menu-" + e.id} href={e.linkTo}>
+              <SpanText id={"span-text-" + e.id}><LinkColorMenu style={focusLink}>{t(e.translate)}</LinkColorMenu></SpanText>
             </Link></BorderMenu>
           })}
         </MainUl>

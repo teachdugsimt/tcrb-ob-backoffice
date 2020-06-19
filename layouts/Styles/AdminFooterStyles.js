@@ -27,7 +27,7 @@ const TextFooter = styled.span`
 color: #ffffff;
 padding-left: 10px;
 font-weight: bold;
-font-size: 20px
+font-size: ${({ theme }) => theme.size.header}px;
 `
 
 export {

@@ -11,16 +11,20 @@ const ProductLimitSetup =
       const { businessParametersSetupStore } = props
 
       useEffect(() => {
-        setDataSource(mockDataSource)
+        // setDataSource(mockDataSource)
+        businessParametersSetupStore.getDataProductLimit()
 
       }, []);
+      useEffect(() => {
+        setDataSource(businessParametersSetupStore.productLimit)
+
+      }, [businessParametersSetupStore.productLimit])
       const handleDelete = key => {
         // const dataSource = [...this.state.dataSource];
         // setDataSource(dataSource.filter(item => item.key !== key))
         console.log(key)
 
       };
-      console.log(businessParametersSetupStore.pendingApprovals)
       const columns = [
         {
           // title: 'Specific Channel Limit',
@@ -34,13 +38,13 @@ const ProductLimitSetup =
         },
         {
           title: 'Product_Code',
-          dataIndex: 'ProductCode',
+          dataIndex: 'product_code',
           width: '10%',
           editable: true,
         },
         {
           title: 'Product_Description',
-          dataIndex: 'ProductDescription',
+          dataIndex: 'product_description',
         },
         {
           title: 'All-Channel Txn Limit',
@@ -48,7 +52,7 @@ const ProductLimitSetup =
         },
         {
           title: 'All-Channel Daily Limit',
-          dataIndex: 'DailyLimit',
+          dataIndex: 'daily_limit',
         },
         {
           title: 'Specific Channel Limit',
