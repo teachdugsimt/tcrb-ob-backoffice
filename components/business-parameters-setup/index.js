@@ -15,7 +15,7 @@ const BusinessParametersSetup = (props) => {
     <div>
       <Row>
         <Col flex={100}>
-          <MainTab defaultActiveKey="1" destroyInactiveTabPane={true} >
+          <Tabs defaultActiveKey="1" destroyInactiveTabPane={true} >
             <TabPane tab={t("otpSetup")} key="1">
               <OtpSetup />
             </TabPane>
@@ -25,7 +25,7 @@ const BusinessParametersSetup = (props) => {
             <TabPane tab={t("pendingApprovals")} key="3" >
               <PendingApprovals />
             </TabPane>
-          </MainTab>
+          </Tabs>
         </Col>
       </Row>
     </div>

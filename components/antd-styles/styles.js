@@ -3,17 +3,17 @@ import styled from 'styled-components';
 
 const MainTab = styled(Tabs)`
     .ant-tabs-tab-active{
-      color: ${({ theme }) => theme.colors.palette.orange}; !important;
+      color: ${({ theme }) => theme.colors.palette.orange}; ;
     }
     .ant-tabs-tab:hover{
-      color: ${({ theme }) => theme.colors.palette.orange}; !important;
+      color: ${({ theme }) => theme.colors.palette.orange}; ;
     }
     .ant-tabs-ink-bar {
-      background: ${({ theme }) => theme.colors.palette.orange}; !important;
+      background: ${({ theme }) => theme.colors.palette.orange};
     }
     .ant-btn {
-      background: ${({ theme }) => theme.colors.palette.orange}; !important;
-      border-color: ${({ theme }) => theme.colors.palette.orange}; !important;
+      background: ${({ theme }) => theme.colors.palette.orange}; ;
+      border-color: ${({ theme }) => theme.colors.palette.orange}; ;
     }
 `
 
