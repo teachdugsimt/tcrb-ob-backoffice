@@ -22,5 +22,16 @@ class BusinessParameterSetupApi {
     const response = await api.get('api/backoffice/v1/partnertransactionlimit', params)
     return response
   }
+
+  getPartnerChannel = async (params) => {
+    const api = create(header)
+    const response = await api.get('api/backoffice/v1/partnertransactionlimit', params)
+    return response
+  }
+  submitPartnerLimit = async (params) => {
+    const api = create(header)
+
+  }
+
 }
 export default new BusinessParameterSetupApi()

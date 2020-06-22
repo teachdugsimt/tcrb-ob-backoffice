@@ -25,6 +25,7 @@ class BusinessParameterSetup {
   @observable pendingApprovals = []
   @observable fetchingApi = false
   @observable productLimit = []
+  @observable productLimitDetail = null
 
   @action
   closeExpire = (val) => {
@@ -99,6 +100,12 @@ class BusinessParameterSetup {
     } else {
 
     }
+  }
+
+  @action
+  submitPartnerLimit = async () => {
+    this.fetchingApi = true
+    let response = await BusinessParameterSetupApi.submitPartnerLimit()
   }
   // @computed
   // get doubleCount() {
