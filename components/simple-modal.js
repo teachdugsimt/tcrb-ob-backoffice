@@ -1,20 +1,28 @@
 import React from 'react'
-import { Input, Row, Col, Layout, Modal, Switch } from 'antd'
+import { Input, Row, Col, Layout, Modal, Switch, Button } from 'antd'
 import { i18n, withNamespaces } from '../i18n'
 
 export default function SimpleModal(props) {
   return (
     <div>
       <Modal
-        title={i18n.t("confirm")}
+        type={props.type}
+        title={i18n.t(props.title)}
         visible={props.visible}
         onOk={() => props.onOk()}
         onCancel={() => props.onCancel()}
-        okText={i18n.t("confirm")}
-        cancelText={i18n.t("cancel")}
+        footer={[
+          <Button key="cancel" onClick={() => props.onCancel()}>
+            {props.textCancel}
+          </Button>,
+
+          props.type != "error" && (<Button key="submit" type="primary" onClick={() => props.onOk()}>
+            {props.textOk}
+          </Button>),
+        ]}
       >
         {props.modalString}
       </Modal>
-    </div>
+    </div >
   )
 }

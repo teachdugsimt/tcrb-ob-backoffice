@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react'
-import { Input, Row, Col, Button } from 'antd'
+import { Input, Row, Col, Button, Alert } from 'antd'
 import styled from 'styled-components'
 import { inject, observer } from 'mobx-react'
 import { withTranslation } from '../../i18n'
@@ -41,7 +41,15 @@ const OtpSetup =
 
       const [visible, setVisible] = useState(false)
       const [modalString, setModal] = useState("")
+      const [inputExpiration, setInputExpiration] = useState(true)
+      const [inputMax, setInputMax] = useState(true)
+      const [editExpiration, setEditExpiration] = useState(false)
+      const [editMaximum, setEditMaximum] = useState(false)
       // const [inputRef, setInputFocus] = useFocus()
+      const [title, setTitle] = useState("")
+      const [modalType, setModalType] = useState("")
+      const [textCancel, setTextCancel] = useState("")
+      const [textOk, setTextOk] = useState("")
 
       useEffect(() => {
         // BusinessParameterSetupApi.getOtpValueAxios({ otpParamsField: "OTP_EXPIRE_TIME,OTP_MAXIMUM_ENTERED,OTP_TOKEN_EXPIRE_TIME" })
@@ -67,24 +75,78 @@ const OtpSetup =
       }, [businessParametersSetupStore.responseGetOtpValue])
 
       const _onClickExpiration = () => {
+        console.log("==edit Expiration==")
+        setInputExpiration(false)
         let expire = document.getElementById("otp-expiration-period")
+        console.log("Expiration >>>", expire)
         expire.style.color = "orange"
         expire.focus()
         setvisibleExpireEdit(false)
         setvisibleExpireSubmit(true)
+        setEditMaximum(true)
       }
 
       const _onClickMaximumRetry = () => {
+        console.log("==edit Maximum==")
+        setInputMax(false)
         let maximum = document.getElementById("otp-maximum-retrying")
+        console.log("Maximum >>>", maximum)
         maximum.style.color = "orange"
         maximum.focus()
         setvisibleEditMaximum(false)
         setvisibleSubmitMaximum(true)
+        setEditExpiration(true)
       }
 
       const _openPopup = (text) => {
         setVisible(true)
-        setModal("Confirm update otp " + text)
+        if (text == "maximum") {
+          let a = getValueFromStore("maximum")
+          console.log(a)
+          console.log(maximumOtp)
+          if (maximumOtp == a) {
+            setModal("Error: OTP Maximum is not change value " + maximumOtp)
+            setTitle("Error")
+            setModalType("error")
+            setTextCancel("cancel")
+          }
+          else if (!maximumOtp) {
+            setModal("Error: OTP Maximum is not empty ")
+            setTitle("Error")
+            setModalType("error")
+            setTextCancel("cancel")
+          }
+          else {
+            setModal(<div style={{ textAlign: 'center' }}>Confirm update OTP{" "}{text}{" "}Retrying !!!<br />{a}{" "}to{" "}{maximumOtp}</div>)
+            setTitle("Confirm")
+            setModalType("confirm")
+            setTextCancel("cancel")
+            setTextOk("confirm")
+          }
+        }
+        else {
+          let a = getValueFromStore("expire")
+          if (expireOtp == a) {
+            setModal("Error: OTP Expire is not change value " + expireOtp)
+            setTitle("Error")
+            setModalType("error")
+            setTextCancel("cancel")
+          }
+          else if (!expireOtp) {
+            setModal("Error: OTP Expire is not empty ")
+            setTitle("Error")
+            setModalType("error")
+            setTextCancel("cancel")
+          }
+          else {
+            setModal(<div style={{ textAlign: 'center' }}>Confirm update OTP{" "}{text}{" "}Period !!!<br />{a}{" "}to{" "}{expireOtp}</div>)
+            setTitle("Confirm")
+            setModalType("confirm")
+            setTextCancel("cancel")
+            setTextOk("confirm")
+          }
+        }
+
       }
 
       const _setUnfocus = (type) => {
@@ -100,51 +162,49 @@ const OtpSetup =
       }
 
       const _onConfirm = async () => {
-        if (modalString.includes("expire")) {
-          if (getValueFromStore("expire") != expireOtp) {
-            // await businessParametersSetupStore.updateOTPdata({
-            //   OTP_EXPIRE_TIME: expireOtp
-            // })
-            businessParametersSetupStore.selectProductToDelete({
-              product_type: "OTP",
-              product_description: "update expire OTP",
-              request_id: "01",
-              request_date: new Date().getTime,
-              action: "update",
-            })
-            businessParametersSetupStore.closeExpire(true)
-            setdisExpireSubmit(true)
-            _setUnfocus("expire")
-            setdisExpire(false)
-            setVisible(false)
-          } else {
-            // alert("don't have any change")
-          }
-        } else {
-          if (getValueFromStore("maximum") != maximumOtp) {
-            // await businessParametersSetupStore.updateOTPdata({
-            //   OTP_MAXIMUN_ENTERED: maximumOtp
-            // })
-            businessParametersSetupStore.selectProductToDelete({
-              product_type: "OTP",
-              product_description: "update OTP entry maximum",
-              request_id: "02",
-              request_date: new Date().getTime,
-              action: "update",
-            })
-            businessParametersSetupStore.closeMaximum(true)
-            setdisMaximumSubmit(true)
-            _setUnfocus("maximum")
-            setdisMaximum(false)
-            setVisible(false)
-          } else {
-            // alert("don't have any change")
-          }
+        let a = getValueFromStore("maximum")
+        let b = getValueFromStore("expire")
+        if (a != maximumOtp) {
+          console.log("update >>>", maximumOtp)
+          // await businessParametersSetupStore.updateOTPdata({
+          //   OTP_MAXIMUN_ENTERED: maximumOtp
+          // })
+          setVisible(false)
+          setInputMax(true)
+          setvisibleEditMaximum(true)
+          setvisibleSubmitMaximum(false)
+          setdisMaximum(false)
+          setEditExpiration(false)
+          _setUnfocus("maximum")
+          setTimeout(() => {
+            console.log("Success")
+            setVisible(true)
+            setModal(<div style={{ textAlign: 'center' }}>Success update OTP{" "}{a}{" "}Retrying !!!<br />{a}{" "}to{" "}{maximumOtp}</div>)
+          }, 3000);
+        }
+        if (b != expireOtp) {
+          console.log("update >>>", expireOtp)
+          // await businessParametersSetupStore.updateOTPdata({
+          //   OTP_EXPIRE_TIME: expireOtp
+          // })
+          setVisible(false)
+          setInputExpiration(true)
+          setvisibleExpireEdit(true)
+          setvisibleExpireSubmit(false)
+          setEditMaximum(false)
+          setdisExpire(false)
+          _setUnfocus("expire")
+          setTimeout(() => {
+            console.log("Success")
+            setVisible(true)
+            setModal(<div style={{ textAlign: 'center' }}>Success update OTP{" "}{b}{" "}Period !!!<br />{b}{" "}to{" "}{expireOtp}</div>)
+          }, 3000);
         }
       }
 
       const getValueFromStore = (type) => {
         let old_data = JSON.parse(JSON.stringify(businessParametersSetupStore.responseGetOtpValue))
+        console.log(old_data)
         if (type == "expire") {
           let tmpExpire = old_data.find(e => e.Name == "OTP_EXPIRE_TIME")
           return tmpExpire.Value
@@ -156,17 +216,25 @@ const OtpSetup =
 
       const _onCancel = () => {
         setVisible(false)
-        if (modalString.includes("expire")) {
-          setModal("")
-          setvisibleExpireEdit(true)
-          setvisibleExpireSubmit(false)
-          setExpire(getValueFromStore("expire"))
-        } else {
-          setModal("")
-          setvisibleEditMaximum(true)
-          setvisibleSubmitMaximum(false)
-          setMaximum(getValueFromStore("maximum"))
-        }
+        let a = getValueFromStore("maximum")
+        let b = getValueFromStore("expire")
+
+        setMaximum(a)
+        setInputMax(true)
+        setvisibleEditMaximum(true)
+        setvisibleSubmitMaximum(false)
+        setdisMaximum(false)
+        setEditExpiration(false)
+        // _setUnfocus("maximum")
+
+        setExpire(b)
+        setInputExpiration(true)
+        setvisibleExpireEdit(true)
+        setvisibleExpireSubmit(false)
+        setEditMaximum(false)
+        setdisExpire(false)
+        // _setUnfocus("expire")
+
         let expire = document.getElementById("otp-expiration-period")
         let maximum = document.getElementById("otp-maximum-retrying")
         expire.style.color = "rgba(0, 0, 0, 0.65)"
@@ -179,27 +247,29 @@ const OtpSetup =
         <div>
           <Row gutter={[8, 8]}>
             <Col span={8}>
-              <StyledInput disabled={businessParametersSetupStore.editOtpMaximumRetry != null ? businessParametersSetupStore.editOtpMaximumRetry : disMaximum} id={"otp-maximum-retrying"} value={maximumOtp} onChange={(e) => setMaximum(e.target.value)} prefix={t("otpMaximumRetrying")} suffix={t("otpTime")} />
+              <StyledInput readOnly={inputMax} id={"otp-maximum-retrying"} value={maximumOtp} onChange={(e) => setMaximum(e.target.value)} prefix={t("otpMaximumRetrying")} suffix={t("otpTime")} />
             </Col>
             <Col span={6}>
-              {visibleEditMaximum && <Button onClick={() => _onClickMaximumRetry()}>{t("edit")}</Button>}
+              {visibleEditMaximum && <Button disabled={editMaximum} onClick={() => _onClickMaximumRetry()}>{t("edit")}</Button>}
               {visibleSubmitMaximum && <Button disabled={disMaximumSubmit} onClick={() => _openPopup("maximum")}>{t("submit")}</Button>}
             </Col>
           </Row>
           <Row gutter={[8, 8]}>
             <Col span={8}>
-              <StyledInput disabled={businessParametersSetupStore.editOtpExpirationPeriod != null ? businessParametersSetupStore.editOtpExpirationPeriod : disExpire} /*ref={inputRef}*/ id={"otp-expiration-period"} value={expireOtp} onChange={(e) => setExpire(e.target.value)} prefix={t("otpExpirationPeriod")} suffix={t("otpSecond")} />
+              <StyledInput readOnly={inputExpiration} /*ref={inputRef}*/ id={"otp-expiration-period"} value={expireOtp} onChange={(e) => setExpire(e.target.value)} prefix={t("otpExpirationPeriod")} suffix={t("otpSecond")} />
             </Col>
             <Col span={6}>
-              {visibleExpireEdit && <Button /*onClick={setInputFocus}*/ onClick={() => _onClickExpiration()} >{t("edit")}</Button>}
+              {visibleExpireEdit && <Button disabled={editExpiration} onClick={() => _onClickExpiration()} >{t("edit")}</Button>}
               {visibleExpireSubmit && <Button disabled={disExpireSubmit}/*onClick={setInputFocus}*/ onClick={() => _openPopup("expire")} >{t("submit")}</Button>}
             </Col>
           </Row>
           <SimpleModal
+            title={title}
+            type={modalType}
             onOk={() => _onConfirm()}
             onCancel={() => _onCancel()}
-            okText={t("confirm")}
-            cancelText={t("cancel")}
+            textCancel={textCancel}
+            textOk={textOk}
             modalString={modalString}
             visible={visible}
           />
