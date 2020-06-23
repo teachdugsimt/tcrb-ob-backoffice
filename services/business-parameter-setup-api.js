@@ -7,21 +7,21 @@ import axios from 'axios'
 class BusinessParameterSetupApi {
 
   getOtpValue = async (params) => {
-    const api = create(Header())
-    console.log("header : ", Header())
+    const api = create(Header)
+    console.log("header : ", Header)
     const response = await api.get('api/backoffice/v1/parameterstore', params)
     console.log("response get OTP  :  ", response)
     return response
   }
 
   setOtpValue = async (params) => {
-    const api = create(Header())
+    const api = create(Header)
     const response = await api.put('api/backoffice/v1/parameterstore', params)
     return response
   }
 
   getProductLimit = async (params) => {
-    const api = create(Header())
+    const api = create(Header)
     const response = await api.get('api/backoffice/v1/partnertransactionlimit', params)
     return response
   }
@@ -45,8 +45,8 @@ class BusinessParameterSetupApi {
 
         // 'Access-Control-Allow-Origin': "*",
         'x-apigw-api-id': "dwl8p0fxml",
-        "Access-Control-Allow-Origin" : "*", // Required for CORS support to work
-        "Access-Control-Allow-Credentials" : true // Required for cookies, authorization headers with HTTPS
+        "Access-Control-Allow-Origin": "*", // Required for CORS support to work
+        "Access-Control-Allow-Credentials": true // Required for cookies, authorization headers with HTTPS
 
         // 'x-api-language': "TH",
         // 'x-api-key': '',
