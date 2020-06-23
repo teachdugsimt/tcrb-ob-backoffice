@@ -1,5 +1,5 @@
 import { ApisauceInstance, create, ApiResponse } from 'apisauce'
-import Header from './api-integrations/Header'
+import Header from './api-integrations/header'
 
 class CustomerServicesMenuApi {
 
