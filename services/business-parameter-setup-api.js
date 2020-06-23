@@ -7,21 +7,21 @@ import axios from 'axios'
 class BusinessParameterSetupApi {
 
   getOtpValue = async (params) => {
-    const api = create(Header())
-    console.log("header : ", Header())
+    const api = create(header())
+    console.log("header : ", header())
     const response = await api.get('api/backoffice/v1/parameterstore', params)
     console.log("response get OTP  :  ", response)
     return response
   }
 
   setOtpValue = async (params) => {
-    const api = create(Header())
+    const api = create(header())
     const response = await api.put('api/backoffice/v1/parameterstore', params)
     return response
   }
 
   getProductLimit = async (params) => {
-    const api = create(Header())
+    const api = create(header())
     const response = await api.get('api/backoffice/v1/partnertransactionlimit', params)
     return response
   }
@@ -63,6 +63,18 @@ class BusinessParameterSetupApi {
     })
     return response
   }
+
+  getPartnerChannel = async (params) => {
+    const api = create(header)
+    const response = await api.get('api/backoffice/v1/partnertransactionlimit', params)
+    return response
+  }
+
+  submitPartnerLimit = async (params) => {
+    const api = create(header)
+
+  }
+
 }
 export default new BusinessParameterSetupApi()
 // HTTPS=true SSL_CRT_FILE=Certificate_chain.txt SSL_KEY_FILE=private_key.txt npm run dev

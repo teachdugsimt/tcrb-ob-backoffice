@@ -33,6 +33,7 @@ class BusinessParameterSetup {
   @observable pendingApprovals = []
   @observable fetchingApi = false
   @observable productLimit = []
+  @observable productLimitDetail = null
 
   @persist @observable
   persist_value = null
@@ -129,10 +130,14 @@ class BusinessParameterSetup {
       this.errorAxios = JSON.parse(JSON.stringify(response))
     }
 
+    submitPartnerLimit = async () => {
+      this.fetchingApi = true
+      let response = await BusinessParameterSetupApi.submitPartnerLimit()
+    }
+    // @computed
+    // get doubleCount() {
+    //   return this.count * 2
+    // }
   }
-  // @computed
-  // get doubleCount() {
-  //   return this.count * 2
-  // }
 }
 export default BusinessParameterSetup
