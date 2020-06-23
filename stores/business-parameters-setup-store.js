@@ -1,6 +1,7 @@
 // src/stores/counter-store.tsx
 import { observable, action, computed, toJS } from 'mobx'
 import { BusinessParameterSetupApi } from '../services'
+import { create, persist } from 'mobx-persist'
 
 class BusinessParameterSetup {
   @observable
@@ -22,9 +23,23 @@ class BusinessParameterSetup {
   @observable
   errorUpdateOtp = null
 
+  @observable
+  requestAxios = null
+  @observable
+  dataAxios = null
+  @observable
+  errorAxios = null
+
   @observable pendingApprovals = []
   @observable fetchingApi = false
   @observable productLimit = []
+
+  @persist @observable
+  persist_value = null
+  @action
+  setPersistValue = (val) => {
+    this.persist_value = val
+  }
 
   @action
   closeExpire = (val) => {
@@ -99,6 +114,21 @@ class BusinessParameterSetup {
     } else {
 
     }
+  }
+
+  @action
+  getDataByAxios = async (params) => {
+    this.requestAxios = true
+    let response = await BusinessParameterSetupApi.getOtpValueAxios(params)
+    console.log("Axios OTP :: ", JSON.parse(JSON.stringify(response)))
+    if (response.status == 200) {
+      this.requestAxios = false
+      this.dataAxios = JSON.parse(JSON.stringify(response))
+    } else {
+      this.requestAxios = false
+      this.errorAxios = JSON.parse(JSON.stringify(response))
+    }
+
   }
   // @computed
   // get doubleCount() {

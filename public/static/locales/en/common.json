@@ -50,5 +50,12 @@
   "otpExpirationPeriod": "OTP Expiration Period",
   "otpMaximumRetrying": "OTP Maximum Retrying",
   "otpTime": "Times",
-  "otpSecond": "Seconds"
+  "otpSecond": "Seconds",
+  "forNewWork": "For New Work",
+
+  "username": "Username",
+  "password": "Password",
+  "rememberMe": "Remember me",
+  "inputUserName": "Please input your username!",
+  "inputPassword": "Please input your password!"
 }

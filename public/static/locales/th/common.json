@@ -50,5 +50,12 @@
   "otpExpirationPeriod": "เวลา OTP หมดอายุ",
   "otpMaximumRetrying": "กรอก OTP ได้",
   "otpTime": "ครั้ง",
-  "otpSecond": "วินาที"
+  "otpSecond": "วินาที",
+  "forNewWork": "สำหรับงานใหม่",
+
+  "username": "ชื่อผู้ใช้งาน",
+  "password": "รหัสผ่าน",
+  "rememberMe": "จดจำการเข้าสู้ระบบ",
+  "inputUserName": "กรุณาใส่ชื่อผู้ใช้งาน",
+  "inputPassword": "กรุณาใส่รหัสผ่าน"
 }

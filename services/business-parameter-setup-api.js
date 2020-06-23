@@ -26,25 +26,43 @@ class BusinessParameterSetupApi {
     return response
   }
 
-  // getOtpValueAxios = async (params) => {
-  //   const httpsAgent = new https.Agent({
-  //     rejectUnauthorized: false,
-  //     requestCert: false,
-  //   })
-  //   const response = await axios({
-  //     url: 'https://api-dev.onlinebanking-backoffice.com/api/backoffice/v1/parameterstore',
-  //     method: 'get',
-  //     params,
-  //     responseType: 'json',
-  //     httpsAgent,
-  //     headers: {
-  //       'x-apigw-api-id': "dwl8p0fxml"
-  //     }
-  //   }).then(data => {
-  //     console.log("AXIOS CALLLL : ", data)
-  //     return data
-  //   })
-  //   return response
-  // }
+  getOtpValueAxios = async (params) => {
+    const httpsAgent = new https.Agent({
+      rejectUnauthorized: false,
+      requestCert: false,
+    })
+    console.log("HTTPS AGENT : ", httpsAgent)
+    const response = await axios({
+      url: 'https://dwl8p0fxml-vpce-03ae60b10934425db.execute-api.ap-southeast-1.amazonaws.com/api/backoffice/v1/parameterstore',
+      // url: 'https://api-dev.onlinebanking-backoffice.com/api/backoffice/v1/parameterstore',
+      method: 'GET',
+      params,
+      responseType: 'json',
+      httpsAgent,
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+
+        // 'Access-Control-Allow-Origin': "*",
+        'x-apigw-api-id': "dwl8p0fxml",
+        "Access-Control-Allow-Origin" : "*", // Required for CORS support to work
+        "Access-Control-Allow-Credentials" : true // Required for cookies, authorization headers with HTTPS
+
+        // 'x-api-language': "TH",
+        // 'x-api-key': '',
+        // 'x-api-signature': 'a94ks02304ldfgkorm1234llgdmfk',
+        // 'uuid': 'YYYYYYYY',
+      },
+      timeout: 15000
+    }).then(data => {
+      console.log("AXIOS CALLLL : ", data)
+      return data
+    }).catch(err => {
+      console.log("AXIOS ERROR : ", err)
+      return err
+    })
+    return response
+  }
 }
 export default new BusinessParameterSetupApi()
+// HTTPS=true SSL_CRT_FILE=Certificate_chain.txt SSL_KEY_FILE=private_key.txt npm run dev

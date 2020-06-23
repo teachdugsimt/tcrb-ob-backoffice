@@ -4,14 +4,20 @@ import https from 'https';
 const Header = (apigw_id = null) => {
   let baseURL
   if (process.env.PROD === 'production') {
-    // baseURL = "https://hgr766mso6.execute-api.ap-southeast-1.amazonaws.com/"
-    baseURL = "https://api-dev.onlinebanking-backoffice.com/"
+    baseURL = "https://hgr766mso6.execute-api.ap-southeast-1.amazonaws.com/"
+    // baseURL = "https://api-dev.onlinebanking-backoffice.com/"
+
+    // baseURL = "https://dwl8p0fxml-vpce-03ae60b10934425db.execute-api.ap-southeast-1.amazonaws.com/"
+
     // baseURL = apigw_id ?
     //   "https://" + apigw_id + ".execute-api.ap-southeast-1.amazonaws.com/" :
     //   'https://dwl8p0fxml.execute-api.ap-southeast-1.amazonaws.com/'
   } else {
-    // baseURL = "https://hgr766mso6.execute-api.ap-southeast-1.amazonaws.com/"
-    baseURL = "https://api-dev.onlinebanking-backoffice.com/"
+    baseURL = "https://hgr766mso6.execute-api.ap-southeast-1.amazonaws.com/"
+    // baseURL = "https://api-dev.onlinebanking-backoffice.com/"
+
+    // baseURL = "https://dwl8p0fxml-vpce-03ae60b10934425db.execute-api.ap-southeast-1.amazonaws.com/"
+
     // baseURL = apigw_id ?
     //   "https://" + apigw_id + ".execute-api.ap-southeast-1.amazonaws.com/" :
     //   'https://dwl8p0fxml.execute-api.ap-southeast-1.amazonaws.com/'
@@ -19,6 +25,7 @@ const Header = (apigw_id = null) => {
   const httpsAgent = new https.Agent({
     rejectUnauthorized: false,
     requestCert: false,
+    // requestCert: true,
   })
   // https.globalAgent.options.rejectUnauthorized = false
   const header = {
@@ -27,11 +34,24 @@ const Header = (apigw_id = null) => {
       // 'Access-Control-Allow-Origin': "*",
       // 'Content-Type': 'application/json;charset=utf-8',
       // httpsAgent,
-      'Content-Type': 'application/json',
-      'Accept': 'application/json',
-      'x-api-key': '',
-      'uuid': 'YYYYYYYY',
-      'x-apigw-api-id': apigw_id ? apigw_id : "dwl8p0fxml"
+      // 'Content-Type': 'application/json',
+      // 'Accept': 'application/json',
+      // 'x-api-key': '',
+      // 'uuid': 'YYYYYYYY',
+      'x-apigw-api-id': "dwl8p0fxml",
+      // 'x-apigw-api-id': apigw_id ? apigw_id : "dwl8p0fxml",
+      // 'x-api-language': "TH"
+
+
+      // 'Date': 'Mon, 22 Jun 2020 12:43:52 GMT',
+      // 'Content-Type': 'application/json',
+      // 'Content-Length': '864',
+      // 'Connection': 'keep-alive',
+      // 'Server': 'Server',
+      // 'x-amzn-RequestId': '4d808e0e-6514-46a1-8817-8289a7fab521',
+      // 'x-apigw-api-id': "dwl8p0fxml",
+      // 'Accept': '*/*',
+      // 'X-Forwarded-Proto': 'https',
     },
     httpsAgent,
     timeout: 10000

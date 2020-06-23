@@ -43,3 +43,4 @@ const MainLayout = inject('versatileStore')(observer((props) => {
 }))
 
 export default withRouter(MainLayout)
+// HTTPS=true SSL_CRT_FILE=Certificate_chain.txt SSL_KEY_FILE=private_key.txt npm run dev
