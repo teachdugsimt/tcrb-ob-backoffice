@@ -1,5 +1,5 @@
 import { ApisauceInstance, create, ApiResponse } from 'apisauce'
-import header from './api-integrations/header'
+import Header from './api-integrations/header'
 import getGeneralApiProblem from './api-integrations/error-handler'
 import https from 'https';
 import axios from 'axios'
@@ -7,21 +7,21 @@ import axios from 'axios'
 class BusinessParameterSetupApi {
 
   getOtpValue = async (params) => {
-    const api = create(header())
-    console.log("header : ", header())
+    const api = create(Header())
+    console.log("header : ", Header())
     const response = await api.get('api/backoffice/v1/parameterstore', params)
     console.log("response get OTP  :  ", response)
     return response
   }
 
   setOtpValue = async (params) => {
-    const api = create(header())
+    const api = create(Header())
     const response = await api.put('api/backoffice/v1/parameterstore', params)
     return response
   }
 
   getProductLimit = async (params) => {
-    const api = create(header())
+    const api = create(Header())
     const response = await api.get('api/backoffice/v1/partnertransactionlimit', params)
     return response
   }
@@ -70,10 +70,9 @@ class BusinessParameterSetupApi {
     return response
   }
 
-  submitPartnerLimit = async (params) => {
-    const api = create(header)
-
-  }
+  // submitPartnerLimit = async (params) => {
+  //   const api = create(header)
+  // }
 
 }
 export default new BusinessParameterSetupApi()

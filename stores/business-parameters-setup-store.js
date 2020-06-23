@@ -130,14 +130,11 @@ class BusinessParameterSetup {
       this.errorAxios = JSON.parse(JSON.stringify(response))
     }
 
-    submitPartnerLimit = async () => {
-      this.fetchingApi = true
-      let response = await BusinessParameterSetupApi.submitPartnerLimit()
-    }
-    // @computed
-    // get doubleCount() {
-    //   return this.count * 2
+    // submitPartnerLimit = async () => {
+    //   this.fetchingApi = true
+    //   let response = await BusinessParameterSetupApi.submitPartnerLimit()
     // }
+
   }
 }
 export default BusinessParameterSetup
