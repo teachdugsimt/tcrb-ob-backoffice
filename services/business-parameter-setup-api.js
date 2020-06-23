@@ -1,5 +1,9 @@
 import { ApisauceInstance, create, ApiResponse } from 'apisauce'
+<<<<<<< HEAD
 import Header from './api-integrations/Header'
+=======
+import header from './api-integrations/header'
+>>>>>>> 7a3d6ad8a1c840ecb6bc30102ad741ed89c05c4c
 import getGeneralApiProblem from './api-integrations/error-handler'
 import https from 'https';
 import axios from 'axios'

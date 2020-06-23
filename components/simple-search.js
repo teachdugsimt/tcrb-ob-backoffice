@@ -18,9 +18,7 @@ const StyledSearch = styled(Search)`
 .ant-input-prefix {
   margin-right: ${({ theme }) => theme.spacing.large}px !important;
 }
-.ant-input-group-addon{
-  display: ${props => props.disabled ? "none" : "table-cell"};
-}
+
 `
 
 

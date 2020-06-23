@@ -59,7 +59,9 @@ export const SearchBox =
             </Dropdown>
             <Search placeholder="input search text" onSearch={value => console.log(value)} enterButton />
           </div>
-          {currentSearch == 6 && <RangePicker style={{ width: '100%' }} />}
+          <div style={{ marginTop: 10 }}>
+            {currentSearch == 6 && <RangePicker style={{ width: '100%' }} />}
+          </div>
         </div>
       )
 

@@ -7,7 +7,11 @@ import { appWithTranslation } from '../i18n'
 
 import { ThemeProvider } from 'styled-components'
 import theme from '../theme'
-import 'antd/dist/antd.css'
+// import '../assets/fonts.less'
+
+// import 'antd/dist/antd.css'
+// import '../style.less';
+
 
 import EmptyLayout from '../layouts/EmptyLayout'
 
@@ -48,12 +52,7 @@ class CustomApp extends App {
     return (
       <Provider {...this.mobxStore}>
         <ThemeProvider theme={theme}>
-          <style jsx={true} global>{`
-            @import url('https://fonts.googleapis.com/css2?family=Kanit:wght@100;300&display=swap');
-            body {
-              font-family: 'Kanit', sans-serif;
-            }
-          `}</style>
+
           <Head>
             <title>TCRB Backoffice</title>
           </Head>
