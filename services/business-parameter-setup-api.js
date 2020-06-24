@@ -31,8 +31,7 @@ class BusinessParameterSetupApi {
       rejectUnauthorized: false,
       requestCert: false,
     })
-    console.log("Param before call : ", params)
-    // const response = await axios.get("https://api-dev.onlinebanking-backoffice.com/api/backoffice/v1/parameterstore", {
+
     const response = await axios.get("https://dwl8p0fxml-vpce-03ae60b10934425db.execute-api.ap-southeast-1.amazonaws.com/api/backoffice/v1/parameterstore", {
       params,
       httpsAgent,

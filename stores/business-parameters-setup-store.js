@@ -55,14 +55,13 @@ class BusinessParameterSetup {
   @action getOTPdata = async (params) => {
     this.fetchingGetOtp = true
     let tmp = await BusinessParameterSetupApi.getOtpValue(params)
-    if (tmp.ok == true && tmp.status == 200) {
+    console.log("Response get otp APISAUCE : ", tmp)
+    if (tmp.ok == true) {
       let raw_Data = toJS(tmp.data.responseData.paramStoreData)
-      console.log("On Success By API_SAUCE : ", raw_Data)
       this.fetchingGetOtp = false
       this.errorGetOtp = null
       this.responseGetOtpValue = raw_Data
     } else {
-      console.log("= Call get otp failure By API_SAUCE : ", tmp)
       this.fetchingGetOtp = false
       this.responseGetOtpValue = null
       this.errorGetOtp = tmp.problem
@@ -73,7 +72,7 @@ class BusinessParameterSetup {
   updateOTPdata = async (params) => {
     this.fetchingUpdateOtp = true
     let response = await BusinessParameterSetupApi.setOtpValue(params)
-    if (response.ok && response.status == 200) {
+    if (response.ok) {
       console.log("Update OTP Success :: ", response)
       this.responseUpdateOtp = response.data
       this.fetchingUpdateOtp = false
