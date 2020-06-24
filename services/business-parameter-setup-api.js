@@ -26,6 +26,30 @@ class BusinessParameterSetupApi {
     return response
   }
 
+  deleteProductLimit = async (params) => {
+    const api = create(Header)
+    const response = await api.post('api/backoffice/v1/changerequest/productlimit', params)
+    return response
+  }
+
+  getPendingList = async (params) => {
+    const api = create(Header)
+    const response = await api.get('api/backoffice/v1/changerequest', params)
+    return response
+  }
+
+  approveRejectOtpRequest = async (params) => {
+    const api = create(Header)
+    const response = await api.put('api/backoffice/v1/changerequest/otp', params)
+    return response
+  }
+
+  rejectRejectProductRequest = async (params) => {
+    const api = create(Header)
+    const response = await api.put('api/backoffice/v1/changerequest/productlimit', params)
+    return response
+  }
+
   getOtpValueAxios = async (params) => {
     const httpsAgent = new https.Agent({
       rejectUnauthorized: false,

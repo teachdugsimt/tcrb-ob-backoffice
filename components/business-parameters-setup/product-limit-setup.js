@@ -1,5 +1,5 @@
 import React, { useState, useEffect, createRef } from 'react'
-import { Button, Table, Popconfirm, Row, Col, Menu, Card, Input, Select } from 'antd'
+import { Button, Table, Popconfirm, Row, Col, Menu, Card, Input, Select, Form } from 'antd'
 import { inject, observer } from 'mobx-react'
 import { withTranslation } from '../../i18n'
 import styled from 'styled-components'
@@ -9,7 +9,62 @@ import SimpleInput from '../simple-input'
 import SimpleModal from '../simple-modal'
 
 const { Option } = Select;
+const testOption = [
+  {
+    partner_code: "TMDS",
+    partner_abbreviation: "Micropay",
+    partner_code_group: "TMDS"
+  },
+  {
+    partner_code: "TRUM",
+    partner_abbreviation: "TrueWallet",
+    partner_code_group: "TRUM"
+  },
+  {
+    partner_code: "TMD1",
+    partner_abbreviation: "ThaiMicropay",
+    partner_code_group: null
+  },
+  {
+    partner_code: "OBCH",
+    partner_abbreviation: "TCRB",
+    partner_code_group: null
+  }
+]
+const EditableCell = ({
+  editing,
+  dataIndex,
+  title,
+  inputType,
+  record,
+  index,
+  children,
+  ...restProps
+}) => {
+  // const inputNode = inputType === 'number' ? <InputNumber /> : <Input />;
+  return (
+    <td {...restProps}>
+      {editing ? (
 
+        <Form.Item
+          name={dataIndex}
+          style={{
+            margin: 0,
+          }}
+        >
+          <Select
+            // onChange={(value) => selectPartnerChanel(value)}
+            style={{ width: '100%' }}
+          >
+            {testOption.map((item, index) => <Option key={index} value={item.product_type}>{item.partner_code}</Option>)}
+          </Select>
+        </Form.Item>
+      ) : (
+          children
+        )}
+    </td>
+  );
+};
 
 const ProductLimitSetup =
   inject('businessParametersSetupStore')
@@ -19,9 +74,21 @@ const ProductLimitSetup =
       const [visible, setVisble] = useState(false)
       const [modalString, setModalString] = useState('')
       const [showLimitPartner, setShowLimitPartner] = useState(false)
+      const [editingKey, setEditingKey] = useState('');
       const { businessParametersSetupStore, t } = props
+      const [form] = Form.useForm();
       var txnLimit, dailyLimit = ''
 
+      const isEditing = record => record.key === editingKey;
+      const edit = record => {
+        form.setFieldsValue({
+          name: '',
+          age: '',
+          address: '',
+          ...record,
+        });
+        setEditingKey(record.key);
+      };
       useEffect(() => {
         // setDataSource(mockDataSource)
         businessParametersSetupStore.getDataProductLimit()
@@ -30,6 +97,7 @@ const ProductLimitSetup =
       useEffect(() => {
         if (businessParametersSetupStore.productLimit.length > 0) {
           addKeyToDataSource(businessParametersSetupStore.productLimit).then((result) => {
+            businessParametersSetupStore.arrayProductLimit = result
             setDataSource(result)
           })
         }
@@ -131,20 +199,48 @@ const ProductLimitSetup =
         setViewDetailProduct(true)
       }
 
+      const addRowProductList = () => {
+        // console.log(toJS(businessParametersSetupStore.arrayProductLimit))
+        let newProduct = {
+          created_by: "system",
+          created_on: "2020-06-15T13:09:48.000Z",
+          daily_limit: "1000000",
+          id: 7,
+          partner_code: "",
+          product_code: "00006" + dataSource.length,
+          product_description: "Test Program - High LTV ดอกเบี้ยพิเศษ 9.99%",
+          product_type: "NG",
+          request_status: "0",
+          status: "1",
+          terminated_by: null,
+          terminated_on: null,
+          transaction_code: "6619",
+          transaction_limit: "1000000",
+          updated_by: null,
+          updated_on: null,
+          key: dataSource.length + 1
+        }
+        setDataSource([...dataSource, newProduct])
+        edit(newProduct)
+        businessParametersSetupStore.arrayProductLimit = dataSource
+      }
+      const goBackProductList = () => {
+        setViewDetailProduct(false)
+      }
       const columns = [
         {
           // title: 'Specific Channel Limit',
           dataIndex: 'operation',
           render: (text, record) =>
             dataSource.length >= 1 ? (
-              <Popconfirm title="Sure to delete?" onConfirm={() => businessParametersSetupStore.selectProductToDelete(record)} >
-                <a>Delete</a>
+              <Popconfirm title="Sure to delete?" onConfirm={() => businessParametersSetupStore.selectProductToDelete(record)} disabled={true}>
+                (<a>Delete</a>)
               </Popconfirm>
             ) : null,
         },
         {
           title: 'Product_Code',
-          dataIndex: 'product_code',
+          dataIndex: 'product_type',
           width: '10%',
           editable: true,
         },
@@ -165,6 +261,23 @@ const ProductLimitSetup =
           dataIndex: 'Specific',
         },
       ];
+
+      const mergedColumns = columns.map(col => {
+        if (!col.editable) {
+          return col;
+        }
+
+        return {
+          ...col,
+          onCell: record => ({
+            record,
+            dataIndex: col.dataIndex,
+            title: col.title,
+            editing: isEditing(record),
+          }),
+        };
+      });
+
       const mockDataSource = [
         {
           key: '0',
@@ -190,28 +303,7 @@ const ProductLimitSetup =
       ]
 
       const detailProduct = () => {
-        const testOption = [
-          {
-            partner_code: "TMDS",
-            partner_abbreviation: "Micropay",
-            partner_code_group: "TMDS"
-          },
-          {
-            partner_code: "TRUM",
-            partner_abbreviation: "TrueWallet",
-            partner_code_group: "TRUM"
-          },
-          {
-            partner_code: "TMD1",
-            partner_abbreviation: "ThaiMicropay",
-            partner_code_group: null
-          },
-          {
-            partner_code: "OBCH",
-            partner_abbreviation: "TCRB",
-            partner_code_group: null
-          }
-        ]
+
         // var optionList = []
         // convertToArrayOptionSelect(testOption).then((result) => {
         //   optionList = result
@@ -280,10 +372,10 @@ const ProductLimitSetup =
             </Card>
             <Row justify="center" style={{ marginTop: 8 }}>
               <Col span={2}>
-                <Button>Back</Button>
+                <Button onClick={() => goBackProductList()} shape="round">Back</Button>
               </Col>
               <Col span={2}>
-                <Button>OK</Button>
+                <Button shape="round" type="primary">Submit</Button>
               </Col>
             </Row>
             <SimpleModal
@@ -303,7 +395,7 @@ const ProductLimitSetup =
           <div>
             <Row>
               <Button
-                // onClick={this.handleAdd}
+                onClick={() => addRowProductList()}
                 type="primary"
                 style={{
                   marginBottom: 16,
@@ -312,18 +404,25 @@ const ProductLimitSetup =
             </Row>
             <Row>
               <Col flex={100}>
-                <Table
-                  // components={components}
-                  rowClassName={() => 'editable-row'}
-                  bordered
-                  dataSource={dataSource}
-                  columns={columns}
-                  onRow={(record, rowIndex) => {
-                    return {
-                      onClick: event => { selectProductToViewDetail(record) }, // click row
-                    };
-                  }}
-                />
+                <Form form={form} component={false}>
+
+                  <Table
+                    components={{
+                      body: {
+                        cell: EditableCell,
+                      },
+                    }}
+                    rowClassName={() => 'editable-row'}
+                    bordered
+                    dataSource={dataSource}
+                    columns={mergedColumns}
+                    onRow={(record, rowIndex) => {
+                      return {
+                        //onClick: event => { selectProductToViewDetail(record) }, // click row
+                      };
+                    }}
+                  />
+                </Form>
               </Col>
 
             </Row>
