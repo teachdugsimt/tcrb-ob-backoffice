@@ -62,3 +62,8 @@ class BusinessParameterSetupApi {
 }
 export default new BusinessParameterSetupApi()
 // HTTPS=true SSL_CRT_FILE=Certificate_chain.txt SSL_KEY_FILE=private_key.txt npm run dev
+
+
+// customer service inquiry
+// bussiness parameter setup
+// customer service menu
