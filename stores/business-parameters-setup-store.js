@@ -58,12 +58,12 @@ class BusinessParameterSetup {
     let tmp = await BusinessParameterSetupApi.getOtpValue(params)
     if (tmp.ok == true && tmp.status == 200) {
       let raw_Data = toJS(tmp.data.responseData.paramStoreData)
-      console.log("On Success : ", raw_Data)
+      console.log("On Success By API_SAUCE : ", raw_Data)
       this.fetchingGetOtp = false
       this.errorGetOtp = null
       this.responseGetOtpValue = raw_Data
     } else {
-      console.log("= Call get otp failure = ", tmp)
+      console.log("= Call get otp failure By API_SAUCE : ", tmp)
       this.fetchingGetOtp = false
       this.responseGetOtpValue = null
       this.errorGetOtp = tmp.problem

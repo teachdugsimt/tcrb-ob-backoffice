@@ -62,12 +62,19 @@ const Signin =
       const [id, setId] = useState("")
       const [password, setPassword] = useState("")
       const footName = authenStore.footName ? authenStore.footName : "IT SERVICE DESK CONTACT NUMBER IS 02-6xx-1234"
+
       useEffect(() => {
-        // getDataByAxios
         const response = businessParametersSetupStore.getDataByAxios({
           otpParamsField: "OTP_EXPIRE_TIME,OTP_MAXIMUM_ENTERED,OTP_TOKEN_EXPIRE_TIME"
         })
         console.log("response axios :: ", response)
+        return () => {
+          // cleanup
+        }
+      }, [])
+
+      useEffect(() => {
+        // getDataByAxios
         return () => {
         }
       }, [businessParametersSetupStore.dataAxios])

@@ -7,10 +7,9 @@ import axios from 'axios'
 class BusinessParameterSetupApi {
 
   getOtpValue = async (params) => {
-    const api = create(Header)
-    console.log("header : ", Header)
+    const api = create(Header())
     const response = await api.get('api/backoffice/v1/parameterstore', params)
-    console.log("response get OTP  :  ", response)
+    // console.log("response get OTP  :  ", response)
     return response
   }
 
@@ -55,17 +54,15 @@ class BusinessParameterSetupApi {
       rejectUnauthorized: false,
       requestCert: false,
     })
-    console.log("HTTPS AGENT : ", httpsAgent)
-    const response = await axios({
-      url: 'https://dwl8p0fxml-vpce-03ae60b10934425db.execute-api.ap-southeast-1.amazonaws.com/api/backoffice/v1/parameterstore',
-      // url: 'https://api-dev.onlinebanking-backoffice.com/api/backoffice/v1/parameterstore',
-      method: 'GET',
+    console.log("Param before call : ", params)
+    // const response = await axios.get("https://api-dev.onlinebanking-backoffice.com/api/backoffice/v1/parameterstore", {
+    const response = await axios.get("https://dwl8p0fxml-vpce-03ae60b10934425db.execute-api.ap-southeast-1.amazonaws.com/api/backoffice/v1/parameterstore", {
       params,
-      responseType: 'json',
       httpsAgent,
       headers: {
         'Content-Type': 'application/json',
         'Accept': 'application/json',
+        // 'x-apigw-api-id': 'dwl8p0fxml',
 
         // 'Access-Control-Allow-Origin': "*",
         'x-apigw-api-id': "dwl8p0fxml",

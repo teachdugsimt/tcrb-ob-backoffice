@@ -166,11 +166,11 @@ const OtpSetup =
         let b = getValueFromStore("expire")
         if (a != maximumOtp) {
           console.log("update >>>", maximumOtp)
-          // await businessParametersSetupStore.updateOTPdata({
-          //   currentData: { OTP_MAXIMUN_ENTERED: a },
-          //   maker_id: 12345699,
-          //   OTP_MAXIMUN_ENTERED: maximumOtp
-          // })
+          await businessParametersSetupStore.updateOTPdata({
+            currentData: { OTP_MAXIMUN_ENTERED: a },
+            maker_id: 12345699,
+            OTP_MAXIMUN_ENTERED: maximumOtp
+          })
           setVisible(false)
           setInputMax(true)
           setvisibleEditMaximum(true)
