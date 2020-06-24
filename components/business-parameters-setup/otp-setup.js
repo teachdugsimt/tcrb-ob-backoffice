@@ -4,7 +4,7 @@ import styled from 'styled-components'
 import { inject, observer } from 'mobx-react'
 import { withTranslation } from '../../i18n'
 import SimpleModal from '../simple-modal'
-import { BusinessParameterSetupApi } from '../../services/'
+
 const StyledInput = styled(Input)`
   background-color: unset !important;
   border: unset !important;
@@ -54,10 +54,10 @@ const OtpSetup =
       useEffect(() => {
         // BusinessParameterSetupApi.getOtpValueAxios({ otpParamsField: "OTP_EXPIRE_TIME,OTP_MAXIMUM_ENTERED,OTP_TOKEN_EXPIRE_TIME" })
 
-        if (!businessParametersSetupStore.responseGetOtpValue || businessParametersSetupStore.fetchingGetOtp == null) {
-          let data = { otpParamsField: "OTP_EXPIRE_TIME,OTP_MAXIMUM_ENTERED,OTP_TOKEN_EXPIRE_TIME" }
-          businessParametersSetupStore.getOTPdata(data)
-        }
+        // if (!businessParametersSetupStore.responseGetOtpValue || businessParametersSetupStore.fetchingGetOtp == null) {
+        //   let data = { otpParamsField: "OTP_EXPIRE_TIME,OTP_MAXIMUM_ENTERED,OTP_TOKEN_EXPIRE_TIME" }
+        //   businessParametersSetupStore.getOTPdata(data)
+        // }
       }, [])
 
       useEffect(() => {
@@ -166,7 +166,9 @@ const OtpSetup =
         let b = getValueFromStore("expire")
         if (a != maximumOtp) {
           console.log("update >>>", maximumOtp)
-          // await businessParametersSetupStore.updateOTPdata({
+          // await businessParametersSetupStore.updateMaximumOTPdata({
+          //currentData: {OTP_MAXIMUN_ENTERED:a}
+          //maker_id: 12345699
           //   OTP_MAXIMUN_ENTERED: maximumOtp
           // })
           setVisible(false)
@@ -189,6 +191,8 @@ const OtpSetup =
         if (b != expireOtp) {
           console.log("update >>>", expireOtp)
           // await businessParametersSetupStore.updateOTPdata({
+          //currentData: {OTP_EXPIRE_TIME:b}
+          //maker_id: 12345699
           //   OTP_EXPIRE_TIME: expireOtp
           // })
           setVisible(false)
