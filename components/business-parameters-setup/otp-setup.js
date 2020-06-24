@@ -5,6 +5,8 @@ import { inject, observer } from 'mobx-react'
 import { withTranslation } from '../../i18n'
 import SimpleModal from '../simple-modal'
 import { BusinessParameterSetupApi } from '../../services/'
+// import { qs } from 'qs'
+import querystring from 'querystring'
 const StyledInput = styled(Input)`
   background-color: unset !important;
   border: unset !important;
