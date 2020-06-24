@@ -4,7 +4,7 @@ import styled from 'styled-components'
 import { inject, observer } from 'mobx-react'
 import { withTranslation } from '../../i18n'
 import SimpleModal from '../simple-modal'
-
+import { BusinessParameterSetupApi } from '../../services'
 const StyledInput = styled(Input)`
   background-color: unset !important;
   border: unset !important;
@@ -52,12 +52,12 @@ const OtpSetup =
       const [textOk, setTextOk] = useState("")
 
       useEffect(() => {
-        // BusinessParameterSetupApi.getOtpValueAxios({ otpParamsField: "OTP_EXPIRE_TIME,OTP_MAXIMUM_ENTERED,OTP_TOKEN_EXPIRE_TIME" })
+        BusinessParameterSetupApi.getOtpValueAxios({ otpParamsField: "OTP_EXPIRE_TIME,OTP_MAXIMUM_ENTERED,OTP_TOKEN_EXPIRE_TIME" })
 
-        // if (!businessParametersSetupStore.responseGetOtpValue || businessParametersSetupStore.fetchingGetOtp == null) {
-        //   let data = { otpParamsField: "OTP_EXPIRE_TIME,OTP_MAXIMUM_ENTERED,OTP_TOKEN_EXPIRE_TIME" }
-        //   businessParametersSetupStore.getOTPdata(data)
-        // }
+        if (!businessParametersSetupStore.responseGetOtpValue || businessParametersSetupStore.fetchingGetOtp == null) {
+          let data = { otpParamsField: "OTP_EXPIRE_TIME,OTP_MAXIMUM_ENTERED,OTP_TOKEN_EXPIRE_TIME" }
+          businessParametersSetupStore.getOTPdata(data)
+        }
       }, [])
 
       useEffect(() => {
@@ -166,9 +166,9 @@ const OtpSetup =
         let b = getValueFromStore("expire")
         if (a != maximumOtp) {
           console.log("update >>>", maximumOtp)
-          // await businessParametersSetupStore.updateMaximumOTPdata({
-          //currentData: {OTP_MAXIMUN_ENTERED:a}
-          //maker_id: 12345699
+          // await businessParametersSetupStore.updateOTPdata({
+          //   currentData: { OTP_MAXIMUN_ENTERED: a },
+          //   maker_id: 12345699,
           //   OTP_MAXIMUN_ENTERED: maximumOtp
           // })
           setVisible(false)
@@ -178,15 +178,15 @@ const OtpSetup =
           setdisMaximum(false)
           setEditExpiration(false)
           _setUnfocus("maximum")
+          setMaximum(a)
+          // setTimeout(() => {
+          //   console.log("Success")
+          //   setVisible(true)
+          //   setModalType("close")
+          //   setTextCancel("close")
 
-          setTimeout(() => {
-            console.log("Success")
-            setVisible(true)
-            setModalType("close")
-            setTextCancel("close")
-
-            setModal(<div style={{ textAlign: 'center' }}>Success update OTP{" "}{a}{" "}Retrying !!!<br />{a}{" "}to{" "}{maximumOtp}</div>)
-          }, 3000);
+          //   setModal(<div style={{ textAlign: 'center' }}>Success update OTP{" "}{a}{" "}Retrying !!!<br />{a}{" "}to{" "}{maximumOtp}</div>)
+          // }, 3000);
         }
         if (b != expireOtp) {
           console.log("update >>>", expireOtp)
@@ -202,6 +202,7 @@ const OtpSetup =
           setEditMaximum(false)
           setdisExpire(false)
           _setUnfocus("expire")
+          setExpire(b)
           setTimeout(() => {
             console.log("Success")
             setVisible(true)

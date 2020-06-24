@@ -16,7 +16,7 @@ class BusinessParameterSetupApi {
 
   setOtpValue = async (params) => {
     const api = create(Header)
-    const response = await api.put('api/backoffice/v1/parameterstore', params)
+    const response = await api.post('api/backoffice/v1/parameterstore', params)
     return response
   }
 
