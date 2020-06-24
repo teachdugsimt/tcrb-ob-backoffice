@@ -34,6 +34,7 @@ class BusinessParameterSetup {
   @observable fetchingApi = false
   @observable productLimit = []
   @observable productLimitDetail = null
+  @observable arrayProductLimit = []
 
   @persist @observable
   persist_value = null
