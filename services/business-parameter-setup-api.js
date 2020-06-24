@@ -3,13 +3,14 @@ import Header from './api-integrations/header'
 import getGeneralApiProblem from './api-integrations/error-handler'
 import https from 'https';
 import axios from 'axios'
+import ExcuteApi from './api-integrations/excute-api'
 
 class BusinessParameterSetupApi {
 
   getOtpValue = async (params) => {
-    const api = create(Header())
-    const response = await api.get('api/backoffice/v1/parameterstore', params)
-    // console.log("response get OTP  :  ", response)
+    // const api = create(Header())
+    const response = await ExcuteApi('api/backoffice/v1/parameterstore', params)
+    // const response = await api.get('api/backoffice/v1/parameterstore', params)
     return response
   }
 
@@ -54,8 +55,7 @@ class BusinessParameterSetupApi {
       rejectUnauthorized: false,
       requestCert: false,
     })
-    console.log("Param before call : ", params)
-    // const response = await axios.get("https://api-dev.onlinebanking-backoffice.com/api/backoffice/v1/parameterstore", {
+
     const response = await axios.get("https://dwl8p0fxml-vpce-03ae60b10934425db.execute-api.ap-southeast-1.amazonaws.com/api/backoffice/v1/parameterstore", {
       params,
       httpsAgent,
@@ -98,3 +98,8 @@ class BusinessParameterSetupApi {
 }
 export default new BusinessParameterSetupApi()
 // HTTPS=true SSL_CRT_FILE=Certificate_chain.txt SSL_KEY_FILE=private_key.txt npm run dev
+
+
+// customer service inquiry
+// bussiness parameter setup
+// customer service menu
