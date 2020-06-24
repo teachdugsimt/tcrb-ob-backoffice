@@ -52,7 +52,7 @@ const OtpSetup =
       const [textOk, setTextOk] = useState("")
 
       useEffect(() => {
-        BusinessParameterSetupApi.getOtpValueAxios({ otpParamsField: "OTP_EXPIRE_TIME,OTP_MAXIMUM_ENTERED,OTP_TOKEN_EXPIRE_TIME" })
+        // BusinessParameterSetupApi.getOtpValueAxios({ otpParamsField: "OTP_EXPIRE_TIME,OTP_MAXIMUM_ENTERED,OTP_TOKEN_EXPIRE_TIME" })
 
         if (!businessParametersSetupStore.responseGetOtpValue || businessParametersSetupStore.fetchingGetOtp == null) {
           let data = { otpParamsField: "OTP_EXPIRE_TIME,OTP_MAXIMUM_ENTERED,OTP_TOKEN_EXPIRE_TIME" }
