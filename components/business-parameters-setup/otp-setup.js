@@ -176,9 +176,13 @@ const OtpSetup =
           setdisMaximum(false)
           setEditExpiration(false)
           _setUnfocus("maximum")
+
           setTimeout(() => {
             console.log("Success")
             setVisible(true)
+            setModalType("close")
+            setTextCancel("close")
+
             setModal(<div style={{ textAlign: 'center' }}>Success update OTP{" "}{a}{" "}Retrying !!!<br />{a}{" "}to{" "}{maximumOtp}</div>)
           }, 3000);
         }
@@ -197,6 +201,9 @@ const OtpSetup =
           setTimeout(() => {
             console.log("Success")
             setVisible(true)
+            setModalType("close")
+            setTextCancel("close")
+
             setModal(<div style={{ textAlign: 'center' }}>Success update OTP{" "}{b}{" "}Period !!!<br />{b}{" "}to{" "}{expireOtp}</div>)
           }, 3000);
         }
