@@ -14,16 +14,6 @@ const ExcuteApi = async (url, params, method) => {
       response = await api.get(url, params)
     }
     else if (method == "post" || method == "POST") {
-      // const header2 = {
-      //   httpsAgent,
-      //   baseURL: "https://dwl8p0fxml-vpce-03ae60b10934425db.execute-api.ap-southeast-1.amazonaws.com/",
-      //   headers: {
-      //     'Content-Type': 'application/x-www-form-urlencoded;application/json',
-      //   },
-      //   timeout: 10000
-      // }
-      // const api2 = create(header2)
-      // response = await api2.post(url, params)
       response = await api.post(url, params)
     }
     else if (method == "put" || method == "PUT") {
