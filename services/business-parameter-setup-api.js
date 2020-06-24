@@ -3,13 +3,14 @@ import Header from './api-integrations/header'
 import getGeneralApiProblem from './api-integrations/error-handler'
 import https from 'https';
 import axios from 'axios'
+import ExcuteApi from './api-integrations/excute-api'
 
 class BusinessParameterSetupApi {
 
   getOtpValue = async (params) => {
-    const api = create(Header())
-    const response = await api.get('api/backoffice/v1/parameterstore', params)
-    // console.log("response get OTP  :  ", response)
+    // const api = create(Header())
+    const response = await ExcuteApi('api/backoffice/v1/parameterstore', params)
+    // const response = await api.get('api/backoffice/v1/parameterstore', params)
     return response
   }
 
