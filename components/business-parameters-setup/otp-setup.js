@@ -44,7 +44,6 @@ const OtpSetup =
       // const [inputRef, setInputFocus] = useFocus()
 
       useEffect(() => {
-        // BusinessParameterSetupApi.getOtpValueAxios({ otpParamsField: "OTP_EXPIRE_TIME,OTP_MAXIMUM_ENTERED,OTP_TOKEN_EXPIRE_TIME" })
 
         if (!businessParametersSetupStore.responseGetOtpValue || businessParametersSetupStore.fetchingGetOtp == null) {
           let data = { otpParamsField: "OTP_EXPIRE_TIME,OTP_MAXIMUM_ENTERED,OTP_TOKEN_EXPIRE_TIME" }
@@ -102,9 +101,19 @@ const OtpSetup =
       const _onConfirm = async () => {
         if (modalString.includes("expire")) {
           if (getValueFromStore("expire") != expireOtp) {
-            // await businessParametersSetupStore.updateOTPdata({
-            //   OTP_EXPIRE_TIME: expireOtp
-            // })
+
+            let data = {
+              currentData: {
+                OTP_EXPIRE_TIME: 15
+              },
+              newData: {
+                OTP_EXPIRE_TIME: expireOtp
+              },
+              maker_id: 59
+            }
+
+            await businessParametersSetupStore.updateOTPdata(data)
+
             businessParametersSetupStore.selectProductToDelete({
               product_type: "OTP",
               product_description: "update expire OTP",
@@ -122,9 +131,19 @@ const OtpSetup =
           }
         } else {
           if (getValueFromStore("maximum") != maximumOtp) {
-            // await businessParametersSetupStore.updateOTPdata({
-            //   OTP_MAXIMUN_ENTERED: maximumOtp
-            // })
+
+            let data = {
+              currentData: {
+                OTP_MAXIMUM_ENTERED: "3"
+              },
+              newData: {
+                OTP_MAXIMUM_ENTERED: maximumOtp
+              },
+              maker_id: 51
+            }
+
+            await businessParametersSetupStore.updateOTPdata(data)
+
             businessParametersSetupStore.selectProductToDelete({
               product_type: "OTP",
               product_description: "update OTP entry maximum",

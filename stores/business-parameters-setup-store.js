@@ -23,13 +23,6 @@ class BusinessParameterSetup {
   @observable
   errorUpdateOtp = null
 
-  @observable
-  requestAxios = null
-  @observable
-  dataAxios = null
-  @observable
-  errorAxios = null
-
   @observable pendingApprovals = []
   @observable fetchingApi = false
   @observable productLimit = []
@@ -116,24 +109,5 @@ class BusinessParameterSetup {
     }
   }
 
-  @action
-  getDataByAxios = async (params) => {
-    this.requestAxios = true
-    let response = await BusinessParameterSetupApi.getOtpValueAxios(params)
-    console.log("Axios OTP :: ", JSON.parse(JSON.stringify(response)))
-    if (response.status == 200) {
-      this.requestAxios = false
-      this.dataAxios = JSON.parse(JSON.stringify(response))
-    } else {
-      this.requestAxios = false
-      this.errorAxios = JSON.parse(JSON.stringify(response))
-    }
-
-    // submitPartnerLimit = async () => {
-    //   this.fetchingApi = true
-    //   let response = await BusinessParameterSetupApi.submitPartnerLimit()
-    // }
-
-  }
 }
 export default BusinessParameterSetup

@@ -8,50 +8,22 @@ import ExcuteApi from './api-integrations/excute-api'
 class BusinessParameterSetupApi {
 
   getOtpValue = async (params) => {
-    // const api = create(Header())
-    const response = await ExcuteApi('api/backoffice/v1/parameterstore', params)
-    // const response = await api.get('api/backoffice/v1/parameterstore', params)
+    const response = await ExcuteApi('api/backoffice/v1/parameterstore', params, "get")
     return response
   }
 
   setOtpValue = async (params) => {
-    const api = create(Header())
-    const response = await api.put('api/backoffice/v1/parameterstore', params)
+    const response = await ExcuteApi('api/backoffice/v1/changerequest/otp', params, "post")
     return response
   }
 
   getProductLimit = async (params) => {
-    const api = create(Header())
-    const response = await api.get('api/backoffice/v1/partnertransactionlimit', params)
-    return response
-  }
-
-  getOtpValueAxios = async (params) => {
-    const httpsAgent = new https.Agent({
-      rejectUnauthorized: false,
-      requestCert: false,
-    })
-
-    const response = await axios.get("https://dwl8p0fxml-vpce-03ae60b10934425db.execute-api.ap-southeast-1.amazonaws.com/api/backoffice/v1/parameterstore", {
-      params,
-      httpsAgent,
-      headers: {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json',
-        // 'x-apigw-api-id': 'dwl8p0fxml',
-
-        // 'X-Forwarded-Proto': 'https',
-        // 'x-amzn-vpce-id': 'vpce-03ae60b10934425db',
-        // 'x-amzn-vpc-id': 'vpc-024c7d2df440a6d46',
-        // 'X-Forwarded-Port': '443'
-      }
-    })
+    const response = await ExcuteApi('api/backoffice/v1/partnertransactionlimit', params, "get")
     return response
   }
 
   getPartnerChannel = async (params) => {
-    const api = create(header)
-    const response = await api.get('api/backoffice/v1/partnertransactionlimit', params)
+    const response = await ExcuteApi('api/backoffice/v1/partnertransactionlimit', params, "get")
     return response
   }
 
