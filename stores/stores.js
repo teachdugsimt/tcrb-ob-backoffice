@@ -8,6 +8,7 @@ import AuthenStore from './authen-store'
 import VersatileStore from './versatile-store'
 import CustomerServicesMenuStore from './customer-services-menu-store'
 import BusinessParameterSetup from './business-parameters-setup-store'
+import CustomerServiceEnquiry from './customer-service-enquiry-store'
 
 const isServer = typeof window === 'undefined';
 useStaticRendering(isServer);
@@ -23,7 +24,8 @@ export default function initializeStore(initialData = {}) {
       authenStore: new AuthenStore(),
       versatileStore: new VersatileStore(),
       customerServicesMenuStore: new CustomerServicesMenuStore(),
-      businessParametersSetupStore: new BusinessParameterSetup()
+      businessParametersSetupStore: new BusinessParameterSetup(),
+      customerServiceEnquiry: new CustomerServiceEnquiry()
     };
   }
   if (store === null) {
@@ -34,7 +36,8 @@ export default function initializeStore(initialData = {}) {
       authenStore: new AuthenStore(),
       versatileStore: new VersatileStore(),
       customerServicesMenuStore: new CustomerServicesMenuStore(),
-      businessParametersSetupStore: new BusinessParameterSetup()
+      businessParametersSetupStore: new BusinessParameterSetup(),
+      customerServiceEnquiry: new CustomerServiceEnquiry()
     };
   }
 

@@ -21,27 +21,20 @@ const StyledSwitch = styled(Switch)`
     }
 `
 
-// const onboard_service = [
-//   { switchSelected: true, index: "E-KYC" },
-//   { switchSelected: true, index: "E-KYC" }
-// ]
-
-const data_service = [
-  [true, "E-KYC"],
-  [false, "Micro Pay"],
-  [false, "True Money"],
-  [false, "FB Pay"]
-]
-
-
 export const CustomerDetail =
-  inject('customerServicesMenuStore')
+  inject('customerServiceEnquiry')
     (observer((props) => {
+      const { customerServiceEnquiry } = props
+      const [obj, setobj] = useState(null)
 
-      const onChange = () => {
+      useEffect(() => {
+        if (obj != customerServiceEnquiry.rowDataObject)
+          setobj(JSON.parse(JSON.stringify(customerServiceEnquiry.rowDataObject)))
 
-      }
+      }, [customerServiceEnquiry.rowDataObject])
 
+      let customer_id = obj && obj.main_account_no ? obj.main_account_no : "3 1234 5678 74 8"
+      let name = obj && obj.account_name ? obj.account_name : "ศิริพร ศุภวัชโรบล"
       return (
         <div>
           <Row>
@@ -49,12 +42,12 @@ export const CustomerDetail =
               <Card style={{ border: "1px solid #7B7D7D", borderRadius: 25 }}>
                 <Row gutter={[16, 30]}>
                   <Col flex={100}>
-                    <StyledInput readOnly={true} prefix={'Customer Id'} defaultValue={"3 1234 5678 74 8"} />
+                    <StyledInput readOnly={true} prefix={'Customer Id'} defaultValue={customer_id} />
                   </Col>
                 </Row>
                 <Row gutter={[16, 16]}>
                   <Col flex={100}>
-                    <StyledInput readOnly={true} prefix={'Customer Name'} defaultValue={"ศิริพร ศุภวัชโรบล"} />
+                    <StyledInput readOnly={true} prefix={'Customer Name'} defaultValue={name} />
                   </Col>
                 </Row>
               </Card>
@@ -65,16 +58,16 @@ export const CustomerDetail =
                   <div style={{ fontSize: 18 }}>Onboarded service</div>
                 </Row>
                 <Row gutter={[4, 16]}>
-                  <Col span={6}><Switch disabled={true} />E-KYc</Col>
-                  <Col span={6}><Switch disabled={true} />Micro Pay</Col>
-                  <Col span={6}><Switch disabled={true} />Tyue Money</Col>
-                  <Col span={6}><Switch disabled={true} />FB Pay</Col>
+                  <Col span={6}><Switch disabled={obj && obj.status == 0 ? true : false} />E-KYc</Col>
+                  <Col span={6}><Switch disabled={obj && obj.status == 0 ? true : (obj && obj.status == 2 ? false : true)} />Micro Pay</Col>
+                  <Col span={6}><Switch disabled={obj && obj.status == 0 ? true : false} />True Money</Col>
+                  <Col span={6}><Switch disabled={obj && obj.status == 0 ? true : (obj && obj.status == 2 ? false : true)} />FB Pay</Col>
                 </Row>
                 <Row gutter={[4, 16]}>
                   <Col span={6}><Switch disabled={true} />Mobile Banking</Col>
-                  <Col span={6}><Switch disabled={true} />NDID</Col>
-                  <Col span={6}><Switch disabled={true} />Grab Pay</Col>
-                  <Col span={6}><Switch disabled={true} />ABC</Col>
+                  <Col span={6}><Switch disabled={false} />NDID</Col>
+                  <Col span={6}><Switch disabled={false} />Grab Pay</Col>
+                  <Col span={6}><Switch disabled={true} />AirPay</Col>
                 </Row>
               </Card>
             </Col>
