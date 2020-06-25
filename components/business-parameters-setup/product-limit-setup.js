@@ -65,7 +65,7 @@ const ProductLimitSetup =
                   <Select
                     style={{ width: '100%' }}
                   >
-                    {channelPartnerList.map((item, index) => <Option key={index} value={item.product_type}>{item.partner_code}</Option>)}
+                    {channelPartnerList.map((item, index) => <Option key={index} value={item.product_type}>{item.product_type}</Option>)}
                   </Select>) : (
                     <>
                       {inputNode}
@@ -81,6 +81,7 @@ const ProductLimitSetup =
       useEffect(() => {
         // setDataSource(mockDataSource)
         businessParametersSetupStore.getDataProductLimit()
+        businessParametersSetupStore.getDataChannelPartnerList()
 
       }, []);
 
@@ -157,31 +158,28 @@ const ProductLimitSetup =
 
       const selectProductToViewDetail = (rowSelected) => {
         //call api to get Detail Product
-
         businessParametersSetupStore.getDataDetailProductLimit(rowSelected.product_code)
-        businessParametersSetupStore.getDataChannelPartnerList()
-        // setViewDetailProduct(true)
+        // businessParametersSetupStore.getDataChannelPartnerList()
       }
 
       const addRowProductList = () => {
         // console.log(toJS(businessParametersSetupStore.arrayProductLimit))
         let newProduct = {
-          created_by: "system",
-          created_on: "2020-06-15T13:09:48.000Z",
-          daily_limit: "1000000",
-          id: 7,
+          // created_by: "system",
+          // created_on: "2020-06-15T13:09:48.000Z",
+          daily_limit: 1000000,
           partner_code: "",
-          product_code: "00006" + dataSource.length,
-          product_description: "Test Program - High LTV ดอกเบี้ยพิเศษ 9.99%",
-          product_type: "NG",
-          request_status: "0",
+          product_code: "",
+          product_description: "",
+          product_type: "",
+          // request_status: "0",
           status: "1",
-          terminated_by: null,
-          terminated_on: null,
-          transaction_code: "6619",
-          transaction_limit: "1000000",
-          updated_by: null,
-          updated_on: null,
+          // terminated_by: null,
+          // terminated_on: null,
+          // transaction_code: "6619",
+          // transaction_limit: "1000000",
+          // updated_by: null,
+          // updated_on: null,
           key: dataSource.length + 1
         }
         setDataSource([...dataSource, newProduct])
@@ -199,6 +197,7 @@ const ProductLimitSetup =
             record.status = 2
           }
         })
+        businessParametersSetupStore.addNewProductLimit(record)
         setEditingKey('')
       }
 

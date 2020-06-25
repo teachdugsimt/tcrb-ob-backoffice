@@ -20,7 +20,7 @@ const Header = (api_gw_id = null, vpc_id = null) => {
     httpsAgent,
     baseURL,
     headers: {
-      'Content-Type': 'application/json',
+      'Content-Type': 'application/x-www-form-urlencoded;application/json',
       'Accept': 'application/json',
       // 'Accept': 'application/json',
       // 'Access-Control-Allow-Origin': "*",

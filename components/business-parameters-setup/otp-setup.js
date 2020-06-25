@@ -4,7 +4,9 @@ import styled from 'styled-components'
 import { inject, observer } from 'mobx-react'
 import { withTranslation } from '../../i18n'
 import SimpleModal from '../simple-modal'
-import { BusinessParameterSetupApi } from '../../services'
+import { BusinessParameterSetupApi } from '../../services/'
+// import { qs } from 'qs'
+import querystring from 'querystring'
 const StyledInput = styled(Input)`
   background-color: unset !important;
   border: unset !important;
@@ -52,7 +54,6 @@ const OtpSetup =
       const [textOk, setTextOk] = useState("")
 
       useEffect(() => {
-        // BusinessParameterSetupApi.getOtpValueAxios({ otpParamsField: "OTP_EXPIRE_TIME,OTP_MAXIMUM_ENTERED,OTP_TOKEN_EXPIRE_TIME" })
 
         if (!businessParametersSetupStore.responseGetOtpValue || businessParametersSetupStore.fetchingGetOtp == null) {
           let data = { otpParamsField: "OTP_EXPIRE_TIME,OTP_MAXIMUM_ENTERED,OTP_TOKEN_EXPIRE_TIME" }
@@ -166,11 +167,19 @@ const OtpSetup =
         let b = getValueFromStore("expire")
         if (a != maximumOtp) {
           console.log("update >>>", maximumOtp)
-          await businessParametersSetupStore.updateOTPdata({
-            currentData: { OTP_MAXIMUN_ENTERED: a },
-            maker_id: 12345699,
-            OTP_MAXIMUN_ENTERED: maximumOtp
-          })
+
+          let data = {
+            currentData: {
+              OTP_MAXIMUM_ENTERED: a
+            },
+            newData: {
+              OTP_MAXIMUM_ENTERED: maximumOtp
+            },
+            maker_id: 51
+          }
+
+          await businessParametersSetupStore.updateOTPdata(data)
+
           setVisible(false)
           setInputMax(true)
           setvisibleEditMaximum(true)
@@ -190,11 +199,17 @@ const OtpSetup =
         }
         if (b != expireOtp) {
           console.log("update >>>", expireOtp)
-          // await businessParametersSetupStore.updateOTPdata({
-          //currentData: {OTP_EXPIRE_TIME:b}
-          //maker_id: 12345699
-          //   OTP_EXPIRE_TIME: expireOtp
-          // })
+          let data = {
+            currentData: {
+              OTP_EXPIRE_TIME: b
+            },
+            newData: {
+              OTP_EXPIRE_TIME: expireOtp
+            },
+            maker_id: 59
+          }
+
+          await businessParametersSetupStore.updateOTPdata(data)
           setVisible(false)
           setInputExpiration(true)
           setvisibleExpireEdit(true)

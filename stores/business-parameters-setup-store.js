@@ -23,13 +23,6 @@ class BusinessParameterSetup {
   @observable
   errorUpdateOtp = null
 
-  @observable
-  requestAxios = null
-  @observable
-  dataAxios = null
-  @observable
-  errorAxios = null
-
   @observable pendingApprovals = []
   @observable fetchingApi = false
   @observable productLimit = []
@@ -143,10 +136,15 @@ class BusinessParameterSetup {
 
   @action
   deleteProductLimit = async (params) => {
-    let response = await BusinessParameterSetupApi.deleteProductLimit({ Data: { action: "Delete", currentData: params, newData: {} } })
+    let response = await BusinessParameterSetupApi.deleteProductLimit({ action: "Delete", currentData: params, newData: {} })
     console.log(response)
   }
 
+  @action
+  addNewProductLimit = async (params) => {
+    let response = await BusinessParameterSetupApi.addNewProductLimit({ action: "Add", currentData: {}, newData: params })
+    console.log(response)
+  }
   @action
   getDataByAxios = async (params) => {
     this.requestAxios = true
