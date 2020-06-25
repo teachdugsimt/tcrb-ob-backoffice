@@ -25,7 +25,6 @@ const ExcuteApi = async (url, params, method) => {
     else if (method == "delete" || method == "DELETE") {
       response = await api.delete(url, params)
     }
-
     return response
   } catch (error) {
     return error

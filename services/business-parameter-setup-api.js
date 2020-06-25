@@ -27,6 +27,49 @@ class BusinessParameterSetupApi {
     return response
   }
 
+  getDetailProductLimit = async (params) => {
+    const response = await ExcuteApi('api/backoffice/v1/partnertransactionlimit/' + params, null, "get")
+    return response
+  }
+
+  getChannelPartnerList = async (params) => {
+    const response = await ExcuteApi('api/backoffice/v1/partnerinformation', params, "get")
+    return response
+  }
+
+  deleteProductLimit = async (params) => {
+    const response = await ExcuteApi('api/backoffice/v1/changerequest/productlimit', params, "post")
+    return response
+  }
+
+  addNewProductLimit = async (params) => {
+    const response = await ExcuteApi('api/backoffice/v1/changerequest/productlimit', params, "post")
+    return response
+  }
+
+
+  submitPartnerLimit = async (params) => {
+    //waiting api from tum
+    // const response = await ExcuteApi('api/backoffice/v1/changerequest/productlimit', params, "post")
+    return response
+  }
+
+  getPendingList = async (params) => {
+    const response = await ExcuteApi('api/backoffice/v1/changerequest', params, "get")
+    return response
+  }
+
+  approveRejectOtpRequest = async (params) => {
+    const response = await api.put('api/backoffice/v1/changerequest/otp', params)
+    return response
+  }
+
+  rejectRejectProductRequest = async (params) => {
+    const response = await api.put('api/backoffice/v1/changerequest/productlimit', params)
+    return response
+  }
+
+
   getPartnerChannel = async (params) => {
     const response = await ExcuteApi('api/backoffice/v1/partnertransactionlimit', params, "get")
     return response

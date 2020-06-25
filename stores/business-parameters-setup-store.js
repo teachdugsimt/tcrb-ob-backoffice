@@ -27,6 +27,8 @@ class BusinessParameterSetup {
   @observable fetchingApi = false
   @observable productLimit = []
   @observable productLimitDetail = null
+  @observable arrayProductLimit = []
+  @observable channelPartnerList = []
 
   @persist @observable persist_value = null
 
@@ -96,13 +98,14 @@ class BusinessParameterSetup {
     let response = await BusinessParameterSetupApi.setOtpValue(params)
     if (response.ok) {
       console.log("Update OTP Success :: ", response)
+      console.log("DATA >>", response.data)
       this.responseUpdateOtp = response.data
       this.fetchingUpdateOtp = false
       this.errorUpdateOtp = null
     } else {
       console.log("Update OTP FAIL :: ", response)
       this.fetchingUpdateOtp = false
-      this.responseUpdateOtp = null
+      this.responseUpdateOtp = response.data
       this.errorUpdateOtp = response.problem ? response.problem : "Client Error"
     }
   }
@@ -138,5 +141,58 @@ class BusinessParameterSetup {
     }
   }
 
+  @action
+  getDataDetailProductLimit = async (params) => {
+    this.fetchingUpdateOtp = true
+    let response = await BusinessParameterSetupApi.getDetailProductLimit(params)
+    console.log(response)
+    if (response.ok && response.status == 200) {
+      this.productLimitDetail = response.data.responseData
+    } else {
+
+    }
+  }
+
+  @action
+  getDataChannelPartnerList = async () => {
+    let response = await BusinessParameterSetupApi.getChannelPartnerList({ filter: { attributes: ["partner_code", "partner_abbreviation"] } })
+    console.log(response)
+    if (response.ok && response.status == 200) {
+      this.channelPartnerList = response.data.responseData
+    } else {
+
+    }
+  }
+
+  @action
+  deleteProductLimit = async (params) => {
+    let response = await BusinessParameterSetupApi.deleteProductLimit({ action: "Delete", currentData: params, newData: {} })
+    console.log(response)
+  }
+
+  @action
+  addNewProductLimit = async (params) => {
+    let response = await BusinessParameterSetupApi.addNewProductLimit({ action: "Add", currentData: {}, newData: params })
+    console.log(response)
+  }
+  @action
+  getDataByAxios = async (params) => {
+    this.requestAxios = true
+    let response = await BusinessParameterSetupApi.getOtpValueAxios(params)
+    console.log("Axios OTP :: ", JSON.parse(JSON.stringify(response)))
+    if (response.status == 200) {
+      this.requestAxios = false
+      this.dataAxios = JSON.parse(JSON.stringify(response))
+    } else {
+      this.requestAxios = false
+      this.errorAxios = JSON.parse(JSON.stringify(response))
+    }
+
+    // submitPartnerLimit = async () => {
+    //   this.fetchingApi = true
+    //   let response = await BusinessParameterSetupApi.submitPartnerLimit()
+    // }
+
+  }
 }
 export default BusinessParameterSetup

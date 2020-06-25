@@ -6,7 +6,7 @@ export default function SimpleModal(props) {
   return (
     <div>
       <Modal
-        type={props.type}
+
         title={i18n.t(props.title)}
         visible={props.visible}
         onOk={() => props.onOk()}
@@ -16,7 +16,10 @@ export default function SimpleModal(props) {
             {props.textCancel}
           </Button>,
 
-          props.type != "error" && (<Button key="submit" type="primary" onClick={() => props.onOk()}>
+          props.type == "confirm" && (<Button key="submit" type="primary" onClick={() => props.onOk()}>
+            {props.textOk}
+          </Button>),
+          props.type == "request" && (<Button key="submit" type="primary" loading={props.fetching} onClick={() => props.onOk()}>
             {props.textOk}
           </Button>),
         ]}
