@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react'
-import { Input, Row, Col, Button, Alert } from 'antd'
+import { Input, Row, Col, Button, Alert, Spin } from 'antd'
 import styled from 'styled-components'
 import { inject, observer } from 'mobx-react'
 import { withTranslation } from '../../i18n'
@@ -52,6 +52,8 @@ const OtpSetup =
       const [modalType, setModalType] = useState("")
       const [textCancel, setTextCancel] = useState("")
       const [textOk, setTextOk] = useState("")
+      const [typeUpdate, setTypeUpdate] = useState("")
+      const [fetching, setFetching] = useState(null)
 
       useEffect(() => {
 
@@ -74,6 +76,32 @@ const OtpSetup =
           }
         }
       }, [businessParametersSetupStore.responseGetOtpValue])
+
+      useEffect(() => {
+        let newProps = JSON.parse(JSON.stringify(businessParametersSetupStore.responseUpdateOtp))
+        let fetch = businessParametersSetupStore.fetchingUpdateOtp
+        let error = businessParametersSetupStore.errorUpdateOtp
+        // setFetching(businessParametersSetupStore.fetchingUpdateOtp)
+        console.log("newProps >>>>", newProps, fetch)
+        if ((newProps && !fetch) && !error) {
+          console.log("Success")
+          setFetching(false)
+          setVisible(true)
+          setModal(<div style={{ textAlign: 'center' }}>Update{" "}{typeUpdate}{" "}Success<br />Your changes will take effect after being approved.</div>)
+          setTitle("Success")
+          setModalType("close")
+          setTextCancel("close")
+        } else if (error) {
+          setFetching(false)
+          // console.log(error, fetch, newProps)
+          setVisible(true)
+          setModal(<div style={{ textAlign: 'center', color: 'red' }}>Error Message : {" "}{newProps.userMessage}</div>)
+          setTitle("Error")
+          setModalType("error")
+          setTextCancel("close")
+        }
+
+      }, [businessParametersSetupStore.responseUpdateOtp])
 
       const _onClickExpiration = () => {
         console.log("==edit Expiration==")
@@ -106,13 +134,13 @@ const OtpSetup =
           console.log(a)
           console.log(maximumOtp)
           if (maximumOtp == a) {
-            setModal("Error: OTP Maximum is not change value " + maximumOtp)
+            setModal(<div style={{ textAlign: 'center', color: 'red' }}>Error: OTP Maximum is not change <br />value : {maximumOtp}</div>)
             setTitle("Error")
             setModalType("error")
             setTextCancel("cancel")
           }
           else if (!maximumOtp) {
-            setModal("Error: OTP Maximum is not empty ")
+            setModal(<div style={{ textAlign: 'center', color: 'red' }}>Error: OTP Maximum is not empty</div>)
             setTitle("Error")
             setModalType("error")
             setTextCancel("cancel")
@@ -128,13 +156,13 @@ const OtpSetup =
         else {
           let a = getValueFromStore("expire")
           if (expireOtp == a) {
-            setModal("Error: OTP Expire is not change value " + expireOtp)
+            setModal(<div style={{ textAlign: 'center', color: 'red' }}>Error: OTP Expire is not change <br />value : {expireOtp}</div>)
             setTitle("Error")
             setModalType("error")
             setTextCancel("cancel")
           }
           else if (!expireOtp) {
-            setModal("Error: OTP Expire is not empty ")
+            setModal(<div style={{ textAlign: 'center', color: 'red' }}>Error: OTP Expire is not empty</div>)
             setTitle("Error")
             setModalType("error")
             setTextCancel("cancel")
@@ -177,9 +205,6 @@ const OtpSetup =
             },
             maker_id: 51
           }
-
-          await businessParametersSetupStore.updateOTPdata(data)
-
           setVisible(false)
           setInputMax(true)
           setvisibleEditMaximum(true)
@@ -188,14 +213,10 @@ const OtpSetup =
           setEditExpiration(false)
           _setUnfocus("maximum")
           setMaximum(a)
-          // setTimeout(() => {
-          //   console.log("Success")
-          //   setVisible(true)
-          //   setModalType("close")
-          //   setTextCancel("close")
+          setTypeUpdate("Maximum OTP")
+          setFetching(true)
+          await businessParametersSetupStore.updateOTPdata(data)
 
-          //   setModal(<div style={{ textAlign: 'center' }}>Success update OTP{" "}{a}{" "}Retrying !!!<br />{a}{" "}to{" "}{maximumOtp}</div>)
-          // }, 3000);
         }
         if (b != expireOtp) {
           console.log("update >>>", expireOtp)
@@ -209,7 +230,6 @@ const OtpSetup =
             maker_id: 59
           }
 
-          await businessParametersSetupStore.updateOTPdata(data)
           setVisible(false)
           setInputExpiration(true)
           setvisibleExpireEdit(true)
@@ -218,14 +238,10 @@ const OtpSetup =
           setdisExpire(false)
           _setUnfocus("expire")
           setExpire(b)
-          setTimeout(() => {
-            console.log("Success")
-            setVisible(true)
-            setModalType("close")
-            setTextCancel("close")
+          setTypeUpdate("Expire OTP")
+          setFetching(true)
+          await businessParametersSetupStore.updateOTPdata(data)
 
-            setModal(<div style={{ textAlign: 'center' }}>Success update OTP{" "}{b}{" "}Period !!!<br />{b}{" "}to{" "}{expireOtp}</div>)
-          }, 3000);
         }
       }
 
@@ -272,34 +288,40 @@ const OtpSetup =
 
       return (
         <div>
-          <Row gutter={[8, 8]}>
-            <Col span={8}>
-              <StyledInput readOnly={inputMax} id={"otp-maximum-retrying"} value={maximumOtp} onChange={(e) => setMaximum(e.target.value)} prefix={t("otpMaximumRetrying")} suffix={t("otpTime")} />
-            </Col>
-            <Col span={6}>
-              {visibleEditMaximum && <Button disabled={editMaximum} onClick={() => _onClickMaximumRetry()}>{t("edit")}</Button>}
-              {visibleSubmitMaximum && <Button disabled={disMaximumSubmit} onClick={() => _openPopup("maximum")}>{t("submit")}</Button>}
-            </Col>
-          </Row>
-          <Row gutter={[8, 8]}>
-            <Col span={8}>
-              <StyledInput readOnly={inputExpiration} /*ref={inputRef}*/ id={"otp-expiration-period"} value={expireOtp} onChange={(e) => setExpire(e.target.value)} prefix={t("otpExpirationPeriod")} suffix={t("otpSecond")} />
-            </Col>
-            <Col span={6}>
-              {visibleExpireEdit && <Button disabled={editExpiration} onClick={() => _onClickExpiration()} >{t("edit")}</Button>}
-              {visibleExpireSubmit && <Button disabled={disExpireSubmit}/*onClick={setInputFocus}*/ onClick={() => _openPopup("expire")} >{t("submit")}</Button>}
-            </Col>
-          </Row>
-          <SimpleModal
-            title={title}
-            type={modalType}
-            onOk={() => _onConfirm()}
-            onCancel={() => _onCancel()}
-            textCancel={textCancel}
-            textOk={textOk}
-            modalString={modalString}
-            visible={visible}
-          />
+          <Spin
+            tip="Loading..."
+            size="large" spinning={fetching}
+          // delay={fetching == false ? 800 : 0}
+          >
+            <Row gutter={[8, 8]}>
+              <Col span={8}>
+                <StyledInput readOnly={inputMax} id={"otp-maximum-retrying"} value={maximumOtp} onChange={(e) => setMaximum(e.target.value)} prefix={t("otpMaximumRetrying")} suffix={t("otpTime")} />
+              </Col>
+              <Col span={6}>
+                {visibleEditMaximum && <Button disabled={editMaximum} onClick={() => _onClickMaximumRetry()}>{t("edit")}</Button>}
+                {visibleSubmitMaximum && <Button disabled={disMaximumSubmit} onClick={() => _openPopup("maximum")}>{t("submit")}</Button>}
+              </Col>
+            </Row>
+            <Row gutter={[8, 8]}>
+              <Col span={8}>
+                <StyledInput readOnly={inputExpiration} /*ref={inputRef}*/ id={"otp-expiration-period"} value={expireOtp} onChange={(e) => setExpire(e.target.value)} prefix={t("otpExpirationPeriod")} suffix={t("otpSecond")} />
+              </Col>
+              <Col span={6}>
+                {visibleExpireEdit && <Button disabled={editExpiration} onClick={() => _onClickExpiration()} >{t("edit")}</Button>}
+                {visibleExpireSubmit && <Button disabled={disExpireSubmit}/*onClick={setInputFocus}*/ onClick={() => _openPopup("expire")} >{t("submit")}</Button>}
+              </Col>
+            </Row>
+            <SimpleModal
+              title={title}
+              type={modalType}
+              onOk={() => _onConfirm()}
+              onCancel={() => _onCancel()}
+              textCancel={textCancel}
+              textOk={textOk}
+              modalString={modalString}
+              visible={visible}
+            />
+          </Spin>
         </div>
       )
     }))
