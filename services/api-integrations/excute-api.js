@@ -4,6 +4,7 @@ import https from 'https';
 const httpsAgent = new https.Agent({
   rejectUnauthorized: false,
   requestCert: false,
+
 })
 
 const ExcuteApi = async (url, params, method) => {
@@ -11,7 +12,7 @@ const ExcuteApi = async (url, params, method) => {
     const api = create(Header())
     let response
     if (method == "get" || method == "GET") {
-      response = await api.get(url, params)
+      response = await api.get(url, params ? params : { filter: {} })
     }
     else if (method == "post" || method == "POST") {
       response = await api.post(url, params)

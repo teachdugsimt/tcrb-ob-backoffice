@@ -64,6 +64,7 @@ const Signin =
       const footName = authenStore.footName ? authenStore.footName : "IT SERVICE DESK CONTACT NUMBER IS 02-6xx-1234"
 
       useEffect(() => {
+        i18n.changeLanguage("en")
         return () => {
           // cleanup
         }

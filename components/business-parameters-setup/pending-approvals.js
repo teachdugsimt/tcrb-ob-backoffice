@@ -51,7 +51,7 @@ const PendingApprovals =
               <Popconfirm title="Sure to Accept?"
                 onConfirm={() => {
                   let data = {
-                    allowActions: "APPROVE",
+                    allowAction: "APPROVE",
                     data: record,
                     id: record.id
                   }
@@ -65,7 +65,7 @@ const PendingApprovals =
               <Popconfirm title="Sure to Reject?"
                 onConfirm={() => {
                   let data = {
-                    allowActions: "REJECT",
+                    allowAction: "REJECT",
                     data: record,
                     id: record.id
                   }
