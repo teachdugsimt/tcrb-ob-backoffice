@@ -125,3 +125,47 @@ export const columnsAccInfo = [
     dataIndex: 'accRef3',
   },
 ];
+
+export const columnsTxn = [
+  {
+    title: 'No.',
+    dataIndex: 'no',
+    key: 'no',
+    render: text => <div>{text}</div>,
+  },
+  {
+    title: 'Txn-DR_Entry',
+    dataIndex: 'txnDrEntry',
+    key: 'txnDrEntry',
+  },
+  {
+    title: 'Txn-CR_Entry',
+    dataIndex: 'txnCrEntry',
+    key: 'txnCrEntry',
+  },
+  {
+    title: 'Fee-DR_Entry',
+    key: 'feeDrEntry',
+    dataIndex: 'feeDrEntry',
+  },
+  {
+    title: 'Fee-DR_Amt',
+    key: 'feeDrAmount',
+    dataIndex: 'feeDrAmount',
+  },
+  {
+    title: 'Fee-CR_Entry',
+    key: 'feeCrEntry',
+    dataIndex: 'feeCrEntry',
+  },
+  {
+    title: 'Fee-CR_Amt',
+    key: 'feeCrAmount',
+    dataIndex: 'feeCrAmount',
+  },
+  {
+    title: 'Amt',
+    key: 'amount',
+    dataIndex: 'amount',
+  },
+];
