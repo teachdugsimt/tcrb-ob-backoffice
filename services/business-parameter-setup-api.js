@@ -17,6 +17,11 @@ class BusinessParameterSetupApi {
     return response
   }
 
+  getProductList = async (params) => {
+    const response = await ExcuteApi('api/backoffice/v1/product', params, "get")
+    return response
+  }
+
   getProductLimit = async (params) => {
     const response = await ExcuteApi('api/backoffice/v1/partnertransactionlimit', params, "get")
     return response

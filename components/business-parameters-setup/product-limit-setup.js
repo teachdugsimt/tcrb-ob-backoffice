@@ -23,6 +23,8 @@ const ProductLimitSetup =
       const [modalType, setModalType] = useState('')
       const [selectPartnerAndProduct, setSelectPartnerAndProduct] = useState({})
       const [channelPartnerList, setChannelPartnerList] = useState([])
+      const [productList, setProductList] = useState([])
+      const [viewSpecificProduct, setViewSpecificProduct] = useState(false)
       const { businessParametersSetupStore, t } = props
       const [form] = Form.useForm();
       var txnLimit, dailyLimit = ''
@@ -32,14 +34,15 @@ const ProductLimitSetup =
       const isEditing = record => record.key === editingKey;
       const edit = record => {
         form.setFieldsValue({
-          name: '',
-          age: '',
-          address: '',
+          product_type: '',
+          product_description: '',
+          transaction_limit: '',
+          daily_limit: '',
+          Specific: '',
           ...record,
         });
         setEditingKey(record.key);
       };
-
       const EditableCell = ({
         editing,
         dataIndex,
@@ -56,33 +59,42 @@ const ProductLimitSetup =
             {editing ? (
 
               <Form.Item
-                name={dataIndex}
+                name={dataIndex == 'product_type' ? 'product_code' : dataIndex}
                 style={{
                   margin: 0,
                 }}
+                rules={[
+                  {
+                    required: (inputType === 'number') ? true : false,
+                    message: `Please Input ${title}!`,
+                  },
+                ]}
               >
+                {/* {inputNode} */}
                 {dataIndex == 'product_type' ? (
                   <Select
                     style={{ width: '100%' }}
                   >
-                    {channelPartnerList.map((item, index) => <Option key={index} value={item.product_type}>{item.product_type}</Option>)}
+                    {productList.map((item, index) => <Option key={index} value={item.product_code}>{item.product_type}</Option>)}
                   </Select>) : (
-                    <>
+                    <div>
                       {inputNode}
-                    </>
+                    </div>
                   )}
               </Form.Item>
             ) : (
                 children
-              )}
+              )
+            }
           </td>
         );
       };
+
       useEffect(() => {
         // setDataSource(mockDataSource)
         businessParametersSetupStore.getDataProductLimit()
         businessParametersSetupStore.getDataChannelPartnerList()
-
+        businessParametersSetupStore.getDataProductList()
       }, []);
 
       useEffect(() => {
@@ -108,6 +120,11 @@ const ProductLimitSetup =
         }
       }, [businessParametersSetupStore.channelPartnerList])
 
+      useEffect(() => {
+        if (businessParametersSetupStore.productList.length > 1) {
+          setProductList(businessParametersSetupStore.productList)
+        }
+      }, [businessParametersSetupStore.productList])
 
       const handleDelete = key => {
         // const dataSource = [...this.state.dataSource];
@@ -162,25 +179,18 @@ const ProductLimitSetup =
         // businessParametersSetupStore.getDataChannelPartnerList()
       }
 
+      const selectProductToSpecificLimit = () => {
+        setViewSpecificProduct(true)
+      }
+
       const addRowProductList = () => {
-        // console.log(toJS(businessParametersSetupStore.arrayProductLimit))
         let newProduct = {
-          // created_by: "system",
-          // created_on: "2020-06-15T13:09:48.000Z",
-          daily_limit: 1000000,
-          partner_code: "",
-          product_code: "",
-          product_description: "",
-          product_type: "",
-          // request_status: "0",
-          status: "1",
-          // terminated_by: null,
-          // terminated_on: null,
-          // transaction_code: "6619",
-          // transaction_limit: "1000000",
-          // updated_by: null,
-          // updated_on: null,
-          key: dataSource.length + 1
+          key: dataSource.length + 1,
+          product_code: '',
+          product_description: '',
+          transaction_limit: '',
+          daily_limit: '',
+          Specific: '',
         }
         setDataSource([...dataSource, newProduct])
         edit(newProduct)
@@ -188,17 +198,28 @@ const ProductLimitSetup =
       }
       const goBackProductList = () => {
         setViewDetailProduct(false)
+        businessParametersSetupStore.productLimitDetail = null
       }
-      const submitAddnewProduct = (record) => {
+      const submitAddnewProduct = async (key) => {
         // Call api to update record status
-        console.log(record)
-        dataSource.map(detailDataSource => {
-          if (detailDataSource.key === record.key) {
-            record.status = 2
-          }
-        })
-        businessParametersSetupStore.addNewProductLimit(record)
-        setEditingKey('')
+        const row = await form.validateFields();
+        row.status = 2
+        row.transaction_code = "6931"
+        let indexProduct = productList.findIndex(item => row.product_code === item.product_code)
+        row.product_type = productList[indexProduct].product_type
+        const newData = [...dataSource];
+        const index = newData.findIndex(item => key === item.key);
+        if (index > -1) {
+          const item = newData[index];
+          newData.splice(index, 1, { ...item, ...row });
+          setDataSource(newData);
+          setEditingKey('');
+        } else {
+          newData.push(row);
+          setDataSource(newData);
+          setEditingKey('');
+        }
+        businessParametersSetupStore.addNewProductLimit(row)
       }
 
       const submitDeleteProduct = (record) => {
@@ -208,24 +229,28 @@ const ProductLimitSetup =
             record.status = 2
           }
         })
-        businessParametersSetupStore.deleteProductLimit(record)
-        //setDataSource() //<<waiting result api and  add key index
+        console.log(toJS(dataSource))
+        //businessParametersSetupStore.deleteProductLimit(record)
+        setDataSource(dataSource) //<<waiting result api and  add key index
       }
       const renderOnclickHandler = (text, record) => {
         return <p onClick={() => selectProductToViewDetail(record)}>{text}</p>
       }
       const renderActionAddDeleteHandler = (record, index) => {
         if (index + 1 <= businessParametersSetupStore.arrayProductLimit.length) {
-          return <Popconfirm title="Sure to delete?" onConfirm={(e) => { submitDeleteProduct(record) }} >
+          return <Popconfirm title="Sure to delete?" onConfirm={(e) => { submitDeleteProduct(record) }} disabled={editingKey !== ''}>
             <a>Delete</a>
           </Popconfirm>
         } else if (record.status === 2) {
           return null
         } else {
-          return <Popconfirm title={"Confirm to add " + record.product_type + record.product_description + "!!!"} onConfirm={() => { submitAddnewProduct(record) }} >
+          return <Popconfirm title={"Confirm to add !!!"} onConfirm={() => { submitAddnewProduct(record.key) }} >
             <a>confirm</a>
           </Popconfirm>
         }
+      }
+      const renderActionSpecificHandler = (record) => {
+        return <p onClick={() => selectProductToSpecificLimit(record)} >.....</p>
       }
       const columns = [
         {
@@ -247,7 +272,7 @@ const ProductLimitSetup =
         },
         {
           title: 'All-Channel Txn Limit',
-          dataIndex: 'TxnLimit',
+          dataIndex: 'transaction_limit',
           editable: true,
           render: (text, record) => renderOnclickHandler(text, record)
         },
@@ -260,8 +285,8 @@ const ProductLimitSetup =
         {
           title: 'Specific Channel Limit',
           dataIndex: 'Specific',
-          editable: true,
-          render: (text, record) => renderOnclickHandler(text, record)
+          // editable: true,
+          render: (text, record) => renderActionSpecificHandler(text, record)
 
         },
       ];
@@ -308,40 +333,8 @@ const ProductLimitSetup =
               </Row>
             </Card>
             <Card>
-              <Row gutter={[4, 24]}>
-                <Col span={6}>Channel/Partner</Col>
-                <Col span={12} flex={100}>
-                  {/* <SimpleMenu options={optionList} onChange={(e) => { selectPartnerChanel(e) }} /> */}
-                  <Select
-                    onChange={(value) => selectPartnerChanel(value)}
-                    style={{ width: '100%' }}
-                  >
-                    {channelPartnerList.map((item, index) => <Option key={index} value={item.partner_code}>{item.partner_code}/{item.partner_abbreviation}</Option>)}
-                  </Select>
-                </Col>
-              </Row>
-              {(showLimitPartner) ? (
-                <>
-                  <Row>
-                    <Col span={6}>
-                      <SimpleInput readOnly={false} defaultValue={null} prefix={'Txn Limit'} onChange={(e) => { txnLimit = e }} />
-                    </Col>
-                    <Col span={2}>
-                      <p style={{ paddingTop: 4 }}>THB</p>
-                    </Col>
-                  </Row>
-                  <Row>
-                    <Col span={6}>
-                      <SimpleInput readOnly={false} defaultValue={null} prefix={'Daily Limit'} onChange={(e) => { dailyLimit = e }} />
-                    </Col>
-                    <Col span={2}>
-                      <p style={{ paddingTop: 4 }}>THB</p>
-                    </Col>
-                  </Row>
-
-                </>
-              ) : ('')}
-
+              {/* <AddAndChangeLimitPartner /> */}
+              {addAndChangeLimitPartner()}
             </Card>
             <Row justify="center" style={{ marginTop: 8 }}>
               <Col span={2}>
@@ -365,7 +358,7 @@ const ProductLimitSetup =
         )
       }
 
-      const productList = () => {
+      const productLimitList = () => {
         return (
           <div>
             <Row>
@@ -387,7 +380,6 @@ const ProductLimitSetup =
                         cell: EditableCell,
                       },
                     }}
-                    rowClassName={() => 'editable-row'}
                     bordered
                     dataSource={dataSource}
                     columns={mergedColumns}
@@ -399,6 +391,46 @@ const ProductLimitSetup =
           </div>
         )
       }
-      return (viewDetailProduct) ? detailProduct() : productList()
+
+      const addAndChangeLimitPartner = () => {
+        return (
+          <div>
+            <Row gutter={[4, 24]}>
+              <Col span={6}>Channel/Partner</Col>
+              <Col span={12} flex={100}>
+                {/* <SimpleMenu options={optionList} onChange={(e) => { selectPartnerChanel(e) }} /> */}
+                <Select
+                  onChange={(value) => selectPartnerChanel(value)}
+                  style={{ width: '100%' }}
+                >
+                  {channelPartnerList.map((item, index) => <Option key={index} value={item.partner_code}>{item.partner_code}/{item.partner_abbreviation}</Option>)}
+                </Select>
+              </Col>
+            </Row>
+            {(showLimitPartner) ? (
+              <div>
+                <Row>
+                  <Col span={6}>
+                    <SimpleInput readOnly={false} defaultValue={null} prefix={'Txn Limit'} onChange={(e) => { txnLimit = e }} />
+                  </Col>
+                  <Col span={2}>
+                    <p style={{ paddingTop: 4 }}>THB</p>
+                  </Col>
+                </Row>
+                <Row>
+                  <Col span={6}>
+                    <SimpleInput readOnly={false} defaultValue={null} prefix={'Daily Limit'} onChange={(e) => { dailyLimit = e }} />
+                  </Col>
+                  <Col span={2}>
+                    <p style={{ paddingTop: 4 }}>THB</p>
+                  </Col>
+                </Row>
+
+              </div>
+            ) : ('')}
+          </div>
+        )
+      }
+      return (viewDetailProduct) ? detailProduct() : (viewSpecificProduct ? addAndChangeLimitPartner() : productLimitList())
     }))
 export default withTranslation('common')(ProductLimitSetup)
