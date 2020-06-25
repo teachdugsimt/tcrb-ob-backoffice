@@ -1,10 +1,12 @@
 import React, { useEffect, useRef, useState } from 'react'
-import { Input, Row, Col, Button, Alert } from 'antd'
+import { Input, Row, Col, Button, Alert, Spin } from 'antd'
 import styled from 'styled-components'
 import { inject, observer } from 'mobx-react'
 import { withTranslation } from '../../i18n'
 import SimpleModal from '../simple-modal'
-import { BusinessParameterSetupApi } from '../../services'
+import { BusinessParameterSetupApi } from '../../services/'
+// import { qs } from 'qs'
+import querystring from 'querystring'
 const StyledInput = styled(Input)`
   background-color: unset !important;
   border: unset !important;
@@ -50,9 +52,9 @@ const OtpSetup =
       const [modalType, setModalType] = useState("")
       const [textCancel, setTextCancel] = useState("")
       const [textOk, setTextOk] = useState("")
+      const [typeUpdate, setTypeUpdate] = useState("")
 
       useEffect(() => {
-        // BusinessParameterSetupApi.getOtpValueAxios({ otpParamsField: "OTP_EXPIRE_TIME,OTP_MAXIMUM_ENTERED,OTP_TOKEN_EXPIRE_TIME" })
 
         if (!businessParametersSetupStore.responseGetOtpValue || businessParametersSetupStore.fetchingGetOtp == null) {
           let data = { otpParamsField: "OTP_EXPIRE_TIME,OTP_MAXIMUM_ENTERED,OTP_TOKEN_EXPIRE_TIME" }
@@ -73,6 +75,20 @@ const OtpSetup =
           }
         }
       }, [businessParametersSetupStore.responseGetOtpValue])
+
+      useEffect(() => {
+        let newProps = JSON.parse(JSON.stringify(businessParametersSetupStore.responseUpdateOtp))
+        let fetch = businessParametersSetupStore.fetchingUpdateOtp
+        console.log("newProps >>>>", newProps, fetch)
+        if (newProps && !fetch) {
+          console.log("Success")
+          setModal(<div style={{ textAlign: 'center' }}>Update{" "}{typeUpdate}Success</div>)
+          setTitle("Success")
+          setModalType("close")
+          setTextCancel("close")
+        }
+
+      }, [businessParametersSetupStore.responseUpdateOtp])
 
       const _onClickExpiration = () => {
         console.log("==edit Expiration==")
@@ -166,11 +182,16 @@ const OtpSetup =
         let b = getValueFromStore("expire")
         if (a != maximumOtp) {
           console.log("update >>>", maximumOtp)
-          await businessParametersSetupStore.updateOTPdata({
-            currentData: { OTP_MAXIMUN_ENTERED: a },
-            maker_id: 12345699,
-            OTP_MAXIMUN_ENTERED: maximumOtp
-          })
+
+          let data = {
+            currentData: {
+              OTP_MAXIMUM_ENTERED: a
+            },
+            newData: {
+              OTP_MAXIMUM_ENTERED: maximumOtp
+            },
+            maker_id: 51
+          }
           setVisible(false)
           setInputMax(true)
           setvisibleEditMaximum(true)
@@ -179,22 +200,22 @@ const OtpSetup =
           setEditExpiration(false)
           _setUnfocus("maximum")
           setMaximum(a)
-          // setTimeout(() => {
-          //   console.log("Success")
-          //   setVisible(true)
-          //   setModalType("close")
-          //   setTextCancel("close")
+          setTypeUpdate("Maximum OTP")
 
-          //   setModal(<div style={{ textAlign: 'center' }}>Success update OTP{" "}{a}{" "}Retrying !!!<br />{a}{" "}to{" "}{maximumOtp}</div>)
-          // }, 3000);
+          await businessParametersSetupStore.updateOTPdata(data)
         }
         if (b != expireOtp) {
           console.log("update >>>", expireOtp)
-          // await businessParametersSetupStore.updateOTPdata({
-          //currentData: {OTP_EXPIRE_TIME:b}
-          //maker_id: 12345699
-          //   OTP_EXPIRE_TIME: expireOtp
-          // })
+          let data = {
+            currentData: {
+              OTP_EXPIRE_TIME: b
+            },
+            newData: {
+              OTP_EXPIRE_TIME: expireOtp
+            },
+            maker_id: 59
+          }
+
           setVisible(false)
           setInputExpiration(true)
           setvisibleExpireEdit(true)
@@ -203,14 +224,9 @@ const OtpSetup =
           setdisExpire(false)
           _setUnfocus("expire")
           setExpire(b)
-          setTimeout(() => {
-            console.log("Success")
-            setVisible(true)
-            setModalType("close")
-            setTextCancel("close")
+          setTypeUpdate("Expire OTP")
+          await businessParametersSetupStore.updateOTPdata(data)
 
-            setModal(<div style={{ textAlign: 'center' }}>Success update OTP{" "}{b}{" "}Period !!!<br />{b}{" "}to{" "}{expireOtp}</div>)
-          }, 3000);
         }
       }
 
@@ -257,34 +273,40 @@ const OtpSetup =
 
       return (
         <div>
-          <Row gutter={[8, 8]}>
-            <Col span={8}>
-              <StyledInput readOnly={inputMax} id={"otp-maximum-retrying"} value={maximumOtp} onChange={(e) => setMaximum(e.target.value)} prefix={t("otpMaximumRetrying")} suffix={t("otpTime")} />
-            </Col>
-            <Col span={6}>
-              {visibleEditMaximum && <Button disabled={editMaximum} onClick={() => _onClickMaximumRetry()}>{t("edit")}</Button>}
-              {visibleSubmitMaximum && <Button disabled={disMaximumSubmit} onClick={() => _openPopup("maximum")}>{t("submit")}</Button>}
-            </Col>
-          </Row>
-          <Row gutter={[8, 8]}>
-            <Col span={8}>
-              <StyledInput readOnly={inputExpiration} /*ref={inputRef}*/ id={"otp-expiration-period"} value={expireOtp} onChange={(e) => setExpire(e.target.value)} prefix={t("otpExpirationPeriod")} suffix={t("otpSecond")} />
-            </Col>
-            <Col span={6}>
-              {visibleExpireEdit && <Button disabled={editExpiration} onClick={() => _onClickExpiration()} >{t("edit")}</Button>}
-              {visibleExpireSubmit && <Button disabled={disExpireSubmit}/*onClick={setInputFocus}*/ onClick={() => _openPopup("expire")} >{t("submit")}</Button>}
-            </Col>
-          </Row>
-          <SimpleModal
-            title={title}
-            type={modalType}
-            onOk={() => _onConfirm()}
-            onCancel={() => _onCancel()}
-            textCancel={textCancel}
-            textOk={textOk}
-            modalString={modalString}
-            visible={visible}
-          />
+          <Spin
+            tip="Loading..."
+            size="large" spinning={businessParametersSetupStore.fetchingUpdateOtp}
+            delay={businessParametersSetupStore.fetchingUpdateOtp == false ? 500 : 0}
+          >
+            <Row gutter={[8, 8]}>
+              <Col span={8}>
+                <StyledInput readOnly={inputMax} id={"otp-maximum-retrying"} value={maximumOtp} onChange={(e) => setMaximum(e.target.value)} prefix={t("otpMaximumRetrying")} suffix={t("otpTime")} />
+              </Col>
+              <Col span={6}>
+                {visibleEditMaximum && <Button disabled={editMaximum} onClick={() => _onClickMaximumRetry()}>{t("edit")}</Button>}
+                {visibleSubmitMaximum && <Button disabled={disMaximumSubmit} onClick={() => _openPopup("maximum")}>{t("submit")}</Button>}
+              </Col>
+            </Row>
+            <Row gutter={[8, 8]}>
+              <Col span={8}>
+                <StyledInput readOnly={inputExpiration} /*ref={inputRef}*/ id={"otp-expiration-period"} value={expireOtp} onChange={(e) => setExpire(e.target.value)} prefix={t("otpExpirationPeriod")} suffix={t("otpSecond")} />
+              </Col>
+              <Col span={6}>
+                {visibleExpireEdit && <Button disabled={editExpiration} onClick={() => _onClickExpiration()} >{t("edit")}</Button>}
+                {visibleExpireSubmit && <Button disabled={disExpireSubmit}/*onClick={setInputFocus}*/ onClick={() => _openPopup("expire")} >{t("submit")}</Button>}
+              </Col>
+            </Row>
+            <SimpleModal
+              title={title}
+              type={modalType}
+              onOk={() => _onConfirm()}
+              onCancel={() => _onCancel()}
+              textCancel={textCancel}
+              textOk={textOk}
+              modalString={modalString}
+              visible={visible}
+            />
+          </Spin>
         </div>
       )
     }))

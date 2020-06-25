@@ -49,6 +49,7 @@ class CustomApp extends App {
       "StatusEvent",
       "BadEvent"
     ];
+    console.log('PAGE PROPS', pageProps)
     return (
       <Provider {...this.mobxStore}>
         <ThemeProvider theme={theme}>

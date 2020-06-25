@@ -16,7 +16,10 @@ export default function SimpleModal(props) {
             {props.textCancel}
           </Button>,
 
-          (props.type == "confirm") && (<Button key="submit" type="primary" onClick={() => props.onOk()}>
+          props.type == "confirm" && (<Button key="submit" type="primary" onClick={() => props.onOk()}>
+            {props.textOk}
+          </Button>),
+          props.type == "request" && (<Button key="submit" type="primary" loading={props.fetching} onClick={() => props.onOk()}>
             {props.textOk}
           </Button>),
         ]}
