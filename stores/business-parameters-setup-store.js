@@ -166,13 +166,13 @@ class BusinessParameterSetup {
 
   @action
   deleteProductLimit = async (params) => {
-    let response = await BusinessParameterSetupApi.deleteProductLimit({ action: "Delete", currentData: params, newData: {} })
+    let response = await BusinessParameterSetupApi.deleteProductLimit({ action: "Delete", maker_id: "", currentData: params, newData: {} })
     console.log(response)
   }
 
   @action
   addNewProductLimit = async (params) => {
-    let response = await BusinessParameterSetupApi.addNewProductLimit({ action: "Add", currentData: {}, newData: params })
+    let response = await BusinessParameterSetupApi.addNewProductLimit({ action: "Add", maker_id: "", currentData: {}, newData: params })
     console.log(response)
   }
   @action

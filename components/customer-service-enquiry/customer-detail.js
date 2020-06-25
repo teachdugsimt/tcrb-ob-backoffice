@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { inject, observer } from 'mobx-react'
 import styled from 'styled-components';
 import SimpleSwitch from '../simple-switch'
-import { Row, Switch, Col, Button, Input, Alert } from 'antd'
+import { Row, Switch, Col, Button, Input, Alert, Card } from 'antd'
 
 const StyledInput = styled(Input)`
       ${({ readOnly }) => readOnly && `
@@ -15,9 +15,10 @@ const StyledInput = styled(Input)`
       `}
 `
 const StyledSwitch = styled(Switch)`
-      ${({ defaultChecked }) => defaultChecked && `
-      background-color: #F88008 !important;
-  `}
+
+    .ant-switch-checked .ant-switch-handle {
+      left: calc(100% - 22px - 0px) !important;
+    }
 `
 
 // const onboard_service = [
@@ -42,135 +43,43 @@ export const CustomerDetail =
       }
 
       return (
-        <div style={{ height: 150, display: 'flex', flexDirection: 'row' }}>
-          <div style={{
-            display: 'flex',
-            flex: 0.4,
-            border: "1px solid #7B7D7D",
-            borderRadius: 25,
-            justifyContent: 'space-around',
-            alignItems: 'center',
-            flexDirection: 'column'
-          }}>
-            <Col>
-              <StyledInput readOnly={true} prefix={'Customer Id'} defaultValue={"3 1234 5678 74 8"} style={{ color: 'black' }} />
+        <div>
+          <Row>
+            <Col span={8}>
+              <Card style={{ border: "1px solid #7B7D7D", borderRadius: 25 }}>
+                <Row gutter={[16, 30]}>
+                  <Col flex={100}>
+                    <StyledInput readOnly={true} prefix={'Customer Id'} defaultValue={"3 1234 5678 74 8"} />
+                  </Col>
+                </Row>
+                <Row gutter={[16, 16]}>
+                  <Col flex={100}>
+                    <StyledInput readOnly={true} prefix={'Customer Name'} defaultValue={"ศิริพร ศุภวัชโรบล"} />
+                  </Col>
+                </Row>
+              </Card>
             </Col>
-            <Col>
-              <StyledInput readOnly={true} prefix={'Customer Name'} defaultValue={"ศิริพร ศุภวัชโรบล"} style={{ color: 'black' }} />
+            <Col span={16} style={{ paddingLeft: 12 }}>
+              <Card style={{ border: "1px solid #7B7D7D", borderRadius: 25 }}>
+                <Row gutter={[4, 24]}>
+                  <div style={{ fontSize: 18 }}>Onboarded service</div>
+                </Row>
+                <Row gutter={[4, 16]}>
+                  <Col span={6}><Switch disabled={true} />E-KYc</Col>
+                  <Col span={6}><Switch disabled={true} />Micro Pay</Col>
+                  <Col span={6}><Switch disabled={true} />Tyue Money</Col>
+                  <Col span={6}><Switch disabled={true} />FB Pay</Col>
+                </Row>
+                <Row gutter={[4, 16]}>
+                  <Col span={6}><Switch disabled={true} />Mobile Banking</Col>
+                  <Col span={6}><Switch disabled={true} />NDID</Col>
+                  <Col span={6}><Switch disabled={true} />Grab Pay</Col>
+                  <Col span={6}><Switch disabled={true} />ABC</Col>
+                </Row>
+              </Card>
             </Col>
-          </div>
-          <div style={{
-            display: 'flex',
-            flex: 0.6,
-            border: "1px solid #7B7D7D",
-            borderRadius: 25,
-            marginLeft: 30,
-            flexDirection: 'column'
-          }}>
-            <div style={{ paddingLeft: 20, paddingTop: 10, fontSize: 18 }}>Onboarded service</div>
-            <div style={{ height: 50, display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
-              <div style={{
-                display: 'flex',
-                flex: 0.25,
-                flexDirection: 'row',
-                justifyContent: 'flex-start',
-                // backgroundColor: 'pink',
-                alignItems: 'center',
-                paddingLeft: 20
-              }}>
-                <StyledSwitch defaultChecked onChange={onChange} />
-                <div style={{ paddingLeft: 10 }}>E-KYC</div>
-              </div>
-              <div style={{
-                display: 'flex',
-                // backgroundColor: 'pink',
-                flex: 0.25,
-                flexDirection: 'row',
-                justifyContent: 'flex-start',
-                alignItems: 'center',
-                paddingLeft: 20
-              }}>
-                <StyledSwitch defaultChecked={false} onChange={onChange} />
-                <div style={{ paddingLeft: 10 }}>Micro divay</div>
-              </div>
-              <div style={{
-                display: 'flex',
-                // backgroundColor: 'pink',
-                flex: 0.25,
-                flexDirection: 'row',
-                justifyContent: 'flex-start',
-                alignItems: 'center',
-                paddingLeft: 20
-              }}>
-                <StyledSwitch defaultChecked={false} onChange={onChange} />
-                <div style={{ paddingLeft: 10 }}>True Money</div>
-              </div>
-              <div style={{
-                display: 'flex',
-                // backgroundColor: 'pink',
-                flex: 0.25,
-                flexDirection: 'row',
-                justifyContent: 'flex-start',
-                alignItems: 'center',
-                paddingLeft: 20
-              }}>
-                <StyledSwitch defaultChecked={false} onChange={onChange} />
-                <div style={{ paddingLeft: 10 }}>FB Pay</div>
-              </div>
-
-            </div>
-            <div style={{ height: 50, display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
-              <div style={{
-                display: 'flex',
-                // backgroundColor: 'pink',
-                flex: 0.25,
-                flexDirection: 'row',
-                justifyContent: 'flex-start',
-                alignItems: 'center',
-                paddingLeft: 20
-              }}>
-                <StyledSwitch defaultChecked onChange={onChange} />
-                <div style={{ paddingLeft: 10 }}>Mobile Banking</div>
-              </div>
-              <div style={{
-                display: 'flex',
-                // backgroundColor: 'pink',
-                flex: 0.25,
-                flexDirection: 'row',
-                justifyContent: 'flex-start',
-                alignItems: 'center',
-                paddingLeft: 20
-              }}>
-                <StyledSwitch defaultChecked={false} onChange={onChange} />
-                <div style={{ paddingLeft: 10 }}>NDID</div>
-              </div>
-              <div style={{
-                display: 'flex',
-                // backgroundColor: 'pink',
-                flex: 0.25,
-                flexDirection: 'row',
-                justifyContent: 'flex-start',
-                alignItems: 'center',
-                paddingLeft: 20
-              }}>
-                <StyledSwitch defaultChecked={false} onChange={onChange} />
-                <div style={{ paddingLeft: 10 }}>Grab Pay</div>
-              </div>
-              <div style={{
-                display: 'flex',
-                // backgroundColor: 'pink',
-                flex: 0.25,
-                flexDirection: 'row',
-                justifyContent: 'flex-start',
-                alignItems: 'center',
-                paddingLeft: 20
-              }}>
-                <StyledSwitch defaultChecked={false} onChange={onChange} />
-                <div style={{ paddingLeft: 10 }}>ABC</div>
-              </div>
-            </div>
-          </div>
-        </div >
+          </Row>
+        </div>
       )
 
     }))
