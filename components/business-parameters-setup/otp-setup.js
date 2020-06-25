@@ -53,6 +53,7 @@ const OtpSetup =
       const [textCancel, setTextCancel] = useState("")
       const [textOk, setTextOk] = useState("")
       const [typeUpdate, setTypeUpdate] = useState("")
+      const [fetching, setFetching] = useState(null)
 
       useEffect(() => {
 
@@ -79,12 +80,24 @@ const OtpSetup =
       useEffect(() => {
         let newProps = JSON.parse(JSON.stringify(businessParametersSetupStore.responseUpdateOtp))
         let fetch = businessParametersSetupStore.fetchingUpdateOtp
+        let error = businessParametersSetupStore.errorUpdateOtp
+        // setFetching(businessParametersSetupStore.fetchingUpdateOtp)
         console.log("newProps >>>>", newProps, fetch)
-        if (newProps && !fetch) {
+        if ((newProps && !fetch) && !error) {
           console.log("Success")
-          setModal(<div style={{ textAlign: 'center' }}>Update{" "}{typeUpdate}Success</div>)
+          setFetching(false)
+          setVisible(true)
+          setModal(<div style={{ textAlign: 'center' }}>Update{" "}{typeUpdate}{" "}Success<br />Your changes will take effect after being approved.</div>)
           setTitle("Success")
           setModalType("close")
+          setTextCancel("close")
+        } else if (error) {
+          setFetching(false)
+          // console.log(error, fetch, newProps)
+          setVisible(true)
+          setModal(<div style={{ textAlign: 'center', color: 'red' }}>Error Message : {" "}{newProps.userMessage}</div>)
+          setTitle("Error")
+          setModalType("error")
           setTextCancel("close")
         }
 
@@ -121,13 +134,13 @@ const OtpSetup =
           console.log(a)
           console.log(maximumOtp)
           if (maximumOtp == a) {
-            setModal("Error: OTP Maximum is not change value " + maximumOtp)
+            setModal(<div style={{ textAlign: 'center', color: 'red' }}>Error: OTP Maximum is not change <br />value : {maximumOtp}</div>)
             setTitle("Error")
             setModalType("error")
             setTextCancel("cancel")
           }
           else if (!maximumOtp) {
-            setModal("Error: OTP Maximum is not empty ")
+            setModal(<div style={{ textAlign: 'center', color: 'red' }}>Error: OTP Maximum is not empty</div>)
             setTitle("Error")
             setModalType("error")
             setTextCancel("cancel")
@@ -143,13 +156,13 @@ const OtpSetup =
         else {
           let a = getValueFromStore("expire")
           if (expireOtp == a) {
-            setModal("Error: OTP Expire is not change value " + expireOtp)
+            setModal(<div style={{ textAlign: 'center', color: 'red' }}>Error: OTP Expire is not change <br />value : {expireOtp}</div>)
             setTitle("Error")
             setModalType("error")
             setTextCancel("cancel")
           }
           else if (!expireOtp) {
-            setModal("Error: OTP Expire is not empty ")
+            setModal(<div style={{ textAlign: 'center', color: 'red' }}>Error: OTP Expire is not empty</div>)
             setTitle("Error")
             setModalType("error")
             setTextCancel("cancel")
@@ -201,8 +214,9 @@ const OtpSetup =
           _setUnfocus("maximum")
           setMaximum(a)
           setTypeUpdate("Maximum OTP")
-
+          setFetching(true)
           await businessParametersSetupStore.updateOTPdata(data)
+
         }
         if (b != expireOtp) {
           console.log("update >>>", expireOtp)
@@ -225,6 +239,7 @@ const OtpSetup =
           _setUnfocus("expire")
           setExpire(b)
           setTypeUpdate("Expire OTP")
+          setFetching(true)
           await businessParametersSetupStore.updateOTPdata(data)
 
         }
@@ -275,8 +290,8 @@ const OtpSetup =
         <div>
           <Spin
             tip="Loading..."
-            size="large" spinning={businessParametersSetupStore.fetchingUpdateOtp}
-            delay={businessParametersSetupStore.fetchingUpdateOtp == false ? 500 : 0}
+            size="large" spinning={fetching}
+          // delay={fetching == false ? 800 : 0}
           >
             <Row gutter={[8, 8]}>
               <Col span={8}>

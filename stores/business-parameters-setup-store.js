@@ -19,7 +19,7 @@ class BusinessParameterSetup {
   @observable
   responseUpdateOtp = null
   @observable
-  fetchingUpdateOtp = null
+  fetchingUpdateOtp = false
   @observable
   errorUpdateOtp = null
 
@@ -75,7 +75,7 @@ class BusinessParameterSetup {
     } else {
       console.log("Update OTP FAIL :: ", response)
       this.fetchingUpdateOtp = false
-      this.responseUpdateOtp = null
+      this.responseUpdateOtp = response.data
       this.errorUpdateOtp = response.problem ? response.problem : "Client Error"
     }
   }
