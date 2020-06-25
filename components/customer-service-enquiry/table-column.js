@@ -1,4 +1,3 @@
-import { Table, Tag, Space } from 'antd';
 
 export const columnsTranInfo = [
   {

@@ -6,7 +6,7 @@ import PendingApprovals from './pending-approvals'
 import { withTranslation } from '../../i18n'
 
 const { TabPane } = Tabs
-import { MainTab } from '../antd-styles/styles'
+//import { MainTab } from '../antd-styles/styles'
 const BusinessParametersSetup = (props) => {
 
   const { t } = props

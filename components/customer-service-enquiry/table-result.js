@@ -2,8 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { inject, observer } from 'mobx-react'
 import styled from 'styled-components';
 import { columnsTranInfo, columnsPartnerInfo, columnsAccInfo } from './table-column';
-import { Table } from 'antd';
-import { Tabs } from 'antd';
+import { Table, Tabs } from 'antd';
 
 const { TabPane } = Tabs;
 

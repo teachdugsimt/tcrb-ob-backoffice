@@ -18,9 +18,10 @@ const StyledSpan = styled.span`
   padding-left: ${({ theme }) => theme.spacing.medium}px !important;
 `
 const StyledSwitch = styled(Switch)`
-      ${({ defaultChecked }) => defaultChecked && `
-      background-color: #F88008 !important;
-  `}
+
+  .ant-switch-checked .ant-switch-handle {
+  left: calc(100% - 22px - 0px);
+}
 `
 
 
