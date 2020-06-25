@@ -3,25 +3,17 @@ import { Table, Popconfirm } from 'antd';
 import { inject, observer } from 'mobx-react'
 import { DownOutlined } from '@ant-design/icons';
 import { withTranslation } from '../../i18n'
-import { toJS } from 'mobx';
-
-
 
 const PendingApprovals =
   inject('businessParametersSetupStore')
     (observer((props) => {
-
-
-      const data = [{
-        id: 1, key: 1, ticket: "PAR0000001", requestType: "OTP Max Retrying", requestDescription: "Change from 3 to 5", requestId: "T630213",
-        requestDate: "21-May-2020", action: null
-      }];
-
+      const [expandable, setExpandable] = useState(expand)
+      const [hasData, setHasData] = useState(true)
+      const [top, setTop] = useState('none')
+      const [bottom, setBottom] = useState("bottomRight")
+      const [pendingApprovalData, setPendingApprovalData] = useState([])
+      const { businessParametersSetupStore, t } = props
       const expand = { expandedRowRender: record => <p>{record.description}</p> };
-      const titleTable = () => 'Here is title';
-      const showHead = true;
-      const foot = () => 'Here is footer';
-      const page = { position: 'bottom' };
       const columns = [
         {
           title: 'Ticket#',
@@ -48,31 +40,13 @@ const PendingApprovals =
           key: 'action',
           render: (record) => (
             <span>
-              <Popconfirm title="Sure to Accept?"
-                onConfirm={() => {
-                  let data = {
-                    allowAction: "APPROVE",
-                    data: record,
-                    id: record.id
-                  }
-                  businessParametersSetupStore.processPendingListApprove(data)
-                  console.log("Record Accept: ", toJS(record))
-                }}
-              >
+              <Popconfirm title={t("sureAccept")}
+                onConfirm={() => processPending("APPROVE", record)}  >
                 <a style={{ marginRight: 16 }}>Accept</a>
               </Popconfirm>
 
-              <Popconfirm title="Sure to Reject?"
-                onConfirm={() => {
-                  let data = {
-                    allowAction: "REJECT",
-                    data: record,
-                    id: record.id
-                  }
-                  businessParametersSetupStore.processPendingListApprove(data)
-                  console.log("Record Reject: ", toJS(record))
-                }}
-              >
+              <Popconfirm title={t("sureReject")}
+                onConfirm={() => processPending("REJECT", record)}>
                 <a style={{ marginRight: 16 }}>Reject</a>
               </Popconfirm>
             </span>
@@ -80,14 +54,6 @@ const PendingApprovals =
         },
       ];
 
-
-
-      const [expandable, setExpandable] = useState(expand)
-      const [hasData, setHasData] = useState(true)
-      const [top, setTop] = useState('none')
-      const [bottom, setBottom] = useState("bottomRight")
-      const [pendingApprovalData, setPendingApprovalData] = useState([])
-      const { businessParametersSetupStore } = props
       useEffect(() => {
         // call api
         const data = {
@@ -106,17 +72,16 @@ const PendingApprovals =
         // setPendingApprovalData(businessParametersSetupStore.pendingApprovals)
         console.log('render')
       }, [])
-      const handleTableLayoutChange = e => {
-        setTableLayout(e.target.value)
-      };
 
-      const handleExpandChange = enable => {
-        setExpandable(enable ? expandable : undefined)
-      };
-
-      const handleDataChange = hasData => {
-        setHasData(hasData)
-      };
+      const processPending = (status, record) => {
+        let data = {
+          allowAction: status,
+          data: record,
+          id: record.id
+        }
+        businessParametersSetupStore.setTmpPendingListID(record.id)
+        businessParametersSetupStore.processPendingListApprove(data)
+      }
 
       const tableColumns = columns.map(item => ({ ...item }));
 

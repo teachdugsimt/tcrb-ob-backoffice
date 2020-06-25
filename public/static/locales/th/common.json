@@ -12,7 +12,7 @@
   "branchLocation": "ตรวจสอบสาขา",
   "liveChat": "แชทออนไลน์",
   "marketingAds": "ตรวจสอบโฆษณาการตลาด",
-  "dashboardReports" : "หน้าหลัก และรายงาน",
+  "dashboardReports": "หน้าหลัก และรายงาน",
   "businessParametersSetup": "ตั้งค่าตัวแปรธุรกิจ",
   "useAccessManagementEnquiry": "การจัดการการเข้าถึงของ user",
   "deviceEnquiry": "ตรวจสอบอุปกรณ์",
@@ -23,7 +23,7 @@
   "functionMenu": "เมนูทั้งหมด",
   "language": "เลือกภาษา",
   "digitalBackOfficeMaster": "ดิจิทัล Back Office Master",
-  "accountType" : "Digital Back Office Master",
+  "accountType": "Digital Back Office Master",
   "accountUnbinding": "ยกเลิกการเชื่อมต่อ",
   "otpUnlock": "ปลดล็อค OTP",
   "idCard": "หมายเลขบัตร",
@@ -52,10 +52,11 @@
   "otpTime": "ครั้ง",
   "otpSecond": "วินาที",
   "forNewWork": "สำหรับงานใหม่",
-
   "username": "ชื่อผู้ใช้งาน",
   "password": "รหัสผ่าน",
   "rememberMe": "จดจำการเข้าสู้ระบบ",
   "inputUserName": "กรุณาใส่ชื่อผู้ใช้งาน",
-  "inputPassword": "กรุณาใส่รหัสผ่าน"
+  "inputPassword": "กรุณาใส่รหัสผ่าน",
+  "sureAccept": "ยืนยันการอนุมัติ ?",
+  "sureReject": "ยืนยันการปฏิเสธ ?"
 }

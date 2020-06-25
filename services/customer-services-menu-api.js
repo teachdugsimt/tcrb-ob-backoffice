@@ -1,5 +1,3 @@
-import { ApisauceInstance, create, ApiResponse } from 'apisauce'
-import Header from './api-integrations/header'
 import ExcuteApi from './api-integrations/excute-api'
 
 class CustomerServicesMenuApi {

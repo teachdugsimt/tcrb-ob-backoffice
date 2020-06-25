@@ -1,8 +1,3 @@
-import { ApisauceInstance, create, ApiResponse } from 'apisauce'
-import Header from './api-integrations/header'
-import getGeneralApiProblem from './api-integrations/error-handler'
-import https from 'https';
-import axios from 'axios'
 import ExcuteApi from './api-integrations/excute-api'
 
 class BusinessParameterSetupApi {
@@ -76,7 +71,7 @@ class BusinessParameterSetupApi {
   }
 
   processPendingList = async (params) => {
-    const response = await ExcuteApi('api/backoffice/v1/changerequest/' + params.id, params, "patch")
+    const response = await ExcuteApi(`api/backoffice/v1/changerequest/${params.id}/confirm`, params, "post")
     return response
   }
 

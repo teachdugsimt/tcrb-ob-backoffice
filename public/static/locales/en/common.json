@@ -52,10 +52,11 @@
   "otpTime": "Times",
   "otpSecond": "Seconds",
   "forNewWork": "For New Work",
-
   "username": "Username",
   "password": "Password",
   "rememberMe": "Remember me",
   "inputUserName": "Please input your username!",
-  "inputPassword": "Please input your password!"
+  "inputPassword": "Please input your password!",
+  "sureAccept": "Sure to Accept?",
+  "sureReject": "Sure to Reject?"
 }

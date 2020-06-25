@@ -22,6 +22,7 @@ class BusinessParameterSetup {
   @observable responseProcessPendingList = null
   @observable requestProcessPendingList = null
   @observable errorProcessPendingList = null
+  @observable tmpPendingListID = null
 
   @observable pendingApprovals = []
   @observable fetchingApi = false
@@ -32,19 +33,38 @@ class BusinessParameterSetup {
 
   @persist @observable persist_value = null
 
+  updatePendingList = () => {
+    if (this.tmpPendingListID && this.responseProcessPendingList) {
+      let old_id = JSON.parse(JSON.stringify(this.tmpPendingListID))
+      let old_list = JSON.parse(JSON.stringify(this.responseGetPendingApproveList))
+      old_list.map((e, i) => {
+        if (old_id == e.id) {
+          old_list.splice(i, 1)
+        }
+      })
+      this.responseGetPendingApproveList = old_list
+    }
+  }
+
+  @action setTmpPendingListID = (id) => {
+    this.tmpPendingListID = id
+  }
+
   @action processPendingListApprove = async (params) => {
     this.requestProcessPendingList = true
     let tmp = await BusinessParameterSetupApi.processPendingList(params)
     console.log("Response process Pending Approve APISAUCE : ", tmp)
     if (tmp.ok) {
-      let raw_Data = toJS(tmp.data.responseData)
       this.requestProcessPendingList = false
       this.errorProcessPendingList = null
-      this.responseProcessPendingList = raw_Data
+      this.responseProcessPendingList = tmp.ok
+      this.updatePendingList()
+      this.tmpPendingListID = null
     } else {
       this.requestProcessPendingList = false
       this.responseProcessPendingList = null
       this.errorProcessPendingList = tmp.problem
+      this.tmpPendingListID = null
     }
   }
 

@@ -1,6 +1,5 @@
 import { observable, action, toJS } from 'mobx'
 import { CustomerServicesMenuApi } from '../services'
-import getGeneralApiProblem from '../services/api-integrations/error-handler'
 import { get } from 'lodash'
 
 class CustomerServicesMenuStore {
