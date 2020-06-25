@@ -29,6 +29,7 @@ class BusinessParameterSetup {
   @observable productLimitDetail = null
   @observable arrayProductLimit = []
   @observable channelPartnerList = []
+  @observable productList = []
 
   @persist @observable persist_value = null
 
@@ -164,6 +165,16 @@ class BusinessParameterSetup {
     }
   }
 
+  @action getDataProductList = async () => {
+    let response = await BusinessParameterSetupApi.getProductList({ filter: {} })
+    console.log(response)
+    if (response.ok && response.status == 200) {
+      this.productList = response.data.responseData
+    } else {
+
+    }
+  }
+
   @action
   deleteProductLimit = async (params) => {
     let response = await BusinessParameterSetupApi.deleteProductLimit({ action: "Delete", maker_id: "", currentData: params, newData: {} })
@@ -174,25 +185,6 @@ class BusinessParameterSetup {
   addNewProductLimit = async (params) => {
     let response = await BusinessParameterSetupApi.addNewProductLimit({ action: "Add", maker_id: "", currentData: {}, newData: params })
     console.log(response)
-  }
-  @action
-  getDataByAxios = async (params) => {
-    this.requestAxios = true
-    let response = await BusinessParameterSetupApi.getOtpValueAxios(params)
-    console.log("Axios OTP :: ", JSON.parse(JSON.stringify(response)))
-    if (response.status == 200) {
-      this.requestAxios = false
-      this.dataAxios = JSON.parse(JSON.stringify(response))
-    } else {
-      this.requestAxios = false
-      this.errorAxios = JSON.parse(JSON.stringify(response))
-    }
-
-    // submitPartnerLimit = async () => {
-    //   this.fetchingApi = true
-    //   let response = await BusinessParameterSetupApi.submitPartnerLimit()
-    // }
-
   }
 }
 export default BusinessParameterSetup
