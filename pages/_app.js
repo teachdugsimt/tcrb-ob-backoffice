@@ -3,7 +3,7 @@ import App from 'next/app'
 import Head from 'next/head'
 import { Provider } from 'mobx-react';
 import initializeStore from '../stores/stores';
-import { appWithTranslation } from '../i18n'
+import { appWithTranslation, i18n } from '../i18n'
 
 import { ThemeProvider } from 'styled-components'
 import theme from '../theme'
@@ -34,6 +34,7 @@ class CustomApp extends App {
   }
 
   componentDidMount() {
+    i18n.changeLanguage("en")
     let fixedNextDimension = document.getElementById("__next")
     fixedNextDimension.style.height = "100%"
     fixedNextDimension.style.width = "100%"

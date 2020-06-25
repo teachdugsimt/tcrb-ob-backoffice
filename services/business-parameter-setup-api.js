@@ -17,6 +17,11 @@ class BusinessParameterSetupApi {
     return response
   }
 
+  getPendingApproveList = async (params) => {
+    const response = await ExcuteApi('api/backoffice/v1/changerequest', params, "get")
+    return response
+  }
+
   getProductLimit = async (params) => {
     const response = await ExcuteApi('api/backoffice/v1/partnertransactionlimit', params, "get")
     return response
@@ -27,9 +32,10 @@ class BusinessParameterSetupApi {
     return response
   }
 
-  // submitPartnerLimit = async (params) => {
-  //   const api = create(header)
-  // }
+  processPendingList = async (params) => {
+    const response = await ExcuteApi('api/backoffice/v1/changerequest/' + params.id, params, "patch")
+    return response
+  }
 
 }
 export default new BusinessParameterSetupApi()

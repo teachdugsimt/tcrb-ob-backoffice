@@ -4,44 +4,73 @@ import { BusinessParameterSetupApi } from '../services'
 import { create, persist } from 'mobx-persist'
 
 class BusinessParameterSetup {
-  @observable
-  editOtpMaximumRetry = null
-  @observable
-  editOtpExpirationPeriod = null
+  @observable editOtpMaximumRetry = null
+  @observable editOtpExpirationPeriod = null
 
-  @observable
-  responseGetOtpValue = null
-  @observable
-  fetchingGetOtp = null
-  @observable
-  errorGetOtp = null
+  @observable responseGetOtpValue = null
+  @observable fetchingGetOtp = null
+  @observable errorGetOtp = null
 
-  @observable
-  responseUpdateOtp = null
-  @observable
-  fetchingUpdateOtp = null
-  @observable
-  errorUpdateOtp = null
+  @observable responseUpdateOtp = null
+  @observable fetchingUpdateOtp = null
+  @observable errorUpdateOtp = null
+
+  @observable responseGetPendingApproveList = null
+  @observable requestGetPendingApproveList = null
+  @observable errorGetPendingApproveList = null
+
+  @observable responseProcessPendingList = null
+  @observable requestProcessPendingList = null
+  @observable errorProcessPendingList = null
 
   @observable pendingApprovals = []
   @observable fetchingApi = false
   @observable productLimit = []
   @observable productLimitDetail = null
 
-  @persist @observable
-  persist_value = null
-  @action
-  setPersistValue = (val) => {
+  @persist @observable persist_value = null
+
+  @action processPendingListApprove = async (params) => {
+    this.requestProcessPendingList = true
+    let tmp = await BusinessParameterSetupApi.processPendingList(params)
+    console.log("Response process Pending Approve APISAUCE : ", tmp)
+    if (tmp.ok) {
+      let raw_Data = toJS(tmp.data.responseData)
+      this.requestProcessPendingList = false
+      this.errorProcessPendingList = null
+      this.responseProcessPendingList = raw_Data
+    } else {
+      this.requestProcessPendingList = false
+      this.responseProcessPendingList = null
+      this.errorProcessPendingList = tmp.problem
+    }
+  }
+
+  @action getPendingApprove = async (params) => {
+    this.requestGetPendingApproveList = true
+    let tmp = await BusinessParameterSetupApi.getPendingApproveList(params)
+    console.log("Response get Pending Approve APISAUCE : ", tmp)
+    if (tmp.ok == true) {
+      let raw_Data = toJS(tmp.data.responseData)
+      this.requestGetPendingApproveList = false
+      this.errorGetPendingApproveList = null
+      this.responseGetPendingApproveList = raw_Data
+    } else {
+      this.requestGetPendingApproveList = false
+      this.responseGetPendingApproveList = null
+      this.errorGetPendingApproveList = tmp.problem
+    }
+  }
+
+  @action setPersistValue = (val) => {
     this.persist_value = val
   }
 
-  @action
-  closeExpire = (val) => {
+  @action closeExpire = (val) => {
     this.editOtpExpirationPeriod = val
   }
 
-  @action
-  closeMaximum = (val) => {
+  @action closeMaximum = (val) => {
     this.editOtpMaximumRetry = val
   }
 

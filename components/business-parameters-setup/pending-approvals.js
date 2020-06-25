@@ -3,62 +3,85 @@ import { Table, Popconfirm } from 'antd';
 import { inject, observer } from 'mobx-react'
 import { DownOutlined } from '@ant-design/icons';
 import { withTranslation } from '../../i18n'
+import { toJS } from 'mobx';
 
-const columns = [
-  {
-    title: 'Ticket#',
-    dataIndex: 'ticket',
-  },
-  {
-    title: 'Request Type',
-    dataIndex: 'product_type',
-  },
-  {
-    title: 'Request Description',
-    dataIndex: 'product_description',
-  },
-  {
-    title: 'Request ID',
-    dataIndex: 'request_id',
-  },
-  {
-    title: 'Request Date',
-    dataIndex: 'request_date',
-  },
-  {
-    title: 'Action',
-    key: 'action',
-    render: () => (
-      <span>
-        <Popconfirm title="Sure to Accept?" onConfirm={() => businessParametersSetupStore.selectProductToDelete(record)} >
-          <a style={{ marginRight: 16 }}>Accept</a>
-        </Popconfirm>
-        {/* <a style={{ marginRight: 16 }}>Accept</a> */}
-        <Popconfirm title="Sure to Reject?" onConfirm={() => businessParametersSetupStore.selectProductToDelete(record)} >
-          <a style={{ marginRight: 16 }}>Reject</a>
-        </Popconfirm>
-        {/* <a className="ant-dropdown-link">
-          Reject
-        </a> */}
-      </span>
-    ),
-  },
-];
 
-const data = [{
-  id: 1, key: 1, ticket: "PAR0000001", requestType: "OTP Max Retrying", requestDescription: "Change from 3 to 5", requestId: "T630213",
-  requestDate: "21-May-2020", action: null
-}];
-
-const expand = { expandedRowRender: record => <p>{record.description}</p> };
-const titleTable = () => 'Here is title';
-const showHead = true;
-const foot = () => 'Here is footer';
-const page = { position: 'bottom' };
 
 const PendingApprovals =
   inject('businessParametersSetupStore')
     (observer((props) => {
+
+
+      const data = [{
+        id: 1, key: 1, ticket: "PAR0000001", requestType: "OTP Max Retrying", requestDescription: "Change from 3 to 5", requestId: "T630213",
+        requestDate: "21-May-2020", action: null
+      }];
+
+      const expand = { expandedRowRender: record => <p>{record.description}</p> };
+      const titleTable = () => 'Here is title';
+      const showHead = true;
+      const foot = () => 'Here is footer';
+      const page = { position: 'bottom' };
+      const columns = [
+        {
+          title: 'Ticket#',
+          dataIndex: 'action',
+        },
+        {
+          title: 'Request Type',
+          dataIndex: 'change_type',
+        },
+        {
+          title: 'Request Description',
+          dataIndex: 'description',
+        },
+        {
+          title: 'Request ID',
+          dataIndex: 'maker_id',
+        },
+        {
+          title: 'Request Date',
+          dataIndex: 'requested_date',
+        },
+        {
+          title: 'Action',
+          key: 'action',
+          render: (record) => (
+            <span>
+              <Popconfirm title="Sure to Accept?"
+                onConfirm={() => {
+                  let data = {
+                    allowActions: "APPROVE",
+                    data: record,
+                    id: record.id
+                  }
+                  businessParametersSetupStore.processPendingListApprove(data)
+                  console.log("Record Accept: ", toJS(record))
+                }}
+              >
+                <a style={{ marginRight: 16 }}>Accept</a>
+              </Popconfirm>
+
+              <Popconfirm title="Sure to Reject?"
+                onConfirm={() => {
+                  let data = {
+                    allowActions: "REJECT",
+                    data: record,
+                    id: record.id
+                  }
+                  businessParametersSetupStore.processPendingListApprove(data)
+                  console.log("Record Reject: ", toJS(record))
+                }}
+              >
+                <a style={{ marginRight: 16 }}>Reject</a>
+              </Popconfirm>
+            </span>
+          ),
+        },
+      ];
+
+
+
       const [expandable, setExpandable] = useState(expand)
       const [hasData, setHasData] = useState(true)
       const [top, setTop] = useState('none')
@@ -67,8 +90,12 @@ const PendingApprovals =
       const { businessParametersSetupStore } = props
       useEffect(() => {
         // call api
-
+        const data = {
+          filter: {}
+        }
+        businessParametersSetupStore.getPendingApprove(data)
       }, [])
+
       useEffect(() => {
         if (businessParametersSetupStore.pendingApprovals.length > 0) {
           setPendingApprovalData(businessParametersSetupStore.pendingApprovals)
@@ -97,7 +124,8 @@ const PendingApprovals =
         <Table
           pagination={{ position: [top, bottom] }}
           columns={tableColumns}
-          dataSource={pendingApprovalData}
+          dataSource={businessParametersSetupStore.responseGetPendingApproveList}
+        // dataSource={pendingApprovalData}
         // scroll={scroll}
         />
       )

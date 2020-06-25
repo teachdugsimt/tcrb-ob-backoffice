@@ -19,6 +19,9 @@ const ExcuteApi = async (url, params, method) => {
     else if (method == "put" || method == "PUT") {
       response = await api.put(url, params)
     }
+    else if (method == "patch" || method == "PATCH") {
+      response = await api.patch(url, params)
+    }
     else if (method == "delete" || method == "DELETE") {
       response = await api.delete(url, params)
     }
