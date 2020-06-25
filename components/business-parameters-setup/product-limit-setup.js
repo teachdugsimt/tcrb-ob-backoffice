@@ -224,13 +224,7 @@ const ProductLimitSetup =
 
       const submitDeleteProduct = (record) => {
         //call api to update record status
-        dataSource.map(detailDataSource => {
-          if (detailDataSource.key === record.key) {
-            record.status = 2
-          }
-        })
-        console.log(toJS(dataSource))
-        //businessParametersSetupStore.deleteProductLimit(record)
+        businessParametersSetupStore.deleteProductLimit(record)
         setDataSource(dataSource) //<<waiting result api and  add key index
       }
       const renderOnclickHandler = (text, record) => {
