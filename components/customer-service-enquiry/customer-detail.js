@@ -42,7 +42,7 @@ export const CustomerDetail =
               <Card style={{ border: "1px solid #7B7D7D", borderRadius: 25 }}>
                 <Row gutter={[16, 30]}>
                   <Col flex={100}>
-                    <StyledInput readOnly={true} prefix={'Customer Id'} defaultValue={customer_id} />
+                    <StyledInput readOnly={true} prefix={'Customer ID'} defaultValue={customer_id} />
                   </Col>
                 </Row>
                 <Row gutter={[16, 16]}>
