@@ -58,15 +58,15 @@ export const CustomerDetail =
                   <div style={{ fontSize: 18 }}>Onboarded service</div>
                 </Row>
                 <Row gutter={[4, 16]}>
-                  <Col span={6}><Switch disabled={obj && obj.status == 0 ? true : false} />E-KYc</Col>
-                  <Col span={6}><Switch disabled={obj && obj.status == 0 ? true : (obj && obj.status == 2 ? false : true)} />Micro Pay</Col>
-                  <Col span={6}><Switch disabled={obj && obj.status == 0 ? true : false} />True Money</Col>
-                  <Col span={6}><Switch disabled={obj && obj.status == 0 ? true : (obj && obj.status == 2 ? false : true)} />FB Pay</Col>
+                  <Col span={6}><Switch disabled={true} />E-KYc</Col>
+                  <Col span={6}><Switch disabled={true} />Micro Pay</Col>
+                  <Col span={6}><Switch disabled={true} />True Money</Col>
+                  <Col span={6}><Switch disabled={true} />FB Pay</Col>
                 </Row>
                 <Row gutter={[4, 16]}>
                   <Col span={6}><Switch disabled={true} />Mobile Banking</Col>
-                  <Col span={6}><Switch disabled={false} />NDID</Col>
-                  <Col span={6}><Switch disabled={false} />Grab Pay</Col>
+                  <Col span={6}><Switch disabled={true} />NDID</Col>
+                  <Col span={6}><Switch disabled={true} />Grab Pay</Col>
                   <Col span={6}><Switch disabled={true} />AirPay</Col>
                 </Row>
               </Card>
@@ -76,3 +76,4 @@ export const CustomerDetail =
       )
 
     }))
+// Test commit - 1

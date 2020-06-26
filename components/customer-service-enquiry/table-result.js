@@ -7,7 +7,7 @@ import { data } from './data'
 const { TabPane } = Tabs;
 
 function callback(key) {
-  console.log(key);
+  console.log("CustomerEnquiry :: ", key);
 }
 
 export const TableResult =
@@ -18,6 +18,7 @@ export const TableResult =
       const [partnerInfo, setPartnerInfo] = useState(null)
       const [accInfo, setAccInfo] = useState(null)
       const [txnInfo, setTxnInfo] = useState(null)
+      const [page, setPage] = useState(1)
 
       const _buildListData = () => {
         let arr = customerServiceEnquiry.tmpListData ? customerServiceEnquiry.tmpListData : data
@@ -36,12 +37,13 @@ export const TableResult =
             mobileNo: "099345666" + JSON.stringify(i)
           })
           list3.push({
+            no: i + 1,
             tcrbAccRef: e.citizen_id, subAcc: e.sub_account_no,
             accName: e.account_name, accRef1: e.reference_1,
             accRef2: e.reference_2, accRef3: e.reference_3,
           })
           list4.push({
-            no: 1, txnDrEntry: "TXD-DR-" + i,
+            no: i + 1, txnDrEntry: "TXD-DR-" + i,
             txnCrEntry: "CR-ENTRY-00" + i, feeDrEntry: JSON.stringify(i) + "%",
             feeDrAmount: (i + 1) * (i + 30), feeCrEntry: JSON.stringify(i) + ".5%",
             feeCrAmount: ((i + 1) * 100) + i, amount: ((i + 1) * 23) + i
@@ -65,31 +67,48 @@ export const TableResult =
         <Tabs defaultActiveKey="1" onChange={callback}>
           <TabPane tab="Transaction Info" key="1">
             <Table
-              onRow={(item, index) => ({
-                onClick: () => customerServiceEnquiry.setTmpPendingListID(item),
-              })}
-              columns={columnsTranInfo} dataSource={transInfo} />
+              onChange={(e) => setPage(e.current)}
+              onRow={(item, index) => {
+                return {
+                  onClick: () => customerServiceEnquiry.setTmpPendingListID(item),
+                }
+              }}
+              columns={columnsTranInfo} dataSource={transInfo}
+              pagination={{ current: page, }}
+            />
           </TabPane>
           <TabPane
             onRow={(item, index) => ({
               onClick: () => customerServiceEnquiry.setTmpPendingListID(item),
             })}
             tab="Partner Info" key="2">
-            <Table columns={columnsPartnerInfo} dataSource={partnerInfo} />
+            <Table
+              onChange={(e) => setPage(e.current)}
+              columns={columnsPartnerInfo} dataSource={partnerInfo}
+              pagination={{ current: page, }}
+            />
           </TabPane>
           <TabPane
             onRow={(item, index) => ({
               onClick: () => customerServiceEnquiry.setTmpPendingListID(item),
             })}
             tab="Account Info" key="3">
-            <Table columns={columnsAccInfo} dataSource={accInfo} />
+            <Table
+              onChange={(e) => setPage(e.current)}
+              columns={columnsAccInfo} dataSource={accInfo}
+              pagination={{ current: page, }}
+            />
           </TabPane>
           <TabPane
             onRow={(item, index) => ({
               onClick: () => customerServiceEnquiry.setTmpPendingListID(item),
             })}
             tab="Txn" key="4">
-            <Table columns={columnsTxn} dataSource={txnInfo} />
+            <Table
+              onChange={(e) => setPage(e.current)}
+              columns={columnsTxn} dataSource={txnInfo}
+              pagination={{ current: page, }}
+            />
           </TabPane>
         </Tabs>
       )
