@@ -5,8 +5,13 @@ import { create, persist } from 'mobx-persist'
 
 class CustomerServiceEnquiry {
   @observable rowDataObject = null
+  @observable tmpListData = null
 
   @persist @observable persistRow = null
+
+  @action setListData = (data) => {
+    this.tmpListData = data
+  }
 
   @action setTmpPendingListID = (data) => {
     this.rowDataObject = data

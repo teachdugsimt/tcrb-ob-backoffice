@@ -19,8 +19,8 @@ export const TableResult =
       const [accInfo, setAccInfo] = useState(null)
       const [txnInfo, setTxnInfo] = useState(null)
 
-      useEffect(() => {
-        let arr = data
+      const _buildListData = () => {
+        let arr = customerServiceEnquiry.tmpListData ? customerServiceEnquiry.tmpListData : data
         let list1 = [], list2 = [], list3 = [], list4 = []
         arr.forEach((e, i) => {
           list1.push({
@@ -36,7 +36,7 @@ export const TableResult =
             mobileNo: "099345666" + JSON.stringify(i)
           })
           list3.push({
-            tcrbAccRef: e.account_name, subAcc: e.sub_account_no,
+            tcrbAccRef: e.citizen_id, subAcc: e.sub_account_no,
             accName: e.account_name, accRef1: e.reference_1,
             accRef2: e.reference_2, accRef3: e.reference_3,
           })
@@ -51,9 +51,15 @@ export const TableResult =
         setPartnerInfo(list2)
         setAccInfo(list3)
         setTxnInfo(list4)
-        return () => {
-        }
+      }
+
+      useEffect(() => {
+        _buildListData()
       }, [])
+
+      useEffect(() => {
+        _buildListData()
+      }, [customerServiceEnquiry.tmpListData])
 
       return (
         <Tabs defaultActiveKey="1" onChange={callback}>
