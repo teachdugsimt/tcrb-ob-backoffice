@@ -30,6 +30,7 @@ class BusinessParameterSetup {
   @observable arrayProductLimit = []
   @observable channelPartnerList = []
   @observable productList = []
+  @observable productSelect = null
 
   @persist @observable persist_value = null
 
@@ -157,7 +158,6 @@ class BusinessParameterSetup {
   @action
   getDataChannelPartnerList = async () => {
     let response = await BusinessParameterSetupApi.getChannelPartnerList({ filter: { attributes: ["partner_code", "partner_abbreviation"] } })
-    console.log(response)
     if (response.ok && response.status == 200) {
       this.channelPartnerList = response.data.responseData
     } else {
@@ -167,7 +167,6 @@ class BusinessParameterSetup {
 
   @action getDataProductList = async () => {
     let response = await BusinessParameterSetupApi.getProductList({ filter: {} })
-    console.log(response)
     if (response.ok && response.status == 200) {
       this.productList = response.data.responseData
     } else {
@@ -184,6 +183,15 @@ class BusinessParameterSetup {
   @action
   addNewProductLimit = async (params) => {
     let response = await BusinessParameterSetupApi.addNewProductLimit({ action: "Add", maker_id: "", currentData: {}, newData: params })
+    console.log(response)
+  }
+  @action addSpecificLimit = async (params) => {
+    let response = await BusinessParameterSetupApi.submitSpecificLimit({ action: "Add", maker_id: "", currentData: {}, newData: params })
+    console.log(response)
+  }
+
+  @action changeProductLimit = async (params) => {
+    let response = await BusinessParameterSetupApi.submitChangePartnerLimit({ action: "Update", maker_id: "", currentData: {}, newData: params })
     console.log(response)
   }
 }

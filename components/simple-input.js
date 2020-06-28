@@ -9,6 +9,10 @@ const StyledInput = styled(Input)`
           border-right-style: unset !important;
           border-right-width: 0px !important;
           border-radius: 0px;
+           .ant-input{
+            text-align: right !important;
+
+          }
 `
 export default function SimpleInput(props) {
   return (

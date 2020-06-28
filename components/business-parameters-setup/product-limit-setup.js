@@ -1,5 +1,6 @@
 import React, { useState, useEffect, createRef } from 'react'
 import { Button, Table, Popconfirm, Row, Col, Menu, Card, Input, Select, Form, InputNumber } from 'antd'
+import { DeleteOutlined, SettingOutlined, FormOutlined } from '@ant-design/icons';
 import { inject, observer } from 'mobx-react'
 import { withTranslation } from '../../i18n'
 import styled from 'styled-components'
@@ -9,6 +10,8 @@ import SimpleInput from '../simple-input'
 import SimpleModal from '../simple-modal'
 
 const { Option } = Select;
+let txnLimit = null
+let dailyLimit = null
 
 const ProductLimitSetup =
   inject('businessParametersSetupStore')
@@ -26,8 +29,8 @@ const ProductLimitSetup =
       const [productList, setProductList] = useState([])
       const [viewSpecificProduct, setViewSpecificProduct] = useState(false)
       const { businessParametersSetupStore, t } = props
+      const [disabledButtonAddRow, setDisabledButtonAddRow] = useState(false)
       const [form] = Form.useForm();
-      var txnLimit, dailyLimit = ''
       // var selectPartnerAndProduct = {}
 
 
@@ -126,6 +129,10 @@ const ProductLimitSetup =
         }
       }, [businessParametersSetupStore.productList])
 
+      useEffect(() => {
+        txnLimit, dailyLimit = ''
+      }, [showLimitPartner])
+
       const handleDelete = key => {
         // const dataSource = [...this.state.dataSource];
         // setDataSource(dataSource.filter(item => item.key !== key))
@@ -148,22 +155,61 @@ const ProductLimitSetup =
         return new Promise((resolve) => resolve(result))
       }
 
+      const prepareAllLimitToSubmitAndUpdate = () => {
+        if (viewSpecificProduct) {
+          // submitAddSpecificLimit()
+          setModalString(
+            <div style={{ textAlign: "center" }}>
+              <p> Add Partner {selectPartnerAndProduct.type} </p>
+              {/* <p>for {selectPartnerAndProduct.partner_code}/{selectPartnerAndProduct.partner_abbreviation} Channel/Partner !!!</p> */}
+            </div>
+          )
+        } else {
+          // submitChangeProductLimitSelect()
+
+          setModalString(
+            //waiting for confirm task
+            <div style={{ textAlign: "center" }}>
+              <p> Change Product Code {selectPartnerAndProduct.partner_code} Limit </p>
+              <p>for {selectPartnerAndProduct.partner_code}/{selectPartnerAndProduct.partner_abbreviation} Channel/Partner !!!</p>
+            </div>
+          )
+        }
+        setVisble(true)
+        setTitleModal('Confirm')
+        setModalType("confirm")
+      }
       const submitChangeLimit = () => {
         // txnLimit, dailyLimit
         // call api
       }
 
+      const submitAddSpecificLimit = () => {
+        businessParametersSetupStore.addSpecificLimit()
+        let data = {
+          newData: {
+            partner_code: selectPartnerAndProduct.partner_code,
+            product_code: selectPartnerAndProduct.product_code,
+            transaction_code: '6931',
+            transaction_limit: txnLimit,
+            daily_limit: dailyLimit
+          }
+        }
+      }
+
       const submitChangeProductLimitSelect = () => {
         //call api
-        setVisble(true)
-        setTitleModal('Confirm')
-        setModalType("confirm")
-        setModalString(
-          <div style={{ textAlign: "center" }}>
-            <p> Change Product Code {selectPartnerAndProduct.partner_code} Limit </p>
-            <p>for {selectPartnerAndProduct.partner_code}/{selectPartnerAndProduct.partner_abbreviation} Channel/Partner !!!</p>
-          </div>
-        )
+        console.log(toJS(selectPartnerAndProduct))
+        let request = {
+          partner_code: selectPartnerAndProduct.partner_code,
+          product_code: businessParametersSetupStore.productLimitDetail.product_code,
+          transaction_code: '6931',
+          transaction_limit: txnLimit,
+          daily_limit: dailyLimit
+        }
+        console.log(request)
+        //businessParametersSetupStore.changeProductLimit(request)
+
       }
 
       const selectPartnerChanel = (value) => {
@@ -179,7 +225,8 @@ const ProductLimitSetup =
         // businessParametersSetupStore.getDataChannelPartnerList()
       }
 
-      const selectProductToSpecificLimit = () => {
+      const selectProductToSpecificLimit = (record) => {
+        businessParametersSetupStore.productSelect = record
         setViewSpecificProduct(true)
       }
 
@@ -194,16 +241,23 @@ const ProductLimitSetup =
         }
         setDataSource([...dataSource, newProduct])
         edit(newProduct)
+        setDisabledButtonAddRow(true)
         businessParametersSetupStore.arrayProductLimit = dataSource
       }
       const goBackProductList = () => {
-        setViewDetailProduct(false)
-        businessParametersSetupStore.productLimitDetail = null
+        if (viewSpecificProduct) {
+          setViewSpecificProduct(false)
+        } else {
+          setViewDetailProduct(false)
+          businessParametersSetupStore.productLimitDetail = null
+        }
+        setShowLimitPartner(false)
+
       }
       const submitAddnewProduct = async (key) => {
         // Call api to update record status
         const row = await form.validateFields();
-        row.status = 2
+        row.status = '2'
         row.transaction_code = "6931"
         let indexProduct = productList.findIndex(item => row.product_code === item.product_code)
         row.product_type = productList[indexProduct].product_type
@@ -219,28 +273,68 @@ const ProductLimitSetup =
           setDataSource(newData);
           setEditingKey('');
         }
+        setDisabledButtonAddRow(false)
         businessParametersSetupStore.addNewProductLimit(row)
+      }
+
+      const cancelAddNewProduct = async (key) => {
+        setDisabledButtonAddRow(false)
+        let indexProduct = dataSource.findIndex(item => key === item.key)
+        const newData = [...dataSource]
+        newData.splice(indexProduct, 1)
+        setDataSource(newData);
+        setEditingKey('');
       }
 
       const submitDeleteProduct = (record) => {
         //call api to update record status
+        console.log(toJS(record))
+        let indexRecordDelete = dataSource.findIndex(item => record.key === item.key)
+        const newData = [...dataSource];
+        newData[indexRecordDelete].status = '2'
         businessParametersSetupStore.deleteProductLimit(record)
-        setDataSource(dataSource) //<<waiting result api and  add key index
+        setDataSource(newData) //waiting useEffect to check api success
       }
       const renderOnclickHandler = (text, record) => {
-        return <p onClick={() => selectProductToViewDetail(record)}>{text}</p>
+        let stringToNumber = new Number(text)
+        if (isNaN(stringToNumber)) {
+          return <p>{text}</p>
+        } else {
+          let customText = stringToNumber.toLocaleString()
+          return <p style={{ textAlign: "right" }}>{customText}</p>
+        }
+        //return <p onClick={() => selectProductToViewDetail(record)}>{customText}</p>
       }
       const renderActionAddDeleteHandler = (record, index) => {
-        if (index + 1 <= businessParametersSetupStore.arrayProductLimit.length) {
-          return <Popconfirm title="Sure to delete?" onConfirm={(e) => { submitDeleteProduct(record) }} disabled={editingKey !== ''}>
-            <a>Delete</a>
-          </Popconfirm>
-        } else if (record.status === 2) {
+        if (record.status === '1') {
+          return (
+            <div>
+              <Popconfirm title="Sure to Delete?" onConfirm={(e) => { submitDeleteProduct(record) }} disabled={editingKey !== ''}>
+                <a><DeleteOutlined style={{ fontSize: '18px' }} /></a>
+              </Popconfirm>
+              <a onClick={() => selectProductToViewDetail(record)}><SettingOutlined style={{ fontSize: '18px' }} /></a>
+              <a onClick={() => selectProductToSpecificLimit(record)}><FormOutlined style={{ fontSize: '18px' }} /></a>
+            </div>)
+        } else if (record.status === '2') {
           return null
         } else {
-          return <Popconfirm title={"Confirm to add !!!"} onConfirm={() => { submitAddnewProduct(record.key) }} >
-            <a>confirm</a>
-          </Popconfirm>
+          return (<div>
+            <Popconfirm title={"Confirm to Add !!!"} onConfirm={() => { submitAddnewProduct(record.key) }} >
+              <a>Confirm</a>
+            </Popconfirm><br />
+            <Popconfirm title={"Confirm to Cancel !!!"} onConfirm={() => { cancelAddNewProduct(record.key) }} >
+              <a>Cancel</a>
+            </Popconfirm>
+          </div>)
+        }
+      }
+      const renderStatus = (record) => {
+        if (record.status === '1') {
+          return <p>Active</p>
+        } else if (record.status === '2') {
+          return <p>Pending</p>
+        } else {
+          return null
         }
       }
       const renderActionSpecificHandler = (record) => {
@@ -250,13 +344,14 @@ const ProductLimitSetup =
         {
           dataIndex: 'operation',
           render: (text, record, index) =>
-            renderActionAddDeleteHandler(record, index)
+            renderStatus(record, index)
         },
         {
           title: 'Product_Code',
           dataIndex: 'product_type',
-          width: '10%',
+          width: '5%',
           editable: true,
+          render: (text, record) => renderOnclickHandler(text, record)
         },
         {
           title: 'Product_Description',
@@ -281,7 +376,12 @@ const ProductLimitSetup =
           dataIndex: 'Specific',
           // editable: true,
           render: (text, record) => renderActionSpecificHandler(text, record)
-
+        },
+        {
+          title: 'Action',
+          dataIndex: 'operation',
+          render: (text, record, index) =>
+            renderActionAddDeleteHandler(record, index)
         },
       ];
 
@@ -330,24 +430,6 @@ const ProductLimitSetup =
               {/* <AddAndChangeLimitPartner /> */}
               {addAndChangeLimitPartner()}
             </Card>
-            <Row justify="center" style={{ marginTop: 8 }}>
-              <Col span={2}>
-                <Button onClick={() => goBackProductList()} shape="round">Back</Button>
-              </Col>
-              <Col span={2}>
-                <Button shape="round" type="primary" onClick={() => { submitChangeProductLimitSelect() }}>Submit</Button>
-              </Col>
-            </Row>
-            <SimpleModal
-              title={titleModal}
-              type={modalType}
-              onOk={() => unlockOTP()}
-              onCancel={() => setVisble(false)}
-              textOk={t("confirm")}
-              textCancel={t("cancel")}
-              modalString={modalString}
-              visible={visible}
-            />
           </div>
         )
       }
@@ -362,6 +444,7 @@ const ProductLimitSetup =
                 style={{
                   marginBottom: 16,
                 }}
+                disabled={disabledButtonAddRow}
               >Add a row</Button>
             </Row>
             <Row>
@@ -377,6 +460,7 @@ const ProductLimitSetup =
                     bordered
                     dataSource={dataSource}
                     columns={mergedColumns}
+                    size="small"
                   />
                 </Form>
               </Col>
@@ -422,6 +506,24 @@ const ProductLimitSetup =
 
               </div>
             ) : ('')}
+            <Row justify="center" style={{ marginTop: 8 }}>
+              <Col span={2}>
+                <Button onClick={() => goBackProductList()} shape="round">Back</Button>
+              </Col>
+              <Col span={2}>
+                <Button shape="round" type="primary" onClick={() => { prepareAllLimitToSubmitAndUpdate() }} disabled={showLimitPartner == false}>Submit</Button>
+              </Col>
+            </Row>
+            <SimpleModal
+              title={titleModal}
+              type={modalType}
+              onOk={() => { viewSpecificProduct ? submitAddSpecificLimit() : submitChangeProductLimitSelect() }}
+              onCancel={() => setVisble(false)}
+              textOk={t("confirm")}
+              textCancel={t("cancel")}
+              modalString={modalString}
+              visible={visible}
+            />
           </div>
         )
       }
