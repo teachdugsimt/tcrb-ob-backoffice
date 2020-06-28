@@ -9,9 +9,9 @@ import { ThemeProvider } from 'styled-components'
 import theme from '../theme'
 // import '../assets/fonts.less'
 
-// import 'antd/dist/antd.css'
+import 'antd/dist/antd.css'
 // import '../style.less';
-
+// import '../antd-custom.less'
 
 import EmptyLayout from '../layouts/EmptyLayout'
 

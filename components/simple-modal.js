@@ -1,31 +1,30 @@
 import React from 'react'
-import { Input, Row, Col, Layout, Modal, Switch, Button } from 'antd'
+import { Input, Row, Col, Layout, Modal, Switch } from 'antd'
 import { i18n, withNamespaces } from '../i18n'
-
+import { TcrbButton, TcrbModal } from '../components/antd-styles/styles'
 export default function SimpleModal(props) {
   return (
     <div>
-      <Modal
-
+      <TcrbModal
         title={i18n.t(props.title)}
         visible={props.visible}
         onOk={() => props.onOk()}
         onCancel={() => props.onCancel()}
         footer={[
-          <Button key="cancel" onClick={() => props.onCancel()}>
+          <TcrbButton key="cancel" onClick={() => props.onCancel()} className="default">
             {props.textCancel}
-          </Button>,
+          </TcrbButton>,
 
-          props.type == "confirm" && (<Button key="submit" type="primary" onClick={() => props.onOk()}>
+          props.type == "confirm" && (<TcrbButton key="submit" type="primary" className="primary" onClick={() => props.onOk()}>
             {props.textOk}
-          </Button>),
-          props.type == "request" && (<Button key="submit" type="primary" loading={props.fetching} onClick={() => props.onOk()}>
+          </TcrbButton>),
+          props.type == "request" && (<TcrbButton key="submit" type="primary" loading={props.fetching} onClick={() => props.onOk()}>
             {props.textOk}
-          </Button>),
+          </TcrbButton>),
         ]}
       >
         {props.modalString}
-      </Modal>
+      </TcrbModal>
     </div >
   )
 }

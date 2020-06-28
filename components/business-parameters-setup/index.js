@@ -4,7 +4,7 @@ import OtpSetup from './otp-setup'
 import ProductLimitSetup from './product-limit-setup'
 import PendingApprovals from './pending-approvals'
 import { withTranslation } from '../../i18n'
-
+import { TcrbTab } from '../antd-styles/styles'
 const { TabPane } = Tabs
 //import { MainTab } from '../antd-styles/styles'
 const BusinessParametersSetup = (props) => {
@@ -15,7 +15,7 @@ const BusinessParametersSetup = (props) => {
     <div>
       <Row>
         <Col flex={100}>
-          <Tabs defaultActiveKey="1" destroyInactiveTabPane={true} >
+          <TcrbTab defaultActiveKey="1" destroyInactiveTabPane={true} >
             <TabPane tab={t("otpSetup")} key="1">
               <OtpSetup />
             </TabPane>
@@ -25,7 +25,7 @@ const BusinessParametersSetup = (props) => {
             <TabPane tab={t("pendingApprovals")} key="3" >
               <PendingApprovals />
             </TabPane>
-          </Tabs>
+          </TcrbTab>
         </Col>
       </Row>
     </div>

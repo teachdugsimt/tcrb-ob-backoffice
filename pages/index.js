@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { inject, observer } from 'mobx-react'
 import CircleButton from '../components/button-circle/circle-button'
 // import Link from 'next/link'
-
+import { TcrbButton } from '../components/antd-styles/styles'
 import { i18n, Link, withTranslation } from '../i18n'
 
 const index =
@@ -24,10 +24,10 @@ const index =
         <button onClick={() => props.counterStore.increment()}>++</button>
         <button onClick={() => props.counterStore.decrement()}>--</button>
         <h1>Dashboard index</h1>
-        <CircleButton title={i18n.t("confirm")} type={"primary"} shape={"round"} size={"large"}
-          loading={false} onClick={() => console.log("Success Click!!", props.counterStore.count)} />
+        <TcrbButton className="default" shape={"round"} size={"large"}
+          onClick={() => console.log("Success Click!!", props.counterStore.count)} >{i18n.t("confirm")} </TcrbButton>
 
-      </div >
+      </div>
     }))
 
 index.getInitialProps = async () => ({

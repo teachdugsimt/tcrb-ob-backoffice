@@ -5,7 +5,7 @@ import AccountUnbinding from './account-unbinding'
 const { TabPane } = Tabs;
 import { withTranslation } from '../../i18n'
 import { inject, observer } from 'mobx-react'
-// import { MainTab } from '../antd-styles/styles'
+import { TcrbTab } from '../antd-styles/styles'
 
 // export default function CustomerServicesMenu
 const CustomerServicesMenu =
@@ -18,14 +18,14 @@ const CustomerServicesMenu =
           <Spin spinning={customerServicesMenuStore.apiFetching} size="large" tip="Loading..." >
             <Row flex={100}>
               <Col flex={100}>
-                <Tabs defaultActiveKey="1" destroyInactiveTabPane={true}>
+                <TcrbTab defaultActiveKey="1" destroyInactiveTabPane={true}>
                   <TabPane tab={t("accountUnbinding")} key="1">
                     <AccountUnbinding />
                   </TabPane>
                   <TabPane tab={t("otpUnlock")} key="2" >
                     <OtpUnlocking />
                   </TabPane>
-                </Tabs>
+                </TcrbTab>
               </Col>
             </Row>
           </Spin>

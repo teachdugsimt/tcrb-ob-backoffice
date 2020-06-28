@@ -7,7 +7,10 @@ export const colors = {
 
   primary: palette.orange,
   primaryDarker: palette.orangeDarker,
-
+  primaryBlue: palette.blue,
+  default: palette.default,
+  defaultDarker: palette.defaultDarker,
+  white: palette.white,
   line: palette.offWhite,
   text: palette.black,
   dim: palette.lightGrey,
