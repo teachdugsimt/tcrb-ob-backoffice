@@ -1,6 +1,7 @@
 import React, { useState, useEffect, createRef } from 'react'
-import { Button, Table, Popconfirm, Row, Col, Menu, Card, Input, Select, Form, InputNumber } from 'antd'
 import { DeleteOutlined, SettingOutlined, FormOutlined } from '@ant-design/icons';
+import { Table, Row, Col, Menu, Card, Input, Select, Form, InputNumber } from 'antd'
+
 import { inject, observer } from 'mobx-react'
 import { withTranslation } from '../../i18n'
 import styled from 'styled-components'
@@ -8,6 +9,7 @@ import { toJS } from 'mobx'
 import SimpleMenu from '../simple-menu'
 import SimpleInput from '../simple-input'
 import SimpleModal from '../simple-modal'
+import { TcrbButton, TcrbPopconfirm } from '../antd-styles/styles'
 
 const { Option } = Select;
 let txnLimit = null
@@ -309,9 +311,9 @@ const ProductLimitSetup =
         if (record.status === '1') {
           return (
             <div>
-              <Popconfirm title="Sure to Delete?" onConfirm={(e) => { submitDeleteProduct(record) }} disabled={editingKey !== ''}>
+              <TcrbPopconfirm title="Sure to Delete?" onConfirm={(e) => { submitDeleteProduct(record) }} disabled={editingKey !== ''}>
                 <a><DeleteOutlined style={{ fontSize: '18px' }} /></a>
-              </Popconfirm>
+              </TcrbPopconfirm>
               <a onClick={() => selectProductToViewDetail(record)}><SettingOutlined style={{ fontSize: '18px' }} /></a>
               <a onClick={() => selectProductToSpecificLimit(record)}><FormOutlined style={{ fontSize: '18px' }} /></a>
             </div>)
@@ -319,12 +321,12 @@ const ProductLimitSetup =
           return null
         } else {
           return (<div>
-            <Popconfirm title={"Confirm to Add !!!"} onConfirm={() => { submitAddnewProduct(record.key) }} >
+            <TcrbPopconfirm title={"Confirm to Add !!!"} onConfirm={() => { submitAddnewProduct(record.key) }} >
               <a>Confirm</a>
-            </Popconfirm><br />
-            <Popconfirm title={"Confirm to Cancel !!!"} onConfirm={() => { cancelAddNewProduct(record.key) }} >
+            </TcrbPopconfirm><br />
+            <TcrbPopconfirm title={"Confirm to Cancel !!!"} onConfirm={() => { cancelAddNewProduct(record.key) }} >
               <a>Cancel</a>
-            </Popconfirm>
+            </TcrbPopconfirm>
           </div>)
         }
       }
@@ -438,14 +440,13 @@ const ProductLimitSetup =
         return (
           <div>
             <Row>
-              <Button
+              <TcrbButton
                 onClick={() => addRowProductList()}
-                type="primary"
                 style={{
                   marginBottom: 16,
                 }}
                 disabled={disabledButtonAddRow}
-              >Add a row</Button>
+                className="primary">Add a row</TcrbButton>
             </Row>
             <Row>
               <Col flex={100}>
@@ -508,10 +509,10 @@ const ProductLimitSetup =
             ) : ('')}
             <Row justify="center" style={{ marginTop: 8 }}>
               <Col span={2}>
-                <Button onClick={() => goBackProductList()} shape="round">Back</Button>
+                <TcrbButton className="default" onClick={() => goBackProductList()} shape="round">Back</TcrbButton>
               </Col>
               <Col span={2}>
-                <Button shape="round" type="primary" onClick={() => { prepareAllLimitToSubmitAndUpdate() }} disabled={showLimitPartner == false}>Submit</Button>
+                <TcrbButton shape="round" className="primary" onClick={() => { prepareAllLimitToSubmitAndUpdate() }} disabled={showLimitPartner == false}>Submit</TcrbButton>
               </Col>
             </Row>
             <SimpleModal

@@ -1,9 +1,10 @@
 import React, { useEffect, useRef, useState } from 'react'
-import { Input, Row, Col, Button, Alert, Spin } from 'antd'
+import { Input, Row, Col, Alert, Spin } from 'antd'
 import styled from 'styled-components'
 import { inject, observer } from 'mobx-react'
 import { withTranslation } from '../../i18n'
 import SimpleModal from '../simple-modal'
+import { TcrbButton } from '../antd-styles/styles'
 import { BusinessParameterSetupApi } from '../../services/'
 // import { qs } from 'qs'
 import querystring from 'querystring'
@@ -298,8 +299,8 @@ const OtpSetup =
                 <StyledInput readOnly={inputMax} id={"otp-maximum-retrying"} value={maximumOtp} onChange={(e) => setMaximum(e.target.value)} prefix={t("otpMaximumRetrying")} suffix={t("otpTime")} />
               </Col>
               <Col span={6}>
-                {visibleEditMaximum && <Button disabled={editMaximum} onClick={() => _onClickMaximumRetry()}>{t("edit")}</Button>}
-                {visibleSubmitMaximum && <Button disabled={disMaximumSubmit} onClick={() => _openPopup("maximum")}>{t("submit")}</Button>}
+                {visibleEditMaximum && <TcrbButton disabled={editMaximum} onClick={() => _onClickMaximumRetry()} className="default">{t("edit")}</TcrbButton>}
+                {visibleSubmitMaximum && <TcrbButton disabled={disMaximumSubmit} onClick={() => _openPopup("maximum")} className="default">{t("submit")}</TcrbButton>}
               </Col>
             </Row>
             <Row gutter={[8, 8]}>
@@ -307,8 +308,8 @@ const OtpSetup =
                 <StyledInput readOnly={inputExpiration} /*ref={inputRef}*/ id={"otp-expiration-period"} value={expireOtp} onChange={(e) => setExpire(e.target.value)} prefix={t("otpExpirationPeriod")} suffix={t("otpSecond")} />
               </Col>
               <Col span={6}>
-                {visibleExpireEdit && <Button disabled={editExpiration} onClick={() => _onClickExpiration()} >{t("edit")}</Button>}
-                {visibleExpireSubmit && <Button disabled={disExpireSubmit}/*onClick={setInputFocus}*/ onClick={() => _openPopup("expire")} >{t("submit")}</Button>}
+                {visibleExpireEdit && <TcrbButton disabled={editExpiration} onClick={() => _onClickExpiration()} className="default">{t("edit")}</TcrbButton>}
+                {visibleExpireSubmit && <TcrbButton disabled={disExpireSubmit}/*onClick={setInputFocus}*/ onClick={() => _openPopup("expire")} className="default">{t("submit")}</TcrbButton>}
               </Col>
             </Row>
             <SimpleModal

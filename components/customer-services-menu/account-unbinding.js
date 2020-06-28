@@ -7,6 +7,7 @@ import SimpleModal from '../simple-modal'
 import { inject, observer } from 'mobx-react'
 import { toJS } from 'mobx';
 import { withTranslation } from '../../i18n'
+import { TcrbSwitch } from '../antd-styles/styles'
 
 const StyledA = styled.a`
   display: initial;

@@ -18,6 +18,14 @@ const StyledSearch = styled(Search)`
 .ant-input-prefix {
   margin-right: ${({ theme }) => theme.spacing.large}px !important;
 }
+.ant-btn-primary{
+  background-color: ${({ theme }) => theme.colors.primary};
+    color: ${({ theme }) => theme.colors.white};
+    border-color: ${({ theme }) => theme.colors.primary};
+    &:hover{
+      background-color: ${({ theme }) => theme.colors.primaryDarker};
+    }
+}
 
 `
 
