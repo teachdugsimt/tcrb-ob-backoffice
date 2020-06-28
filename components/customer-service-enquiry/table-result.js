@@ -4,6 +4,8 @@ import styled from 'styled-components';
 import { columnsTranInfo, columnsPartnerInfo, columnsAccInfo, columnsTxn } from './table-column';
 import { Table, Tabs } from 'antd';
 import { data } from './data'
+import moment from 'moment'
+import 'moment/locale/th'
 const { TabPane } = Tabs;
 
 function callback(key) {
@@ -25,8 +27,11 @@ export const TableResult =
         let arr = customerServiceEnquiry.tmpListData ? customerServiceEnquiry.tmpListData : data
         let list1 = [], list2 = [], list3 = [], list4 = [], groupList = []
         arr.forEach((e, i) => {
+          let b = moment((e.date).toString()).format('l')
+          console.log(b)
           list1.push({
-            no: i + 1, tranDate: e.date, tranTime: e.time,
+            no: i + 1, tranDate: b, tranTime: e.time,
+            // no: i + 1, tranDate: '29/6/2020', tranTime: e.time,
             entity: e.parent_partner_code, channel: e.channel,
             tranType: e.transaction_type, tranSubType: e.transaction_type,
             prodType: e.product_type,
@@ -85,6 +90,7 @@ export const TableResult =
         <Tabs defaultActiveKey="1" onChange={callback}>
           <TabPane tab="Transaction Info" key="1">
             <Table
+              filtered={true}
               onChange={(e) => setPage(e.current)}
               onRow={(item, index) => {
                 return {
@@ -102,6 +108,7 @@ export const TableResult =
           <TabPane
             tab="Partner Info" key="2">
             <Table
+              filtered={true}
               onChange={(e) => setPage(e.current)}
               onRow={(item, index) => ({
                 onClick: () => {
@@ -117,6 +124,7 @@ export const TableResult =
           <TabPane
             tab="Account Info" key="3">
             <Table
+              filtered={true}
               onChange={(e) => setPage(e.current)}
               onRow={(item, index) => ({
                 onClick: () => {
@@ -132,6 +140,7 @@ export const TableResult =
           <TabPane
             tab="Txn" key="4">
             <Table
+              filtered={true}
               onChange={(e) => setPage(e.current)}
               onRow={(item, index) => ({
                 onClick: () => {

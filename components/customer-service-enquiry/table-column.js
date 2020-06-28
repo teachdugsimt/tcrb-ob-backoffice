@@ -1,4 +1,4 @@
-
+import moment from 'moment'
 export const columnsTranInfo = [
   {
     title: 'No.',
@@ -7,34 +7,96 @@ export const columnsTranInfo = [
     render: text => <div>{text}</div>,
   },
   {
-    title: 'Tran Date',
+    title: 'Tran Time',
     dataIndex: 'tranDate',
     key: 'tranDate',
-  },
-  {
-    title: 'Tran Time',
-    dataIndex: 'tranTime',
-    key: 'tranTime',
+    filters: [
+      {
+        text: 'Today',
+        value: moment(new Date()).format('l'),
+      },
+    ],
+    filterMultiple: false,
+    onFilter: (value, record) => record.tranDate.indexOf(value) === 0,
+    sorter: (a, b) => a.tranDate.localeCompare(b.tranDate),
+    sortDirections: ['descend', 'ascend'],
   },
   {
     title: 'Entity',
     key: 'entity',
     dataIndex: 'entity',
+    filters: [
+      {
+        text: 'TMDS',
+        value: 'TMDS',
+      },
+      {
+        text: 'OBCH',
+        value: 'OBCH',
+      },
+    ],
+    filterMultiple: false,
+    onFilter: (value, record) => record.entity && record.entity.includes(value),
+    sorter: (a, b) => a.entity && b.entity && a.entity.length - b.entity.length,
+    // sorter: (a, b) => a.entity.localeCompare(b.entity),
+    // sortDirections: ['descend', 'ascend'],
   },
   {
     title: 'Channel',
     key: 'channel',
     dataIndex: 'channel',
+    filters: [
+      {
+        text: 'TMDS',
+        value: 'TMDS',
+      },
+      {
+        text: 'OB',
+        value: 'OB',
+      },
+    ],
+    filterMultiple: false,
+    onFilter: (value, record) => record.channel && record.channel.includes(value),
+    sorter: (a, b) => a.channel && b.channel && a.channel.length - b.channel.length,
+    // sorter: (a, b) => a.channel.localeCompare(b.channel),
+    // sortDirections: ['descend', 'ascend'],
   },
   {
     title: 'Tran Type',
     key: 'tranType',
     dataIndex: 'tranType',
+    filters: [
+      {
+        text: 'RPYMNT',
+        value: 'RPYMNT',
+      },
+      {
+        text: 'TOPUP',
+        value: 'TOPUP',
+      },
+    ],
+    filterMultiple: false,
+    onFilter: (value, record) => record.tranType && record.tranType.includes(value),
+    sorter: (a, b) => a.tranType && b.tranType && a.tranType.length - b.tranType.length,
+    sortDirections: ['descend', 'ascend'],
   },
   {
     title: 'Tran SubType',
     key: 'tranSubType',
     dataIndex: 'tranSubType',
+    filters: [
+      {
+        text: 'RPYMNT',
+        value: 'RPYMNT',
+      },
+      {
+        text: 'TOPUP',
+        value: 'TOPUP',
+      },
+    ],
+    onFilter: (value, record) => record.tranSubType && record.tranSubType.includes(value),
+    sorter: (a, b) => a.tranSubType && b.tranSubType && a.tranSubType.length - b.tranSubType.length,
+    sortDirections: ['descend', 'ascend'],
   },
   {
     title: 'Prod Type',

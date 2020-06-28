@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import { Menu, Dropdown, Button, message, DatePicker, Input } from 'antd';
 import { DownOutlined, UserOutlined } from '@ant-design/icons';
 import { data } from './data'
-
+import moment from 'moment'
 const { RangePicker } = DatePicker;
 const { Search } = Input
 
@@ -14,13 +14,12 @@ export const SearchBox =
       const { customerServiceEnquiry } = props
       const [currentSearch, setCurrentSearch] = useState(0)
       const [dateValue, setdate] = useState(null)
-
+      const [start, setstart] = useState("")
+      const [end, setend] = useState("")
 
       function handleMenuClick(e) {
         message.info('Click on menu item.');
-        console.log('click', e);
         setCurrentSearch(e.item.props.index)
-        console.log("????? SEARCH :: ", currentSearch)
       }
 
       const menuName = ['Search All', 'Search by ID Card Number', 'Search by Account No',
@@ -55,11 +54,8 @@ export const SearchBox =
       const _handleSearch = (value) => {
         if (value && value != "") {
           let focus_menu = menuName[currentSearch]
-          console.log("_handleSearch -> focus_menu", focus_menu)
           let text_search = value
-          console.log("_handleSearch -> text_search", text_search)
           let list_item = JSON.parse(JSON.stringify(data))
-          console.log("_handleSearch -> list_item", list_item)
 
           if (focus_menu == "Search by ID Card Number") {
             let tmp = list_item.filter(e => e.citizen_id.includes(text_search))
@@ -83,14 +79,16 @@ export const SearchBox =
             customerServiceEnquiry.setListData(tmp)
           }
           else if (focus_menu == "Search by Range of Date&Time") {
-            // let tmp = list_item.filter(e => e.citizen_id == text_search)
-            // customerServiceEnquiry.setListData(tmp)
+            let tmp = list_item.filter(e => moment((e.date).toString()).format('l') >= start || moment((e.date).toString()).format('l') <= end)
+            customerServiceEnquiry.setListData(tmp)
           }
         } else {
           customerServiceEnquiry.setListData(data)
         }
       }
 
+      console.log("START : ", start)
+      console.log("END : ", end)
       return (
         <div>
           <div style={{ display: 'flex', justifyContent: 'space-between' }}>
@@ -108,7 +106,15 @@ export const SearchBox =
               enterButton />
           </div>
           <div style={{ marginTop: 10 }}>
-            {currentSearch == 6 && <RangePicker style={{ width: '100%' }} onChange={(e) => setdate(e)} />}
+            {currentSearch == 6 && <RangePicker style={{ width: '100%' }} onChange={(e) => {
+              let tmp_start = JSON.parse(JSON.stringify(e[0]))
+              let tmp_end = JSON.parse(JSON.stringify(e[1]))
+              let startDate = moment(tmp_start).format('l')
+              let endDate = moment(tmp_end).format('l')
+              setstart(startDate)
+              setend(endDate)
+              setdate(e)
+            }} />}
           </div>
         </div>
       )
