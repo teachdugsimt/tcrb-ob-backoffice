@@ -21,7 +21,7 @@ const MainLayout = inject('versatileStore')(observer((props) => {
   const router = useRouter()
   let all_height
   if (router.pathname == "/customer-service-enquiry") all_height = '95.25%'
-  else if (router.pathname == "/pending-approve") all_height = '95.25%'
+  else if (router.pathname == "/pending-approve") all_height = '97%'
   else all_height = '97%'
   return (
     <FirstLayer>

@@ -7,13 +7,13 @@ export default function () {
 
   return (
     <Row>
-      <Col>
+      <Col span={24}>
         <SearchBar />
         <CustomerDetail />
       </Col>
-      <Row style={{ marginTop: 20 }}>
+      <Col style={{ marginTop: 20 }}>
         <TableResult />
-      </Row>
+      </Col>
     </Row>
   )
 }
