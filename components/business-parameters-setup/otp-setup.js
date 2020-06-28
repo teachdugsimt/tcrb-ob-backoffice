@@ -299,6 +299,8 @@ const OtpSetup =
                 <StyledInput readOnly={inputMax} id={"otp-maximum-retrying"} value={maximumOtp} onChange={(e) => setMaximum(e.target.value)} prefix={t("otpMaximumRetrying")} suffix={t("otpTime")} />
               </Col>
               <Col span={6}>
+                {/* // primary : orange  */}
+                {/* // default : black */}
                 {visibleEditMaximum && <TcrbButton disabled={editMaximum} onClick={() => _onClickMaximumRetry()} className="default">{t("edit")}</TcrbButton>}
                 {visibleSubmitMaximum && <TcrbButton disabled={disMaximumSubmit} onClick={() => _openPopup("maximum")} className="default">{t("submit")}</TcrbButton>}
               </Col>
