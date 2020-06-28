@@ -20,7 +20,7 @@ class AuthenStore {
     { id: 13, name: "USER ACCESS MANAGEMENT ENQUIRY", linkTo: "/", color: "#000000", typeLv: "42" },
     { id: 14, name: "DEVICE ENQUIRY", linkTo: "/", color: "#000000", typeLv: "42" },
   ]
-
+//ff
   @action setProfile = (id, password) => {
     this.id = id
     this.password = password
