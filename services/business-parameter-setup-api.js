@@ -47,10 +47,13 @@ class BusinessParameterSetupApi {
     return response
   }
 
+  submitSpecificLimit = async (params) => {
+    const response = await ExcuteApi('api/backoffice/v1/changerequest/productlimit', params, "post")
+    return response
+  }
 
-  submitPartnerLimit = async (params) => {
-    //waiting api from tum
-    // const response = await ExcuteApi('api/backoffice/v1/changerequest/productlimit', params, "post")
+  submitChangePartnerLimit = async (params) => {
+    const response = await ExcuteApi('api/backoffice/v1/changerequest/productlimit', params, "post")
     return response
   }
 
