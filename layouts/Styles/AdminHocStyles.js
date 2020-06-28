@@ -137,6 +137,7 @@ width: 100%;
 margin-left: -10px;
 border-bottom: 1px solid lightgrey;
 &:hover {
+  cursor: pointer;
   border-bottom: 4px inset lightgrey;
 }
 &:hover ${LinkColorMenu} {

@@ -5,6 +5,7 @@ import SimpleSwitch from '../simple-switch'
 import { Row, Switch, Col, Button, Input, Alert, Card } from 'antd'
 
 const StyledInput = styled(Input)`
+  font-weight: bold;
       ${({ readOnly }) => readOnly && `
           border-style: solid !important;
           border-width: 0px 0px 1px 0px !important;
@@ -15,7 +16,6 @@ const StyledInput = styled(Input)`
       `}
 `
 const StyledSwitch = styled(Switch)`
-
     .ant-switch-checked .ant-switch-handle {
       left: calc(100% - 22px - 0px) !important;
     }
@@ -28,16 +28,18 @@ export const CustomerDetail =
       const [obj, setobj] = useState(null)
 
       useEffect(() => {
+        console.log("Data Enquiry :: ", JSON.parse(JSON.stringify(customerServiceEnquiry.rowDataObject)))
         if (obj != customerServiceEnquiry.rowDataObject)
           setobj(JSON.parse(JSON.stringify(customerServiceEnquiry.rowDataObject)))
 
       }, [customerServiceEnquiry.rowDataObject])
 
-      let customer_id = obj && obj.main_account_no ? obj.main_account_no : "3 1234 5678 74 8"
-      let name = obj && obj.account_name ? obj.account_name : "ศิริพร ศุภวัชโรบล"
+      console.log("Detail ENquiry : ", obj)
+      let customer_id = obj && obj.accNo ? obj.accNo : "3 1234 5678 74 8"
+      let name = obj && obj.accName ? obj.accName : "ศิริพร ศุภวัชโรบล"
       return (
         <div>
-          <Row>
+          {obj && customerServiceEnquiry.rowDataObject && <Row>
             <Col span={8}>
               <Card style={{ border: "1px solid #7B7D7D", borderRadius: 25 }}>
                 <Row gutter={[16, 30]}>
@@ -58,20 +60,20 @@ export const CustomerDetail =
                   <div style={{ fontSize: 18 }}>Onboarded service</div>
                 </Row>
                 <Row gutter={[4, 16]}>
-                  <Col span={6}><Switch disabled={true} />E-KYc</Col>
-                  <Col span={6}><Switch disabled={true} />Micro Pay</Col>
-                  <Col span={6}><Switch disabled={true} />True Money</Col>
-                  <Col span={6}><Switch disabled={true} />FB Pay</Col>
+                  <Col span={6}><Switch disabled={true} /><span style={{ paddingLeft: 5 }}>E-KYC</span></Col>
+                  <Col span={6}><Switch disabled={true} /><span style={{ paddingLeft: 5 }}>Micro Pay</span></Col>
+                  <Col span={6}><Switch disabled={true} /><span style={{ paddingLeft: 5 }}>True Money</span></Col>
+                  <Col span={6}><Switch disabled={true} /><span style={{ paddingLeft: 5 }}>FB Pay</span></Col>
                 </Row>
                 <Row gutter={[4, 16]}>
-                  <Col span={6}><Switch disabled={true} />Mobile Banking</Col>
-                  <Col span={6}><Switch disabled={true} />NDID</Col>
-                  <Col span={6}><Switch disabled={true} />Grab Pay</Col>
-                  <Col span={6}><Switch disabled={true} />AirPay</Col>
+                  <Col span={6}><Switch disabled={true} /><span style={{ paddingLeft: 5 }}>Mobile Banking</span></Col>
+                  <Col span={6}><Switch disabled={true} /><span style={{ paddingLeft: 5 }}>NDID</span></Col>
+                  <Col span={6}><Switch disabled={true} /><span style={{ paddingLeft: 5 }}>Grab Pay</span></Col>
+                  <Col span={6}><Switch disabled={true} /><span style={{ paddingLeft: 5 }}>AirPay</span></Col>
                 </Row>
               </Card>
             </Col>
-          </Row>
+          </Row>}
         </div>
       )
 

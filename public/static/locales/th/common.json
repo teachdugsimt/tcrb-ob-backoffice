@@ -58,5 +58,8 @@
   "inputUserName": "กรุณาใส่ชื่อผู้ใช้งาน",
   "inputPassword": "กรุณาใส่รหัสผ่าน",
   "sureAccept": "ยืนยันการอนุมัติ ?",
-  "sureReject": "ยืนยันการปฏิเสธ ?"
+  "sureReject": "ยืนยันการปฏิเสธ ?",
+  "accept": "ยอมรับ",
+  "reject": "ปฏิเสธ",
+  "pendingApprove": "การอนุมัติรายการ"
 }

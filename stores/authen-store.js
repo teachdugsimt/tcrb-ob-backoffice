@@ -1,8 +1,9 @@
 import { observable, action, computed } from "mobx"
+import { create, persist } from 'mobx-persist'
 
 class AuthenStore {
-  @observable id = ""
-  @observable password = ""
+  @persist @observable id = ""
+  @persist @observable password = ""
   @observable type = ""
   @observable menu = [
     { id: 1, name: "CUSTOMER SERVICES ENQUIRY", linkTo: "/natty", color: "#000000", typeLv: "42" },

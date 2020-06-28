@@ -22,9 +22,9 @@ const BusinessParametersSetup = (props) => {
             <TabPane tab={t("productLimitSetup")} key="2">
               <ProductLimitSetup />
             </TabPane>
-            <TabPane tab={t("pendingApprovals")} key="3" >
+            {/* <TabPane tab={t("pendingApprovals")} key="3" >
               <PendingApprovals />
-            </TabPane>
+            </TabPane> */}
           </Tabs>
         </Col>
       </Row>

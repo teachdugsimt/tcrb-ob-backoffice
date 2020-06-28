@@ -13,7 +13,7 @@ class CustomerServiceEnquiry {
     this.tmpListData = data
   }
 
-  @action setTmpPendingListID = (data) => {
+  @action setTmpEnquiryRow = (data) => {
     this.rowDataObject = data
   }
 }

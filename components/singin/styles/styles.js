@@ -3,7 +3,7 @@ import { Row, Col, Divider, Form, Input, Button, Checkbox, Layout } from 'antd';
 const { Header, Footer, Sider, Content } = Layout;
 
 const ImgBackgroundSignin = styled.img`
-z-index: 1;
+z-index: -1 !important;
 position: absolute;
 top: 0;
 left: 0;
@@ -35,13 +35,13 @@ border-top-right-radius: 36px;
 border-style: solid !important;
 border-width: 1px 1px 0px 1px !important;
 border-color: #707070 !important;
+overflow: scroll;
 `
 
 const MainInput = styled.input`
 margin: 5;
 width: 100%;
 color: white;
-margin-top: -7.5px;
 background: #707070;
 background-color: #707070;
 border-width: 0px 0px 1px 0px !important;
@@ -54,7 +54,7 @@ position: relative;
 `
 
 const WrapLogo = styled.div`
-min-height: 50px;
+min-height: 7vh;
 position: absolute;
 top: 0;
 left: 0;
@@ -70,12 +70,12 @@ font-size: ${({ theme }) => theme.size.header}px;
 
 const ImgLogo = styled.img`
 aspect-ratio: 0.1;
-height: 50px;
+height: 7vh;
 `;
 
 const FooterText = styled.span`
 color: #ffffff;
-padding-left: 10px;
+padding-left: 0.5em;
 font-weight: bold;
 font-size: ${({ theme }) => theme.size.header}px;
 `

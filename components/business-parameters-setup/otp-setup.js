@@ -294,7 +294,7 @@ const OtpSetup =
           // delay={fetching == false ? 800 : 0}
           >
             <Row gutter={[8, 8]}>
-              <Col span={8}>
+              <Col span={10}>
                 <StyledInput readOnly={inputMax} id={"otp-maximum-retrying"} value={maximumOtp} onChange={(e) => setMaximum(e.target.value)} prefix={t("otpMaximumRetrying")} suffix={t("otpTime")} />
               </Col>
               <Col span={6}>
@@ -303,7 +303,7 @@ const OtpSetup =
               </Col>
             </Row>
             <Row gutter={[8, 8]}>
-              <Col span={8}>
+              <Col span={10}>
                 <StyledInput readOnly={inputExpiration} /*ref={inputRef}*/ id={"otp-expiration-period"} value={expireOtp} onChange={(e) => setExpire(e.target.value)} prefix={t("otpExpirationPeriod")} suffix={t("otpSecond")} />
               </Col>
               <Col span={6}>

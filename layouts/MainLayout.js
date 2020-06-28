@@ -2,7 +2,7 @@ import React from 'react'
 import AdminHeader from './AdminHeader'
 import AdminMenu from './AdminMenu'
 import AdminFooter from './AdminFooter'
-import { withRouter } from 'next/router'
+import { withRouter, useRouter } from 'next/router'
 import {
   FirstLayer, SecondLayer, EmptyDiv, EmptySidebar, ContentPadding, WrapperImageBackground,
   ContentSubDiv
@@ -18,7 +18,11 @@ const { Content } = Layout;
 const MainLayout = inject('versatileStore')(observer((props) => {
   // const { versatileStore } = useStores()
   const { versatileStore } = props
-
+  const router = useRouter()
+  let all_height
+  if (router.pathname == "/customer-service-enquiry") all_height = '95.25%'
+  else if (router.pathname == "/pending-approve") all_height = '95.25%'
+  else all_height = '97%'
   return (
     <FirstLayer>
       <Layout>
@@ -29,7 +33,12 @@ const MainLayout = inject('versatileStore')(observer((props) => {
           <AdminMenu />
           <EmptySidebar />
           <ContentPadding style={{ paddingLeft: versatileStore.sidebarWidth > 100 ? spacing.full : spacing.pass }}>
-            <Content style={{ marginTop: spacing.tiny - 8, borderRadius: spacing.tiny, backgroundColor: 'white', height: '97%', overflowY: 'scroll', }}>
+            <Content style={{
+              marginTop: spacing.tiny - 8, borderRadius: spacing.tiny, backgroundColor: 'white',
+              maxHeight: all_height,
+              minHeight: all_height,
+              overflowY: 'scroll',
+            }}>
               <ContentSubDiv>
                 {props.children}
               </ContentSubDiv>

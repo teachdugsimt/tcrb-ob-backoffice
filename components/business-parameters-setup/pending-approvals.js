@@ -1,9 +1,23 @@
 import React, { useState, useEffect, useMemo } from 'react'
-import { Table, Popconfirm } from 'antd';
+import { Table, Popconfirm, Row, Col } from 'antd';
 import { inject, observer } from 'mobx-react'
 import { DownOutlined } from '@ant-design/icons';
 import { withTranslation } from '../../i18n'
-
+import {
+  CheckCircleOutlined,
+  CloseCircleOutlined,
+} from '@ant-design/icons';
+import SimpleModal from '../simple-modal'
+import styled from 'styled-components'
+import moment from 'moment'
+const HoverIcon = styled(Col)`
+    color: green;
+    cursor: pointer !important;
+`
+const HoverIconReject = styled(Col)`
+    color: red;
+    cursor: pointer !important;
+`
 const PendingApprovals =
   inject('businessParametersSetupStore')
     (observer((props) => {
@@ -12,12 +26,17 @@ const PendingApprovals =
       const [top, setTop] = useState('none')
       const [bottom, setBottom] = useState("bottomRight")
       const [pendingApprovalData, setPendingApprovalData] = useState([])
+      const [title, settitle] = useState("Action details")
+      const [textOk, settextOk] = useState("Ok")
+      const [textCancel, settextCancel] = useState("Cancel")
+      const [modalString, setmodalString] = useState("initialState")
+      const [visible, setvisible] = useState(false)
       const { businessParametersSetupStore, t } = props
       const expand = { expandedRowRender: record => <p>{record.description}</p> };
       const columns = [
         {
           title: 'Ticket#',
-          dataIndex: 'action',
+          dataIndex: 'id',
         },
         {
           title: 'Request Type',
@@ -25,7 +44,18 @@ const PendingApprovals =
         },
         {
           title: 'Request Description',
-          dataIndex: 'description',
+          key: 'description',
+          render: (record) => {
+            let data = JSON.parse(JSON.stringify(record))
+            let string = JSON.parse(data.data)
+            setmodalString(`Action : ${string.ChangedType} \n\n Old Value : ${string.Current.OTP_MAXIMUM_ENTERED ? string.Current.OTP_MAXIMUM_ENTERED : string.Current.OTP_EXPIRE_TIME} \n\n New Vlaue : ${string.New.OTP_MAXIMUM_ENTERED ? string.New.OTP_MAXIMUM_ENTERED : string.Current.OTP_EXPIRE_TIME}`)
+            return <Row>
+              <span>
+                {data.description ? `${data.description} ` : `${data.action}`}
+              </span>
+              <div onClick={() => setvisible(true)}><span><a> : details</a></span></div>
+            </Row>
+          }
         },
         {
           title: 'Request ID',
@@ -33,23 +63,28 @@ const PendingApprovals =
         },
         {
           title: 'Request Date',
-          dataIndex: 'requested_date',
+          // dataIndex: 'requested_date',
+          key: 'requested_date',
+          render: (record) => {
+            let data = JSON.parse(JSON.stringify(record))
+            let date = moment(data.requested_date).format('LLL')
+            return <span>
+              {date}
+            </span>
+          }
         },
         {
           title: 'Action',
           key: 'action',
           render: (record) => (
-            <span>
-              <Popconfirm title={t("sureAccept")}
-                onConfirm={() => processPending("APPROVE", record)}  >
-                <a style={{ marginRight: 16 }}>Accept</a>
-              </Popconfirm>
-
-              <Popconfirm title={t("sureReject")}
-                onConfirm={() => processPending("REJECT", record)}>
-                <a style={{ marginRight: 16 }}>Reject</a>
-              </Popconfirm>
-            </span>
+            <Row gutter={16}>
+              <HoverIcon onClick={() => processPending("APPROVE", record)} className="gutter-row" span={6}>
+                <CheckCircleOutlined height={"1.5em"} width={"1.5em"} />
+              </HoverIcon>
+              <HoverIconReject onClick={() => processPending("REJECT", record)} className="gutter-row" span={6}>
+                <CloseCircleOutlined height={"1.5em"} width={"1.5em"} />
+              </HoverIconReject>
+            </Row>
           ),
         },
       ];
@@ -83,16 +118,37 @@ const PendingApprovals =
         businessParametersSetupStore.processPendingListApprove(data)
       }
 
+      const _onConfirm = () => {
+        setvisible(false)
+      }
+      const _onCancel = () => {
+        setvisible(false)
+      }
+
       const tableColumns = columns.map(item => ({ ...item }));
 
       return (
-        <Table
-          pagination={{ position: [top, bottom] }}
-          columns={tableColumns}
-          dataSource={businessParametersSetupStore.responseGetPendingApproveList}
-        // dataSource={pendingApprovalData}
-        // scroll={scroll}
-        />
+        <Row >
+          <Col span={24}>
+            <Table
+              pagination={{ position: [top, bottom] }}
+              columns={tableColumns}
+              dataSource={businessParametersSetupStore.responseGetPendingApproveList}
+            // dataSource={pendingApprovalData}
+            // scroll={scroll}
+            />
+            <SimpleModal
+              title={title}
+              // type={modalType}
+              onOk={() => _onConfirm()}
+              onCancel={() => _onCancel()}
+              textCancel={textCancel}
+              textOk={textOk}
+              modalString={modalString}
+              visible={visible}
+            />
+          </Col>
+        </Row>
       )
     }))
 

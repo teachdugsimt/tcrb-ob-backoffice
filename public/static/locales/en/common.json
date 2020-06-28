@@ -58,5 +58,8 @@
   "inputUserName": "Please input your username!",
   "inputPassword": "Please input your password!",
   "sureAccept": "Sure to Accept?",
-  "sureReject": "Sure to Reject?"
+  "sureReject": "Sure to Reject?",
+  "accept": "Accept",
+  "reject": "Reject",
+  "pendingApprove": "PENDING APPROVE"
 }
