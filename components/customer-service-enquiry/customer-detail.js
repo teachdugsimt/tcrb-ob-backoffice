@@ -6,6 +6,7 @@ import { Row, Switch, Col, Button, Input, Alert, Card } from 'antd'
 
 const SpanText =styled.span`
 border-bottom: 1px solid black !important;
+padding-bottom: 5px !important;
 `
 
 const StyledInput = styled(Input)`
