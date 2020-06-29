@@ -4,6 +4,10 @@ import styled from 'styled-components';
 import SimpleSwitch from '../simple-switch'
 import { Row, Switch, Col, Button, Input, Alert, Card } from 'antd'
 
+const SpanText =styled.span`
+border-bottom: 1px solid black !important;
+`
+
 const StyledInput = styled(Input)`
       ${({ readOnly }) => readOnly && `
           font-weight: bold;
@@ -35,8 +39,9 @@ export const CustomerDetail =
       }, [customerServiceEnquiry.rowDataObject])
 
       console.log("Detail ENquiry : ", obj)
-      let customer_id = obj && obj.accNo ? obj.accNo : "3 1234 5678 74 8"
-      let name = obj && obj.accName ? obj.accName : "ศิริพร ศุภวัชโรบล"
+      // let customer_id = obj && obj.accNo ? obj.accNo : "3 1234 5678 74 8"
+      // let name = obj && obj.accName ? obj.accName : "ศิริพร ศุภวัชโรบล"
+      // console.log("ROW DATA OBJECT : ", customerServiceEnquiry.rowDataObject)
       return (
         <Row style={{ paddingTop: 10 }}>
           {obj && customerServiceEnquiry.rowDataObject && <Row gutter={{ xs: 6, sm: 14, md: 22, lg: 30 }}>
@@ -44,12 +49,31 @@ export const CustomerDetail =
               <Card style={{ border: "1px solid #7B7D7D", borderRadius: 25 }}>
                 <Row gutter={[16, 30]}>
                   <Col flex={100}>
-                    <StyledInput readOnly={true} prefix={'Customer ID'} defaultValue={customer_id} />
+                    {/* {JSON.parse(JSON.stringify(customerServiceEnquiry.rowDataObject)) && JSON.parse(JSON.stringify(customerServiceEnquiry.rowDataObject)).accNo && JSON.parse(JSON.stringify(customerServiceEnquiry.rowDataObject)).accNo ? <StyledInput readOnly={true} prefix={'Customer ID'} defaultValue={JSON.parse(JSON.stringify(customerServiceEnquiry.rowDataObject)).accNo} /> :<StyledInput readOnly={true} prefix={'Customer Name'} defaultValue={"Don't have No"} />} */}
+                    {JSON.parse(JSON.stringify(customerServiceEnquiry.rowDataObject)) && JSON.parse(JSON.stringify(customerServiceEnquiry.rowDataObject)).accNo && JSON.parse(JSON.stringify(customerServiceEnquiry.rowDataObject)).accName ?
+                      <SpanText>Customer ID :
+                      {JSON.parse(JSON.stringify(customerServiceEnquiry.rowDataObject)).accNo}
+                      </SpanText>
+                      :
+                      <SpanText> Don't Hava Value</SpanText>}
+                    {/* <StyledInput readOnly={true} prefix={'Customer ID'} defaultValue={JSON.parse(JSON.stringify(customerServiceEnquiry.rowDataObject)) && JSON.parse(JSON.stringify(customerServiceEnquiry.rowDataObject)).accNo ? JSON.parse(JSON.stringify(customerServiceEnquiry.rowDataObject)).accNo : "3 1234 5678 74 8"} /> */}
+                    {/* <StyledInput readOnly={true} prefix={'Customer ID'} defaultValue={customerServiceEnquiry.rowDataObject && obj && obj.accNo ? obj.accNo : "3 1234 5678 74 8"} /> */}
+                    {/* <StyledInput readOnly={true} prefix={'Customer ID'} defaultValue={customer_id} /> */}
                   </Col>
                 </Row>
                 <Row gutter={[16, 16]}>
                   <Col flex={100}>
-                    <StyledInput readOnly={true} prefix={'Customer Name'} defaultValue={name} />
+                    {JSON.parse(JSON.stringify(customerServiceEnquiry.rowDataObject)) && JSON.parse(JSON.stringify(customerServiceEnquiry.rowDataObject)).accNo && JSON.parse(JSON.stringify(customerServiceEnquiry.rowDataObject)).accName ?
+                      <SpanText>Customer Name :
+                      {JSON.parse(JSON.stringify(customerServiceEnquiry.rowDataObject)).accName}
+                      </SpanText>
+                      :
+                      <SpanText> Don't Hava Value</SpanText>}
+                    {/* {JSON.parse(JSON.stringify(customerServiceEnquiry.rowDataObject)) && JSON.parse(JSON.stringify(customerServiceEnquiry.rowDataObject)).accNo && JSON.parse(JSON.stringify(customerServiceEnquiry.rowDataObject)).accName ? <StyledInput readOnly={true} prefix={'Customer Name'} defaultValue={JSON.parse(JSON.stringify(customerServiceEnquiry.rowDataObject)).accName} /> :<StyledInput readOnly={true} prefix={'Customer Name'} defaultValue={"Don't have name"} />} */}
+                    {/* {JSON.parse(JSON.stringify(customerServiceEnquiry.rowDataObject)) && JSON.parse(JSON.stringify(customerServiceEnquiry.rowDataObject)).accNo && JSON.parse(JSON.stringify(customerServiceEnquiry.rowDataObject)).accName ? <span>Have Value </span> : <span> Don't Hava Value</span>} */}
+                    {/* <StyledInput readOnly={true} prefix={'Customer Name'} defaultValue={JSON.parse(JSON.stringify(customerServiceEnquiry.rowDataObject)) && JSON.parse(JSON.stringify(customerServiceEnquiry.rowDataObject)).accName ? JSON.parse(JSON.stringify(customerServiceEnquiry.rowDataObject)).accName : "ศิริพร ศุภวัชโรบล"} /> */}
+                    {/* <StyledInput readOnly={true} prefix={'Customer Name'} defaultValue={customerServiceEnquiry.rowDataObject && obj && obj.accName ? obj.accName : "ศิริพร ศุภวัชโรบล"} /> */}
+                    {/* <StyledInput readOnly={true} prefix={'Customer Name'} defaultValue={name} /> */}
                   </Col>
                 </Row>
               </Card>
