@@ -14,10 +14,14 @@ const StyledInput = styled(Input)`
   border-bottom: 1px solid black !important;
   box-shadow: none !important;
   .ant-input{
-    text-align: center !important;
+    text-align: right !important;
     background-color: unset !important;
+    padding-right:8px !important;
     ${'' /* cursor:not-allowed !important; */}
   }
+  .ant-input-suffix{
+            width:50px !important;
+          }
 `
 
 const useFocus = () => {

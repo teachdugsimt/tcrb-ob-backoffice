@@ -67,7 +67,7 @@ class BusinessParameterSetupApi {
     return response
   }
 
-  rejectRejectProductRequest = async (params) => {
+  rejectProductRequest = async (params) => {
     const response = await api.put('api/backoffice/v1/changerequest/productlimit', params)
     return response
   }

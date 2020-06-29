@@ -9,7 +9,7 @@ import VersatileStore from './versatile-store'
 import CustomerServicesMenuStore from './customer-services-menu-store'
 import BusinessParameterSetup from './business-parameters-setup-store'
 import CustomerServiceEnquiry from './customer-service-enquiry-store'
-
+import PendingApproval from './pending-approve-store'
 const isServer = typeof window === 'undefined';
 useStaticRendering(isServer);
 
@@ -25,7 +25,8 @@ export default function initializeStore(initialData = {}) {
       versatileStore: new VersatileStore(),
       customerServicesMenuStore: new CustomerServicesMenuStore(),
       businessParametersSetupStore: new BusinessParameterSetup(),
-      customerServiceEnquiry: new CustomerServiceEnquiry()
+      customerServiceEnquiry: new CustomerServiceEnquiry(),
+      pendingApprovalStore: new PendingApproval()
     };
   }
   if (store === null) {
@@ -37,7 +38,8 @@ export default function initializeStore(initialData = {}) {
       versatileStore: new VersatileStore(),
       customerServicesMenuStore: new CustomerServicesMenuStore(),
       businessParametersSetupStore: new BusinessParameterSetup(),
-      customerServiceEnquiry: new CustomerServiceEnquiry()
+      customerServiceEnquiry: new CustomerServiceEnquiry(),
+      pendingApprovalStore: new PendingApproval()
     };
   }
 

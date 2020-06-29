@@ -3,6 +3,7 @@ import { inject, observer } from 'mobx-react'
 import styled from 'styled-components';
 import { columnsTranInfo, columnsPartnerInfo, columnsAccInfo, columnsTxn } from './table-column';
 import { Table, Tabs } from 'antd';
+import { TcrbTabs } from '../antd-styles/styles'
 import { data } from './data'
 import moment from 'moment'
 import 'moment/locale/th'
@@ -26,48 +27,52 @@ export const TableResult =
       const _buildListData = () => {
         let arr = customerServiceEnquiry.tmpListData ? customerServiceEnquiry.tmpListData : data
         let list1 = [], list2 = [], list3 = [], list4 = [], groupList = []
-        arr.forEach((e, i) => {
+        arr.forEach((e, index) => {
           let b = moment((e.date).toString()).format('l')
-          console.log(b)
           list1.push({
-            no: i + 1, tranDate: b, tranTime: e.time,
-            // no: i + 1, tranDate: '29/6/2020', tranTime: e.time,
+            key: index + 1,
+            no: index + 1, tranDate: b, tranTime: e.time,
+            // no: index + 1, tranDate: '29/6/2020', tranTime: e.time,
             entity: e.parent_partner_code, channel: e.channel,
             tranType: e.transaction_type, tranSubType: e.transaction_type,
             prodType: e.product_type,
-            accNo: e.main_account_no, amount: (i + 1) * 1000, status: e.status
+            accNo: e.main_account_no, amount: (index + 1) * 1000, status: e.status
           })
           list2.push({
-            no: i + 1, partnerTranRef: e.partner_transaction_reference,
+            key: index + 1,
+            no: index + 1, partnerTranRef: e.partner_transaction_reference,
             partnerReqId: e.request_id, bankTranRef: e.transaction_reference,
-            mobileNo: "099345666" + JSON.stringify(i)
+            mobileNo: "099345666" + JSON.stringify(index)
           })
           list3.push({
-            no: i + 1,
+            key: index + 1,
+            no: index + 1,
             tcrbAccRef: e.citizen_id, subAcc: e.sub_account_no,
             accName: e.account_name, accRef1: e.reference_1,
             accRef2: e.reference_2, accRef3: e.reference_3,
           })
           list4.push({
-            no: i + 1, txnDrEntry: "TXD-DR-" + i,
-            txnCrEntry: "CR-ENTRY-00" + i, feeDrEntry: JSON.stringify(i) + "%",
-            feeDrAmount: (i + 1) * (i + 30), feeCrEntry: JSON.stringify(i) + ".5%",
-            feeCrAmount: ((i + 1) * 100) + i, amount: ((i + 1) * 23) + i
+            key: index + 1,
+            no: index + 1, txnDrEntry: "TXD-DR-" + index,
+            txnCrEntry: "CR-ENTRY-00" + index, feeDrEntry: JSON.stringify(index) + "%",
+            feeDrAmount: (index + 1) * (index + 30), feeCrEntry: JSON.stringify(index) + ".5%",
+            feeCrAmount: ((index + 1) * 100) + index, amount: ((index + 1) * 23) + index
           })
           groupList.push({
-            no: i + 1, tranDate: e.date, tranTime: e.time,
+            key: index + 1,
+            no: index + 1, tranDate: e.date, tranTime: e.time,
             entity: e.parent_partner_code, channel: e.channel,
             tranType: e.transaction_type, tranSubType: e.transaction_type,
             prodType: e.product_type,
-            accNo: e.main_account_no, amount: (i + 1) * 1000, status: e.status,
+            accNo: e.main_account_no, amount: (index + 1) * 1000, status: e.status,
             partnerReqId: e.request_id, bankTranRef: e.transaction_reference,
-            mobileNo: "099345666" + JSON.stringify(i),
+            mobileNo: "099345666" + JSON.stringify(index),
             tcrbAccRef: e.citizen_id, subAcc: e.sub_account_no,
             accName: e.account_name, accRef1: e.reference_1,
             accRef2: e.reference_2, accRef3: e.reference_3,
-            txnCrEntry: "CR-ENTRY-00" + i, feeDrEntry: JSON.stringify(i) + "%",
-            feeDrAmount: (i + 1) * (i + 30), feeCrEntry: JSON.stringify(i) + ".5%",
-            feeCrAmount: ((i + 1) * 100) + i, amount: ((i + 1) * 23) + i
+            txnCrEntry: "CR-ENTRY-00" + index, feeDrEntry: JSON.stringify(index) + "%",
+            feeDrAmount: (index + 1) * (index + 30), feeCrEntry: JSON.stringify(index) + ".5%",
+            feeCrAmount: ((index + 1) * 100) + index, amount: ((index + 1) * 23) + index
           })
         })
 
@@ -87,7 +92,7 @@ export const TableResult =
       }, [customerServiceEnquiry.tmpListData])
 
       return (
-        <Tabs defaultActiveKey="1" onChange={callback}>
+        <TcrbTabs defaultActiveKey="1" onChange={callback}>
           <TabPane tab="Transaction Info" key="1">
             <Table
               filtered={true}
@@ -101,6 +106,7 @@ export const TableResult =
                   },
                 }
               }}
+              scroll={{ x: true }}
               columns={columnsTranInfo} dataSource={transInfo}
               pagination={{ current: page, }}
             />
@@ -153,7 +159,7 @@ export const TableResult =
               pagination={{ current: page, }}
             />
           </TabPane>
-        </Tabs>
+        </TcrbTabs>
       )
 
     }))

@@ -32,7 +32,7 @@ export default class MyDocument extends Document {
           <Main style={{ width: "100%", height: "100%" }} />
           <NextScript />
         </body>
-      </html >
+      </html>
     );
   }
 }

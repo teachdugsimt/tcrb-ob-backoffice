@@ -6,6 +6,7 @@ import { create, persist } from 'mobx-persist'
 class BusinessParameterSetup {
   @observable editOtpMaximumRetry = null
   @observable editOtpExpirationPeriod = null
+  @observable apiLoading = null
 
   @observable responseGetOtpValue = null
   @observable fetchingGetOtp = null
@@ -53,17 +54,17 @@ class BusinessParameterSetup {
   }
 
   @action processPendingListApprove = async (params) => {
-    this.requestProcessPendingList = true
+    this.apiLoading = true
     let tmp = await BusinessParameterSetupApi.processPendingList(params)
     console.log("Response process Pending Approve APISAUCE : ", tmp)
     if (tmp.ok) {
-      this.requestProcessPendingList = false
+      this.apiLoading = false
       this.errorProcessPendingList = null
       this.responseProcessPendingList = tmp.ok
       this.updatePendingList()
       this.tmpPendingListID = null
     } else {
-      this.requestProcessPendingList = false
+      this.apiLoading = false
       this.responseProcessPendingList = null
       this.errorProcessPendingList = tmp.problem
       this.tmpPendingListID = null
@@ -71,16 +72,16 @@ class BusinessParameterSetup {
   }
 
   @action getPendingApprove = async (params) => {
-    this.requestGetPendingApproveList = true
+    this.apiLoading = true
     let tmp = await BusinessParameterSetupApi.getPendingApproveList(params)
     console.log("Response get Pending Approve APISAUCE : ", tmp)
     if (tmp.ok == true) {
       let raw_Data = toJS(tmp.data.responseData)
-      this.requestGetPendingApproveList = false
+      this.apiLoading = false
       this.errorGetPendingApproveList = null
       this.responseGetPendingApproveList = raw_Data
     } else {
-      this.requestGetPendingApproveList = false
+      this.apiLoading = false
       this.responseGetPendingApproveList = null
       this.errorGetPendingApproveList = tmp.problem
     }
@@ -99,16 +100,16 @@ class BusinessParameterSetup {
   }
 
   @action getOTPdata = async (params) => {
-    this.fetchingGetOtp = true
+    this.apiLoading = true
     let tmp = await BusinessParameterSetupApi.getOtpValue(params)
     console.log("Response get otp APISAUCE : ", tmp)
     if (tmp.ok == true) {
       let raw_Data = toJS(tmp.data.responseData.paramStoreData)
-      this.fetchingGetOtp = false
+      this.apiLoading = false
       this.errorGetOtp = null
       this.responseGetOtpValue = raw_Data
     } else {
-      this.fetchingGetOtp = false
+      this.apiLoading = false
       this.responseGetOtpValue = null
       this.errorGetOtp = tmp.problem
     }
@@ -116,59 +117,42 @@ class BusinessParameterSetup {
 
   @action
   updateOTPdata = async (params) => {
-    this.fetchingUpdateOtp = true
+    this.apiLoading = true
     let response = await BusinessParameterSetupApi.setOtpValue(params)
     if (response.ok) {
       console.log("Update OTP Success :: ", response)
       console.log("DATA >>", response.data)
       this.responseUpdateOtp = response.data
-      this.fetchingUpdateOtp = false
+      this.apiLoading = false
       this.errorUpdateOtp = null
     } else {
       console.log("Update OTP FAIL :: ", response)
-      this.fetchingUpdateOtp = false
+      this.apiLoading = false
       this.responseUpdateOtp = response.data
       this.errorUpdateOtp = response.problem ? response.problem : "Client Error"
     }
   }
 
-  @action setCitizenId = (id) => {
-    this.citizenId = { idCard: id }
-  }
-  @action setAccountId = (id) => {
-    this.accountId = id
-  }
-
-  @action
-  selectProductToDelete(productSelected) {
-    console.log(toJS(productSelected))
-    // [{
-    //   id: 1, key: 1, ticket: "PAR0000001", requestType: "OTP Max Retrying", requestDescription: "Change from 3 to 5", requestId: "T630213",
-    //   requestDate: "21-May-2020", action: null
-    // }]
-    productSelected.ticket = '00000' + this.pendingApprovals.length + 1
-    productSelected.requestDescription = productSelected.ProductDescription
-    this.pendingApprovals.push(productSelected)
-  }
-
   @action
   getDataProductLimit = async () => {
-    this.fetchingUpdateOtp = true
+    this.apiLoading = true
     let response = await BusinessParameterSetupApi.getProductLimit({ partner_code: '' })
     console.log(response)
     if (response.ok && response.status == 200) {
+      this.apiLoading = false
       this.productLimit = response.data.responseData
     } else {
-
+      this.apiLoading = false
     }
   }
 
   @action
   getDataDetailProductLimit = async (params) => {
-    this.fetchingUpdateOtp = true
+    this.apiLoading = true
     let response = await BusinessParameterSetupApi.getDetailProductLimit(params)
     console.log(response)
     if (response.ok && response.status == 200) {
+      this.apiLoading = false
       this.productLimitDetail = response.data.responseData
     } else {
 
@@ -186,8 +170,10 @@ class BusinessParameterSetup {
   }
 
   @action getDataProductList = async () => {
+    this.apiLoading = true
     let response = await BusinessParameterSetupApi.getProductList({ filter: {} })
     if (response.ok && response.status == 200) {
+      this.apiLoading = false
       this.productList = response.data.responseData
     } else {
 
@@ -196,23 +182,44 @@ class BusinessParameterSetup {
 
   @action
   deleteProductLimit = async (params) => {
+    this.apiLoading = true
     let response = await BusinessParameterSetupApi.deleteProductLimit({ action: "Delete", maker_id: "", currentData: params, newData: {} })
     console.log(response)
+    if (response.ok) {
+      this.apiLoading = false
+    } else {
+      this.apiLoading = false
+    }
   }
 
   @action
   addNewProductLimit = async (params) => {
     let response = await BusinessParameterSetupApi.addNewProductLimit({ action: "Add", maker_id: "", currentData: {}, newData: params })
     console.log(response)
+    if (response.ok) {
+      this.apiLoading = false
+    } else {
+      this.apiLoading = false
+    }
   }
   @action addSpecificLimit = async (params) => {
     let response = await BusinessParameterSetupApi.submitSpecificLimit({ action: "Add", maker_id: "", currentData: {}, newData: params })
     console.log(response)
+    if (response.ok) {
+      this.apiLoading = false
+    } else {
+      this.apiLoading = false
+    }
   }
 
   @action changeProductLimit = async (params) => {
     let response = await BusinessParameterSetupApi.submitChangePartnerLimit({ action: "Update", maker_id: "", currentData: {}, newData: params })
     console.log(response)
+    if (response.ok) {
+      this.apiLoading = false
+    } else {
+      this.apiLoading = false
+    }
   }
 }
 export default BusinessParameterSetup

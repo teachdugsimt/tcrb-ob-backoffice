@@ -1,7 +1,7 @@
 import React, { useState, useEffect, createRef } from 'react'
 import { DeleteOutlined, SettingOutlined, FormOutlined } from '@ant-design/icons';
 import { Table, Row, Col, Menu, Card, Input, Select, Form, InputNumber } from 'antd'
-
+import { green, gold } from '@ant-design/colors';
 import { inject, observer } from 'mobx-react'
 import { withTranslation } from '../../i18n'
 import styled from 'styled-components'
@@ -10,6 +10,7 @@ import SimpleMenu from '../simple-menu'
 import SimpleInput from '../simple-input'
 import SimpleModal from '../simple-modal'
 import { TcrbButton, TcrbPopconfirm } from '../antd-styles/styles'
+import { addKeyToDataSource } from '../data-utility'
 
 const { Option } = Select;
 let txnLimit = null
@@ -142,16 +143,6 @@ const ProductLimitSetup =
 
       };
 
-      const addKeyToDataSource = (arrayDataSource) => {
-        let newDataSource = arrayDataSource
-        for (let index = 0; index < newDataSource.length; index++) {
-          newDataSource[index].key = index + 1;
-        }
-        return new Promise((resolve) => {
-          resolve(newDataSource)
-        })
-      }
-
       const convertToArrayOptionSelect = (arrayObject) => {
         let result = arrayObject.map(partnerList => [partnerList.partner_code, partnerList.partner_code + '/' + partnerList.partner_abbreviation]);
         return new Promise((resolve) => resolve(result))
@@ -180,10 +171,6 @@ const ProductLimitSetup =
         setVisble(true)
         setTitleModal('Confirm')
         setModalType("confirm")
-      }
-      const submitChangeLimit = () => {
-        // txnLimit, dailyLimit
-        // call api
       }
 
       const submitAddSpecificLimit = () => {
@@ -314,8 +301,8 @@ const ProductLimitSetup =
               <TcrbPopconfirm title="Sure to Delete?" onConfirm={(e) => { submitDeleteProduct(record) }} disabled={editingKey !== ''}>
                 <a><DeleteOutlined style={{ fontSize: '18px' }} /></a>
               </TcrbPopconfirm>
-              <a onClick={() => selectProductToViewDetail(record)}><SettingOutlined style={{ fontSize: '18px' }} /></a>
-              <a onClick={() => selectProductToSpecificLimit(record)}><FormOutlined style={{ fontSize: '18px' }} /></a>
+              <a onClick={() => selectProductToViewDetail(record)}><SettingOutlined style={{ fontSize: '18px', color: '#FBA928' }} /></a>
+              <a onClick={() => selectProductToSpecificLimit(record)}><FormOutlined style={{ fontSize: '18px', color: '#FBA928' }} /></a>
             </div>)
         } else if (record.status === '2') {
           return null
@@ -332,9 +319,9 @@ const ProductLimitSetup =
       }
       const renderStatus = (record) => {
         if (record.status === '1') {
-          return <p>Active</p>
+          return <p style={{ color: green[6] }}>Active</p>
         } else if (record.status === '2') {
-          return <p>Pending</p>
+          return <p style={{ color: gold[6] }}>Pending</p>
         } else {
           return null
         }
@@ -476,7 +463,7 @@ const ProductLimitSetup =
           <div>
             <Row gutter={[4, 24]}>
               <Col span={6}>Channel/Partner</Col>
-              <Col span={12} flex={100}>
+              <Col span={6} flex={100}>
                 {/* <SimpleMenu options={optionList} onChange={(e) => { selectPartnerChanel(e) }} /> */}
                 <Select
                   onChange={(value) => selectPartnerChanel(value)}

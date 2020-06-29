@@ -7,9 +7,11 @@ import {
   CheckCircleOutlined,
   CloseCircleOutlined,
 } from '@ant-design/icons';
+import { TcrbSpin } from '../antd-styles/styles'
 import SimpleModal from '../simple-modal'
 import styled from 'styled-components'
 import moment from 'moment'
+import { addKeyToDataSource } from '../data-utility'
 const HoverIcon = styled(Col)`
     color: green;
     cursor: pointer !important;
@@ -19,7 +21,7 @@ const HoverIconReject = styled(Col)`
     cursor: pointer !important;
 `
 const PendingApprovals =
-  inject('businessParametersSetupStore')
+  inject('pendingApprovalStore')
     (observer((props) => {
       const [expandable, setExpandable] = useState(expand)
       const [hasData, setHasData] = useState(true)
@@ -31,7 +33,7 @@ const PendingApprovals =
       const [textCancel, settextCancel] = useState("Cancel")
       const [modalString, setmodalString] = useState("initialState")
       const [visible, setvisible] = useState(false)
-      const { businessParametersSetupStore, t } = props
+      const { pendingApprovalStore, t } = props
       const expand = { expandedRowRender: record => <p>{record.description}</p> };
       const columns = [
         {
@@ -94,19 +96,17 @@ const PendingApprovals =
         const data = {
           filter: {}
         }
-        businessParametersSetupStore.getPendingApprove(data)
+        pendingApprovalStore.getPendingApprove(data)
       }, [])
 
       useEffect(() => {
-        if (businessParametersSetupStore.pendingApprovals.length > 0) {
-          setPendingApprovalData(businessParametersSetupStore.pendingApprovals)
+        if (pendingApprovalStore.responseGetPendingApproveList.length > 0) {
+          addKeyToDataSource(pendingApprovalStore.responseGetPendingApproveList).then((result) => {
+            //businessParametersSetupStore.arrayProductLimit = result
+            setPendingApprovalData(result)
+          })
         }
-      }, [businessParametersSetupStore.pendingApprovals])
-
-      useMemo(() => {
-        // setPendingApprovalData(businessParametersSetupStore.pendingApprovals)
-        console.log('render')
-      }, [])
+      }, [pendingApprovalStore.responseGetPendingApproveList])
 
       const processPending = (status, record) => {
         let data = {
@@ -114,8 +114,8 @@ const PendingApprovals =
           data: record,
           id: record.id
         }
-        businessParametersSetupStore.setTmpPendingListID(record.id)
-        businessParametersSetupStore.processPendingListApprove(data)
+        pendingApprovalStore.setTmpPendingListID(record.id)
+        pendingApprovalStore.processPendingListApprove(data)
       }
 
       const _onConfirm = () => {
@@ -128,27 +128,28 @@ const PendingApprovals =
       const tableColumns = columns.map(item => ({ ...item }));
 
       return (
-        <Row >
-          <Col span={24}>
-            <Table
-              pagination={{ position: [top, bottom] }}
-              columns={tableColumns}
-              dataSource={businessParametersSetupStore.responseGetPendingApproveList}
-            // dataSource={pendingApprovalData}
-            // scroll={scroll}
-            />
-            <SimpleModal
-              title={title}
-              // type={modalType}
-              onOk={() => _onConfirm()}
-              onCancel={() => _onCancel()}
-              textCancel={textCancel}
-              textOk={textOk}
-              modalString={modalString}
-              visible={visible}
-            />
-          </Col>
-        </Row>
+        <TcrbSpin spinning={pendingApprovalStore.apiLoading} size="large" tip="Loading..." >
+          <Row >
+            <Col span={24}>
+              <Table
+                pagination={{ position: [top, bottom] }}
+                columns={tableColumns}
+                dataSource={pendingApprovalData}
+              // scroll={scroll}
+              />
+              <SimpleModal
+                title={title}
+                // type={modalType}
+                onOk={() => _onConfirm()}
+                onCancel={() => _onCancel()}
+                textCancel={textCancel}
+                textOk={textOk}
+                modalString={modalString}
+                visible={visible}
+              />
+            </Col>
+          </Row>
+        </TcrbSpin>
       )
     }))
 

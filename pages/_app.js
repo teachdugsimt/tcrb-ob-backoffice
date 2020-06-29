@@ -10,6 +10,7 @@ import theme from '../theme'
 // import '../assets/fonts.less'
 
 import 'antd/dist/antd.css'
+import '../theme/antd-custom.css'
 // import '../style.less';
 // import '../antd-custom.less'
 
@@ -50,7 +51,6 @@ class CustomApp extends App {
       "StatusEvent",
       "BadEvent"
     ];
-    console.log('PAGE PROPS', pageProps)
     return (
       <Provider {...this.mobxStore}>
         <ThemeProvider theme={theme}>

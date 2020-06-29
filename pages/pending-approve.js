@@ -1,6 +1,6 @@
 import React from 'react'
 import { Row, Col, Layout, Tabs } from 'antd'
-import PendingApprovals from '../components/business-parameters-setup/pending-approvals'
+import PendingApprovals from '../components/pending-approval/pending-approval'
 import { withTranslation } from '../i18n'
 import styled from 'styled-components';
 

@@ -1,7 +1,7 @@
 import { Input, Row, Col, Layout, Modal, Tabs, Spin, Button, Switch, Popconfirm } from 'antd'
 import styled from 'styled-components';
 
-const TcrbTab = styled(Tabs)`
+const TcrbTabs = styled(Tabs)`
     .ant-tabs-tab-active{
       color: ${({ theme }) => theme.colors.palette.orange};
     }
@@ -64,6 +64,15 @@ const TcrbModal = styled(Modal)`
     color: ${({ theme }) => theme.colors.white};
   }
 `
+const TcrbSpin = styled(Spin)`
+  height: 100vh !important;
+  .ant-spin-dot-item{
+    background-color: ${({ theme }) => theme.colors.primary};
+  }
+  .ant-spin-text{
+    color: ${({ theme }) => theme.colors.primary};
+  }
+`
 
 const TcrbPopconfirm = styled(Popconfirm)`
     color: ${({ theme }) => theme.colors.primary};
@@ -92,9 +101,10 @@ const TcrbPopconfirm = styled(Popconfirm)`
 `
 
 export {
-  TcrbTab,
+  TcrbTabs,
   TcrbSwitch,
   TcrbButton,
   TcrbModal,
-  TcrbPopconfirm
+  TcrbPopconfirm,
+  TcrbSpin
 }

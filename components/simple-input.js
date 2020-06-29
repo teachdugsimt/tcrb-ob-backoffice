@@ -11,13 +11,15 @@ const StyledInput = styled(Input)`
           border-radius: 0px;
            .ant-input{
             text-align: right !important;
-
+          }
+          .ant-input-suffix{
+            width:50px !important;
           }
 `
 export default function SimpleInput(props) {
   return (
     <div>
-      <StyledInput onChange={(e) => props.onChange(e.target.value)} prefix={props.prefix} readOnly={props.readOnly} defaultValue={props.defaultValue} />
+      <StyledInput onChange={(e) => props.onChange(e.target.value)} prefix={props.prefix} suffix={props.suffix} readOnly={props.readOnly} defaultValue={props.defaultValue} />
     </div>
   )
 }
