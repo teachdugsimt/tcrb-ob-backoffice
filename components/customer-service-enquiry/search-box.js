@@ -119,17 +119,26 @@ export const SearchBox =
               enterButton />
           </div>
           <div style={{ marginTop: 10 }}>
-            {currentSearch == 6 && <RangePicker style={{ width: '100%' }} onChange={(e) => {
-              if (e) {
-                let tmp_start = JSON.parse(JSON.stringify(e[0]))
-                let tmp_end = JSON.parse(JSON.stringify(e[1]))
-                let startDate = moment(tmp_start).format('l')
-                let endDate = moment(tmp_end).format('l')
-                setstart(startDate)
-                setend(endDate)
-                setdate(e)
-              } else setCurrentSearch(0)
-            }} />}
+            {currentSearch == 6 && <RangePicker
+              style={{ width: '100%' }}
+              ranges={{
+                Today: [moment(), moment()],
+                'This Week': [moment().startOf('week'), moment().endOf('week')],
+                'This Month': [moment().startOf('month'), moment().endOf('month')],
+              }}
+              showTime
+              format="YYYY/MM/DD HH:mm:ss"
+              onChange={(e) => {
+                if (e) {
+                  let tmp_start = JSON.parse(JSON.stringify(e[0]))
+                  let tmp_end = JSON.parse(JSON.stringify(e[1]))
+                  let startDate = moment(tmp_start).format('l')
+                  let endDate = moment(tmp_end).format('l')
+                  setstart(startDate)
+                  setend(endDate)
+                  setdate(e)
+                } else setCurrentSearch(0)
+              }} />}
           </div>
         </div>
       )
