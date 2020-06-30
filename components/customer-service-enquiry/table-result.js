@@ -84,6 +84,20 @@ export const TableResult =
         setallList(groupList)
       }
 
+      const handleSearch = (selectedKeys, confirm, dataIndex) => {
+        confirm();
+        console.log(dataIndex)
+        // this.setState({
+        //   searchText: selectedKeys[0],
+        //   searchedColumn: dataIndex,
+        // });
+      };
+
+      const handleReset = clearFilters => {
+        clearFilters();
+        // this.setState({ searchText: '' });
+      };
+
       useEffect(() => {
         _buildListData()
       }, [])
@@ -215,7 +229,7 @@ export const TableResult =
               <Table
                 filtered={true}
                 onChange={(e) => setPage(e.current)}
-                columns={clmTab1()} dataSource={transInfo}
+                columns={clmTab1(handleSearch, handleReset)} dataSource={transInfo}
                 pagination={{ current: page, }}
                 size="small"
               />
