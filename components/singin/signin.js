@@ -10,7 +10,7 @@ import { BusinessParameterSetupApi } from '../../services/'
 import { Layout } from 'antd';
 import { i18n, withTranslation } from '../../i18n'
 const { Header, Footer, Sider, Content } = Layout;
-import logo02 from './styles/logo02.png'
+import logo02 from '../../images/logo.png'
 import background from './styles/background.png'
 
 const layout = {
