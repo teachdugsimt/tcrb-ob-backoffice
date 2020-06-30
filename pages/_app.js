@@ -25,6 +25,7 @@ class CustomApp extends App {
     return {
       ...appProps,
       initialMobxState: mobxStore,
+      // namespacesRequired: ['common',],
     };
   }
 

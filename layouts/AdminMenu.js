@@ -120,4 +120,9 @@ const AdminMenu = inject('authenStore', 'versatileStore')(observer((props) => {
   </MainContainerMenu>
 }))
 
-export default withTranslation('common')(AdminMenu)
+AdminMenu.getInitialProps = async () => ({
+  namespacesRequired: [],
+})
+
+
+export default withTranslation()(AdminMenu)

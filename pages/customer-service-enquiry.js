@@ -3,7 +3,8 @@ import { SearchBar } from '../components/customer-service-enquiry/search-bar'
 import { TableResult } from '../components/customer-service-enquiry/table-result'
 import { CustomerDetail } from '../components/customer-service-enquiry/customer-detail'
 import { Row, Col } from 'antd'
-export default function () {
+import { withTranslation } from '../i18n'
+const CustomerServiceEnquiry = () => {
 
   return (
     <Row>
@@ -17,3 +18,9 @@ export default function () {
     </Row>
   )
 }
+
+CustomerServiceEnquiry.getInitialProps = async () => ({
+  namespacesRequired: [],
+})
+
+export default withTranslation()(CustomerServiceEnquiry)

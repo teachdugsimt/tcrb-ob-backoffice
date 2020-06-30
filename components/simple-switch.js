@@ -3,7 +3,7 @@ import { Input, Row, Col, Layout, Modal, Switch } from 'antd'
 import styled from 'styled-components';
 import SimpleModal from './simple-modal'
 import { toJS } from 'mobx';
-import { i18n, withNamespaces } from '../i18n'
+import { i18n, withNamespaces, withTranslation } from '../i18n'
 
 const StyledA = styled.a`
   display: initial;

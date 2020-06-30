@@ -65,9 +65,12 @@ const Signin =
       const [id, setId] = useState("")
       const [password, setPassword] = useState("")
       const footName = authenStore.footName ? authenStore.footName : "IT SERVICE DESK CONTACT NUMBER IS 02-6xx-1234"
-
+      const [colorID, setcolorID] = useState("#D3D3D3")
+      const [colorPass, setcolorPass] = useState("#D3D3D3")
       useEffect(() => {
         i18n.changeLanguage("en")
+        setcolorID("#D3D3D3")
+        setcolorPass("#D3D3D3")
         return () => {
           // cleanup
         }
@@ -79,7 +82,11 @@ const Signin =
       }, [businessParametersSetupStore.dataAxios])
 
       const _submitForm = () => {
-        if (!id && !password) alert("Please entry id & password")
+        if (!id || !password) {
+          setcolorID("red")
+          setcolorPass("red")
+          alert("Please entry id & password")
+        }
         else {
           authenStore.setProfile(id, password)
           authenStore.setType("50")
@@ -141,19 +148,19 @@ const Signin =
 
                           <Row span={24}>
                             <Col span={24}>
-                              <span style={{ marginLeft: 5, fontSize: '2em', color: id ? '#3E3E3E' : 'red' }}>{(id ? "" : "*") + " " + (i18n.t("username"))}</span>
+                              <span style={{ marginLeft: 5, fontSize: '2em', color: colorID }}>{(id ? "" : "*") + " " + (i18n.t("username"))}</span>
                               <MainInput value={id} onChange={e => setId(e.target.value)}></MainInput>
                             </Col>
                           </Row>
 
                           <Row span={24} style={{ marginTop: "10%" }}>
                             <Col span={24}>
-                              <span style={{ marginLeft: 5, fontSize: '2em', color: password ? '#3E3E3E' : 'red' }}>{(password ? "" : "*") + " " + (i18n.t("password"))}</span>
+                              <span style={{ marginLeft: 5, fontSize: '2em', color: colorPass }}>{(password ? "" : "*") + " " + (i18n.t("password"))}</span>
                               <MainInput type="password" value={password} onChange={e => setPassword(e.target.value)}></MainInput>
                             </Col>
                           </Row>
 
-                          <Row span={24} justify={'center'} style={{ marginTop: "15%" }}>
+                          <Row span={24} justify={'center'} style={{ marginTop: "10%" }}>
                             <Button style={{ margin: 5, background: '#707070', color: 'white', borderRadius: 5, minHeight: 50, width: "50%", alignSelf: 'center', textAlign: 'center', fontSize: '2em' }} onClick={() => _submitForm()}>{i18n.t("submit")}</Button>
                           </Row>
                         </Col>
