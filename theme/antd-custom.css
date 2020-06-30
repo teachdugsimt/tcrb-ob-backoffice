@@ -34,3 +34,29 @@
 .slick-disabled {
   display: none !important;
 }
+.ant-pagination-item-active a,
+.ant-pagination-item-active a:hover,
+.ant-pagination-item a:hover,
+.ant-pagination-prev:hover,
+.ant-pagination-next:hover {
+  color: var(--primary-color) !important;
+}
+.ant-pagination-item-active,
+.ant-pagination-item-active:hover {
+  border-color: var(--primary-color);
+}
+a.ant-pagination-item-link,
+a.ant-pagination-item-link {
+  color: var(--primary-color);
+}
+a.ant-pagination-item-link:hover {
+  color: var(--primary-color-darker) !important;
+}
+.ant-pagination-jump-prev
+  .ant-pagination-item-container
+  .ant-pagination-item-link-icon,
+.ant-pagination-jump-next
+  .ant-pagination-item-container
+  .ant-pagination-item-link-icon {
+  color: var(--primary-color);
+}
