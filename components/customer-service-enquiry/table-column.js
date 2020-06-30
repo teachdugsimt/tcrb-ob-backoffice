@@ -20,6 +20,7 @@ export const clmTab1 = (handleSearch, handleReset) => {
       title: 'Entity',
       key: 'entity',
       dataIndex: 'entity',
+      ...getColumnSearchProps('entity', handleSearch, handleReset)
 
     },
     {
@@ -32,6 +33,7 @@ export const clmTab1 = (handleSearch, handleReset) => {
       title: 'Tran Type',
       key: 'tranType',
       dataIndex: 'tranType',
+      ...getColumnSearchProps('tranType', handleSearch, handleReset)
 
     },
     {
