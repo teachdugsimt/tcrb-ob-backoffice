@@ -1,4 +1,67 @@
 import moment from 'moment'
+import { getColumnSearchProps } from './filter-box'
+
+export const clmTab1 = () => {
+  return [
+    {
+      title: 'No.',
+      dataIndex: 'no',
+      key: 'no',
+      // getColumnSearchProps('name')
+    },
+    {
+      title: 'Tran Time',
+      dataIndex: 'tranDate',
+      key: 'tranDate',
+      ...getColumnSearchProps('tranDate')
+    },
+    {
+      title: 'Entity',
+      key: 'entity',
+      dataIndex: 'entity',
+
+    },
+    {
+      title: 'Channel',
+      key: 'channel',
+      dataIndex: 'channel',
+
+    },
+    {
+      title: 'Tran Type',
+      key: 'tranType',
+      dataIndex: 'tranType',
+
+    },
+    {
+      title: 'Tran SubType',
+      key: 'tranSubType',
+      dataIndex: 'tranSubType',
+
+    },
+    {
+      title: 'Prod Type',
+      key: 'prodType',
+      dataIndex: 'prodType',
+    },
+    {
+      title: 'A/C No.',
+      key: 'accNo',
+      dataIndex: 'accNo',
+    },
+    {
+      title: 'Amount',
+      key: 'amount',
+      dataIndex: 'amount',
+    },
+    {
+      title: 'Status',
+      key: 'status',
+      dataIndex: 'status',
+    },
+  ];
+}
+
 export const columnsTranInfo = [
   {
     title: 'No.',

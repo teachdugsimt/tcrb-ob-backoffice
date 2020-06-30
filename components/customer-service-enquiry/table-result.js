@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { inject, observer } from 'mobx-react'
 import styled from 'styled-components';
-import { columnsTranInfo, columnsPartnerInfo, columnsAccInfo, columnsTxn } from './table-column';
+import { columnsTranInfo, columnsPartnerInfo, columnsAccInfo, columnsTxn, clmTab1 } from './table-column';
 import { Table, Tabs, Carousel } from 'antd';
 import { TcrbTabs } from '../antd-styles/styles'
 import { RightOutlined, LeftOutlined } from '@ant-design/icons';
@@ -153,7 +153,7 @@ export const TableResult =
                 }
               }}
               scroll={{ x: true }}
-              columns={columnsTranInfo} dataSource={transInfo}
+              columns={clmTab1()} dataSource={transInfo}
               pagination={{ current: page, }}
             />
           </TabPane>
@@ -215,7 +215,7 @@ export const TableResult =
               <Table
                 filtered={true}
                 onChange={(e) => setPage(e.current)}
-                columns={columnsTranInfo} dataSource={transInfo}
+                columns={clmTab1()} dataSource={transInfo}
                 pagination={{ current: page, }}
                 size="small"
               />
