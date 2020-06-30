@@ -92,8 +92,7 @@ export const TableResult =
         _buildListData()
       }, [customerServiceEnquiry.tmpListData])
 
-      function SamplePrevArrow(props) {
-        console.log(props)
+      const PrevArrow = (props) => {
         const { className, style, onClick } = props
         return (
           <div
@@ -107,7 +106,7 @@ export const TableResult =
         )
       }
 
-      function SampleNextArrow(props) {
+      const NextArrow = (props) => {
         const { className, style, onClick } = props
         return (
           <div
@@ -123,8 +122,8 @@ export const TableResult =
       const settings = {
         dots: false,
         infinite: false,
-        prevArrow: <SamplePrevArrow />,
-        nextArrow: <SampleNextArrow />
+        prevArrow: <PrevArrow />,
+        nextArrow: <NextArrow />
         /*nextArrow: <RightOutlined style={{
           position: "absolute",
           right: "0",
@@ -221,13 +220,49 @@ export const TableResult =
               />
             </div>
             <div>
-              <h3>2</h3>
+              <Table
+                filtered={true}
+                onChange={(e) => setPage(e.current)}
+                onRow={(item, index) => ({
+                  onClick: () => {
+                    let tmpList = allList.find(e => e.no == item.no)
+                    console.log("ITEM CLICK : ", tmpList)
+                    customerServiceEnquiry.setTmpEnquiryRow(tmpList)
+                  },
+                })}
+                columns={columnsPartnerInfo} dataSource={partnerInfo}
+                pagination={{ current: page, }}
+              />
             </div>
             <div>
-              <h3>3</h3>
+              <Table
+                filtered={true}
+                onChange={(e) => setPage(e.current)}
+                onRow={(item, index) => ({
+                  onClick: () => {
+                    let tmpList = allList.find(e => e.no == item.no)
+                    console.log("ITEM CLICK : ", tmpList)
+                    customerServiceEnquiry.setTmpEnquiryRow(tmpList)
+                  },
+                })}
+                columns={columnsAccInfo} dataSource={accInfo}
+                pagination={{ current: page, }}
+              />
             </div>
             <div>
-              <h3>4</h3>
+              <Table
+                filtered={true}
+                onChange={(e) => setPage(e.current)}
+                onRow={(item, index) => ({
+                  onClick: () => {
+                    let tmpList = allList.find(e => e.no == item.no)
+                    console.log("ITEM CLICK : ", tmpList)
+                    customerServiceEnquiry.setTmpEnquiryRow(tmpList)
+                  },
+                })}
+                columns={columnsTxn} dataSource={txnInfo}
+                pagination={{ current: page, }}
+              />
             </div>
           </Carousel>
 
