@@ -7,6 +7,20 @@ const addKeyToDataSource = (arrayDataSource) => {
     resolve(newDataSource)
   })
 }
+const addCommaInData = (text, isComma) => {
+  let stringToNumber = new Number(text)
+  if (isNaN(stringToNumber)) {
+    return <span>{text}</span>
+  } else {
+    if (isComma) {
+      let customText = stringToNumber.toLocaleString()
+      return <span style={{ textAlign: "right", }}>{customText}</span>
+    } else {
+      return <span>{text}</span>
+    }
+  }
+}
 export {
-  addKeyToDataSource
+  addKeyToDataSource,
+  addCommaInData
 }

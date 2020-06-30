@@ -1,5 +1,6 @@
 import moment from 'moment'
 import { getColumnSearchProps } from './filter-box'
+import { addCommaInData } from '../data-utility';
 
 export const clmTab1 = (handleSearch, handleReset) => {
   return [
@@ -13,12 +14,13 @@ export const clmTab1 = (handleSearch, handleReset) => {
       title: 'Tran Time',
       dataIndex: 'tranDate',
       key: 'tranDate',
-      ...getColumnSearchProps('tranDate', handleSearch, handleReset)
+      ...getColumnSearchProps('tranDate', handleSearch, handleReset),
     },
     {
       title: 'Entity',
       key: 'entity',
       dataIndex: 'entity',
+      ...getColumnSearchProps('entity', handleSearch, handleReset)
 
     },
     {
@@ -31,6 +33,7 @@ export const clmTab1 = (handleSearch, handleReset) => {
       title: 'Tran Type',
       key: 'tranType',
       dataIndex: 'tranType',
+      ...getColumnSearchProps('tranType', handleSearch, handleReset)
 
     },
     {
@@ -53,6 +56,7 @@ export const clmTab1 = (handleSearch, handleReset) => {
       title: 'Amount',
       key: 'amount',
       dataIndex: 'amount',
+      render: (text, record) => addCommaInData(text, true)
     },
     {
       title: 'Status',
@@ -272,11 +276,13 @@ export const columnsTxn = [
     title: 'Fee-DR_Entry',
     key: 'feeDrEntry',
     dataIndex: 'feeDrEntry',
+    // render: (text, record) => addCommaInData(text, false)
   },
   {
     title: 'Fee-DR_Amt',
     key: 'feeDrAmount',
     dataIndex: 'feeDrAmount',
+    // render: (text, record) => addCommaInData(text, true)
   },
   {
     title: 'Fee-CR_Entry',
@@ -287,10 +293,12 @@ export const columnsTxn = [
     title: 'Fee-CR_Amt',
     key: 'feeCrAmount',
     dataIndex: 'feeCrAmount',
+    // render: (text, record) => addCommaInData(text, true)
   },
   {
     title: 'Amt',
     key: 'amount',
     dataIndex: 'amount',
+    // render: (text, record) => addCommaInData(text, true)
   },
 ];
