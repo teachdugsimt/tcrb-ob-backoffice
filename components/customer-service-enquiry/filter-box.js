@@ -41,7 +41,11 @@ export const getColumnSearchProps = (dataIndex, handleSearch, handleReset) => {
           >
             Search
         </Button>
-          <Button onClick={() => handleReset(clearFilters)} size="small" style={{ width: 90 }}>
+          <Button onClick={() => {
+            setSearchText("")
+            handleReset(clearFilters)
+          }
+          } size="small" style={{ width: 90 }}>
             Reset
         </Button>
         </Space>
@@ -49,9 +53,9 @@ export const getColumnSearchProps = (dataIndex, handleSearch, handleReset) => {
     ),
     filterIcon: filtered => <SearchOutlined style={{ color: filtered ? '#1890ff' : undefined }} />,
     onFilter: (value, record) => {
-      console.log("value >>", value)
-      console.log("record >>", record)
-      console.log("data index >> ", dataIndex)
+      // console.log("value >>", value)
+      // console.log("record >>", record)
+      // console.log("data index >> ", dataIndex)
       return record[dataIndex] && record[dataIndex].toString().toLowerCase().includes(value.toLowerCase())
     },
 
@@ -63,7 +67,7 @@ export const getColumnSearchProps = (dataIndex, handleSearch, handleReset) => {
             highlightStyle={{ backgroundColor: '#ffc069', padding: 0 }}
             searchWords={[searchText]}
             autoEscape
-            textToHighlight={text.toString()}
+            textToHighlight={text && text.toString()}
           />
         ) : (
           text
