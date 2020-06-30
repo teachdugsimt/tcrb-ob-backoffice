@@ -100,7 +100,7 @@ const PendingApprovals =
       }, [])
 
       useEffect(() => {
-        if (pendingApprovalStore.responseGetPendingApproveList.length > 0) {
+        if (pendingApprovalStore.responseGetPendingApproveList && pendingApprovalStore.responseGetPendingApproveList.length > 0) {
           addKeyToDataSource(pendingApprovalStore.responseGetPendingApproveList).then((result) => {
             //businessParametersSetupStore.arrayProductLimit = result
             setPendingApprovalData(result)

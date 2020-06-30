@@ -1,7 +1,12 @@
 import Signin from '../components/singin/signin'
-
+import { withTranslation } from '../i18n'
 const Login = () => {
   return <Signin />
 }
 
-export default Login
+Login.getInitialProps = async () => ({
+  namespacesRequired: [],
+})
+
+export default withTranslation()(Login)
+

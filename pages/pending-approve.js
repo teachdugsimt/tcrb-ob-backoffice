@@ -30,4 +30,8 @@ const PendingApprove = (props) => {
   )
 }
 
-export default withTranslation('common')(PendingApprove)
+PendingApprove.getInitialProps = async () => ({
+  namespacesRequired: [],
+})
+
+export default withTranslation()(PendingApprove)

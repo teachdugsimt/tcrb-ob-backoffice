@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import { Input, Button } from 'antd'
 import styled from 'styled-components';
-import { i18n, withNamespaces } from '../i18n'
+import { i18n, withNamespaces, withTranslation } from '../i18n'
 
 const { Search } = Input;
 

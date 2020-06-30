@@ -1,8 +1,8 @@
 import Document, { Head, Main, NextScript } from 'next/document';
 // Import styled components ServerStyleSheet
 import { ServerStyleSheet } from 'styled-components';
-
-export default class MyDocument extends Document {
+import { withTranslation } from '../i18n'
+ class MyDocument extends Document {
   static getInitialProps({ renderPage }) {
     // Step 1: Create an instance of ServerStyleSheet
     const sheet = new ServerStyleSheet();
@@ -16,7 +16,7 @@ export default class MyDocument extends Document {
     const styleTags = sheet.getStyleElement();
 
     // Step 4: Pass styleTags as a prop
-    return { ...page, styleTags };
+    return { ...page, styleTags, namespacesRequired: [] };
   }
 
   render() {
@@ -36,3 +36,6 @@ export default class MyDocument extends Document {
     );
   }
 }
+
+export default withTranslation()(MyDocument)
+

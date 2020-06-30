@@ -2,6 +2,7 @@ import React, { Component, useContext } from 'react'
 import { MainFooter, SubFooter, TextFooter } from './Styles/AdminFooterStyles'
 // import { useStores } from '../hooks/use-stores'
 import { inject, observer } from 'mobx-react'
+import { withTranslation } from '../i18n'
 
 const AdminFooter = inject('authenStore')(observer((props) => {
   const { authenStore } = props
@@ -15,4 +16,9 @@ const AdminFooter = inject('authenStore')(observer((props) => {
     </MainFooter>
   )
 }))
-export default AdminFooter
+
+AdminFooter.getInitialProps = async () => ({
+  namespacesRequired: [],
+})
+
+export default withTranslation()(AdminFooter)

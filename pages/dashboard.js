@@ -1,7 +1,7 @@
 import React, { useContext } from 'react'
 import { inject, observer } from 'mobx-react'
 import Link from 'next/link'
-// import { useStores } from '../hooks/use-stores'
+import { withTranslation } from '../i18n'
 
 const Dashboard =
   inject('authenStore')
@@ -17,4 +17,8 @@ const Dashboard =
       </div>
     }))
 
-export default Dashboard
+Dashboard.getInitialProps = async () => ({
+  namespacesRequired: [],
+})
+
+export default withTranslation()(Dashboard)

@@ -50,4 +50,8 @@ const AdminHeader = inject('authenStore')(observer((props) => {
   )
 }))
 
-export default withTranslation('common')(AdminHeader)
+AdminHeader.getInitialProps = async () => ({
+  namespacesRequired: [],
+})
+
+export default withTranslation()(AdminHeader)
