@@ -87,6 +87,7 @@ export const TableResult =
       const handleSearch = (selectedKeys, confirm, dataIndex) => {
         confirm();
         console.log(dataIndex)
+        console.log(selectedKeys)
         // this.setState({
         //   searchText: selectedKeys[0],
         //   searchedColumn: dataIndex,
