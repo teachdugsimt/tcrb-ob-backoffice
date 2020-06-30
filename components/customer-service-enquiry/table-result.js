@@ -246,6 +246,7 @@ export const TableResult =
                 })}
                 columns={columnsPartnerInfo} dataSource={partnerInfo}
                 pagination={{ current: page, }}
+                size="small"
               />
             </div>
             <div>
@@ -261,6 +262,7 @@ export const TableResult =
                 })}
                 columns={columnsAccInfo} dataSource={accInfo}
                 pagination={{ current: page, }}
+                size="small"
               />
             </div>
             <div>
@@ -276,6 +278,7 @@ export const TableResult =
                 })}
                 columns={columnsTxn} dataSource={txnInfo}
                 pagination={{ current: page, }}
+                size="small"
               />
             </div>
           </Carousel>
