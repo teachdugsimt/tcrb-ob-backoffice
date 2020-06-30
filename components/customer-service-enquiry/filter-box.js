@@ -67,7 +67,7 @@ export const getColumnSearchProps = (dataIndex, handleSearch, handleReset) => {
             highlightStyle={{ backgroundColor: '#ffc069', padding: 0 }}
             searchWords={[searchText]}
             autoEscape
-            textToHighlight={text && text.toString()}
+            textToHighlight={text ? text.toString() : ''}
           />
         ) : (
           text

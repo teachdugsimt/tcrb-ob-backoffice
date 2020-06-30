@@ -10,13 +10,13 @@ const addKeyToDataSource = (arrayDataSource) => {
 const addCommaInData = (text, isComma) => {
   let stringToNumber = new Number(text)
   if (isNaN(stringToNumber)) {
-    return <p>{text}</p>
+    return <span>{text}</span>
   } else {
     if (isComma) {
       let customText = stringToNumber.toLocaleString()
-      return <p style={{ textAlign: "right" }}>{customText}</p>
+      return <span style={{ textAlign: "right", }}>{customText}</span>
     } else {
-      return <p>{text}</p>
+      return <span>{text}</span>
     }
   }
 }

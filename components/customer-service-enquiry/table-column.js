@@ -1,68 +1,69 @@
 import moment from 'moment'
 import { getColumnSearchProps } from './filter-box'
-import { addKeyToDataSource } from '../data-utility'
+import { addCommaInData } from '../data-utility';
+
 export const clmTab1 = (handleSearch, handleReset) => {
-  return (
-    [
-      {
-        title: 'No.',
-        dataIndex: 'no',
-        key: 'no',
-      },
-      {
-        title: 'Tran Time',
-        dataIndex: 'tranDate',
-        key: 'tranDate',
-        ...getColumnSearchProps('tranDate', handleSearch, handleReset)
-      },
-      {
-        title: 'Entity',
-        key: 'entity',
-        dataIndex: 'entity',
-        ...getColumnSearchProps('entity', handleSearch, handleReset)
+  return [
+    {
+      title: 'No.',
+      dataIndex: 'no',
+      key: 'no',
+      // getColumnSearchProps('name')
+    },
+    {
+      title: 'Tran Time',
+      dataIndex: 'tranDate',
+      key: 'tranDate',
+      ...getColumnSearchProps('tranDate', handleSearch, handleReset),
+    },
+    {
+      title: 'Entity',
+      key: 'entity',
+      dataIndex: 'entity',
+      ...getColumnSearchProps('entity', handleSearch, handleReset)
 
-      },
-      {
-        title: 'Channel',
-        key: 'channel',
-        dataIndex: 'channel',
+    },
+    {
+      title: 'Channel',
+      key: 'channel',
+      dataIndex: 'channel',
 
-      },
-      {
-        title: 'Tran Type',
-        key: 'tranType',
-        dataIndex: 'tranType',
-        ...getColumnSearchProps('tranType', handleSearch, handleReset)
+    },
+    {
+      title: 'Tran Type',
+      key: 'tranType',
+      dataIndex: 'tranType',
+      ...getColumnSearchProps('tranType', handleSearch, handleReset)
 
-      },
-      {
-        title: 'Tran SubType',
-        key: 'tranSubType',
-        dataIndex: 'tranSubType',
+    },
+    {
+      title: 'Tran SubType',
+      key: 'tranSubType',
+      dataIndex: 'tranSubType',
 
-      },
-      {
-        title: 'Prod Type',
-        key: 'prodType',
-        dataIndex: 'prodType',
-      },
-      {
-        title: 'A/C No.',
-        key: 'accNo',
-        dataIndex: 'accNo',
-      },
-      {
-        title: 'Amount',
-        key: 'amount',
-        dataIndex: 'amount',
-      },
-      {
-        title: 'Status',
-        key: 'status',
-        dataIndex: 'status',
-      },
-    ]
-  )
+    },
+    {
+      title: 'Prod Type',
+      key: 'prodType',
+      dataIndex: 'prodType',
+    },
+    {
+      title: 'A/C No.',
+      key: 'accNo',
+      dataIndex: 'accNo',
+    },
+    {
+      title: 'Amount',
+      key: 'amount',
+      dataIndex: 'amount',
+      render: (text, record) => addCommaInData(text, true)
+    },
+    {
+      title: 'Status',
+      key: 'status',
+      dataIndex: 'status',
+    },
+  ];
 }
 
 export const columnsTranInfo = [
@@ -275,11 +276,13 @@ export const columnsTxn = [
     title: 'Fee-DR_Entry',
     key: 'feeDrEntry',
     dataIndex: 'feeDrEntry',
+    // render: (text, record) => addCommaInData(text, false)
   },
   {
     title: 'Fee-DR_Amt',
     key: 'feeDrAmount',
     dataIndex: 'feeDrAmount',
+    // render: (text, record) => addCommaInData(text, true)
   },
   {
     title: 'Fee-CR_Entry',
@@ -290,10 +293,12 @@ export const columnsTxn = [
     title: 'Fee-CR_Amt',
     key: 'feeCrAmount',
     dataIndex: 'feeCrAmount',
+    // render: (text, record) => addCommaInData(text, true)
   },
   {
     title: 'Amt',
     key: 'amount',
     dataIndex: 'amount',
+    // render: (text, record) => addCommaInData(text, true)
   },
 ];
