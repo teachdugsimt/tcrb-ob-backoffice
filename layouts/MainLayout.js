@@ -12,6 +12,7 @@ import { inject, observer } from 'mobx-react'
 import backgroundImage from '../images/background.png'
 import { spacing } from '../theme/spacing'
 import { Layout, Menu, Breadcrumb } from 'antd';
+import { i18n, Link, withTranslation } from '../i18n'
 
 const { Content } = Layout;
 
@@ -51,5 +52,9 @@ const MainLayout = inject('versatileStore')(observer((props) => {
   )
 }))
 
-export default withRouter(MainLayout)
+MainLayout.getInitialProps = async () => ({
+  namespacesRequired: [],
+})
+
+export default withRouter(withTranslation()(MainLayout))
 // HTTPS=true SSL_CRT_FILE=Certificate_chain.txt SSL_KEY_FILE=private_key.txt npm run dev

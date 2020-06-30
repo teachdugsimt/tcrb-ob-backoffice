@@ -1,6 +1,6 @@
 import React from 'react'
 import { Input, Row, Col, Layout, Modal, Switch } from 'antd'
-import { i18n, withNamespaces } from '../i18n'
+import { i18n, withNamespaces, withTranslation } from '../i18n'
 import { TcrbButton, TcrbModal } from '../components/antd-styles/styles'
 export default function SimpleModal(props) {
   return (
