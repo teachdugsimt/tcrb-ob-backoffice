@@ -11,7 +11,7 @@ export default function () {
         <SearchBar />
         <CustomerDetail />
       </Col>
-      <Col style={{ marginTop: 20 }}>
+      <Col>
         <TableResult />
       </Col>
     </Row>
