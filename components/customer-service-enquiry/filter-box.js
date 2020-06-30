@@ -3,7 +3,7 @@ import Highlighter from 'react-highlight-words';
 import { SearchOutlined } from '@ant-design/icons';
 import { Table, Input, Button, Space } from 'antd';
 
-export const getColumnSearchProps = dataIndex => ({
+export const getColumnSearchProps = (dataIndex, handleSearch, handleReset) => ({
   filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, clearFilters }) => (
     <div style={{ padding: 8 }}>
       <Input
@@ -13,20 +13,23 @@ export const getColumnSearchProps = dataIndex => ({
         placeholder={`Search ${dataIndex}`}
         value={selectedKeys[0]}
         onChange={e => setSelectedKeys(e.target.value ? [e.target.value] : [])}
-        // onPressEnter={() => this.handleSearch(selectedKeys, confirm, dataIndex)}
+        onPressEnter={() => handleSearch(selectedKeys, confirm, dataIndex)}
         style={{ width: 188, marginBottom: 8, display: 'block' }}
       />
       <Space>
         <Button
           type="primary"
-          onClick={() => /*this.handleSearch(selectedKeys, confirm, dataIndex)*/ { }}
+          onClick={() => {
+            console.log(selectedKeys)
+            handleSearch(selectedKeys, confirm, dataIndex)
+          }}
           icon={<SearchOutlined />}
           size="small"
           style={{ width: 90 }}
         >
           Search
         </Button>
-        <Button onClick={() => /*this.handleReset(clearFilters)*/ { }} size="small" style={{ width: 90 }}>
+        <Button onClick={() => handleReset(clearFilters)} size="small" style={{ width: 90 }}>
           Reset
         </Button>
       </Space>

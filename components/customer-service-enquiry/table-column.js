@@ -1,7 +1,7 @@
 import moment from 'moment'
 import { getColumnSearchProps } from './filter-box'
 
-export const clmTab1 = () => {
+export const clmTab1 = (handleSearch, handleReset) => {
   return [
     {
       title: 'No.',
@@ -13,7 +13,7 @@ export const clmTab1 = () => {
       title: 'Tran Time',
       dataIndex: 'tranDate',
       key: 'tranDate',
-      ...getColumnSearchProps('tranDate')
+      ...getColumnSearchProps('tranDate', handleSearch, handleReset)
     },
     {
       title: 'Entity',

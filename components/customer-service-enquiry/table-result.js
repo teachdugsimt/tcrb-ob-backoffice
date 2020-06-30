@@ -2,8 +2,9 @@ import React, { useState, useEffect } from 'react'
 import { inject, observer } from 'mobx-react'
 import styled from 'styled-components';
 import { columnsTranInfo, columnsPartnerInfo, columnsAccInfo, columnsTxn, clmTab1 } from './table-column';
-import { Table, Tabs } from 'antd';
+import { Table, Tabs, Carousel } from 'antd';
 import { TcrbTabs } from '../antd-styles/styles'
+import { RightOutlined, LeftOutlined } from '@ant-design/icons';
 import { data } from './data'
 import moment from 'moment'
 import 'moment/locale/th'
@@ -83,6 +84,20 @@ export const TableResult =
         setallList(groupList)
       }
 
+      const handleSearch = (selectedKeys, confirm, dataIndex) => {
+        confirm();
+        console.log(dataIndex)
+        // this.setState({
+        //   searchText: selectedKeys[0],
+        //   searchedColumn: dataIndex,
+        // });
+      };
+
+      const handleReset = clearFilters => {
+        clearFilters();
+        // this.setState({ searchText: '' });
+      };
+
       useEffect(() => {
         _buildListData()
       }, [])
@@ -91,7 +106,52 @@ export const TableResult =
         _buildListData()
       }, [customerServiceEnquiry.tmpListData])
 
-      return (
+      function SamplePrevArrow(props) {
+        console.log(props)
+        const { className, style, onClick } = props
+        return (
+          <div
+            className={className}
+            style={{ ...style, display: "block" }}
+            onClick={onClick}
+            disabled={props.currentSlide == 0 ? true : false}
+          >
+            <LeftOutlined style={{ fontSize: '32px', color: "#fba928" }} />
+          </div>
+        )
+      }
+
+      function SampleNextArrow(props) {
+        const { className, style, onClick } = props
+        return (
+          <div
+            className={className}
+            style={{ ...style, display: "block" }}
+            onClick={onClick}
+            disabled={props.currentSlide == props.slideCount ? true : false}
+          >
+            <RightOutlined style={{ fontSize: '32px', color: "#fba928" }} />
+          </div>
+        )
+      }
+      const settings = {
+        dots: false,
+        infinite: false,
+        prevArrow: <SamplePrevArrow />,
+        nextArrow: <SampleNextArrow />
+        /*nextArrow: <RightOutlined style={{
+          position: "absolute",
+          right: "0",
+          cursor: "pointer"
+        }} />,
+        prevArrow: <LeftOutlined style={{
+          position: "absolute",
+          left: "0",
+          cursor: "pointer"
+        }} />,*/
+      }
+
+      /*return (
         <TcrbTabs defaultActiveKey="1" onChange={callback}>
           <TabPane tab="Transaction Info" key="1">
             <Table
@@ -160,6 +220,32 @@ export const TableResult =
             />
           </TabPane>
         </TcrbTabs>
+      )*/
+      return (
+        <div>
+
+          <Carousel {...settings} arrows={true} >
+            <div >
+              <Table
+                filtered={true}
+                onChange={(e) => setPage(e.current)}
+                columns={clmTab1(handleSearch, handleReset)} dataSource={transInfo}
+                pagination={{ current: page, }}
+                size="small"
+              />
+            </div>
+            <div>
+              <h3>2</h3>
+            </div>
+            <div>
+              <h3>3</h3>
+            </div>
+            <div>
+              <h3>4</h3>
+            </div>
+          </Carousel>
+
+        </div>
       )
 
     }))
