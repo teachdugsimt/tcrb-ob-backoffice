@@ -99,8 +99,18 @@ export const TableResult =
       };
 
       useEffect(() => {
+        // getListCustomerServicesEnquiry
+        customerServiceEnquiry.getListCustomerServicesEnquiry({ filter: {} })
         _buildListData()
       }, [])
+
+      useEffect(() => {
+        if (customerServiceEnquiry.dataGetListCustomerService) {
+          console.log("---------------- Table Result Request data ------------------")
+          console.log(JSON.parse(JSON.stringify(customerServiceEnquiry.dataGetListCustomerService)))
+        }
+
+      }, [customerServiceEnquiry.dataGetListCustomerService])
 
       useEffect(() => {
         _buildListData()
