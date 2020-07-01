@@ -11,7 +11,7 @@ import { inject, observer } from 'mobx-react'
 // import { useStores } from '../hooks/use-stores'
 import backgroundImage from '../images/background.png'
 import { spacing } from '../theme/spacing'
-import { Layout, Menu, Breadcrumb } from 'antd';
+import { Layout, Menu, Breadcrumb, Row, Col } from 'antd';
 import { i18n, Link, withTranslation } from '../i18n'
 
 const { Content } = Layout;
@@ -21,7 +21,7 @@ const MainLayout = inject('versatileStore')(observer((props) => {
   const { versatileStore } = props
   const router = useRouter()
   let all_height
-  if (router.pathname == "/customer-service-enquiry") all_height = '95.25%'
+  if (router.pathname == "/customer-service-enquiry") all_height = '97%'
   else if (router.pathname == "/pending-approve") all_height = '97%'
   else all_height = '97%'
   return (
@@ -30,9 +30,12 @@ const MainLayout = inject('versatileStore')(observer((props) => {
         <WrapperImageBackground src={backgroundImage} />
         <AdminHeader />
         <EmptyDiv />
+        {/* <Row> */}
         <Layout>
           <AdminMenu />
           <EmptySidebar />
+
+          {/* <Col span={24} height={'100%'} style={{ height: '100%'}}> */}
           <ContentPadding style={{ paddingLeft: versatileStore.sidebarWidth > 100 ? spacing.full : spacing.pass }}>
             <Content style={{
               marginTop: spacing.tiny - 8, borderRadius: spacing.tiny, backgroundColor: 'white',
@@ -45,6 +48,8 @@ const MainLayout = inject('versatileStore')(observer((props) => {
               </ContentSubDiv>
             </Content>
           </ContentPadding>
+          {/* </Col> */}
+          {/* </Row> */}
         </Layout>
         <AdminFooter />
       </Layout>

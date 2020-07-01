@@ -8,7 +8,7 @@ import { withTranslation } from '../i18n'
 const EmptyLayout = inject('authenStore')(observer((props) => {
   // const { authenStore } = useStores()
   const { authenStore } = props
-  console.log("__________ HANDLE ERROR _____________")
+  // console.log("__________ HANDLE ERROR _____________")
   // console.log(props)
 
   if (authenStore.password && authenStore.id) {

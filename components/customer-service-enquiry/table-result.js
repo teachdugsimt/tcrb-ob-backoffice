@@ -92,13 +92,16 @@ export const TableResult =
           })
         })
 
-        setTransInfo(list1)
-        setTableTranInfoData(list1)
+        // setTransInfo(list1)
+        // const transList = JSON.parse(JSON.stringify(customerServiceEnquiry.dataGetListCustomerService))
+        // setTransInfo(transList)
+        // setTableTranInfoData(transList)
 
-        setPartnerInfo(list2)
-        setAccInfo(list3)
-        setTxnInfo(list4)
-        setallList(groupList)
+        // setPartnerInfo(list2)
+        // setAccInfo(list3)
+        // setTxnInfo(list4)
+        // setallList(groupList)
+        //
       }
 
       const handleSearch = (selectedKeys, confirm, dataIndex) => {
@@ -126,11 +129,24 @@ export const TableResult =
       };
 
       useEffect(() => {
-        _buildListData()
+        // getListCustomerServicesEnquiry
+        // customerServiceEnquiry.getListCustomerServicesEnquiry({ filter: {} })
+        // _buildListData()
       }, [])
 
       useEffect(() => {
-        _buildListData()
+        if (customerServiceEnquiry.dataGetListCustomerService) {
+          console.log("---------------- Table Result Request data ------------------")
+          // console.log(JSON.parse(JSON.stringify(customerServiceEnquiry.dataGetListCustomerService)))
+          const transList = JSON.parse(JSON.stringify(customerServiceEnquiry.dataGetListCustomerService))
+          setTransInfo(transList)
+          setTableTranInfoData(transList)
+        }
+
+      }, [customerServiceEnquiry.dataGetListCustomerService])
+
+      useEffect(() => {
+        // _buildListData()
       }, [customerServiceEnquiry.tmpListData])
 
       const PrevArrow = (props) => {
@@ -248,7 +264,7 @@ export const TableResult =
         </TcrbTabs>
       )*/
       return (
-        <div>
+        <div style={{ paddingTop: 10 }}>
           <div style={{ display: 'flex', flexDirection: 'row' }}>
             {
               searchText.map(e => {
@@ -284,6 +300,7 @@ export const TableResult =
                   // onClick: () => {
                   //   let tmpList = allList.find(e => e.no == item.no)
                   //   console.log("ITEM CLICK : ", tmpList)
+                  //   customerServiceEnquiry.setTmpEnquiryRow(tmpList)
                   //   customerServiceEnquiry.setTmpEnquiryRow(transInfo)
                   // },
                 })}
@@ -306,6 +323,7 @@ export const TableResult =
                   // onClick: () => {
                   //   let tmpList = allList.find(e => e.no == item.no)
                   //   console.log("ITEM CLICK : ", tmpList)
+                  //   customerServiceEnquiry.setTmpEnquiryRow(tmpList)
                   //   customerServiceEnquiry.setTmpEnquiryRow(transInfo)
                   // },
                 })}
@@ -328,6 +346,7 @@ export const TableResult =
                   // onClick: () => {
                   //   let tmpList = allList.find(e => e.no == item.no)
                   //   console.log("ITEM CLICK : ", tmpList)
+                  //   customerServiceEnquiry.setTmpEnquiryRow(tmpList)
                   //   customerServiceEnquiry.setTmpEnquiryRow(transInfo)
                   // },
                 })}

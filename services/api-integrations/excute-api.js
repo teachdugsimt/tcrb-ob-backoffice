@@ -12,7 +12,7 @@ const ExcuteApi = async (url, params, method) => {
     const api = create(Header())
     let response
     if (method == "get" || method == "GET") {
-      response = await api.get(url, params ? params : { filter: {} })
+      response = await api.get(url, params || { filter: {} })
     }
     else if (method == "post" || method == "POST") {
       response = await api.post(url, params)
