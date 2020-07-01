@@ -54,7 +54,7 @@ export const getColumnSearchProps = (dataIndex, handleSearch, handleReset, titil
     filterIcon: filtered => <SearchOutlined style={{ color: filtered ? '#1890ff' : undefined }} />,
     onFilter: (value, record) => {
       // console.log("value >>", value)
-      // console.log("record >>", record)
+      console.log("record >>", record)
       // console.log("data index >> ", dataIndex)
       return record[dataIndex] && record[dataIndex].toString().toLowerCase().includes(value.toLowerCase())
     },

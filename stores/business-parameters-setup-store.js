@@ -115,6 +115,10 @@ class BusinessParameterSetup {
     }
   }
 
+  @action resetOTPrequest = async () => {
+    this.responseUpdateOtp = null
+  }
+
   @action
   updateOTPdata = async (params) => {
     this.apiLoading = true

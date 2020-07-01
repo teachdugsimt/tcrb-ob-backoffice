@@ -14,5 +14,6 @@ export const colors = {
   line: palette.offWhite,
   text: palette.black,
   dim: palette.lightGrey,
+  grey: palette.lighterGrey,
   error: palette.angry,
 }
