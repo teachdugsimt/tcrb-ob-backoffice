@@ -256,6 +256,9 @@ export const TableResult =
                 size="small"
                 onChange={(pagination, filters, sorter, extra) => {
                   setPage(pagination.current)
+                  console.log(filters)
+                  console.log(sorter)
+                  console.log(extra)
                   // setTransInfo(extra.currentDataSource)
                   // console.log(extra.currentDataSource)
                 }}
@@ -320,6 +323,7 @@ export const TableResult =
                 size="small"
                 onChange={(pagination, filters, sorter, extra) => {
                   setPage(pagination.current)
+
                   // setTransInfo(extra.currentDataSource)
                   // console.log(extra.currentDataSource)
                 }}
