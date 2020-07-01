@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { inject, observer } from 'mobx-react'
 import styled from 'styled-components';
-import { columnsTranInfo, columnsPartnerInfo, columnsAccInfo, columnsTxn, clmTab1 } from './table-column';
+import { columnsTranInfo, columnsPartnerInfo, columnsAccInfo, columnsTxn, clmTranInfo, clmPartnerInfo, clmAccInfo, clmTxn } from './table-column';
 import { Table, Tabs, Carousel } from 'antd';
 import { TcrbTabs } from '../antd-styles/styles'
 import { RightOutlined, LeftOutlined } from '@ant-design/icons';
@@ -183,7 +183,7 @@ export const TableResult =
                 }
               }}
               scroll={{ x: true }}
-              columns={clmTab1()} dataSource={transInfo}
+              columns={clmTranInfo()} dataSource={transInfo}
               pagination={{ current: page, }}
             />
           </TabPane>
@@ -251,7 +251,7 @@ export const TableResult =
               <Table
                 filtered={true}
                 onChange={(e) => setPage(e.current)}
-                columns={clmTab1(handleSearch, handleReset)} dataSource={transInfo}
+                columns={clmTranInfo(handleSearch, handleReset)} dataSource={transInfo}
                 pagination={{ current: page, }}
                 size="small"
                 onChange={(pagination, filters, sorter, extra) => {
@@ -272,7 +272,7 @@ export const TableResult =
                     customerServiceEnquiry.setTmpEnquiryRow(transInfo)
                   },
                 })}
-                columns={columnsPartnerInfo} dataSource={transInfo}
+                columns={clmPartnerInfo(handleSearch, handleReset)} dataSource={transInfo}
                 pagination={{ current: page, }}
                 size="small"
               />
@@ -288,7 +288,7 @@ export const TableResult =
                     customerServiceEnquiry.setTmpEnquiryRow(transInfo)
                   },
                 })}
-                columns={columnsAccInfo} dataSource={transInfo}
+                columns={clmAccInfo(handleSearch, handleReset)} dataSource={transInfo}
                 pagination={{ current: page, }}
                 size="small"
               />
@@ -304,7 +304,7 @@ export const TableResult =
                     customerServiceEnquiry.setTmpEnquiryRow(transInfo)
                   },
                 })}
-                columns={columnsTxn} dataSource={transInfo}
+                columns={clmTxn(handleSearch, handleReset)} dataSource={transInfo}
                 pagination={{ current: page, }}
                 size="small"
               />

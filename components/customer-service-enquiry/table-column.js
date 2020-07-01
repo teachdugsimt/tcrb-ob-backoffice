@@ -2,7 +2,7 @@ import moment from 'moment'
 import { getColumnSearchProps } from './filter-box'
 import { addCommaInData } from '../data-utility';
 
-export const clmTab1 = (handleSearch, handleReset) => {
+export const clmTranInfo = (handleSearch, handleReset) => {
   return [
     {
       title: 'No.',
@@ -14,43 +14,45 @@ export const clmTab1 = (handleSearch, handleReset) => {
       title: 'Tran Time',
       dataIndex: 'tranDate',
       key: 'tranDate',
-      ...getColumnSearchProps('tranDate', handleSearch, handleReset),
+      // ...getColumnSearchProps('tranDate', handleSearch, handleReset, 'Tran Time'),
     },
     {
       title: 'Entity',
       key: 'entity',
       dataIndex: 'entity',
-      ...getColumnSearchProps('entity', handleSearch, handleReset)
+      ...getColumnSearchProps('entity', handleSearch, handleReset, 'Entity')
 
     },
     {
       title: 'Channel',
       key: 'channel',
       dataIndex: 'channel',
-
+      ...getColumnSearchProps('channel', handleSearch, handleReset, 'Channel')
     },
     {
       title: 'Tran Type',
       key: 'tranType',
       dataIndex: 'tranType',
-      ...getColumnSearchProps('tranType', handleSearch, handleReset)
+      ...getColumnSearchProps('tranType', handleSearch, handleReset, 'Tran Type')
 
     },
     {
       title: 'Tran SubType',
       key: 'tranSubType',
       dataIndex: 'tranSubType',
-
+      ...getColumnSearchProps('tranSubType', handleSearch, handleReset, 'Tran SubType')
     },
     {
       title: 'Prod Type',
       key: 'prodType',
       dataIndex: 'prodType',
+      ...getColumnSearchProps('prodType', handleSearch, handleReset, 'Prod Type')
     },
     {
       title: 'A/C No.',
       key: 'accNo',
       dataIndex: 'accNo',
+      ...getColumnSearchProps('accNo', handleSearch, handleReset, 'A/C No.')
     },
     {
       title: 'Amount',
@@ -62,9 +64,143 @@ export const clmTab1 = (handleSearch, handleReset) => {
       title: 'Status',
       key: 'status',
       dataIndex: 'status',
+      ...getColumnSearchProps('status', handleSearch, handleReset, 'Status')
     },
   ];
 }
+
+export const clmPartnerInfo = (handleSearch, handleReset) => {
+  return [
+    {
+      title: 'No.',
+      dataIndex: 'no',
+      key: 'no',
+      render: text => <div>{text}</div>,
+    },
+    {
+      title: 'Partner TranRef',
+      dataIndex: 'partnerTranRef',
+      key: 'partnerTranRef',
+      ...getColumnSearchProps('partnerTranRef', handleSearch, handleReset, 'Partner TranRef')
+    },
+    {
+      title: 'Partner ReqID',
+      dataIndex: 'partnerReqId',
+      key: 'partnerReqId',
+      ...getColumnSearchProps('partnerReqId', handleSearch, handleReset, 'Partner ReqID')
+    },
+    {
+      title: 'Bank TranRef',
+      key: 'bankTranRef',
+      dataIndex: 'bankTranRef',
+      ...getColumnSearchProps('bankTranRef', handleSearch, handleReset, 'Bank TranRef')
+    },
+    {
+      title: 'Mobile Number',
+      key: 'mobileNo',
+      dataIndex: 'mobileNo',
+    }
+  ];
+}
+
+export const clmAccInfo = (handleSearch, handleReset) => {
+  return [
+    {
+      title: 'No.',
+      dataIndex: 'no',
+      key: 'no',
+      render: text => <div>{text}</div>,
+    },
+    {
+      title: 'TCRB AccountRef',
+      dataIndex: 'tcrbAccRef',
+      key: 'tcrbAccRef',
+      ...getColumnSearchProps('tcrbAccRef', handleSearch, handleReset, 'TCRB AccountRef')
+    },
+    {
+      title: 'Sub A/C',
+      dataIndex: 'subAcc',
+      key: 'subAcc',
+      ...getColumnSearchProps('subAcc', handleSearch, handleReset, 'Sub A/C')
+    },
+    {
+      title: 'Account Name',
+      key: 'accName',
+      dataIndex: 'accName',
+      ...getColumnSearchProps('accName', handleSearch, handleReset, 'Account Name')
+    },
+    {
+      title: 'Acc Ref1',
+      key: 'accRef1',
+      dataIndex: 'accRef1',
+    },
+    {
+      title: 'Acc Ref2',
+      key: 'accRef2',
+      dataIndex: 'accRef2',
+    },
+    {
+      title: 'Acc Ref3',
+      key: 'accRef3',
+      dataIndex: 'accRef3',
+    },
+  ];
+}
+
+export const clmTxn = (handleSearch, handleReset) => {
+  return [
+    {
+      title: 'No.',
+      dataIndex: 'no',
+      key: 'no',
+      render: text => <div>{text}</div>,
+    },
+    {
+      title: 'Txn-DR_Entry',
+      dataIndex: 'txnDrEntry',
+      key: 'txnDrEntry',
+      ...getColumnSearchProps('txnDrEntry', handleSearch, handleReset, 'Txn-DR_Entry')
+    },
+    {
+      title: 'Txn-CR_Entry',
+      dataIndex: 'txnCrEntry',
+      key: 'txnCrEntry',
+      ...getColumnSearchProps('txnCrEntry', handleSearch, handleReset, 'Txn-CR_Entry')
+    },
+    {
+      title: 'Fee-DR_Entry',
+      key: 'feeDrEntry',
+      dataIndex: 'feeDrEntry',
+      // ...getColumnSearchProps('feeDrEntry', handleSearch, handleReset, 'Fee-DR_Entry')
+      // render: (text, record) => addCommaInData(text, false)
+    },
+    {
+      title: 'Fee-DR_Amt',
+      key: 'feeDrAmount',
+      dataIndex: 'feeDrAmount',
+      // render: (text, record) => addCommaInData(text, true)
+    },
+    {
+      title: 'Fee-CR_Entry',
+      key: 'feeCrEntry',
+      dataIndex: 'feeCrEntry',
+    },
+    {
+      title: 'Fee-CR_Amt',
+      key: 'feeCrAmount',
+      dataIndex: 'feeCrAmount',
+      // render: (text, record) => addCommaInData(text, true)
+    },
+    {
+      title: 'Amt',
+      key: 'amount',
+      dataIndex: 'amount',
+      // render: (text, record) => addCommaInData(text, true)
+    },
+  ];
+}
+
+/////////////////////////////////////////////////////// mock Data แบบเก่า ////////////////////////////////////////////////////////////
 
 export const columnsTranInfo = [
   {
