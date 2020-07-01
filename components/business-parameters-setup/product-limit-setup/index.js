@@ -6,7 +6,6 @@ import { toJS } from 'mobx'
 import ProductList from './product-list'
 import ManagePartner from './manage-partner'
 import AddPartner from './add-partner'
-import managePartner from './manage-partner'
 
 const ProductLimitSetup =
   inject('businessParametersSetupStore')

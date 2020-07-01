@@ -1,7 +1,7 @@
 import React from 'react'
 import { Row, Col, Layout, Tabs, Spin } from 'antd'
 import OtpSetup from './otp-setup'
-import ProductLimitSetup from './product-limit-setup/index'
+import ProductLimitSetup from './product-limit-setup'
 import { withTranslation } from '../../i18n'
 import { TcrbTabs, TcrbSpin } from '../antd-styles/styles'
 import { inject, observer } from 'mobx-react'
