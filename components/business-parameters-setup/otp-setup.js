@@ -229,7 +229,7 @@ const OtpSetup =
         }
       }
 
-      const _onCancel = () => {
+      const _onCancel = async () => {
         setVisible(false)
         let currentMaximum = getValueFromStore("maximum")
         let currentExpire = getValueFromStore("expire")
@@ -252,6 +252,8 @@ const OtpSetup =
         expire.blur()
         maximum.style.color = "rgba(0, 0, 0, 0.65)"
         maximum.blur()
+
+        await businessParametersSetupStore.resetOTPrequest()
       }
 
       return (

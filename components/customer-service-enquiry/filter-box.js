@@ -4,7 +4,7 @@ import { SearchOutlined } from '@ant-design/icons';
 import { Table, Input, Button, Space } from 'antd';
 
 
-export const getColumnSearchProps = (dataIndex, handleSearch, handleReset) => {
+export const getColumnSearchProps = (dataIndex, handleSearch, handleReset, titile) => {
   const [searchInput, setSearchInput] = useState("")
   const [searchedColumn, setSearchedColumn] = useState("")
   const [searchText, setSearchText] = useState("")
@@ -16,7 +16,7 @@ export const getColumnSearchProps = (dataIndex, handleSearch, handleReset) => {
             setSearchInput(node)
             // this.searchInput = node;
           }}
-          placeholder={`Search ${dataIndex}`}
+          placeholder={`Search ${titile}`}
           value={selectedKeys[0]}
           onChange={e => setSelectedKeys(e.target.value ? [e.target.value] : [])}
           onPressEnter={() => {
@@ -54,7 +54,7 @@ export const getColumnSearchProps = (dataIndex, handleSearch, handleReset) => {
     filterIcon: filtered => <SearchOutlined style={{ color: filtered ? '#1890ff' : undefined }} />,
     onFilter: (value, record) => {
       // console.log("value >>", value)
-      // console.log("record >>", record)
+      console.log("record >>", record)
       // console.log("data index >> ", dataIndex)
       return record[dataIndex] && record[dataIndex].toString().toLowerCase().includes(value.toLowerCase())
     },
