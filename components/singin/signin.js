@@ -149,14 +149,22 @@ const Signin =
                           <Row span={24}>
                             <Col span={24}>
                               <span style={{ marginLeft: 5, fontSize: '2em', color: colorID }}>{(id ? "" : "*") + " " + (i18n.t("username"))}</span>
-                              <MainInput value={id} onChange={e => setId(e.target.value)}></MainInput>
+                              <MainInput value={id} onChange={e => {
+                                if (id) setcolorID("#D3D3D3")
+                                else setPassword("red")
+                                setId(e.target.value)
+                              }}></MainInput>
                             </Col>
                           </Row>
 
                           <Row span={24} style={{ marginTop: "10%" }}>
                             <Col span={24}>
                               <span style={{ marginLeft: 5, fontSize: '2em', color: colorPass }}>{(password ? "" : "*") + " " + (i18n.t("password"))}</span>
-                              <MainInput type="password" value={password} onChange={e => setPassword(e.target.value)}></MainInput>
+                              <MainInput type="password" value={password} onChange={e => {
+                                if (password) setcolorPass("#D3D3D3")
+                                else setPassword("red")
+                                setPassword(e.target.value)
+                              }}></MainInput>
                             </Col>
                           </Row>
 

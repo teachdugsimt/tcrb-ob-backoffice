@@ -139,7 +139,7 @@ export const SearchBox =
               })
             }
           } else { // search all && no vlaue
-            customerServiceEnquiry.getListCustomerServicesEnquiry({ filter: {} })
+            customerServiceEnquiry.getListCustomerServicesEnquiry({ filter: { limit: 300 } })
             // customerServiceEnquiry.setListData(data)
           }
         }
@@ -148,7 +148,7 @@ export const SearchBox =
       console.log("START : ", start)
       console.log("END : ", end)
       console.log("Date all : ", dateValue)
-      console.log("currentSearch : ",currentSearch)
+      console.log("currentSearch : ", currentSearch)
       return (
         <div>
           <div style={{ display: 'flex', justifyContent: 'space-between' }}>
@@ -196,3 +196,5 @@ export const SearchBox =
       )
 
     }))
+
+// citizen_id=  912f74047dd8964c382a6d6287f0ed1
