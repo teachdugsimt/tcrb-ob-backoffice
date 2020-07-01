@@ -14,6 +14,7 @@ export const clmTranInfo = (handleSearch, handleReset) => {
       dataIndex: 'date',
       key: 'date',
       ...getColumnSearchProps('date', handleSearch, handleReset, 'Tran Time'),
+      render: (text, record) => moment(text).format('ll')
     },
     {
       title: 'Entity',
@@ -60,7 +61,7 @@ export const clmTranInfo = (handleSearch, handleReset) => {
       title: 'Amount',
       key: 'amount',
       dataIndex: 'amount',
-      render: (text, record) => addCommaInData(text, true)
+      render: (text, record) => <div style={{ textAlign: 'right' }}>{addCommaInData(text, true)}</div>
     },
     {
       title: 'Status',
@@ -205,7 +206,7 @@ export const clmTxn = (handleSearch, handleReset) => {
       title: 'Amt',
       key: 'amount',
       dataIndex: 'amount',
-      // render: (text, record) => addCommaInData(text, true)
+      render: (text, record) => <div style={{ textAlign: 'right' }}>{addCommaInData(text, true)}</div>
     },
   ];
 }

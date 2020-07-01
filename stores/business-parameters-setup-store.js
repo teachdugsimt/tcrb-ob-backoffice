@@ -34,6 +34,11 @@ class BusinessParameterSetup {
   @observable productList = []
   @observable productSelect = null
 
+  @observable nextPageIsProductList = null
+  @observable nextPageIsManageProduct = null
+  @observable nextPageIsAddPartner = null
+
+  @observable goBack = null
   @persist @observable persist_value = null
 
   updatePendingList = () => {

@@ -9,6 +9,7 @@ import SimpleLabel from '../simple-label'
 import { data } from './data'
 import moment from 'moment'
 import 'moment/locale/th'
+import _ from 'lodash'
 const { TabPane } = Tabs;
 
 function callback(key) {
@@ -20,6 +21,7 @@ export const TableResult =
     (observer((props) => {
       const { customerServiceEnquiry } = props
       const [transInfo, setTransInfo] = useState(null)
+      const [tableTranInfoData, setTableTranInfoData] = useState(null)
       const [partnerInfo, setPartnerInfo] = useState(null)
       const [accInfo, setAccInfo] = useState(null)
       const [txnInfo, setTxnInfo] = useState(null)
@@ -90,32 +92,39 @@ export const TableResult =
           })
         })
 
-        setTransInfo(list1)
-        setPartnerInfo(list2)
-        setAccInfo(list3)
-        setTxnInfo(list4)
-        setallList(groupList)
+        // setTransInfo(list1)
+        // const transList = JSON.parse(JSON.stringify(customerServiceEnquiry.dataGetListCustomerService))
+        // setTransInfo(transList)
+        // setTableTranInfoData(transList)
+
+        // setPartnerInfo(list2)
+        // setAccInfo(list3)
+        // setTxnInfo(list4)
+        // setallList(groupList)
+        //
       }
 
       const handleSearch = (selectedKeys, confirm, dataIndex) => {
         confirm();
-        console.log(dataIndex)
-        // this.setState({
-        //   searchText: selectedKeys[0],
-        //   searchedColumn: dataIndex,
-        // });
-        console.log(selectedKeys)
+        // console.log(dataIndex)
+        // console.log(selectedKeys)
 
-        let srchTxt = searchText
-        srchTxt.push({
-          searchText: selectedKeys[0],
-          searchedColumn: dataIndex
-        })
-        setSearchText(srchTxt)
+        // let srchTxt = JSON.parse(JSON.stringify(searchText))
+        // let mySet = new Set(srchTxt)
+        // srchTxt.push({
+        // searchText: selectedKeys[0],
+        // searchedColumn: dataIndex
+        // })
+        // srchTxt = Array.from(mySet)
+        // console.log(_.uniq([2, 1, 2]))
+        // console.log(srchTxt)/
+        // setSearchText(srchTxt)
       };
 
       const handleReset = clearFilters => {
         clearFilters();
+
+        setTableTranInfoData(transInfo)
         // this.setState({ searchText: '' });
       };
 
@@ -128,7 +137,10 @@ export const TableResult =
       useEffect(() => {
         if (customerServiceEnquiry.dataGetListCustomerService) {
           console.log("---------------- Table Result Request data ------------------")
-          console.log(JSON.parse(JSON.stringify(customerServiceEnquiry.dataGetListCustomerService)))
+          // console.log(JSON.parse(JSON.stringify(customerServiceEnquiry.dataGetListCustomerService)))
+          const transList = JSON.parse(JSON.stringify(customerServiceEnquiry.dataGetListCustomerService))
+          setTransInfo(transList)
+          setTableTranInfoData(transList)
         }
 
       }, [customerServiceEnquiry.dataGetListCustomerService])
@@ -254,22 +266,26 @@ export const TableResult =
       return (
         <div style={{ paddingTop: 10 }}>
           <div style={{ display: 'flex', flexDirection: 'row' }}>
-            {/* {
+            {
               searchText.map(e => {
                 return <SimpleLabel label={e.searchedColumn} value={e.searchText} />
               })
-            } */}
+            }
           </div>
           <Carousel {...settings} arrows={true} >
             <div >
               <Table
                 filtered={true}
                 onChange={(e) => setPage(e.current)}
-                columns={clmTranInfo(handleSearch, handleReset)} dataSource={JSON.parse(JSON.stringify(customerServiceEnquiry.dataGetListCustomerService))}
+                columns={clmTranInfo(handleSearch, handleReset)} dataSource={tableTranInfoData}
                 pagination={{ current: page, }}
                 size="small"
                 onChange={(pagination, filters, sorter, extra) => {
                   setPage(pagination.current)
+                  setTableTranInfoData(extra.currentDataSource)
+                  // console.log(filters)
+                  // console.log(sorter)
+                  // console.log(extra)
                   // setTransInfo(extra.currentDataSource)
                   // console.log(extra.currentDataSource)
                 }}
@@ -288,11 +304,12 @@ export const TableResult =
                   //   customerServiceEnquiry.setTmpEnquiryRow(transInfo)
                   // },
                 })}
-                columns={clmPartnerInfo(handleSearch, handleReset)} dataSource={JSON.parse(JSON.stringify(customerServiceEnquiry.dataGetListCustomerService))}
+                columns={clmPartnerInfo(handleSearch, handleReset)} dataSource={tableTranInfoData}
                 pagination={{ current: page, }}
                 size="small"
                 onChange={(pagination, filters, sorter, extra) => {
                   setPage(pagination.current)
+                  setTableTranInfoData(extra.currentDataSource)
                   // setTransInfo(extra.currentDataSource)
                   // console.log(extra.currentDataSource)
                 }}
@@ -310,11 +327,12 @@ export const TableResult =
                   //   customerServiceEnquiry.setTmpEnquiryRow(transInfo)
                   // },
                 })}
-                columns={clmAccInfo(handleSearch, handleReset)} dataSource={JSON.parse(JSON.stringify(customerServiceEnquiry.dataGetListCustomerService))}
+                columns={clmAccInfo(handleSearch, handleReset)} dataSource={tableTranInfoData}
                 pagination={{ current: page, }}
                 size="small"
                 onChange={(pagination, filters, sorter, extra) => {
                   setPage(pagination.current)
+                  setTableTranInfoData(extra.currentDataSource)
                   // setTransInfo(extra.currentDataSource)
                   // console.log(extra.currentDataSource)
                 }}
@@ -332,11 +350,12 @@ export const TableResult =
                   //   customerServiceEnquiry.setTmpEnquiryRow(transInfo)
                   // },
                 })}
-                columns={clmTxn(handleSearch, handleReset)} dataSource={JSON.parse(JSON.stringify(customerServiceEnquiry.dataGetListCustomerService))}
+                columns={clmTxn(handleSearch, handleReset)} dataSource={tableTranInfoData}
                 pagination={{ current: page, }}
                 size="small"
                 onChange={(pagination, filters, sorter, extra) => {
                   setPage(pagination.current)
+                  setTableTranInfoData(extra.currentDataSource)
                   // setTransInfo(extra.currentDataSource)
                   // console.log(extra.currentDataSource)
                 }}
