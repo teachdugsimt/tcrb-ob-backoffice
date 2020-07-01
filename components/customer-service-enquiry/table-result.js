@@ -248,11 +248,11 @@ export const TableResult =
                 filtered={true}
                 onChange={(e) => setPage(e.current)}
                 onRow={(item, index) => ({
-                  onClick: () => {
-                    let tmpList = allList.find(e => e.no == item.no)
-                    console.log("ITEM CLICK : ", tmpList)
-                    customerServiceEnquiry.setTmpEnquiryRow(tmpList)
-                  },
+                  // onClick: () => {
+                  //   let tmpList = allList.find(e => e.no == item.no)
+                  //   console.log("ITEM CLICK : ", tmpList)
+                  //   customerServiceEnquiry.setTmpEnquiryRow(tmpList)
+                  // },
                 })}
                 columns={clmPartnerInfo(handleSearch, handleReset)} dataSource={JSON.parse(JSON.stringify(customerServiceEnquiry.dataGetListCustomerService))}
                 pagination={{ current: page, }}
@@ -264,11 +264,11 @@ export const TableResult =
                 filtered={true}
                 onChange={(e) => setPage(e.current)}
                 onRow={(item, index) => ({
-                  onClick: () => {
-                    let tmpList = allList.find(e => e.no == item.no)
-                    console.log("ITEM CLICK : ", tmpList)
-                    customerServiceEnquiry.setTmpEnquiryRow(tmpList)
-                  },
+                  // onClick: () => {
+                  //   let tmpList = allList.find(e => e.no == item.no)
+                  //   console.log("ITEM CLICK : ", tmpList)
+                  //   customerServiceEnquiry.setTmpEnquiryRow(tmpList)
+                  // },
                 })}
                 columns={clmAccInfo(handleSearch, handleReset)} dataSource={JSON.parse(JSON.stringify(customerServiceEnquiry.dataGetListCustomerService))}
                 pagination={{ current: page, }}
@@ -280,11 +280,11 @@ export const TableResult =
                 filtered={true}
                 onChange={(e) => setPage(e.current)}
                 onRow={(item, index) => ({
-                  onClick: () => {
-                    let tmpList = allList.find(e => e.no == item.no)
-                    console.log("ITEM CLICK : ", tmpList)
-                    customerServiceEnquiry.setTmpEnquiryRow(tmpList)
-                  },
+                  // onClick: () => {
+                  //   let tmpList = allList.find(e => e.no == item.no)
+                  //   console.log("ITEM CLICK : ", tmpList)
+                  //   customerServiceEnquiry.setTmpEnquiryRow(tmpList)
+                  // },
                 })}
                 columns={clmTxn(handleSearch, handleReset)} dataSource={JSON.parse(JSON.stringify(customerServiceEnquiry.dataGetListCustomerService))}
                 pagination={{ current: page, }}

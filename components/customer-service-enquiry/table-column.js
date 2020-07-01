@@ -17,9 +17,9 @@ export const clmTranInfo = (handleSearch, handleReset) => {
     },
     {
       title: 'Entity',
-      key: 'partner_code',
-      dataIndex: 'partner_code',
-      ...getColumnSearchProps('partner_code', handleSearch, handleReset, 'Entity')
+      key: 'parent_partner_code',
+      dataIndex: 'parent_partner_code',
+      ...getColumnSearchProps('parent_partner_code', handleSearch, handleReset, 'Entity')
 
     },
     {

@@ -31,24 +31,34 @@ class CustomerServiceEnquiry {
       if (temp && temp.data && temp.data.responseData.transactions.length > 0) {
         let tmp_data = JSON.parse(JSON.stringify(temp.data.responseData.transactions))
         let addNoData = tmp_data.map((e, i) => {
+          let tmp = JSON.parse(JSON.stringify(e))
           e.no = i + 1
           if (e.transaction_type == "TOPUP") {
-            e.product_type = e.receiver_product_type
-            e.account_no = e.sender_main_account_value
-            e.mobile_no = e.sender_proxy_value
-            e.tcrb_account_reference = e.sender_main_account_value
-            e.sub_account = e.sender_sub_account_value
-            e.account_name = e.sender_name
-            e.transaction_sub_type = "ob-1bfaeob9s990-de4451hzmq"
+            e.product_type = tmp.sender_product_type
+            e.account_no = tmp.sender_main_account_value
+            e.mobile_no = tmp.sender_proxy_value
+            e.tcrb_account_reference = tmp.sender_main_account_value
+            e.sub_account = tmp.sender_sub_account_value
+            e.account_name = tmp.sender_name
+            e.transaction_sub_type = "faeob9s990"
           }
           else if (e.transaction_type == "RPYMNT") {
-            e.product_type = e.sender_product_type
-            e.account_no = e.receiver_main_account_value
-            e.mobile_no = e.receiver_proxy_value
-            e.tcrb_account_reference = e.receiver_main_account_value
-            e.sub_account = e.receiver_sub_account_value
-            e.account_name = e.receiver_name
-            e.transaction_sub_type = "ob-1bfaeob9s990-de4451hzmq"
+            e.product_type = tmp.receiver_product_type
+            e.account_no = tmp.receiver_main_account_value
+            e.mobile_no = tmp.receiver_proxy_value
+            e.tcrb_account_reference = tmp.receiver_main_account_value
+            e.sub_account = tmp.receiver_sub_account_value
+            e.account_name = tmp.receiver_name
+            e.transaction_sub_type = "bfaeob9s990"
+          }
+          else {
+            e.product_type = tmp.receiver_product_type ? tmp.receiver_product_type : tmp.sender_product_type
+            e.account_no = tmp.receiver_main_account_value ? tmp.receiver_main_account_value : tmp.sender_main_account_value
+            e.mobile_no = tmp.receiver_proxy_value ? tmp.receiver_proxy_value : tmp.sender_proxy_value
+            e.tcrb_account_reference = tmp.receiver_main_account_value ? tmp.receiver_main_account_value : tmp.sender_main_account_value
+            e.sub_account = tmp.receiver_sub_account_value ? tmp.receiver_sub_account_value : tmp.sender_sub_account_value
+            e.account_name = tmp.receiver_name ? tmp.receiver_name : tmp.sender_name
+            e.transaction_sub_type = "bfaeob9s990"
           }
           return e
         })
