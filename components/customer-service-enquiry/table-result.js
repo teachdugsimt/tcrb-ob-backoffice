@@ -91,10 +91,10 @@ export const TableResult =
         })
 
         setTransInfo(list1)
-        // setPartnerInfo(list2)
-        // setAccInfo(list3)
-        // setTxnInfo(list4)
-        // setallList(groupList)
+        setPartnerInfo(list2)
+        setAccInfo(list3)
+        setTxnInfo(list4)
+        setallList(groupList)
       }
 
       const handleSearch = (selectedKeys, confirm, dataIndex) => {
@@ -255,7 +255,8 @@ export const TableResult =
                 pagination={{ current: page, }}
                 size="small"
                 onChange={(pagination, filters, sorter, extra) => {
-                  setTransInfo(extra.currentDataSource)
+                  setPage(pagination.current)
+                  // setTransInfo(extra.currentDataSource)
                   // console.log(extra.currentDataSource)
                 }}
               />
@@ -266,15 +267,20 @@ export const TableResult =
 
                 onChange={(e) => setPage(e.current)}
                 onRow={(item, index) => ({
-                  onClick: () => {
-                    let tmpList = allList.find(e => e.no == item.no)
-                    console.log("ITEM CLICK : ", tmpList)
-                    customerServiceEnquiry.setTmpEnquiryRow(transInfo)
-                  },
+                  // onClick: () => {
+                  //   let tmpList = allList.find(e => e.no == item.no)
+                  //   console.log("ITEM CLICK : ", tmpList)
+                  //   customerServiceEnquiry.setTmpEnquiryRow(transInfo)
+                  // },
                 })}
-                columns={clmPartnerInfo(handleSearch, handleReset)} dataSource={transInfo}
+                columns={clmPartnerInfo(handleSearch, handleReset)} dataSource={partnerInfo}
                 pagination={{ current: page, }}
                 size="small"
+                onChange={(pagination, filters, sorter, extra) => {
+                  setPage(pagination.current)
+                  // setTransInfo(extra.currentDataSource)
+                  // console.log(extra.currentDataSource)
+                }}
               />
             </div>
             <div>
@@ -282,15 +288,20 @@ export const TableResult =
                 filtered={true}
                 onChange={(e) => setPage(e.current)}
                 onRow={(item, index) => ({
-                  onClick: () => {
-                    let tmpList = allList.find(e => e.no == item.no)
-                    console.log("ITEM CLICK : ", tmpList)
-                    customerServiceEnquiry.setTmpEnquiryRow(transInfo)
-                  },
+                  // onClick: () => {
+                  //   let tmpList = allList.find(e => e.no == item.no)
+                  //   console.log("ITEM CLICK : ", tmpList)
+                  //   customerServiceEnquiry.setTmpEnquiryRow(transInfo)
+                  // },
                 })}
-                columns={clmAccInfo(handleSearch, handleReset)} dataSource={transInfo}
+                columns={clmAccInfo(handleSearch, handleReset)} dataSource={accInfo}
                 pagination={{ current: page, }}
                 size="small"
+                onChange={(pagination, filters, sorter, extra) => {
+                  setPage(pagination.current)
+                  // setTransInfo(extra.currentDataSource)
+                  // console.log(extra.currentDataSource)
+                }}
               />
             </div>
             <div>
@@ -298,15 +309,20 @@ export const TableResult =
                 filtered={true}
                 onChange={(e) => setPage(e.current)}
                 onRow={(item, index) => ({
-                  onClick: () => {
-                    let tmpList = allList.find(e => e.no == item.no)
-                    console.log("ITEM CLICK : ", tmpList)
-                    customerServiceEnquiry.setTmpEnquiryRow(transInfo)
-                  },
+                  // onClick: () => {
+                  //   let tmpList = allList.find(e => e.no == item.no)
+                  //   console.log("ITEM CLICK : ", tmpList)
+                  //   customerServiceEnquiry.setTmpEnquiryRow(transInfo)
+                  // },
                 })}
-                columns={clmTxn(handleSearch, handleReset)} dataSource={transInfo}
+                columns={clmTxn(handleSearch, handleReset)} dataSource={txnInfo}
                 pagination={{ current: page, }}
                 size="small"
+                onChange={(pagination, filters, sorter, extra) => {
+                  setPage(pagination.current)
+                  // setTransInfo(extra.currentDataSource)
+                  // console.log(extra.currentDataSource)
+                }}
               />
             </div>
           </Carousel>
