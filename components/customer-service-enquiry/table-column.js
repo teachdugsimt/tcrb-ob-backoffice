@@ -14,6 +14,7 @@ export const clmTranInfo = (handleSearch, handleReset) => {
       dataIndex: 'date',
       key: 'date',
       ...getColumnSearchProps('date', handleSearch, handleReset, 'Tran Time'),
+      render: (text, record) => moment(text).format('ll')
     },
     {
       title: 'Entity',
