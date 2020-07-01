@@ -1,6 +1,6 @@
 import React, { useState, useEffect, createRef } from 'react'
 import { DeleteOutlined, SettingOutlined, FormOutlined } from '@ant-design/icons';
-import { Table, Row, Col, Menu, Card, Input, Select, Form, InputNumber } from 'antd'
+import { Table, Row, Col, Menu, Card, Input, Select, Form, InputNumber, Divider } from 'antd'
 import { green, gold } from '@ant-design/colors';
 import { inject, observer } from 'mobx-react'
 import { withTranslation } from '../../i18n'
@@ -11,6 +11,7 @@ import SimpleInput from '../simple-input'
 import SimpleModal from '../simple-modal'
 import { TcrbButton, TcrbPopconfirm } from '../antd-styles/styles'
 import { addKeyToDataSource } from '../data-utility'
+import { columnPartnerList } from './table-columns'
 
 const { Option } = Select;
 let txnLimit = null
@@ -394,31 +395,34 @@ const ProductLimitSetup =
 
       const detailProduct = () => {
         return (
-          <div>
-            <Card style={{ padding: 8 }}>
-              <Row gutter={[4, 24]}>
-                <Col span={6}>Product_Code</Col>
-                <Col span={12}>{businessParametersSetupStore.productLimitDetail.product_type}</Col>
-              </Row>
-              <Row gutter={[4, 24]}>
-                <Col span={6}>Product_Description</Col>
-                <Col span={12}>{businessParametersSetupStore.productLimitDetail.product_description}</Col>
-              </Row>
-            </Card>
-            <Card>
-              <Row gutter={[4, 24]}>
-                <Col span={6}>All-Channel Txn Limit</Col>
-                <Col span={12}>{businessParametersSetupStore.productLimitDetail.transaction_limit}</Col>
-              </Row>
-              <Row gutter={[4, 24]}>
-                <Col span={6}>All-Channel Daily Limit</Col>
-                <Col span={12}>{businessParametersSetupStore.productLimitDetail.daily_limit}</Col>
-              </Row>
-            </Card>
-            <Card>
-              {/* <AddAndChangeLimitPartner /> */}
-              {addAndChangeLimitPartner()}
-            </Card>
+          <div style={{ padding: 24 }}>
+            <Row gutter={[4, 24]}>
+              <Col span={6}>Product_Code</Col>
+              <Col span={6}>{businessParametersSetupStore.productLimitDetail.product_type}</Col>
+              <Col span={6}>Product_Description</Col>
+              <Col span={6}>{businessParametersSetupStore.productLimitDetail.product_description}</Col>
+            </Row>
+            <Row gutter={[4, 24]}>
+              <Col span={6}>All-Channel Txn Limit</Col>
+              <Col span={6}>{businessParametersSetupStore.productLimitDetail.transaction_limit}</Col>
+              <Col span={6}>All-Channel Daily Limit</Col>
+              <Col span={6}>{businessParametersSetupStore.productLimitDetail.daily_limit}</Col>
+            </Row>
+            <Row justify="end" style={{ marginTop: 8 }}>
+              <Col span={2}>
+                <TcrbButton className="default" onClick={() => goBackProductList()} shape="round">Back</TcrbButton>
+              </Col>
+              <Col span={2}>
+                <TcrbButton shape="round" className="primary" onClick={() => { prepareAllLimitToSubmitAndUpdate() }} disabled={showLimitPartner == false}>Submit</TcrbButton>
+              </Col>
+            </Row>
+            <Divider />
+            <Table
+              bordered
+              dataSource={dataSource}
+              columns={columnPartnerList}
+              size="small"
+            />
           </div>
         )
       }
@@ -433,7 +437,7 @@ const ProductLimitSetup =
                   marginBottom: 16,
                 }}
                 disabled={disabledButtonAddRow}
-                className="primary">Add a row</TcrbButton>
+                className="primary">Add a Product</TcrbButton>
             </Row>
             <Row>
               <Col flex={100}>
@@ -517,4 +521,4 @@ const ProductLimitSetup =
       }
       return (viewDetailProduct) ? detailProduct() : (viewSpecificProduct ? addAndChangeLimitPartner() : productLimitList())
     }))
-export default withTranslation('common')(ProductLimitSetup)
+// export default withTranslation('common')(ProductLimitSetup)

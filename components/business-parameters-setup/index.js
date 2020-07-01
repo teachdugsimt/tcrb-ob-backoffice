@@ -5,7 +5,6 @@ import ProductLimitSetup from './product-limit-setup'
 import { withTranslation } from '../../i18n'
 import { TcrbTabs, TcrbSpin } from '../antd-styles/styles'
 import { inject, observer } from 'mobx-react'
-
 const { TabPane } = Tabs
 
 
