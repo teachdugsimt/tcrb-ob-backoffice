@@ -18,6 +18,13 @@ export const SearchBox =
       const [end, setend] = useState("")
       const [visibleDate, setvisibleDate] = useState(false)
 
+      const [objDay, setobjDay] = useState({
+        from_date: "",
+        to_date: "",
+        from_time: "",
+        to_time: "",
+      })
+
       function handleMenuClick(e) {
         message.info('Click on menu item.');
         setCurrentSearch(e.item.props.index)
@@ -52,56 +59,96 @@ export const SearchBox =
         </Menu>
       );
 
-      // const _handleSearch = (value) => {
-      //   let focus_menu = menuName[currentSearch]
-      //   let text_search = value
-      //   let list_item = JSON.parse(JSON.stringify(data))
-      //   if (value && value != "") {
-      //     if (focus_menu == "Search by ID Card Number") {
-      //       // let tmp = list_item.filter(e => e.citizen_id.includes(text_search))
-      //       // customerServiceEnquiry.setListData(tmp)
-      //     }
-      //     else if (focus_menu == "Search by Account No") {
-      //       // let tmp = list_item.filter(e => e.main_account_no.includes(text_search) || e.sub_account_no.includes(text_search))
-      //       // customerServiceEnquiry.setListData(tmp)
-      //     }
-      //     else if (focus_menu == "Search by Entity") {
-      //       // let tmp = list_item.filter(e => e.parent_partner_code.includes(text_search))
-      //       // customerServiceEnquiry.setListData(tmp)
-      //     }
-      //     else if (focus_menu == "Search by Entity and Channel") {
-      //       // let tmp = list_item.filter(e => e.channel.includes(text_search))
-      //       // customerServiceEnquiry.setListData(tmp)
-      //     }
-      //     else if (focus_menu == "Search by Product Type") {
-      //       // let tmp = list_item.filter(e => e.product_type.includes(text_search))
-      //       // customerServiceEnquiry.setListData(tmp)
-      //     } else {
-      //       // SEARCH ALL
-      //       // let citizen = list_item.filter(e => e.citizen_id.includes(text_search))
-      //       // let main_account_no = list_item.filter(e => e.main_account_no.includes(text_search) || e.sub_account_no.includes(text_search))
-      //       // let parent_partner_code = list_item.filter(e => e.parent_partner_code.includes(text_search))
-      //       // let channel = list_item.filter(e => e.channel.includes(text_search))
-      //       // let product_type = list_item.filter(e => e.product_type.includes(text_search))
-      //       // let tmp = [...citizen, ...main_account_no, ...parent_partner_code, ...channel, ...product_type]
-      //       // console.log("SEARCH ALL : ", tmp)
-      //       // if (tmp.length > 0)
-      //       //   customerServiceEnquiry.setListData(tmp)
-      //       // else
-      //       //   customerServiceEnquiry.setListData(data)
-      //     }
-      //   } else {
-      //     if (currentSearch == 6) {
-      //       // let tmp = list_item.filter(e => moment((e.date).toString()).format('l') >= start && moment((e.date).toString()).format('l') <= end)
-      //       // customerServiceEnquiry.setListData(tmp)
-      //     } else {
-      //       // customerServiceEnquiry.setListData(data)
-      //     }
-      //   }
-      // }
+      const _handleSearch = (value) => {
+
+        console.log(menuName[currentSearch])
+        console.log("Search Text : ", value)
+
+        let focus_menu = menuName[currentSearch]
+        let text_search = value
+        // let list_item = JSON.parse(JSON.stringify(data))
+        if (value && value != "") {
+          if (focus_menu == "Search by ID Card Number") {
+            customerServiceEnquiry.getListCustomerServicesEnquiry({
+              filter: {
+                where: {
+                  citizen_id: text_search
+                  // test : 912f74047dd8964c382a6d6287f0ed12
+                }
+              }
+            })
+          }
+          else if (focus_menu == "Search by Account No") {
+            customerServiceEnquiry.getListCustomerServicesEnquiry({
+              filter: {
+                where: {
+                  account_no: text_search
+                  // main account / sub account
+                }
+              }
+            })
+          }
+          else if (focus_menu == "Search by Entity") {
+            customerServiceEnquiry.getListCustomerServicesEnquiry({
+              filter: {
+                where: {
+                  entity: text_search
+                }
+                // parent partner code
+              }
+            })
+          }
+          else if (focus_menu == "Search by Entity and Channel") {
+            customerServiceEnquiry.getListCustomerServicesEnquiry({
+              filter: {
+                where: {
+                  entity_channel: text_search
+                }
+              }
+            })
+          }
+          else if (focus_menu == "Search by Product Type") {
+            customerServiceEnquiry.getListCustomerServicesEnquiry({
+              filter: {
+                where: {
+                  product_type: text_search
+                }
+              }
+            })
+          } else {
+            customerServiceEnquiry.getListCustomerServicesEnquiry({
+              filter: {
+                where: {
+                  full_text_search: text_search
+                }
+              }
+            })
+          }
+        } else {
+          if (currentSearch == 6) { // Search by date
+            if (start && end) {
+              customerServiceEnquiry.getListCustomerServicesEnquiry({
+                filter: {
+                  where: {
+                    from_date: objDay.from_date,
+                    to_date: objDay.to_date,
+                    from_time: objDay.from_time,
+                    to_time: objDay.to_time,
+                  }
+                }
+              })
+            }
+          } else { // search all && no vlaue
+            customerServiceEnquiry.getListCustomerServicesEnquiry({ filter: {} })
+            // customerServiceEnquiry.setListData(data)
+          }
+        }
+      }
 
       console.log("START : ", start)
       console.log("END : ", end)
+      console.log("Date all : ", dateValue)
+      console.log("currentSearch : ",currentSearch)
       return (
         <div>
           <div style={{ display: 'flex', justifyContent: 'space-between' }}>
@@ -112,10 +159,6 @@ export const SearchBox =
             </Dropdown>
             <Search placeholder="input search text"
               onSearch={value => _handleSearch(value)}
-              // onSearch={value => {
-              //   console.log(menuName[currentSearch])
-              //   console.log("Search Text : ", value)
-              // }}
               enterButton />
           </div>
           <div style={{ marginTop: 10 }}>
@@ -134,8 +177,17 @@ export const SearchBox =
                   let tmp_end = JSON.parse(JSON.stringify(e[1]))
                   let startDate = moment(tmp_start).format('l')
                   let endDate = moment(tmp_end).format('l')
+
+                  let allTemp = {
+                    from_date: moment(tmp_start).format('YYYYMMDD'),
+                    to_date: moment(tmp_end).format('YYYYMMDD'),
+                    from_time: moment(tmp_start).format('HHmmss'),
+                    to_time: moment(tmp_end).format("HHmmss"),
+                  }
+
                   setstart(startDate)
                   setend(endDate)
+                  setobjDay(allTemp)
                   setdate(e)
                 } else setCurrentSearch(0)
               }} />}

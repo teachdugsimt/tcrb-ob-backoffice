@@ -122,7 +122,7 @@ export const TableResult =
       useEffect(() => {
         // getListCustomerServicesEnquiry
         // customerServiceEnquiry.getListCustomerServicesEnquiry({ filter: {} })
-        _buildListData()
+        // _buildListData()
       }, [])
 
       useEffect(() => {
@@ -134,7 +134,7 @@ export const TableResult =
       }, [customerServiceEnquiry.dataGetListCustomerService])
 
       useEffect(() => {
-        _buildListData()
+        // _buildListData()
       }, [customerServiceEnquiry.tmpListData])
 
       const PrevArrow = (props) => {
@@ -252,7 +252,7 @@ export const TableResult =
         </TcrbTabs>
       )*/
       return (
-        <div>
+        <div style={{ paddingTop: 10 }}>
           <div style={{ display: 'flex', flexDirection: 'row' }}>
             {/* {
               searchText.map(e => {

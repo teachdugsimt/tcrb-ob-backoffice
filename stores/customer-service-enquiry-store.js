@@ -11,6 +11,9 @@ class CustomerServiceEnquiry {
   @observable dataGetListCustomerService = null
   @observable errorGetListCustomerService = null
 
+  @observable customer_data = null
+  @observable onboarded_services = null
+
   @persist @observable persistRow = null
 
   @action setListData = (data) => {
@@ -30,6 +33,8 @@ class CustomerServiceEnquiry {
       this.fetchingGetListCustomerService = false
       if (temp && temp.data && temp.data.responseData.transactions.length > 0) {
         let tmp_data = JSON.parse(JSON.stringify(temp.data.responseData.transactions))
+        this.customer_data = JSON.parse(JSON.stringify(temp.data.responseData.customer))
+        this.onboarded_services = JSON.parse(JSON.stringify(temp.data.responseData.onboarded_services))
         let addNoData = tmp_data.map((e, i) => {
           let tmp = JSON.parse(JSON.stringify(e))
           e.no = i + 1
@@ -69,7 +74,8 @@ class CustomerServiceEnquiry {
       this.errorGetListCustomerService = null
     } else {
       this.fetchingGetListCustomerService = false
-      this.errorGetListCustomerService = get(temp, 'data.developerMessage', 'Unknown Error')
+      this.errorGetListCustomerService = { error: temp.problem, status: temp.status }
+      // this.errorGetListCustomerService = get(temp, 'data.developerMessage', 'Unknown Error')
     }
   }
 
