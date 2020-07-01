@@ -100,7 +100,7 @@ export const TableResult =
 
       useEffect(() => {
         // getListCustomerServicesEnquiry
-        customerServiceEnquiry.getListCustomerServicesEnquiry({ filter: {} })
+        // customerServiceEnquiry.getListCustomerServicesEnquiry({ filter: {} })
         _buildListData()
       }, [])
 
