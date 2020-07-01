@@ -22,7 +22,11 @@ export const getColumnSearchProps = (dataIndex, handleSearch, handleReset, titil
           onPressEnter={() => {
             setSearchedColumn(dataIndex)
             setSearchText(selectedKeys[0])
-            handleSearch(selectedKeys, confirm, dataIndex)
+            if (!selectedKeys[0]) {
+              handleReset(clearFilters)
+            } else {
+              handleSearch(selectedKeys, confirm, dataIndex)
+            }
           }}
           style={{ width: 188, marginBottom: 8, display: 'block' }}
         />
@@ -33,7 +37,11 @@ export const getColumnSearchProps = (dataIndex, handleSearch, handleReset, titil
               console.log(selectedKeys)
               setSearchedColumn(dataIndex)
               setSearchText(selectedKeys[0])
-              handleSearch(selectedKeys, confirm, dataIndex)
+              if (!selectedKeys[0]) {
+                handleReset(clearFilters)
+              } else {
+                handleSearch(selectedKeys, confirm, dataIndex)
+              }
             }}
             icon={<SearchOutlined />}
             size="small"
