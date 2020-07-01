@@ -196,14 +196,14 @@ const OtpSetup =
       }
 
       const _onConfirm = async () => {
-        let a = getValueFromStore("maximum")
-        let b = getValueFromStore("expire")
-        if (a != maximumOtp) {
+        let max = getValueFromStore("maximum")
+        let ex = getValueFromStore("expire")
+        if (max != maximumOtp) {
           console.log("update >>>", maximumOtp)
 
           let data = {
             currentData: {
-              OTP_MAXIMUM_ENTERED: a
+              OTP_MAXIMUM_ENTERED: max
             },
             newData: {
               OTP_MAXIMUM_ENTERED: maximumOtp
@@ -217,17 +217,17 @@ const OtpSetup =
           setdisMaximum(false)
           setEditExpiration(false)
           _setUnfocus("maximum")
-          setMaximum(a)
+          setMaximum(max)
           setTypeUpdate("Maximum OTP")
-          setFetching(true)
+          // setFetching(true)
           await businessParametersSetupStore.updateOTPdata(data)
 
         }
-        if (b != expireOtp) {
+        if (ex != expireOtp) {
           console.log("update >>>", expireOtp)
           let data = {
             currentData: {
-              OTP_EXPIRE_TIME: b
+              OTP_EXPIRE_TIME: ex
             },
             newData: {
               OTP_EXPIRE_TIME: expireOtp
@@ -242,9 +242,9 @@ const OtpSetup =
           setEditMaximum(false)
           setdisExpire(false)
           _setUnfocus("expire")
-          setExpire(b)
+          setExpire(ex)
           setTypeUpdate("Expire OTP")
-          setFetching(true)
+          // setFetching(true)
           await businessParametersSetupStore.updateOTPdata(data)
 
         }
@@ -262,7 +262,7 @@ const OtpSetup =
         }
       }
 
-      const _onCancel = () => {
+      const _onCancel = async () => {
         setVisible(false)
         let a = getValueFromStore("maximum")
         let b = getValueFromStore("expire")
@@ -289,6 +289,8 @@ const OtpSetup =
         expire.blur()
         maximum.style.color = "rgba(0, 0, 0, 0.65)"
         maximum.blur()
+
+        await businessParametersSetupStore.resetOTPrequest()
       }
 
       return (
