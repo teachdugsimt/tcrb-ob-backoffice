@@ -39,6 +39,7 @@ class CustomerServiceEnquiry {
             e.tcrb_account_reference = e.sender_main_account_value
             e.sub_account = e.sender_sub_account_value
             e.account_name = e.sender_name
+            e.transaction_sub_type = "ob-1bfaeob9s990-de4451hzmq"
           }
           else if (e.transaction_type == "RPYMNT") {
             e.product_type = e.sender_product_type
@@ -47,6 +48,7 @@ class CustomerServiceEnquiry {
             e.tcrb_account_reference = e.receiver_main_account_value
             e.sub_account = e.receiver_sub_account_value
             e.account_name = e.receiver_name
+            e.transaction_sub_type = "ob-1bfaeob9s990-de4451hzmq"
           }
           return e
         })

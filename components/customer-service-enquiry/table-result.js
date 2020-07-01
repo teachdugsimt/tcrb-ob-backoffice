@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { inject, observer } from 'mobx-react'
 import styled from 'styled-components';
-import { columnsTranInfo, columnsPartnerInfo, columnsAccInfo, columnsTxn, clmTab1 } from './table-column';
+import { columnsTranInfo, columnsPartnerInfo, columnsAccInfo, columnsTxn, clmTranInfo, clmPartnerInfo, clmAccInfo, clmTxn } from './table-column';
 import { Table, Tabs, Carousel } from 'antd';
 import { TcrbTabs } from '../antd-styles/styles'
 import { RightOutlined, LeftOutlined } from '@ant-design/icons';
@@ -176,7 +176,7 @@ export const TableResult =
                 }
               }}
               scroll={{ x: true }}
-              columns={clmTab1()} dataSource={transInfo}
+              columns={clmTranInfo()} dataSource={transInfo}
               pagination={{ current: page, }}
             />
           </TabPane>
@@ -238,7 +238,7 @@ export const TableResult =
               <Table
                 filtered={true}
                 onChange={(e) => setPage(e.current)}
-                columns={clmTab1(handleSearch, handleReset)} dataSource={JSON.parse(JSON.stringify(customerServiceEnquiry.dataGetListCustomerService))}
+                columns={clmTranInfo(handleSearch, handleReset)} dataSource={JSON.parse(JSON.stringify(customerServiceEnquiry.dataGetListCustomerService))}
                 pagination={{ current: page, }}
                 size="small"
               />
@@ -254,7 +254,7 @@ export const TableResult =
                     customerServiceEnquiry.setTmpEnquiryRow(tmpList)
                   },
                 })}
-                columns={columnsPartnerInfo} dataSource={JSON.parse(JSON.stringify(customerServiceEnquiry.dataGetListCustomerService))}
+                columns={clmPartnerInfo(handleSearch, handleReset)} dataSource={JSON.parse(JSON.stringify(customerServiceEnquiry.dataGetListCustomerService))}
                 pagination={{ current: page, }}
                 size="small"
               />
@@ -270,7 +270,7 @@ export const TableResult =
                     customerServiceEnquiry.setTmpEnquiryRow(tmpList)
                   },
                 })}
-                columns={columnsAccInfo} dataSource={JSON.parse(JSON.stringify(customerServiceEnquiry.dataGetListCustomerService))}
+                columns={clmAccInfo(handleSearch, handleReset)} dataSource={JSON.parse(JSON.stringify(customerServiceEnquiry.dataGetListCustomerService))}
                 pagination={{ current: page, }}
                 size="small"
               />
@@ -286,7 +286,7 @@ export const TableResult =
                     customerServiceEnquiry.setTmpEnquiryRow(tmpList)
                   },
                 })}
-                columns={columnsTxn} dataSource={JSON.parse(JSON.stringify(customerServiceEnquiry.dataGetListCustomerService))}
+                columns={clmTxn(handleSearch, handleReset)} dataSource={JSON.parse(JSON.stringify(customerServiceEnquiry.dataGetListCustomerService))}
                 pagination={{ current: page, }}
                 size="small"
               />
