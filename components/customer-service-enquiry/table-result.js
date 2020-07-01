@@ -87,7 +87,6 @@ export const TableResult =
       const handleSearch = (selectedKeys, confirm, dataIndex) => {
         confirm();
         console.log(dataIndex)
-        console.log(selectedKeys)
         // this.setState({
         //   searchText: selectedKeys[0],
         //   searchedColumn: dataIndex,
@@ -239,7 +238,7 @@ export const TableResult =
               <Table
                 filtered={true}
                 onChange={(e) => setPage(e.current)}
-                columns={clmTab1(handleSearch, handleReset)} dataSource={transInfo}
+                columns={clmTab1(handleSearch, handleReset)} dataSource={JSON.parse(JSON.stringify(customerServiceEnquiry.dataGetListCustomerService))}
                 pagination={{ current: page, }}
                 size="small"
               />
@@ -255,7 +254,7 @@ export const TableResult =
                     customerServiceEnquiry.setTmpEnquiryRow(tmpList)
                   },
                 })}
-                columns={columnsPartnerInfo} dataSource={partnerInfo}
+                columns={columnsPartnerInfo} dataSource={JSON.parse(JSON.stringify(customerServiceEnquiry.dataGetListCustomerService))}
                 pagination={{ current: page, }}
                 size="small"
               />
@@ -271,7 +270,7 @@ export const TableResult =
                     customerServiceEnquiry.setTmpEnquiryRow(tmpList)
                   },
                 })}
-                columns={columnsAccInfo} dataSource={accInfo}
+                columns={columnsAccInfo} dataSource={JSON.parse(JSON.stringify(customerServiceEnquiry.dataGetListCustomerService))}
                 pagination={{ current: page, }}
                 size="small"
               />
@@ -287,7 +286,7 @@ export const TableResult =
                     customerServiceEnquiry.setTmpEnquiryRow(tmpList)
                   },
                 })}
-                columns={columnsTxn} dataSource={txnInfo}
+                columns={columnsTxn} dataSource={JSON.parse(JSON.stringify(customerServiceEnquiry.dataGetListCustomerService))}
                 pagination={{ current: page, }}
                 size="small"
               />
