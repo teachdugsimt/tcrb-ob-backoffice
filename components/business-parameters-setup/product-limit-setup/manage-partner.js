@@ -254,6 +254,11 @@ const managePartner =
       return (
         <div style={{ padding: 24 }}>
           <Row gutter={[4, 24]}>
+            <Col span={2}>
+              <TcrbButton className="default" onClick={() => goBackToProductList()} shape="round">Back</TcrbButton>
+            </Col>
+          </Row>
+          <Row gutter={[4, 24]}>
             <Col span={6}>Product_Code</Col>
             <Col span={6}>{businessParametersSetupStore.productLimitDetail.product_type}</Col>
             <Col span={6}>Product_Description</Col>
@@ -276,9 +281,9 @@ const managePartner =
             </Col>
           </Row>
           <Row justify="end" style={{ marginTop: 8 }}>
-            <Col span={2}>
+            {/* <Col span={2}>
               <TcrbButton className="default" onClick={() => goBackToProductList()} shape="round">Back</TcrbButton>
-            </Col>
+            </Col> */}
             <Col span={4}>
               {isEnableEditButton ? (
                 <TcrbButton shape="round" className="primary" onClick={() => { setEditEnableLimit() }}>Edit</TcrbButton>

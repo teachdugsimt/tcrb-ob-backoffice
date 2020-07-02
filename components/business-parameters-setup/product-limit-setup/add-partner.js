@@ -72,6 +72,11 @@ const AddPartner =
       return (
         <div>
           <Row gutter={[4, 24]}>
+            <Col span={2}>
+              <TcrbButton className="default" onClick={() => goBackToProductList()} shape="round">Back</TcrbButton>
+            </Col>
+          </Row>
+          <Row gutter={[4, 24]}>
             <Col span={6}>Channel/Partner</Col>
             <Col span={6} flex={100}>
               {/* <SimpleMenu options={optionList} onChange={(e) => { selectPartnerChanel(e) }} /> */}
@@ -105,9 +110,6 @@ const AddPartner =
             </div>
           ) : ('')}
           <Row justify="center" style={{ marginTop: 8 }}>
-            <Col span={2}>
-              <TcrbButton className="default" onClick={() => goBackToProductList()} shape="round">Back</TcrbButton>
-            </Col>
             <Col span={2}>
               <TcrbButton shape="round" className="primary" onClick={() => { prepareAllLimitToSubmitAndUpdate() }} disabled={showLimitPartner == false}>Submit</TcrbButton>
             </Col>

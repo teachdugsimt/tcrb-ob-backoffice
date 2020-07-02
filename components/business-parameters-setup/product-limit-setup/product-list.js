@@ -9,6 +9,7 @@ import { toJS } from 'mobx'
 import { TcrbButton, TcrbPopconfirm } from '../../antd-styles/styles'
 import { addKeyToDataSource, addCommaInData } from '../../data-utility'
 
+const { Option } = Select;
 
 const ProductList =
   inject('businessParametersSetupStore')
@@ -85,6 +86,7 @@ const ProductList =
                 {dataIndex == 'product_type' ? (
                   <Select
                     style={{ width: '100%' }}
+                    onChange={(e) => console.log(e)}
                   >
                     {productList.map((item, index) => <Option key={index} value={item.product_code}>{item.product_type}</Option>)}
                   </Select>) : (
@@ -117,11 +119,12 @@ const ProductList =
       const submitAddnewProduct = async (key) => {
         // Call api to update record status
         const row = await form.validateFields();
-        row.status = '2'
+        // row.status = '2' //waiting confirm now use call new api
         row.transaction_code = "6931"
         let indexProduct = productList.findIndex(item => row.product_code === item.product_code)
         row.product_type = productList[indexProduct].product_type
-        const newData = [...dataSource];
+        //waiting confirm
+        /* const newData = [...dataSource];
         const index = newData.findIndex(item => key === item.key);
         if (index > -1) {
           const item = newData[index];
@@ -132,7 +135,8 @@ const ProductList =
           newData.push(row);
           setDataSource(newData);
           setEditingKey('');
-        }
+        } */
+        setEditingKey('');
         setDisabledButtonAddRow(false)
         businessParametersSetupStore.addNewProductLimit(row)
       }
@@ -208,7 +212,11 @@ const ProductList =
         }
       }
       const renderActionSpecificHandler = (record) => {
-        return <div style={{ textAlign: "center" }}><a onClick={() => selectProductToSpecificLimit(record)}><ApartmentOutlined style={{ fontSize: '18px', color: '#FBA928' }} /></a></div>
+        if (record.status === '1') {
+          return <div style={{ textAlign: "center" }}><a onClick={() => selectProductToSpecificLimit(record)}><ApartmentOutlined style={{ fontSize: '18px', color: '#FBA928' }} /></a></div>
+        } else {
+          return null
+        }
       }
       const columns = [
         {
@@ -221,31 +229,39 @@ const ProductList =
           dataIndex: 'product_type',
           width: '5%',
           editable: true,
-          render: (text, record) => addCommaInData(text, false)
+          sorter: (a, b) => a.product_type.localeCompare(b.product_type),
+          render: (text, record) => addCommaInData(text, false),
+          sortDirections: ['descend', 'ascend'],
         },
         {
           title: 'Product_Description',
           dataIndex: 'product_description',
-          editable: true,
-          render: (text, record) => addCommaInData(text, false)
+          // editable: true,
+          render: (text, record) => addCommaInData(text, false),
+          sorter: (a, b) => a.product_description.localeCompare(b.product_description),
+          sortDirections: ['descend', 'ascend'],
         },
         {
           title: 'All-Channel Txn Limit',
           dataIndex: 'transaction_limit',
           editable: true,
-          render: (text, record) => addCommaInData(text, true)
+          render: (text, record) => addCommaInData(text, true),
+          sorter: (a, b) => a.product_description.localeCompare(b.product_description),
+          sortDirections: ['descend', 'ascend'],
         },
         {
           title: 'All-Channel Daily Limit',
           dataIndex: 'daily_limit',
           editable: true,
-          render: (text, record) => addCommaInData(text, true)
+          render: (text, record) => addCommaInData(text, true),
+          sorter: (a, b) => a.daily_limit.localeCompare(b.daily_limit),
+          sortDirections: ['descend', 'ascend'],
         },
         {
           title: 'Specific Channel Limit',
           dataIndex: 'Specific',
           // editable: true,
-          render: (text, record) => renderActionSpecificHandler(text, record)
+          render: (text, record) => renderActionSpecificHandler(record)
         },
         {
           title: 'Action',
