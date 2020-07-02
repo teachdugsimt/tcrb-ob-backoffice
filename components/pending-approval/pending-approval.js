@@ -8,7 +8,7 @@ import {
   CheckCircleOutlined,
   CloseCircleOutlined,
 } from '@ant-design/icons';
-import { TcrbSpin } from '../antd-styles/styles'
+import { TcrbSpin, TcrbPopconfirm } from '../antd-styles/styles'
 import SimpleModal from '../simple-modal'
 import styled from 'styled-components'
 import moment from 'moment'
@@ -42,14 +42,10 @@ const PendingApprovals =
         const keys = Object.keys(data)
         return ReactDOMServer.renderToStaticMarkup(<table style={{ border: 1 }}>{keys.map((k, index) => {
           return <tr>
-            <td style={{ border: '1px solid lightgrey', width: 200, backgroundColor: '#eeeeee' }}>{k}</td>
-            <td style={{ border: '1px solid lightgrey', width: 200, textAlign: 'center' }}>{data[k]}</td>
+            <td style={{ border: '1px solid lightgrey', width: 200, paddingLeft: 10, backgroundColor: '#eeeeee' }}>{k}</td>
+            <td style={{ border: '1px solid lightgrey', width: 200, paddingLeft: 10 }}>{data[k]}</td>
           </tr>
         })}</table>)
-      }
-
-      const renderTest = () => {
-        return ReactDOMServer.renderToStaticMarkup(<div>abc</div>)
       }
 
       const columns = [
@@ -67,7 +63,6 @@ const PendingApprovals =
           render: (record) => {
             // console.table(record)
             let data = JSON.parse(JSON.stringify(record))
-            console.table(data)
             let string = JSON.parse(data.data)
 
             return <Row>
@@ -108,12 +103,16 @@ const PendingApprovals =
           key: 'action',
           render: (record) => (
             <Row gutter={16}>
-              <HoverIcon onClick={() => processPending("APPROVE", record)} className="gutter-row" span={6}>
-                <CheckCircleOutlined height={"1.5em"} width={"1.5em"} />
-              </HoverIcon>
-              <HoverIconReject onClick={() => processPending("REJECT", record)} className="gutter-row" span={6}>
-                <CloseCircleOutlined height={"1.5em"} width={"1.5em"} />
-              </HoverIconReject>
+              <TcrbPopconfirm title={"Confirm to Approve !!!"} onConfirm={() => processPending("APPROVE", record)} >
+                <HoverIcon className="gutter-row" span={6}>
+                  <CheckCircleOutlined height={"1.5em"} width={"1.5em"} />
+                </HoverIcon>
+              </TcrbPopconfirm>
+              <TcrbPopconfirm title={"Confirm to Reject !!!"} onConfirm={() => processPending("REJECT", record)} >
+                <HoverIconReject className="gutter-row" span={6}>
+                  <CloseCircleOutlined height={"1.5em"} width={"1.5em"} />
+                </HoverIconReject>
+              </TcrbPopconfirm>
             </Row>
           ),
         },
