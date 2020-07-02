@@ -23,7 +23,7 @@ class pendingApprovals {
   updatePendingList = () => {
     if (this.tmpPendingListID && this.responseProcessPendingList) {
       let old_id = JSON.parse(JSON.stringify(this.tmpPendingListID))
-      if (this.responseProcessPendingList.length >= 1) {
+      if (this.responseProcessPendingList.length <= 1) {
         this.responseProcessPendingList = []
       }
       else {
