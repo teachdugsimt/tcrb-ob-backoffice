@@ -91,7 +91,7 @@ const AddPartner =
           {(showLimitPartner) ? (
             <div>
               <Row>
-                <Col span={6}>
+                <Col span={6} offset={6}>
                   <SimpleInput readOnly={false} defaultValue={null} prefix={'Txn Limit'} onChange={(e) => { txnLimit = e }} />
                 </Col>
                 <Col span={2}>
@@ -99,7 +99,7 @@ const AddPartner =
                 </Col>
               </Row>
               <Row>
-                <Col span={6}>
+                <Col span={6} offset={6}>
                   <SimpleInput readOnly={false} defaultValue={null} prefix={'Daily Limit'} onChange={(e) => { dailyLimit = e }} />
                 </Col>
                 <Col span={2}>
