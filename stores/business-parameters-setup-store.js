@@ -122,12 +122,14 @@ class BusinessParameterSetup {
     }
   }
 
-  @action getDataOtpPendingList = async (params) => {
+  @action getDataOtpPendingList = async () => {
     this.apiLoading = true
-    let tmp = await BusinessParameterSetupApi.getOtpPendingList(params)
+    let tmp = await BusinessParameterSetupApi.getOtpPendingList()
     console.log(toJS(tmp))
     if (tmp.ok && tmp.status) {
       this.responseGetOtpPending = tmp.data.responseData
+      this.apiLoading = false
+
     } else {
 
     }
@@ -147,6 +149,8 @@ class BusinessParameterSetup {
       this.responseUpdateOtp = response.data
       this.apiLoading = false
       this.errorUpdateOtp = null
+      this.responseGetOtpPending = null
+      this.getDataOtpPendingList()
     } else {
       console.log("Update OTP FAIL :: ", response)
       this.apiLoading = false
