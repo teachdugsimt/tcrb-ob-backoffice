@@ -23,16 +23,18 @@ class pendingApprovals {
   updatePendingList = () => {
     if (this.tmpPendingListID && this.responseProcessPendingList) {
       let old_id = JSON.parse(JSON.stringify(this.tmpPendingListID))
-      let old_list = JSON.parse(JSON.stringify(this.responseGetPendingApproveList))
-      old_list.map((e, i) => {
-        if (old_id == e.id) {
-          old_list.splice(i, 1)
-        }
-        if (this.responseProcessPendingList.length == 1) {
-          this.responseProcessPendingList = []
-        }
-      })
-      this.responseGetPendingApproveList = old_list
+      if (this.responseProcessPendingList.length >= 1) {
+        this.responseProcessPendingList = []
+      }
+      else {
+        let old_list = JSON.parse(JSON.stringify(this.responseGetPendingApproveList))
+        old_list.map((e, i) => {
+          if (old_id == e.id) {
+            old_list.splice(i, 1)
+          }
+        })
+        this.responseGetPendingApproveList = old_list
+      }
     }
   }
 
