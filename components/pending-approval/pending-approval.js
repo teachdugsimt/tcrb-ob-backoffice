@@ -145,6 +145,21 @@ const PendingApprovals =
         pendingApprovalStore.processPendingListApprove(data)
       }
 
+      useEffect(() => {
+        if (pendingApprovalStore.tmpPendingListID && pendingApprovalStore.tmpPendingListID != null) {
+          if (pendingApprovalData && pendingApprovalData.length > 0) {
+            const list_all = JSON.parse(JSON.stringify(pendingApprovalData))
+            const old_data = pendingApprovalStore.tmpPendingListID
+            list_all.map((e, i) => {
+              if (old_data == e.id) {
+                list_all.splice(i, 1)
+              }
+            })
+            setPendingApprovalData(list_all)
+          }
+        }
+      }, [pendingApprovalStore.tmpPendingListID])
+
       const _onConfirm = () => {
         setvisible(false)
       }
