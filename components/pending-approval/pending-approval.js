@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useMemo } from 'react'
+import ReactDOMServer from 'react-dom/server'
 import { Table, Popconfirm, Row, Col } from 'antd';
 import { inject, observer } from 'mobx-react'
 import { DownOutlined } from '@ant-design/icons';
@@ -7,7 +8,7 @@ import {
   CheckCircleOutlined,
   CloseCircleOutlined,
 } from '@ant-design/icons';
-import { TcrbSpin } from '../antd-styles/styles'
+import { TcrbSpin, TcrbPopconfirm } from '../antd-styles/styles'
 import SimpleModal from '../simple-modal'
 import styled from 'styled-components'
 import moment from 'moment'
@@ -35,6 +36,18 @@ const PendingApprovals =
       const [visible, setvisible] = useState(false)
       const { pendingApprovalStore, t } = props
       const expand = { expandedRowRender: record => <p>{record.description}</p> };
+
+
+      const renderTableData = (data) => {
+        const keys = Object.keys(data)
+        return ReactDOMServer.renderToStaticMarkup(<table style={{ border: 1 }}>{keys.map((k, index) => {
+          return <tr>
+            <td style={{ border: '1px solid lightgrey', width: 200, paddingLeft: 10, backgroundColor: '#eeeeee' }}>{k}</td>
+            <td style={{ border: '1px solid lightgrey', width: 200, paddingLeft: 10 }}>{data[k]}</td>
+          </tr>
+        })}</table>)
+      }
+
       const columns = [
         {
           title: 'Ticket#',
@@ -48,14 +61,24 @@ const PendingApprovals =
           title: 'Request Description',
           key: 'description',
           render: (record) => {
+            // console.table(record)
             let data = JSON.parse(JSON.stringify(record))
             let string = JSON.parse(data.data)
-            setmodalString(`Action : ${string.ChangedType} \n\n Old Value : ${string.Current.OTP_MAXIMUM_ENTERED ? string.Current.OTP_MAXIMUM_ENTERED : string.Current.OTP_EXPIRE_TIME} \n\n New Vlaue : ${string.New.OTP_MAXIMUM_ENTERED ? string.New.OTP_MAXIMUM_ENTERED : string.Current.OTP_EXPIRE_TIME}`)
+
             return <Row>
               <span>
                 {data.description ? `${data.description} ` : `${data.action}`}
               </span>
-              <div onClick={() => setvisible(true)}><span><a> : details</a></span></div>
+              <div onClick={() => {
+                setmodalString(`
+                  <b>Action</b> : ${data.action}${' '}<br /><b>Request Type</b> : ${data.change_type}
+                  <div style="display: flex; flex-direction: row;">
+                  <div style="flex:1;margin-right: 5px;"><b>Current Value</b> : ${renderTableData(string.Current)}</div>
+                  <div style="flex:1;margin-left: 5px;"><b>New Value</b>: ${renderTableData(string.New)}</div>
+                  </div>
+                `)
+                setvisible(true)
+              }}><span><a> : details</a></span></div>
             </Row>
           }
         },
@@ -80,12 +103,16 @@ const PendingApprovals =
           key: 'action',
           render: (record) => (
             <Row gutter={16}>
-              <HoverIcon onClick={() => processPending("APPROVE", record)} className="gutter-row" span={6}>
-                <CheckCircleOutlined height={"1.5em"} width={"1.5em"} />
-              </HoverIcon>
-              <HoverIconReject onClick={() => processPending("REJECT", record)} className="gutter-row" span={6}>
-                <CloseCircleOutlined height={"1.5em"} width={"1.5em"} />
-              </HoverIconReject>
+              <TcrbPopconfirm title={"Confirm to Approve !!!"} onConfirm={() => processPending("APPROVE", record)} >
+                <HoverIcon className="gutter-row" span={6}>
+                  <CheckCircleOutlined height={"1.5em"} width={"1.5em"} />
+                </HoverIcon>
+              </TcrbPopconfirm>
+              <TcrbPopconfirm title={"Confirm to Reject !!!"} onConfirm={() => processPending("REJECT", record)} >
+                <HoverIconReject className="gutter-row" span={6}>
+                  <CloseCircleOutlined height={"1.5em"} width={"1.5em"} />
+                </HoverIconReject>
+              </TcrbPopconfirm>
             </Row>
           ),
         },
@@ -144,6 +171,7 @@ const PendingApprovals =
                 onCancel={() => _onCancel()}
                 textCancel={textCancel}
                 textOk={textOk}
+                width={800}
                 modalString={modalString}
                 visible={visible}
               />
