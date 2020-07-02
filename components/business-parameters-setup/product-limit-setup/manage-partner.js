@@ -6,6 +6,8 @@ import { DeleteOutlined, EditOutlined, FormOutlined } from '@ant-design/icons';
 
 import { TcrbButton, TcrbPopconfirm } from '../../antd-styles/styles'
 import { addKeyToDataSource, addCommaInData } from '../../data-utility'
+import SimpleInput from '../../simple-input'
+import { toJS } from 'mobx';
 
 const managePartner =
   inject('businessParametersSetupStore')
@@ -15,6 +17,7 @@ const managePartner =
       const [editingKey, setEditingKey] = useState('')
       const isEditing = record => record.key === editingKey;
       const [mockDataPartnerList, setMockDataPartnerList] = useState([])
+      const [isEnableEditButton, setIsEnableEditButton] = useState(true)
       // var mockDataPartnerList = []
       useEffect(() => {
         addKeyToDataSource(businessParametersSetupStore.channelPartnerList).then((result) => {
@@ -103,6 +106,55 @@ const managePartner =
         businessParametersSetupStore.goBack = true
       }
 
+      const save = async key => {
+        const row = await form.validateFields();
+        const newData = [...mockDataPartnerList];
+        const index = newData.findIndex(item => key === item.key);
+
+        if (index > -1) {
+          const item = newData[index];
+          console.log({ ...item, ...row })
+          newData.splice(index, 1, { ...item, ...row });
+          setMockDataPartnerList(newData);
+          setEditingKey('');
+        } else {
+          newData.push(row);
+          setMockDataPartnerList(newData);
+          setEditingKey('');
+        }
+        /* try {
+          const row = await form.validateFields();
+          const newData = [...mockDataPartnerList];
+          const index = newData.findIndex(item => key === item.key);
+
+          if (index > -1) {
+            const item = newData[index];
+            newData.splice(index, 1, { ...item, ...row });
+            setData(newData);
+            setEditingKey('');
+          } else {
+            newData.push(row);
+            setData(newData);
+            setEditingKey('');
+          }
+        } catch (errInfo) {
+          console.log('Validate Failed:', errInfo);
+        } */
+      };
+
+      const deletePartnerSelect = (record) => {
+        console.log(toJS(record))
+        //waiting call api
+      }
+
+      const setEditEnableLimit = () => {
+        setIsEnableEditButton(false)
+      }
+
+      const cancelEditLimit = () => {
+        setIsEnableEditButton(true)
+      }
+
       const renderAction = (record) => {
         /* if (record.status === '1') {
           return (
@@ -128,22 +180,22 @@ const managePartner =
         const editable = isEditing(record);
         return editable ? (
           <span>
-            <a
-              href="javascript:;"
-              onClick={() => save(record.key)}
-              style={{
-                marginRight: 8,
-              }}
-            >
-              Save
+            <TcrbPopconfirm title="Sure to Delete?" disabled={editingKey !== ''} onConfirm={() => save(record.key)}>
+              <a
+                style={{
+                  marginRight: 8,
+                }}
+              >
+                Save
             </a>
-            <Popconfirm title="Sure to cancel?" onConfirm={cancel}>
+            </TcrbPopconfirm>
+            <TcrbPopconfirm title="Sure to cancel?" onConfirm={cancel}>
               <a>Cancel</a>
-            </Popconfirm>
+            </TcrbPopconfirm>
           </span>
         ) : (
             <div style={{ textAlign: "center" }}>
-              <TcrbPopconfirm title="Sure to Delete?" disabled={editingKey !== ''}>
+              <TcrbPopconfirm title="Sure to Delete?" disabled={editingKey !== ''} onConfirm={() => deletePartnerSelect(record)}>
                 <a><DeleteOutlined style={{ fontSize: '18px' }} /></a>
               </TcrbPopconfirm>
               <a disabled={editingKey !== ''} onClick={() => edit(record)}><EditOutlined style={{ fontSize: '18px', color: '#FBA928' }} /></a>
@@ -206,19 +258,36 @@ const managePartner =
             <Col span={6}>{businessParametersSetupStore.productLimitDetail.product_type}</Col>
             <Col span={6}>Product_Description</Col>
             <Col span={6}>{businessParametersSetupStore.productLimitDetail.product_description}</Col>
+
           </Row>
           <Row gutter={[4, 24]}>
             <Col span={6}>All-Channel Txn Limit</Col>
-            <Col span={6}>{businessParametersSetupStore.productLimitDetail.transaction_limit}</Col>
+            {/* <Col span={6}>{businessParametersSetupStore.productLimitDetail.transaction_limit}</Col> */}
+            <Col span={6}> {isEnableEditButton ?
+              businessParametersSetupStore.productLimitDetail.transaction_limit :
+              <SimpleInput defaultValue={businessParametersSetupStore.productLimitDetail.transaction_limit} halfSize={true} onChange={(e) => console.log(e)} />}
+            </Col>
+
             <Col span={6}>All-Channel Daily Limit</Col>
-            <Col span={6}>{businessParametersSetupStore.productLimitDetail.daily_limit}</Col>
+            {/* <Col span={6}>{businessParametersSetupStore.productLimitDetail.daily_limit}</Col> */}
+            <Col span={6}> {isEnableEditButton ?
+              businessParametersSetupStore.productLimitDetail.daily_limit :
+              <SimpleInput defaultValue={businessParametersSetupStore.productLimitDetail.daily_limit} halfSize={true} onChange={(e) => console.log(e)} />}
+            </Col>
           </Row>
           <Row justify="end" style={{ marginTop: 8 }}>
             <Col span={2}>
               <TcrbButton className="default" onClick={() => goBackToProductList()} shape="round">Back</TcrbButton>
             </Col>
-            <Col span={2}>
-              <TcrbButton shape="round" className="primary" onClick={() => { prepareAllLimitToSubmitAndUpdate() }}>Submit</TcrbButton>
+            <Col span={4}>
+              {isEnableEditButton ? (
+                <TcrbButton shape="round" className="primary" onClick={() => { setEditEnableLimit() }}>Edit</TcrbButton>
+              ) : (
+                  <div>
+                    <TcrbButton shape="round" className="default" onClick={() => { cancelEditLimit() }}>Cancel</TcrbButton>
+                    <TcrbButton shape="round" className="primary" onClick={() => { prepareAllLimitToSubmitAndUpdate() }}>Submit</TcrbButton>
+                  </div>
+                )}
             </Col>
           </Row>
           <Divider />

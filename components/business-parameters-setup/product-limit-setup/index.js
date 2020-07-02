@@ -16,6 +16,15 @@ const ProductLimitSetup =
       const [viewSpecificProduct, setViewSpecificProduct] = useState(false)
 
       useEffect(() => {
+        if (businessParametersSetupStore.nextPageIsProductList) {
+          setViewProductList(true)
+          setViewSpecificProduct(false)
+          setViewDetailProduct(false)
+        }
+      }, [businessParametersSetupStore.nextPageIsProductList]);
+
+
+      useEffect(() => {
         if (businessParametersSetupStore.productLimitDetail != null) {
           setViewDetailProduct(true)
         }
