@@ -1,10 +1,12 @@
 import React, { useEffect, useRef, useState } from 'react'
-import { Input, Row, Col, Alert } from 'antd'
+import { Input, Row, Col, Alert, Table } from 'antd'
 import styled from 'styled-components'
 import { inject, observer } from 'mobx-react'
 import { withTranslation } from '../../i18n'
 import SimpleModal from '../simple-modal'
 import { TcrbButton } from '../antd-styles/styles'
+import { toJS } from 'mobx'
+import { addKeyToDataSource } from '../data-utility'
 
 const StyledInput = styled(Input)`
   background-color: unset !important;
@@ -40,6 +42,7 @@ const OtpSetup =
       const [isReadOnlyInputMaximum, setIsReadOnlyInputMaximum] = useState(true)
       const [isDisableEditExpiration, setIsDisableEditExpiration] = useState(false)
       const [isDisableEditMaximum, setIsDisabledEditMaximum] = useState(false)
+      const [dataSourceOtpPendingList, setDataSourceOtpPendingList] = useState([])
 
       const [titleModal, setTitleModal] = useState("")
       const [modalType, setModalType] = useState("")
@@ -53,8 +56,35 @@ const OtpSetup =
           businessParametersSetupStore.getOTPdata(data)
         }
         businessParametersSetupStore.responseUpdateOtp = null
+        businessParametersSetupStore.getDataOtpPendingList()
       }, [])
 
+      useEffect(() => {
+        if (businessParametersSetupStore.responseGetOtpPending != null) {
+          let newRequestOtpPending = businessParametersSetupStore.responseGetOtpPending
+          for (let index = 0; index < newRequestOtpPending.length; index++) {
+            let dataToJs = JSON.parse(newRequestOtpPending[index].data)
+            switch (newRequestOtpPending[index].change_sub_type) {
+              case "OTP_EXPIRE_TIME":
+                newRequestOtpPending[index].currentData = dataToJs.Current.OTP_EXPIRE_TIME
+                newRequestOtpPending[index].newData = dataToJs.New.OTP_EXPIRE_TIME
+                break;
+              case "OTP_MAXIMUM_ENTERED":
+                newRequestOtpPending[index].currentData = dataToJs.Current.OTP_MAXIMUM_ENTERED
+                newRequestOtpPending[index].newData = dataToJs.New.OTP_MAXIMUM_ENTERED
+                break;
+
+              default:
+                break;
+            }
+          }
+          console.log(toJS(newRequestOtpPending))
+          addKeyToDataSource(newRequestOtpPending).then(result => {
+            setDataSourceOtpPendingList(result)
+          })
+        }
+
+      }, [businessParametersSetupStore.responseGetOtpPending])
       useEffect(() => {
 
         let newProps = JSON.parse(JSON.stringify(businessParametersSetupStore.responseGetOtpValue))
@@ -218,6 +248,20 @@ const OtpSetup =
         }
       }
 
+      const columnOtpPending = [
+        {
+          title: 'Change Type',
+          dataIndex: 'change_sub_type',
+        },
+        {
+          title: 'Current Value',
+          dataIndex: 'currentData',
+        },
+        {
+          title: 'New Value',
+          dataIndex: 'newData',
+        }
+      ]
       const getValueFromStore = (type) => {
         let old_data = JSON.parse(JSON.stringify(businessParametersSetupStore.responseGetOtpValue))
         if (type == "expire") {
@@ -267,7 +311,7 @@ const OtpSetup =
               {visibleSubmitMaximum && <TcrbButton onClick={() => _openPopup("maximum")} className="default">{t("submit")}</TcrbButton>}
             </Col>
           </Row>
-          <Row gutter={[8, 8]}>
+          <Row gutter={[8, 36]}>
             <Col span={10}>
               <StyledInput readOnly={isReadOnlyInputExpiration} disabled={isDisableEditExpiration} id={"otp-expiration-period"} value={expireOtp} onChange={(e) => setExpire(e.target.value)} prefix={t("otpExpirationPeriod")} suffix={t("otpSecond")} />
             </Col>
@@ -276,6 +320,18 @@ const OtpSetup =
               {visibleExpireSubmit && <TcrbButton onClick={() => _openPopup("expire")} className="default">{t("submit")}</TcrbButton>}
             </Col>
           </Row>
+          <Row>
+            <Col flex={100}>
+              <Table
+                bordered
+                dataSource={dataSourceOtpPendingList}
+                columns={columnOtpPending}
+                size="small"
+              />
+            </Col>
+
+          </Row>
+
           <SimpleModal
             title={titleModal}
             type={modalType}

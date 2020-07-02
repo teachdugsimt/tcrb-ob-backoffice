@@ -37,6 +37,11 @@ class BusinessParameterSetupApi {
     return response
   }
 
+  getOtpPendingList = async (params) => {
+    const response = await ExcuteApi('api/backoffice/v1/changerequest/otp/lastpending', params, "get")
+    return response
+  }
+
   deleteProductLimit = async (params) => {
     const response = await ExcuteApi('api/backoffice/v1/changerequest/productlimit', params, "post")
     return response

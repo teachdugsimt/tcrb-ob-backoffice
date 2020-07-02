@@ -38,6 +38,8 @@ class BusinessParameterSetup {
   @observable nextPageIsManageProduct = null
   @observable nextPageIsAddPartner = null
 
+  @observable responseGetOtpPending = null
+
   @observable goBack = null
   @persist @observable persist_value = null
 
@@ -117,6 +119,17 @@ class BusinessParameterSetup {
       this.apiLoading = false
       this.responseGetOtpValue = null
       this.errorGetOtp = tmp.problem
+    }
+  }
+
+  @action getDataOtpPendingList = async (params) => {
+    this.apiLoading = true
+    let tmp = await BusinessParameterSetupApi.getOtpPendingList(params)
+    console.log(toJS(tmp))
+    if (tmp.ok && tmp.status) {
+      this.responseGetOtpPending = tmp.data.responseData
+    } else {
+
     }
   }
 
