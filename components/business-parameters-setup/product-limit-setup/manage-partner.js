@@ -7,6 +7,7 @@ import { DeleteOutlined, EditOutlined, FormOutlined } from '@ant-design/icons';
 import { TcrbButton, TcrbPopconfirm } from '../../antd-styles/styles'
 import { addKeyToDataSource, addCommaInData } from '../../data-utility'
 import SimpleInput from '../../simple-input'
+import SimpleModal from '../../simple-modal'
 import { toJS } from 'mobx';
 
 const managePartner =
@@ -18,6 +19,11 @@ const managePartner =
       const isEditing = record => record.key === editingKey;
       const [mockDataPartnerList, setMockDataPartnerList] = useState([])
       const [isEnableEditButton, setIsEnableEditButton] = useState(true)
+      const [visible, setVisble] = useState(false)
+      const [modalString, setModalString] = useState('')
+      const [titleModal, setTitleModal] = useState('')
+      const [modalType, setModalType] = useState('')
+
       // var mockDataPartnerList = []
       useEffect(() => {
         addKeyToDataSource(businessParametersSetupStore.channelPartnerList).then((result) => {
@@ -77,27 +83,26 @@ const managePartner =
           </td>
         );
       };
+      const submitChangeProductLimitSelect = () => {
+        //call api
+        /* let request = {
+          partner_code: selectPartnerAndProduct.partner_code,
+          product_code: businessParametersSetupStore.productLimitDetail.product_code,
+          transaction_code: '6931',
+          transaction_limit: txnLimit,
+          daily_limit: dailyLimit
+        } */
+        setVisble(false)
+      }
 
       const prepareAllLimitToSubmitAndUpdate = () => {
-        if (viewSpecificProduct) {
-          // submitAddSpecificLimit()
-          setModalString(
-            <div style={{ textAlign: "center" }}>
-              <p> Add Partner {selectPartnerAndProduct.type} </p>
-              {/* <p>for {selectPartnerAndProduct.partner_code}/{selectPartnerAndProduct.partner_abbreviation} Channel/Partner !!!</p> */}
-            </div>
-          )
-        } else {
-          // submitChangeProductLimitSelect()
-
-          setModalString(
-            //waiting for confirm task
-            <div style={{ textAlign: "center" }}>
-              <p> Change Product Code {selectPartnerAndProduct.partner_code} Limit </p>
-              <p>for {selectPartnerAndProduct.partner_code}/{selectPartnerAndProduct.partner_abbreviation} Channel/Partner !!!</p>
-            </div>
-          )
-        }
+        setModalString(
+          //waiting for confirm task
+          <div style={{ textAlign: "center" }}>
+            <p>Confirm to Change Limit Product Code {businessParametersSetupStore.productLimitDetail.product_type}  !!!</p>
+            {/* <p>for {selectPartnerAndProduct.partner_code}/{selectPartnerAndProduct.partner_abbreviation} Channel/Partner !!!</p> */}
+          </div>
+        )
         setVisble(true)
         setTitleModal('Confirm')
         setModalType("confirm")
@@ -309,6 +314,16 @@ const managePartner =
               size="small"
             />
           </Form>
+          <SimpleModal
+            title={titleModal}
+            type={modalType}
+            onOk={() => { submitChangeProductLimitSelect() }}
+            onCancel={() => setVisble(false)}
+            textOk={t("confirm")}
+            textCancel={t("cancel")}
+            modalString={modalString}
+            visible={visible}
+          />
         </div>
       )
     }))
