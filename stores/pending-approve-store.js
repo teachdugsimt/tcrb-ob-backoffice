@@ -28,6 +28,9 @@ class pendingApprovals {
         if (old_id == e.id) {
           old_list.splice(i, 1)
         }
+        if (this.responseProcessPendingList.length == 1) {
+          this.responseProcessPendingList = []
+        }
       })
       this.responseGetPendingApproveList = old_list
     }

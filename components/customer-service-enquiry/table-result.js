@@ -182,8 +182,6 @@ const TableResult =
                   pagination={{ current: JSON.parse(JSON.stringify(customerServiceEnquiry.pageCustomerEnquiryTable)) ? JSON.parse(JSON.stringify(customerServiceEnquiry.pageCustomerEnquiryTable)) : page, pageSize: pageSizeVal }}
                   size="small"
                   onChange={(pagination, filters, sorter, extra) => {
-                    // console.log("-------------------- ON CHANGE -------------------")
-                    // console.log(pagination)
                     if (pagination) _handlePageSize(pagination)
                     customerServiceEnquiry.setPageCustomerEnquiry(pagination.current)
                     setPage(pagination.current)
