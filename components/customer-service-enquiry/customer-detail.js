@@ -3,12 +3,15 @@ import { inject, observer } from 'mobx-react'
 import styled from 'styled-components';
 import SimpleSwitch from '../simple-switch'
 import { Row, Switch, Col, Button, Input, Alert, Card } from 'antd'
-
+import { i18n } from '../../i18n'
 const SpanText = styled.span`
 white-space: nowrap !important;
 overflow: hidden !important;
 text-overflow: ellipsis !important;
-padding-top: 10px;
+`
+
+const BoldSpanText = styled(SpanText)`
+font-weight: bold !important;
 `
 
 const ColTextDetail = styled(Col)`
@@ -17,7 +20,7 @@ text-overflow: ellipsis !important;
 white-space: nowrap !important;
 width: 100% !important;
 border-bottom: 1px solid black !important;
-padding-bottom: -5px;
+padding-bottom: 5px !important;
 `
 
 const StyledSwitch = styled(Switch)`
@@ -26,11 +29,15 @@ const StyledSwitch = styled(Switch)`
     }
 `
 
-export const CustomerDetail =
+const CustomerDetail =
   inject('customerServiceEnquiry')
     (observer((props) => {
       const { customerServiceEnquiry } = props
       const [obj, setobj] = useState(null)
+
+      useEffect(() => {
+
+      }, [])
 
       useEffect(() => {
         console.log("Data Enquiry :: ", JSON.parse(JSON.stringify(customerServiceEnquiry.rowDataObject)))
@@ -38,6 +45,15 @@ export const CustomerDetail =
           setobj(JSON.parse(JSON.stringify(customerServiceEnquiry.rowDataObject)))
 
       }, [customerServiceEnquiry.rowDataObject])
+
+      const _generateTextDetail = (prefix, string) => {
+        return <Row key={prefix + "-" + string}>
+          <BoldSpanText>{prefix}</BoldSpanText>
+          <SpanText>
+            {string}
+          </SpanText>
+        </Row>
+      }
 
       return (
         <Row style={{ paddingTop: 10 }}>
@@ -47,20 +63,17 @@ export const CustomerDetail =
                 <Card style={{ border: "1px solid #7B7D7D", borderRadius: 25, height: '100%' }}>
                   <Row gutter={[16, 30]}>
                     <ColTextDetail flex={10}>
-                      {JSON.parse(JSON.stringify(customerServiceEnquiry.customer_data)) && JSON.parse(JSON.stringify(customerServiceEnquiry.customer_data)).id && JSON.parse(JSON.stringify(customerServiceEnquiry.customer_data)).name ?
-                        <SpanText>Customer ID :
-                      {JSON.parse(JSON.stringify(customerServiceEnquiry.customer_data)).id}
-                        </SpanText>
-                        :
-                        <SpanText>Customer ID : Don't Hava Value</SpanText>}
+                      {JSON.parse(JSON.stringify(customerServiceEnquiry.customer_data)) && JSON.parse(JSON.stringify(customerServiceEnquiry.customer_data)).id && JSON.parse(JSON.stringify(customerServiceEnquiry.customer_data)).name && Object.keys(customerServiceEnquiry.customer_data.id).length > 0?
+                        _generateTextDetail(i18n.t("customerID"), JSON.parse(JSON.stringify(customerServiceEnquiry.customer_data)).id)
+                        : _generateTextDetail(i18n.t("customerID"), i18n.t("noData"))
+                      }
                     </ColTextDetail>
                   </Row>
                   <Row gutter={[16, 16]}>
                     <ColTextDetail flex={10}>
-                      {JSON.parse(JSON.stringify(customerServiceEnquiry.customer_data)) && JSON.parse(JSON.stringify(customerServiceEnquiry.customer_data)).id && JSON.parse(JSON.stringify(customerServiceEnquiry.customer_data)).name ?
-                        <SpanText>Customer Name :
-                      {JSON.parse(JSON.stringify(customerServiceEnquiry.customer_data)).name}
-                        </SpanText> : <SpanText>Customer Name : Don't Hava Value</SpanText>}
+                      {JSON.parse(JSON.stringify(customerServiceEnquiry.customer_data)) && JSON.parse(JSON.stringify(customerServiceEnquiry.customer_data)).id && JSON.parse(JSON.stringify(customerServiceEnquiry.customer_data)).name && Object.keys(customerServiceEnquiry.customer_data.name).length > 0 ?
+                        _generateTextDetail(i18n.t("customerName"), JSON.parse(JSON.stringify(customerServiceEnquiry.customer_data)).name) :
+                        _generateTextDetail(i18n.t("customerName"), i18n.t("noData"))}
                     </ColTextDetail>
                   </Row>
                 </Card>
@@ -88,7 +101,8 @@ export const CustomerDetail =
       )
 
     }))
-// Test commit - 1
-// Test commit - 2
-
 // citizen_id  = 912f74047dd8964c382a6d6287f0ed1
+export default (CustomerDetail)
+
+
+

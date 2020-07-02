@@ -11,12 +11,13 @@ const { Search } = Input
 export const SearchBox =
   inject('customerServiceEnquiry')
     (observer((props) => {
-      const { customerServiceEnquiry } = props
+      const { customerServiceEnquiry, t } = props
       const [currentSearch, setCurrentSearch] = useState(0)
       const [dateValue, setdate] = useState(null)
       const [start, setstart] = useState("")
       const [end, setend] = useState("")
       const [visibleDate, setvisibleDate] = useState(false)
+      const [tmp_list_table, setTmpList] = useState(null)
 
       const [objDay, setobjDay] = useState({
         from_date: "",
@@ -29,6 +30,14 @@ export const SearchBox =
         message.info('Click on menu item.');
         setCurrentSearch(e.item.props.index)
       }
+
+      useEffect(() => {
+        let newProps = JSON.parse(JSON.stringify(customerServiceEnquiry.dataGetListCustomerService))
+        if(newProps != tmp_list_table){
+          setTmpList(newProps)
+          customerServiceEnquiry.setPageCustomerEnquiry(1)
+        }
+      }, [customerServiceEnquiry.dataGetListCustomerService])
 
       const menuName = ['Search All', 'Search by ID Card Number', 'Search by Account No',
         'Search by Entity', 'Search by Entity and Channel', 'Search by Product Type',
@@ -60,7 +69,7 @@ export const SearchBox =
       );
 
       const _handleSearch = (value) => {
-
+        // customerServiceEnquiry.setPageCustomerEnquiry(1)
         console.log(menuName[currentSearch])
         console.log("Search Text : ", value)
 
@@ -145,10 +154,10 @@ export const SearchBox =
         }
       }
 
-      console.log("START : ", start)
-      console.log("END : ", end)
-      console.log("Date all : ", dateValue)
-      console.log("currentSearch : ", currentSearch)
+      // console.log("START : ", start)
+      // console.log("END : ", end)
+      // console.log("Date all : ", dateValue)
+      // console.log("currentSearch : ", currentSearch)
       return (
         <div>
           <div style={{ display: 'flex', justifyContent: 'space-between' }}>
@@ -198,3 +207,6 @@ export const SearchBox =
     }))
 
 // citizen_id=  912f74047dd8964c382a6d6287f0ed1
+
+// 1. new search => reset pagination
+// 2. language

@@ -1,50 +1,503 @@
+// import moment from 'moment'
+// import { getColumnSearchProps } from './filter-box'
+// import { addCommaInData } from '../data-utility';
+// export const clmTranInfo = (handleSearch, handleReset, t) => {
+//   return [
+//     {
+//       title: t("number"),
+//       dataIndex: 'no',
+//       key: 'no',
+//     },
+//     {
+//       title: t("tranDate"),
+//       dataIndex: 'date',
+//       key: 'date',
+//       ...getColumnSearchProps('date', handleSearch, handleReset, 'Tran Time'),
+//       render: (text, record) => moment(text).format('ll')
+//     },
+//     {
+//       title: t("entity"),
+//       key: 'parent_partner_code',
+//       dataIndex: 'parent_partner_code',
+//       ...getColumnSearchProps('parent_partner_code', handleSearch, handleReset, 'Entity')
+
+//     },
+//     {
+//       title: t("channel"),
+//       key: 'channel',
+//       dataIndex: 'channel',
+//       ...getColumnSearchProps('channel', handleSearch, handleReset, 'Channel')
+//     },
+//     {
+//       title: t("tranType"),
+//       key: 'transaction_type',
+//       dataIndex: 'transaction_type',
+//       ...getColumnSearchProps('transaction_type', handleSearch, handleReset, 'Tran Type')
+
+//     },
+//     {  // ** Wait Tum Confirm
+//       title: t("tranSubType"),
+//       key: 'transaction_sub_type',
+//       dataIndex: 'transaction_sub_type',
+//     },
+//     {
+//       // if(transaction_type == TOPUP)  sender product type
+//       // if(transaction_type == RPYMNT) receiver product type
+//       title: t("prodType"),
+//       key: 'product_type',
+//       dataIndex: 'product_type',
+//       ...getColumnSearchProps('product_type', handleSearch, handleReset, 'Prod Type')
+//     },
+//     {
+//       // if(transaction_type == TOPUP) sender_main_account_value
+//       //  if(transaction_type == RPYMNT) receiver_main_account_value
+//       title: t("accountNo"),
+//       key: 'account_no',
+//       dataIndex: 'account_no',
+//       ...getColumnSearchProps('account_no', handleSearch, handleReset, 'A/C No.')
+//     },
+//     {
+//       title: t("amount"),
+//       key: 'amount',
+//       dataIndex: 'amount',
+//       render: (text, record) => <div style={{ textAlign: 'right' }}>{addCommaInData(text, true)}</div>
+//     },
+//     {
+//       title: t("status"),
+//       key: 'status',
+//       dataIndex: 'status',
+//       ...getColumnSearchProps('status', handleSearch, handleReset, 'Status')
+//     },
+//   ];
+// }
+
+// export const clmPartnerInfo = (handleSearch, handleReset, t) => {
+//   return [
+//     {
+//       title: t("number"),
+//       dataIndex: 'no',
+//       key: 'no',
+//       render: text => <div>{text}</div>,
+//     },
+//     {
+//       title: t("partnerTranRef"),
+//       dataIndex: 'partner_transaction_reference',
+//       key: 'partner_transaction_reference',
+//       ...getColumnSearchProps('partner_transaction_reference', handleSearch, handleReset, 'Partner TranRef')
+//     },
+//     {
+//       title: t("partnerReqID"),
+//       dataIndex: 'request_id',
+//       key: 'request_id',
+//       ...getColumnSearchProps('request_id', handleSearch, handleReset, 'Partner ReqID')
+//     },
+//     {
+//       title: t("bankTranRef"),
+//       key: 'transaction_reference',
+//       dataIndex: 'transaction_reference',
+//       ...getColumnSearchProps('transaction_reference', handleSearch, handleReset, 'Bank TranRef')
+//     },
+//     {
+//       // if(transaction_type == TOPUP) sender_proxy_value
+//       // if(transaction_type == RPYMNT) receiver_proxy_value
+//       title: t("mobileNumber"),
+//       key: 'mobile_no',
+//       dataIndex: 'mobile_no',
+//       ...getColumnSearchProps('mobile_no', handleSearch, handleReset, 'Mobile Number')
+//     }
+//   ];
+// }
+
+// export const clmAccInfo = (handleSearch, handleReset, t) => {
+//   return [
+//     {
+//       title: t("number"),
+//       dataIndex: 'no',
+//       key: 'no',
+//       render: text => <div>{text}</div>,
+//     },
+//     {
+//       // if(transaction_type == TOPUP) sender_main_account_value
+//       // if(transaction_type == RPYMNT) receiver_main_account_value
+//       title: t("tcrbAccountRef"),
+//       dataIndex: 'tcrb_account_reference',
+//       key: 'tcrb_account_reference',
+//       ...getColumnSearchProps('tcrb_account_reference', handleSearch, handleReset, 'TCRB AccountRef')
+//     },
+//     {
+//       // if(transaction_type == TOPUP) sender_sub_account_value
+//       // if(transaction_type == RPYMNT) receiver_sub_account_value
+//       title: t("subAC"),
+//       dataIndex: 'sub_account',
+//       key: 'sub_account',
+//       ...getColumnSearchProps('sub_account', handleSearch, handleReset, 'Sub A/C')
+//     },
+//     {
+//       // if(transaction_type == TOPUP) sender_name
+//       // if(transaction_type == RPYMNT) receiver_name
+//       title: t("accountName"),
+//       key: 'account_name',
+//       dataIndex: 'account_name',
+//       ...getColumnSearchProps('account_name', handleSearch, handleReset, 'Account Name')
+//     },
+//     {
+//       title: t("accRef1"),
+//       key: 'reference_1',
+//       dataIndex: 'reference_1',
+//     },
+//     {
+//       title: t("accRef2"),
+//       key: 'reference_2',
+//       dataIndex: 'reference_2',
+//     },
+//     {
+//       title: t("accRef3"),
+//       key: 'reference_3',
+//       dataIndex: 'reference_3',
+//     },
+//   ];
+// }
+
+// export const clmTxn = (handleSearch, handleReset, t) => {
+//   return [
+//     {
+//       title: t("number"),
+//       dataIndex: 'no',
+//       key: 'no',
+//       render: text => <div>{text}</div>,
+//     },
+//     {
+//       title: t("txnDREntry"),
+//       dataIndex: 'transaction_debit_entry',
+//       key: 'transaction_debit_entry',
+//       ...getColumnSearchProps('transaction_debit_entry', handleSearch, handleReset, 'Txn-DR_Entry')
+//     },
+//     {
+//       title: t("txnCREntry"),
+//       dataIndex: 'transaction_credit_entry',
+//       key: 'transaction_credit_entry',
+//       ...getColumnSearchProps('transaction_credit_entry', handleSearch, handleReset, 'Txn-CR_Entry')
+//     },
+//     {
+//       title: t("feeDREntry"),
+//       key: 'fee_debit_entries',
+//       dataIndex: 'fee_debit_entries',
+//       // render: (text, record) => addCommaInData(text, false)
+//     },
+//     {
+//       title: t("feeDRAMT"),
+//       key: 'fee_amount',
+//       dataIndex: 'fee_amount',
+//       // render: (text, record) => addCommaInData(text, true)
+//     },
+//     {
+//       title: t("feeCREntry"),
+//       key: 'bank_income_fee_entries',
+//       dataIndex: 'bank_income_fee_entries',
+//     },
+//     {
+//       title: t("feeCRAMT"),
+//       key: 'bank_income_fee',
+//       dataIndex: 'bank_income_fee',
+//       // render: (text, record) => addCommaInData(text, true)
+//     },
+//     {
+//       title: t("amt"),
+//       key: 'amount',
+//       dataIndex: 'amount',
+//       render: (text, record) => <div style={{ textAlign: 'right' }}>{addCommaInData(text, true)}</div>
+//     },
+//   ];
+// }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// import moment from 'moment'
+// import { getColumnSearchProps } from './filter-box'
+// import { addCommaInData } from '../data-utility';
+// import { withTranslation } from '../../i18n';
+// export const clmTranInfo = (handleSearch, handleReset, t) => {
+//   return [
+//     {
+//       title: t("number"),
+//       dataIndex: 'no',
+//       key: 'no',
+//     },
+//     {
+//       title: t("tranDate"),
+//       dataIndex: 'date',
+//       key: 'date',
+//       ...getColumnSearchProps('date', handleSearch, handleReset, 'Tran Time'),
+//       render: (text, record) => moment(text).format('ll')
+//     },
+//     {
+//       title: t("entity"),
+//       key: 'parent_partner_code',
+//       dataIndex: 'parent_partner_code',
+//       ...getColumnSearchProps('parent_partner_code', handleSearch, handleReset, 'Entity')
+
+//     },
+//     {
+//       title: t("channel"),
+//       key: 'channel',
+//       dataIndex: 'channel',
+//       ...getColumnSearchProps('channel', handleSearch, handleReset, 'Channel')
+//     },
+//     {
+//       title: t("tranType"),
+//       key: 'transaction_type',
+//       dataIndex: 'transaction_type',
+//       ...getColumnSearchProps('transaction_type', handleSearch, handleReset, 'Tran Type')
+
+//     },
+//     {  // ** Wait Tum Confirm
+//       title: t("tranSubType"),
+//       key: 'transaction_sub_type',
+//       dataIndex: 'transaction_sub_type',
+//     },
+//     {
+//       // if(transaction_type == TOPUP)  sender product type
+//       // if(transaction_type == RPYMNT) receiver product type
+//       title: t("prodType"),
+//       key: 'product_type',
+//       dataIndex: 'product_type',
+//       ...getColumnSearchProps('product_type', handleSearch, handleReset, 'Prod Type')
+//     },
+//     {
+//       // if(transaction_type == TOPUP) sender_main_account_value
+//       //  if(transaction_type == RPYMNT) receiver_main_account_value
+//       title: t("accountNo"),
+//       key: 'account_no',
+//       dataIndex: 'account_no',
+//       ...getColumnSearchProps('account_no', handleSearch, handleReset, 'A/C No.')
+//     },
+//     {
+//       title: t("amount"),
+//       key: 'amount',
+//       dataIndex: 'amount',
+//       render: (text, record) => <div style={{ textAlign: 'right' }}>{addCommaInData(text, true)}</div>
+//     },
+//     {
+//       title: t("status"),
+//       key: 'status',
+//       dataIndex: 'status',
+//       ...getColumnSearchProps('status', handleSearch, handleReset, 'Status')
+//     },
+//   ];
+// }
+
+// export const clmPartnerInfo = (handleSearch, handleReset, t) => {
+//   return [
+//     {
+//       title: t("number"),
+//       dataIndex: 'no',
+//       key: 'no',
+//       render: text => <div>{text}</div>,
+//     },
+//     {
+//       title: t("partnerTranRef"),
+//       dataIndex: 'partner_transaction_reference',
+//       key: 'partner_transaction_reference',
+//       ...getColumnSearchProps('partner_transaction_reference', handleSearch, handleReset, 'Partner TranRef')
+//     },
+//     {
+//       title: t("partnerReqID"),
+//       dataIndex: 'request_id',
+//       key: 'request_id',
+//       ...getColumnSearchProps('request_id', handleSearch, handleReset, 'Partner ReqID')
+//     },
+//     {
+//       title: t("bankTranRef"),
+//       key: 'transaction_reference',
+//       dataIndex: 'transaction_reference',
+//       ...getColumnSearchProps('transaction_reference', handleSearch, handleReset, 'Bank TranRef')
+//     },
+//     {
+//       // if(transaction_type == TOPUP) sender_proxy_value
+//       // if(transaction_type == RPYMNT) receiver_proxy_value
+//       title: t("mobileNumber"),
+//       key: 'mobile_no',
+//       dataIndex: 'mobile_no',
+//       ...getColumnSearchProps('mobile_no', handleSearch, handleReset, 'Mobile Number')
+//     }
+//   ];
+// }
+
+// export const clmAccInfo = (handleSearch, handleReset, t) => {
+//   return [
+//     {
+//       title: t("number"),
+//       dataIndex: 'no',
+//       key: 'no',
+//       render: text => <div>{text}</div>,
+//     },
+//     {
+//       // if(transaction_type == TOPUP) sender_main_account_value
+//       // if(transaction_type == RPYMNT) receiver_main_account_value
+//       title: t("tcrbAccountRef"),
+//       dataIndex: 'tcrb_account_reference',
+//       key: 'tcrb_account_reference',
+//       ...getColumnSearchProps('tcrb_account_reference', handleSearch, handleReset, 'TCRB AccountRef')
+//     },
+//     {
+//       // if(transaction_type == TOPUP) sender_sub_account_value
+//       // if(transaction_type == RPYMNT) receiver_sub_account_value
+//       title: t("subAC"),
+//       dataIndex: 'sub_account',
+//       key: 'sub_account',
+//       ...getColumnSearchProps('sub_account', handleSearch, handleReset, 'Sub A/C')
+//     },
+//     {
+//       // if(transaction_type == TOPUP) sender_name
+//       // if(transaction_type == RPYMNT) receiver_name
+//       title: t("accountName"),
+//       key: 'account_name',
+//       dataIndex: 'account_name',
+//       ...getColumnSearchProps('account_name', handleSearch, handleReset, 'Account Name')
+//     },
+//     {
+//       title: t("accRef1"),
+//       key: 'reference_1',
+//       dataIndex: 'reference_1',
+//     },
+//     {
+//       title: t("accRef2"),
+//       key: 'reference_2',
+//       dataIndex: 'reference_2',
+//     },
+//     {
+//       title: t("accRef3"),
+//       key: 'reference_3',
+//       dataIndex: 'reference_3',
+//     },
+//   ];
+// }
+
+// export const clmTxn = (handleSearch, handleReset, t) => {
+//   return [
+//     {
+//       title: t("number"),
+//       dataIndex: 'no',
+//       key: 'no',
+//       render: text => <div>{text}</div>,
+//     },
+//     {
+//       title: t("txnDREntry"),
+//       dataIndex: 'transaction_debit_entry',
+//       key: 'transaction_debit_entry',
+//       ...getColumnSearchProps('transaction_debit_entry', handleSearch, handleReset, 'Txn-DR_Entry')
+//     },
+//     {
+//       title: t("txnCREntry"),
+//       dataIndex: 'transaction_credit_entry',
+//       key: 'transaction_credit_entry',
+//       ...getColumnSearchProps('transaction_credit_entry', handleSearch, handleReset, 'Txn-CR_Entry')
+//     },
+//     {
+//       title: t("feeDREntry"),
+//       key: 'fee_debit_entries',
+//       dataIndex: 'fee_debit_entries',
+//       // render: (text, record) => addCommaInData(text, false)
+//     },
+//     {
+//       title: t("feeDRAMT"),
+//       key: 'fee_amount',
+//       dataIndex: 'fee_amount',
+//       // render: (text, record) => addCommaInData(text, true)
+//     },
+//     {
+//       title: t("feeCREntry"),
+//       key: 'bank_income_fee_entries',
+//       dataIndex: 'bank_income_fee_entries',
+//     },
+//     {
+//       title: t("feeCRAMT"),
+//       key: 'bank_income_fee',
+//       dataIndex: 'bank_income_fee',
+//       // render: (text, record) => addCommaInData(text, true)
+//     },
+//     {
+//       title: t("amt"),
+//       key: 'amount',
+//       dataIndex: 'amount',
+//       render: (text, record) => <div style={{ textAlign: 'right' }}>{addCommaInData(text, true)}</div>
+//     },
+//   ];
+// }
+
+
+
+
+
+
+
+
+
+
 import moment from 'moment'
 import { getColumnSearchProps } from './filter-box'
 import { addCommaInData } from '../data-utility';
+import { withTranslation } from '../../i18n';
 
-export const clmTranInfo = (handleSearch, handleReset) => {
+
+export const clmTranInfo = (handleSearch, handleReset, t) => {
   return [
     {
-      title: 'No.',
+      title: t("number"),
       dataIndex: 'no',
       key: 'no',
     },
     {
-      title: 'Tran Time',
+      title: t("tranDate"),
       dataIndex: 'date',
       key: 'date',
       ...getColumnSearchProps('date', handleSearch, handleReset, 'Tran Time'),
       render: (text, record) => moment(text).format('ll')
     },
     {
-      title: 'Entity',
+      title: t("entity"),
       key: 'parent_partner_code',
       dataIndex: 'parent_partner_code',
       ...getColumnSearchProps('parent_partner_code', handleSearch, handleReset, 'Entity')
 
     },
     {
-      title: 'Channel',
+      title: t("channel"),
       key: 'channel',
       dataIndex: 'channel',
       ...getColumnSearchProps('channel', handleSearch, handleReset, 'Channel')
     },
     {
-      title: 'Tran Type',
+      title: t("tranType"),
       key: 'transaction_type',
       dataIndex: 'transaction_type',
       ...getColumnSearchProps('transaction_type', handleSearch, handleReset, 'Tran Type')
 
     },
     {  // ** Wait Tum Confirm
-      title: 'Tran SubType',
+      title: t("tranSubType"),
       key: 'transaction_sub_type',
       dataIndex: 'transaction_sub_type',
     },
     {
       // if(transaction_type == TOPUP)  sender product type
       // if(transaction_type == RPYMNT) receiver product type
-      title: 'Prod Type',
+      title: t("prodType"),
       key: 'product_type',
       dataIndex: 'product_type',
       ...getColumnSearchProps('product_type', handleSearch, handleReset, 'Prod Type')
@@ -52,19 +505,19 @@ export const clmTranInfo = (handleSearch, handleReset) => {
     {
       // if(transaction_type == TOPUP) sender_main_account_value
       //  if(transaction_type == RPYMNT) receiver_main_account_value
-      title: 'A/C No.',
+      title: t("accountNo"),
       key: 'account_no',
       dataIndex: 'account_no',
       ...getColumnSearchProps('account_no', handleSearch, handleReset, 'A/C No.')
     },
     {
-      title: 'Amount',
+      title: t("amount"),
       key: 'amount',
       dataIndex: 'amount',
       render: (text, record) => <div style={{ textAlign: 'right' }}>{addCommaInData(text, true)}</div>
     },
     {
-      title: 'Status',
+      title: t("status"),
       key: 'status',
       dataIndex: 'status',
       ...getColumnSearchProps('status', handleSearch, handleReset, 'Status')
@@ -72,28 +525,28 @@ export const clmTranInfo = (handleSearch, handleReset) => {
   ];
 }
 
-export const clmPartnerInfo = (handleSearch, handleReset) => {
+export const clmPartnerInfo = (handleSearch, handleReset, t) => {
   return [
     {
-      title: 'No.',
+      title: t("number"),
       dataIndex: 'no',
       key: 'no',
       render: text => <div>{text}</div>,
     },
     {
-      title: 'Partner TranRef',
+      title: t("partnerTranRef"),
       dataIndex: 'partner_transaction_reference',
       key: 'partner_transaction_reference',
       ...getColumnSearchProps('partner_transaction_reference', handleSearch, handleReset, 'Partner TranRef')
     },
     {
-      title: 'Partner ReqID',
+      title: t("partnerReqID"),
       dataIndex: 'request_id',
       key: 'request_id',
       ...getColumnSearchProps('request_id', handleSearch, handleReset, 'Partner ReqID')
     },
     {
-      title: 'Bank TranRef',
+      title: t("bankTranRef"),
       key: 'transaction_reference',
       dataIndex: 'transaction_reference',
       ...getColumnSearchProps('transaction_reference', handleSearch, handleReset, 'Bank TranRef')
@@ -101,7 +554,7 @@ export const clmPartnerInfo = (handleSearch, handleReset) => {
     {
       // if(transaction_type == TOPUP) sender_proxy_value
       // if(transaction_type == RPYMNT) receiver_proxy_value
-      title: 'Mobile Number',
+      title: t("mobileNumber"),
       key: 'mobile_no',
       dataIndex: 'mobile_no',
       ...getColumnSearchProps('mobile_no', handleSearch, handleReset, 'Mobile Number')
@@ -109,10 +562,10 @@ export const clmPartnerInfo = (handleSearch, handleReset) => {
   ];
 }
 
-export const clmAccInfo = (handleSearch, handleReset) => {
+export const clmAccInfo = (handleSearch, handleReset, t) => {
   return [
     {
-      title: 'No.',
+      title: t("number"),
       dataIndex: 'no',
       key: 'no',
       render: text => <div>{text}</div>,
@@ -120,7 +573,7 @@ export const clmAccInfo = (handleSearch, handleReset) => {
     {
       // if(transaction_type == TOPUP) sender_main_account_value
       // if(transaction_type == RPYMNT) receiver_main_account_value
-      title: 'TCRB AccountRef',
+      title: t("tcrbAccountRef"),
       dataIndex: 'tcrb_account_reference',
       key: 'tcrb_account_reference',
       ...getColumnSearchProps('tcrb_account_reference', handleSearch, handleReset, 'TCRB AccountRef')
@@ -128,7 +581,7 @@ export const clmAccInfo = (handleSearch, handleReset) => {
     {
       // if(transaction_type == TOPUP) sender_sub_account_value
       // if(transaction_type == RPYMNT) receiver_sub_account_value
-      title: 'Sub A/C',
+      title: t("subAC"),
       dataIndex: 'sub_account',
       key: 'sub_account',
       ...getColumnSearchProps('sub_account', handleSearch, handleReset, 'Sub A/C')
@@ -136,74 +589,74 @@ export const clmAccInfo = (handleSearch, handleReset) => {
     {
       // if(transaction_type == TOPUP) sender_name
       // if(transaction_type == RPYMNT) receiver_name
-      title: 'Account Name',
+      title: t("accountName"),
       key: 'account_name',
       dataIndex: 'account_name',
       ...getColumnSearchProps('account_name', handleSearch, handleReset, 'Account Name')
     },
     {
-      title: 'Acc Ref1',
+      title: t("accRef1"),
       key: 'reference_1',
       dataIndex: 'reference_1',
     },
     {
-      title: 'Acc Ref2',
+      title: t("accRef2"),
       key: 'reference_2',
       dataIndex: 'reference_2',
     },
     {
-      title: 'Acc Ref3',
+      title: t("accRef3"),
       key: 'reference_3',
       dataIndex: 'reference_3',
     },
   ];
 }
 
-export const clmTxn = (handleSearch, handleReset) => {
+export const clmTxn = (handleSearch, handleReset, t) => {
   return [
     {
-      title: 'No.',
+      title: t("number"),
       dataIndex: 'no',
       key: 'no',
       render: text => <div>{text}</div>,
     },
     {
-      title: 'Txn-DR_Entry',
+      title: t("txnDREntry"),
       dataIndex: 'transaction_debit_entry',
       key: 'transaction_debit_entry',
       ...getColumnSearchProps('transaction_debit_entry', handleSearch, handleReset, 'Txn-DR_Entry')
     },
     {
-      title: 'Txn-CR_Entry',
+      title: t("txnCREntry"),
       dataIndex: 'transaction_credit_entry',
       key: 'transaction_credit_entry',
       ...getColumnSearchProps('transaction_credit_entry', handleSearch, handleReset, 'Txn-CR_Entry')
     },
     {
-      title: 'Fee_DR_Entry',
+      title: t("feeDREntry"),
       key: 'fee_debit_entries',
       dataIndex: 'fee_debit_entries',
       // render: (text, record) => addCommaInData(text, false)
     },
     {
-      title: 'Fee_DR_Amt',
+      title: t("feeDRAMT"),
       key: 'fee_amount',
       dataIndex: 'fee_amount',
       // render: (text, record) => addCommaInData(text, true)
     },
     {
-      title: 'Fee_CR_Entry',
+      title: t("feeCREntry"),
       key: 'bank_income_fee_entries',
       dataIndex: 'bank_income_fee_entries',
     },
     {
-      title: 'Fee_CR_Amt',
+      title: t("feeCRAMT"),
       key: 'bank_income_fee',
       dataIndex: 'bank_income_fee',
       // render: (text, record) => addCommaInData(text, true)
     },
     {
-      title: 'Amt',
+      title: t("amt"),
       key: 'amount',
       dataIndex: 'amount',
       render: (text, record) => <div style={{ textAlign: 'right' }}>{addCommaInData(text, true)}</div>

@@ -6,6 +6,7 @@ import { create, persist } from 'mobx-persist'
 class CustomerServiceEnquiry {
   @observable rowDataObject = null
   @observable tmpListData = null
+  @observable pageCustomerEnquiryTable = 1
 
   @observable fetchingGetListCustomerService = null
   @observable dataGetListCustomerService = null
@@ -15,6 +16,10 @@ class CustomerServiceEnquiry {
   @observable onboarded_services = null
 
   @persist @observable persistRow = null
+
+  @action setPageCustomerEnquiry = (page) => {
+    this.pageCustomerEnquiryTable = page
+  }
 
   @action setListData = (data) => {
     this.tmpListData = data
@@ -74,6 +79,7 @@ class CustomerServiceEnquiry {
       this.errorGetListCustomerService = null
     } else {
       this.fetchingGetListCustomerService = false
+      this.dataGetListCustomerService = []
       this.errorGetListCustomerService = { error: temp.problem, status: temp.status }
       // this.errorGetListCustomerService = get(temp, 'data.developerMessage', 'Unknown Error')
     }
