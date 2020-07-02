@@ -252,7 +252,7 @@ const managePartner =
       });
 
       return (
-        <div style={{ padding: 24 }}>
+        <div>
           <Row gutter={[4, 24]}>
             <Col span={2}>
               <TcrbButton className="default" onClick={() => goBackToProductList()} shape="round">Back</TcrbButton>
@@ -280,7 +280,7 @@ const managePartner =
               <SimpleInput defaultValue={businessParametersSetupStore.productLimitDetail.daily_limit} halfSize={true} onChange={(e) => console.log(e)} />}
             </Col>
           </Row>
-          <Row justify="end" style={{ marginTop: 8 }}>
+          <Row justify="end" style={{ marginTop: 8, textAlign: "right" }}>
             {/* <Col span={2}>
               <TcrbButton className="default" onClick={() => goBackToProductList()} shape="round">Back</TcrbButton>
             </Col> */}
