@@ -220,6 +220,8 @@ class BusinessParameterSetup {
     console.log(response)
     if (response.ok) {
       this.apiLoading = false
+      this.productLimit = []
+      this.getDataProductLimit()
     } else {
       this.apiLoading = false
     }
