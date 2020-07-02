@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { DeleteOutlined, SettingOutlined, FormOutlined } from '@ant-design/icons';
+import { DeleteOutlined, SettingOutlined, FormOutlined, ApartmentOutlined } from '@ant-design/icons';
 import { Table, Row, Col, Menu, Card, Input, Select, Form, InputNumber, Divider } from 'antd'
 import { green, gold } from '@ant-design/colors';
 import { inject, observer } from 'mobx-react'
@@ -7,7 +7,7 @@ import { withTranslation } from '../../../i18n'
 import styled from 'styled-components'
 import { toJS } from 'mobx'
 import { TcrbButton, TcrbPopconfirm } from '../../antd-styles/styles'
-import { addKeyToDataSource } from '../../data-utility'
+import { addKeyToDataSource, addCommaInData } from '../../data-utility'
 
 
 const ProductList =
@@ -178,12 +178,12 @@ const ProductList =
       const renderActionAddDeleteHandler = (record, index) => {
         if (record.status === '1') {
           return (
-            <div>
+            <div style={{ textAlign: "center" }}>
               <TcrbPopconfirm title="Sure to Delete?" onConfirm={(e) => { submitDeleteProduct(record) }} disabled={editingKey !== ''}>
                 <a><DeleteOutlined style={{ fontSize: '18px' }} /></a>
               </TcrbPopconfirm>
-              <a onClick={() => selectProductToViewDetail(record)}><SettingOutlined style={{ fontSize: '18px', color: '#FBA928' }} /></a>
-              <a onClick={() => selectProductToSpecificLimit(record)}><FormOutlined style={{ fontSize: '18px', color: '#FBA928' }} /></a>
+              <a onClick={() => selectProductToViewDetail(record)}><FormOutlined style={{ fontSize: '18px', color: '#FBA928' }} /></a>
+              {/* <a onClick={() => selectProductToSpecificLimit(record)}><ApartmentOutlined style={{ fontSize: '18px', color: '#FBA928' }} /></a> */}
             </div>)
         } else if (record.status === '2') {
           return null
@@ -208,7 +208,7 @@ const ProductList =
         }
       }
       const renderActionSpecificHandler = (record) => {
-        return <p onClick={() => selectProductToSpecificLimit(record)} >.....</p>
+        return <div style={{ textAlign: "center" }}><a onClick={() => selectProductToSpecificLimit(record)}><ApartmentOutlined style={{ fontSize: '18px', color: '#FBA928' }} /></a></div>
       }
       const columns = [
         {
@@ -221,25 +221,25 @@ const ProductList =
           dataIndex: 'product_type',
           width: '5%',
           editable: true,
-          render: (text, record) => renderOnclickHandler(text, record)
+          render: (text, record) => addCommaInData(text, false)
         },
         {
           title: 'Product_Description',
           dataIndex: 'product_description',
           editable: true,
-          render: (text, record) => renderOnclickHandler(text, record)
+          render: (text, record) => addCommaInData(text, false)
         },
         {
           title: 'All-Channel Txn Limit',
           dataIndex: 'transaction_limit',
           editable: true,
-          render: (text, record) => renderOnclickHandler(text, record)
+          render: (text, record) => addCommaInData(text, true)
         },
         {
           title: 'All-Channel Daily Limit',
           dataIndex: 'daily_limit',
           editable: true,
-          render: (text, record) => renderOnclickHandler(text, record)
+          render: (text, record) => addCommaInData(text, true)
         },
         {
           title: 'Specific Channel Limit',

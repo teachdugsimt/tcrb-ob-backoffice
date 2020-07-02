@@ -180,7 +180,7 @@ const managePartner =
         const editable = isEditing(record);
         return editable ? (
           <span>
-            <TcrbPopconfirm title="Sure to Delete?" disabled={editingKey !== ''} onConfirm={() => save(record.key)}>
+            <TcrbPopconfirm title="Sure to Delete?" onConfirm={() => save(record.key)}>
               <a
                 style={{
                   marginRight: 8,
