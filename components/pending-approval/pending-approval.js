@@ -48,14 +48,22 @@ const PendingApprovals =
           title: 'Request Description',
           key: 'description',
           render: (record) => {
+            // console.table(record)
             let data = JSON.parse(JSON.stringify(record))
+            console.table(data)
             let string = JSON.parse(data.data)
-            setmodalString(`Action : ${string.ChangedType} \n\n Old Value : ${string.Current.OTP_MAXIMUM_ENTERED ? string.Current.OTP_MAXIMUM_ENTERED : string.Current.OTP_EXPIRE_TIME} \n\n New Vlaue : ${string.New.OTP_MAXIMUM_ENTERED ? string.New.OTP_MAXIMUM_ENTERED : string.Current.OTP_EXPIRE_TIME}`)
+
             return <Row>
               <span>
                 {data.description ? `${data.description} ` : `${data.action}`}
               </span>
-              <div onClick={() => setvisible(true)}><span><a> : details</a></span></div>
+              <div onClick={() => {
+                setmodalString(`
+                  <b>Action</b> : ${data.action}${' '}<br /><b>Request Type</b> : ${data.change_type}
+                  <br /><b>Old Value</b> : ${string.Current.OTP_MAXIMUM_ENTERED ? string.Current.OTP_MAXIMUM_ENTERED : string.Current.OTP_EXPIRE_TIME}
+                  <br /><b>New Vlaue</b> : ${string.New.OTP_MAXIMUM_ENTERED ? string.New.OTP_MAXIMUM_ENTERED : string.New.OTP_EXPIRE_TIME}`)
+                setvisible(true)
+              }}><span><a> : details</a></span></div>
             </Row>
           }
         },
