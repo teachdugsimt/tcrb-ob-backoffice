@@ -14,7 +14,7 @@ const addCommaInData = (text, isComma) => {
   } else {
     if (isComma) {
       let customText = stringToNumber.toLocaleString()
-      return <span style={{ textAlign: "right", }}>{customText}</span>
+      return <p style={{ textAlign: "right", margin: 0 }}>{customText}</p>
     } else {
       return <span>{text}</span>
     }

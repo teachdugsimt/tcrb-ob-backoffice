@@ -38,6 +38,8 @@ class BusinessParameterSetup {
   @observable nextPageIsManageProduct = null
   @observable nextPageIsAddPartner = null
 
+  @observable responseGetOtpPending = null
+
   @observable goBack = null
   @persist @observable persist_value = null
 
@@ -120,6 +122,19 @@ class BusinessParameterSetup {
     }
   }
 
+  @action getDataOtpPendingList = async () => {
+    this.apiLoading = true
+    let tmp = await BusinessParameterSetupApi.getOtpPendingList()
+    console.log(toJS(tmp))
+    if (tmp.ok && tmp.status) {
+      this.responseGetOtpPending = tmp.data.responseData
+      this.apiLoading = false
+
+    } else {
+
+    }
+  }
+
   @action resetOTPrequest = async () => {
     this.responseUpdateOtp = null
   }
@@ -134,6 +149,8 @@ class BusinessParameterSetup {
       this.responseUpdateOtp = response.data
       this.apiLoading = false
       this.errorUpdateOtp = null
+      this.responseGetOtpPending = null
+      this.getDataOtpPendingList()
     } else {
       console.log("Update OTP FAIL :: ", response)
       this.apiLoading = false
@@ -207,6 +224,8 @@ class BusinessParameterSetup {
     console.log(response)
     if (response.ok) {
       this.apiLoading = false
+      this.productLimit = []
+      this.getDataProductLimit()
     } else {
       this.apiLoading = false
     }

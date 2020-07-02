@@ -1,11 +1,14 @@
 import React, { useState, useEffect } from 'react'
 import { inject, observer } from 'mobx-react'
 import { withTranslation } from '../../../i18n'
-import { Table, Row, Col, Menu, Card, Input, Select, Form, InputNumber, Divider, Popconfirm } from 'antd'
+import { Table, Row, Col, Menu, Card, Input, Select, Form, InputNumber, Divider, Popconfirm, Space } from 'antd'
 import { DeleteOutlined, EditOutlined, FormOutlined } from '@ant-design/icons';
 
 import { TcrbButton, TcrbPopconfirm } from '../../antd-styles/styles'
 import { addKeyToDataSource, addCommaInData } from '../../data-utility'
+import SimpleInput from '../../simple-input'
+import SimpleModal from '../../simple-modal'
+import { toJS } from 'mobx';
 
 const managePartner =
   inject('businessParametersSetupStore')
@@ -15,6 +18,12 @@ const managePartner =
       const [editingKey, setEditingKey] = useState('')
       const isEditing = record => record.key === editingKey;
       const [mockDataPartnerList, setMockDataPartnerList] = useState([])
+      const [isEnableEditButton, setIsEnableEditButton] = useState(true)
+      const [visible, setVisble] = useState(false)
+      const [modalString, setModalString] = useState('')
+      const [titleModal, setTitleModal] = useState('')
+      const [modalType, setModalType] = useState('')
+
       // var mockDataPartnerList = []
       useEffect(() => {
         addKeyToDataSource(businessParametersSetupStore.channelPartnerList).then((result) => {
@@ -74,33 +83,81 @@ const managePartner =
           </td>
         );
       };
+      const submitChangeProductLimitSelect = () => {
+        //call api
+        /* let request = {
+          partner_code: selectPartnerAndProduct.partner_code,
+          product_code: businessParametersSetupStore.productLimitDetail.product_code,
+          transaction_code: '6931',
+          transaction_limit: txnLimit,
+          daily_limit: dailyLimit
+        } */
+        setVisble(false)
+      }
 
       const prepareAllLimitToSubmitAndUpdate = () => {
-        if (viewSpecificProduct) {
-          // submitAddSpecificLimit()
-          setModalString(
-            <div style={{ textAlign: "center" }}>
-              <p> Add Partner {selectPartnerAndProduct.type} </p>
-              {/* <p>for {selectPartnerAndProduct.partner_code}/{selectPartnerAndProduct.partner_abbreviation} Channel/Partner !!!</p> */}
-            </div>
-          )
-        } else {
-          // submitChangeProductLimitSelect()
-
-          setModalString(
-            //waiting for confirm task
-            <div style={{ textAlign: "center" }}>
-              <p> Change Product Code {selectPartnerAndProduct.partner_code} Limit </p>
-              <p>for {selectPartnerAndProduct.partner_code}/{selectPartnerAndProduct.partner_abbreviation} Channel/Partner !!!</p>
-            </div>
-          )
-        }
+        setModalString(
+          //waiting for confirm task
+          <div style={{ textAlign: "center" }}>
+            <p>Confirm to Change Limit Product Code {businessParametersSetupStore.productLimitDetail.product_type}  !!!</p>
+            {/* <p>for {selectPartnerAndProduct.partner_code}/{selectPartnerAndProduct.partner_abbreviation} Channel/Partner !!!</p> */}
+          </div>
+        )
         setVisble(true)
         setTitleModal('Confirm')
         setModalType("confirm")
       }
       const goBackToProductList = () => {
         businessParametersSetupStore.goBack = true
+      }
+
+      const save = async key => {
+        const row = await form.validateFields();
+        const newData = [...mockDataPartnerList];
+        const index = newData.findIndex(item => key === item.key);
+
+        if (index > -1) {
+          const item = newData[index];
+          console.log({ ...item, ...row })
+          newData.splice(index, 1, { ...item, ...row });
+          setMockDataPartnerList(newData);
+          setEditingKey('');
+        } else {
+          newData.push(row);
+          setMockDataPartnerList(newData);
+          setEditingKey('');
+        }
+        /* try {
+          const row = await form.validateFields();
+          const newData = [...mockDataPartnerList];
+          const index = newData.findIndex(item => key === item.key);
+
+          if (index > -1) {
+            const item = newData[index];
+            newData.splice(index, 1, { ...item, ...row });
+            setData(newData);
+            setEditingKey('');
+          } else {
+            newData.push(row);
+            setData(newData);
+            setEditingKey('');
+          }
+        } catch (errInfo) {
+          console.log('Validate Failed:', errInfo);
+        } */
+      };
+
+      const deletePartnerSelect = (record) => {
+        console.log(toJS(record))
+        //waiting call api
+      }
+
+      const setEditEnableLimit = () => {
+        setIsEnableEditButton(false)
+      }
+
+      const cancelEditLimit = () => {
+        setIsEnableEditButton(true)
       }
 
       const renderAction = (record) => {
@@ -128,22 +185,22 @@ const managePartner =
         const editable = isEditing(record);
         return editable ? (
           <span>
-            <a
-              href="javascript:;"
-              onClick={() => save(record.key)}
-              style={{
-                marginRight: 8,
-              }}
-            >
-              Save
+            <TcrbPopconfirm title="Sure to Delete?" onConfirm={() => save(record.key)}>
+              <a
+                style={{
+                  marginRight: 8,
+                }}
+              >
+                Save
             </a>
-            <Popconfirm title="Sure to cancel?" onConfirm={cancel}>
+            </TcrbPopconfirm>
+            <TcrbPopconfirm title="Sure to cancel?" onConfirm={cancel}>
               <a>Cancel</a>
-            </Popconfirm>
+            </TcrbPopconfirm>
           </span>
         ) : (
             <div style={{ textAlign: "center" }}>
-              <TcrbPopconfirm title="Sure to Delete?" disabled={editingKey !== ''}>
+              <TcrbPopconfirm title="Sure to Delete?" disabled={editingKey !== ''} onConfirm={() => deletePartnerSelect(record)}>
                 <a><DeleteOutlined style={{ fontSize: '18px' }} /></a>
               </TcrbPopconfirm>
               <a disabled={editingKey !== ''} onClick={() => edit(record)}><EditOutlined style={{ fontSize: '18px', color: '#FBA928' }} /></a>
@@ -200,25 +257,47 @@ const managePartner =
       });
 
       return (
-        <div style={{ padding: 24 }}>
+        <div>
+          <Row gutter={[4, 24]}>
+            <Col span={2}>
+              <TcrbButton className="default" onClick={() => goBackToProductList()} shape="round">Back</TcrbButton>
+            </Col>
+          </Row>
           <Row gutter={[4, 24]}>
             <Col span={6}>Product_Code</Col>
             <Col span={6}>{businessParametersSetupStore.productLimitDetail.product_type}</Col>
             <Col span={6}>Product_Description</Col>
             <Col span={6}>{businessParametersSetupStore.productLimitDetail.product_description}</Col>
+
           </Row>
           <Row gutter={[4, 24]}>
             <Col span={6}>All-Channel Txn Limit</Col>
-            <Col span={6}>{businessParametersSetupStore.productLimitDetail.transaction_limit}</Col>
-            <Col span={6}>All-Channel Daily Limit</Col>
-            <Col span={6}>{businessParametersSetupStore.productLimitDetail.daily_limit}</Col>
-          </Row>
-          <Row justify="end" style={{ marginTop: 8 }}>
-            <Col span={2}>
-              <TcrbButton className="default" onClick={() => goBackToProductList()} shape="round">Back</TcrbButton>
+            {/* <Col span={6}>{businessParametersSetupStore.productLimitDetail.transaction_limit}</Col> */}
+            <Col span={6}> {isEnableEditButton ?
+              businessParametersSetupStore.productLimitDetail.transaction_limit :
+              <SimpleInput defaultValue={businessParametersSetupStore.productLimitDetail.transaction_limit} halfSize={true} onChange={(e) => console.log(e)} />}
             </Col>
-            <Col span={2}>
-              <TcrbButton shape="round" className="primary" onClick={() => { prepareAllLimitToSubmitAndUpdate() }}>Submit</TcrbButton>
+
+            <Col span={6}>All-Channel Daily Limit</Col>
+            {/* <Col span={6}>{businessParametersSetupStore.productLimitDetail.daily_limit}</Col> */}
+            <Col span={6}> {isEnableEditButton ?
+              businessParametersSetupStore.productLimitDetail.daily_limit :
+              <SimpleInput defaultValue={businessParametersSetupStore.productLimitDetail.daily_limit} halfSize={true} onChange={(e) => console.log(e)} />}
+            </Col>
+          </Row>
+          <Row justify="end" style={{ marginTop: 8, textAlign: "right" }}>
+            {/* <Col span={2}>
+              <TcrbButton className="default" onClick={() => goBackToProductList()} shape="round">Back</TcrbButton>
+            </Col> */}
+            <Col span={4}>
+              {isEnableEditButton ? (
+                <TcrbButton shape="round" className="primary" onClick={() => { setEditEnableLimit() }}>Edit</TcrbButton>
+              ) : (
+                  <Space size={8}>
+                    <TcrbButton shape="round" className="default" onClick={() => { cancelEditLimit() }}>Cancel</TcrbButton>
+                    <TcrbButton shape="round" className="primary" onClick={() => { prepareAllLimitToSubmitAndUpdate() }}>Submit</TcrbButton>
+                  </Space>
+                )}
             </Col>
           </Row>
           <Divider />
@@ -235,6 +314,16 @@ const managePartner =
               size="small"
             />
           </Form>
+          <SimpleModal
+            title={titleModal}
+            type={modalType}
+            onOk={() => { submitChangeProductLimitSelect() }}
+            onCancel={() => setVisble(false)}
+            textOk={t("confirm")}
+            textCancel={t("cancel")}
+            modalString={modalString}
+            visible={visible}
+          />
         </div>
       )
     }))
