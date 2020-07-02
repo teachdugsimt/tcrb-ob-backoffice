@@ -92,5 +92,6 @@
   "feeCREntry": "Fee_CR_Entry",
   "feeDRAMT": "Fee_DR_Amt",
   "feeCRAMT": "Fee_CR_Amt",
-  "amt": "Amt"
+  "amt": "Amt",
+  "onboardService": "Onboarded service"
 }

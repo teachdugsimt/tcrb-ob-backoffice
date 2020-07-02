@@ -21,6 +21,11 @@ class CustomerServiceEnquiry {
     this.pageCustomerEnquiryTable = page
   }
 
+  @action clearCacheCustomerDetail = () => {
+    this.customer_data = null
+    this.onboarded_services = null
+  }
+
   @action setListData = (data) => {
     this.tmpListData = data
   }

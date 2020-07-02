@@ -35,6 +35,7 @@ export const SearchBox =
         let newProps = JSON.parse(JSON.stringify(customerServiceEnquiry.dataGetListCustomerService))
         if(newProps != tmp_list_table){
           setTmpList(newProps)
+          // customerServiceEnquiry.clearCacheCustomerDetail()
           customerServiceEnquiry.setPageCustomerEnquiry(1)
         }
       }, [customerServiceEnquiry.dataGetListCustomerService])
@@ -72,7 +73,7 @@ export const SearchBox =
         // customerServiceEnquiry.setPageCustomerEnquiry(1)
         console.log(menuName[currentSearch])
         console.log("Search Text : ", value)
-
+        customerServiceEnquiry.clearCacheCustomerDetail()
         let focus_menu = menuName[currentSearch]
         let text_search = value
         // let list_item = JSON.parse(JSON.stringify(data))
