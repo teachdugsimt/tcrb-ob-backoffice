@@ -31,6 +31,7 @@ const TableResult =
       const [allList, setallList] = useState(null)
       const [searchText, setSearchText] = useState([])
       const [page, setPage] = useState(1)
+      const [pageSizeVal, setPageSizeVal] = useState(10)
 
       const _buildListData = () => {
         let arr = customerServiceEnquiry.tmpListData ? customerServiceEnquiry.tmpListData : data
@@ -156,6 +157,12 @@ const TableResult =
         nextArrow: <NextArrow />
       }
 
+      const _handlePageSize = (pagination) => {
+        if (pagination.pageSize != pageSizeVal) {
+          setPageSizeVal(pagination.pageSize)
+        }
+      }
+
       return (
         <div style={{ paddingTop: 10 }}>
           <TcrbSpin spinning={customerServiceEnquiry.fetchingGetListCustomerService} size="large" tip="Loading..." >
@@ -172,9 +179,12 @@ const TableResult =
                   filtered={true}
                   onChange={(e) => setPage(e.current)}
                   columns={clmTranInfo(handleSearch, handleReset, t)} dataSource={tableTranInfoData}
-                  pagination={{ current: JSON.parse(JSON.stringify(customerServiceEnquiry.pageCustomerEnquiryTable)) ? JSON.parse(JSON.stringify(customerServiceEnquiry.pageCustomerEnquiryTable)) : page, }}
+                  pagination={{ current: JSON.parse(JSON.stringify(customerServiceEnquiry.pageCustomerEnquiryTable)) ? JSON.parse(JSON.stringify(customerServiceEnquiry.pageCustomerEnquiryTable)) : page, pageSize: pageSizeVal }}
                   size="small"
                   onChange={(pagination, filters, sorter, extra) => {
+                    // console.log("-------------------- ON CHANGE -------------------")
+                    // console.log(pagination)
+                    if (pagination) _handlePageSize(pagination)
                     customerServiceEnquiry.setPageCustomerEnquiry(pagination.current)
                     setPage(pagination.current)
                     setTableTranInfoData(extra.currentDataSource)
@@ -194,9 +204,10 @@ const TableResult =
                     // },
                   })}
                   columns={clmPartnerInfo(handleSearch, handleReset, t)} dataSource={tableTranInfoData}
-                  pagination={{ current: JSON.parse(JSON.stringify(customerServiceEnquiry.pageCustomerEnquiryTable)) ? JSON.parse(JSON.stringify(customerServiceEnquiry.pageCustomerEnquiryTable)) : page, }}
+                  pagination={{ current: JSON.parse(JSON.stringify(customerServiceEnquiry.pageCustomerEnquiryTable)) ? JSON.parse(JSON.stringify(customerServiceEnquiry.pageCustomerEnquiryTable)) : page, pageSize: pageSizeVal }}
                   size="small"
                   onChange={(pagination, filters, sorter, extra) => {
+                    if (pagination) _handlePageSize(pagination)
                     customerServiceEnquiry.setPageCustomerEnquiry(pagination.current)
                     setPage(pagination.current)
                     setTableTranInfoData(extra.currentDataSource)
@@ -216,9 +227,10 @@ const TableResult =
                     // },
                   })}
                   columns={clmAccInfo(handleSearch, handleReset, t)} dataSource={tableTranInfoData}
-                  pagination={{ current: JSON.parse(JSON.stringify(customerServiceEnquiry.pageCustomerEnquiryTable)) ? JSON.parse(JSON.stringify(customerServiceEnquiry.pageCustomerEnquiryTable)) : page, }}
+                  pagination={{ current: JSON.parse(JSON.stringify(customerServiceEnquiry.pageCustomerEnquiryTable)) ? JSON.parse(JSON.stringify(customerServiceEnquiry.pageCustomerEnquiryTable)) : page, pageSize: pageSizeVal }}
                   size="small"
                   onChange={(pagination, filters, sorter, extra) => {
+                    if (pagination) _handlePageSize(pagination)
                     customerServiceEnquiry.setPageCustomerEnquiry(pagination.current)
                     setPage(pagination.current)
                     setTableTranInfoData(extra.currentDataSource, t)
@@ -237,9 +249,10 @@ const TableResult =
                     // },
                   })}
                   columns={clmTxn(handleSearch, handleReset, t)} dataSource={tableTranInfoData}
-                  pagination={{ current: JSON.parse(JSON.stringify(customerServiceEnquiry.pageCustomerEnquiryTable)) ? JSON.parse(JSON.stringify(customerServiceEnquiry.pageCustomerEnquiryTable)) : page, }}
+                  pagination={{ current: JSON.parse(JSON.stringify(customerServiceEnquiry.pageCustomerEnquiryTable)) ? JSON.parse(JSON.stringify(customerServiceEnquiry.pageCustomerEnquiryTable)) : page, pageSize: pageSizeVal }}
                   size="small"
                   onChange={(pagination, filters, sorter, extra) => {
+                    if (pagination) _handlePageSize(pagination)
                     customerServiceEnquiry.setPageCustomerEnquiry(pagination.current)
                     setPage(pagination.current)
                     setTableTranInfoData(extra.currentDataSource)
