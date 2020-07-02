@@ -11,6 +11,7 @@ export default function SimpleModal(props) {
       <TcrbModal
         title={i18n.t(props.title)}
         visible={props.visible}
+        width={props.width || 520}
         onOk={() => props.onOk()}
         onCancel={() => props.onCancel()}
         footer={[

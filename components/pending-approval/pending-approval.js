@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useMemo } from 'react'
+import ReactDOMServer from 'react-dom/server'
 import { Table, Popconfirm, Row, Col } from 'antd';
 import { inject, observer } from 'mobx-react'
 import { DownOutlined } from '@ant-design/icons';
@@ -35,6 +36,22 @@ const PendingApprovals =
       const [visible, setvisible] = useState(false)
       const { pendingApprovalStore, t } = props
       const expand = { expandedRowRender: record => <p>{record.description}</p> };
+
+
+      const renderTableData = (data) => {
+        const keys = Object.keys(data)
+        return ReactDOMServer.renderToStaticMarkup(<table style={{ border: 1 }}>{keys.map((k, index) => {
+          return <tr>
+            <td style={{ border: '1px solid lightgrey', width: 200, backgroundColor: '#eeeeee' }}>{k}</td>
+            <td style={{ border: '1px solid lightgrey', width: 200, textAlign: 'center' }}>{data[k]}</td>
+          </tr>
+        })}</table>)
+      }
+
+      const renderTest = () => {
+        return ReactDOMServer.renderToStaticMarkup(<div>abc</div>)
+      }
+
       const columns = [
         {
           title: 'Ticket#',
@@ -60,8 +77,11 @@ const PendingApprovals =
               <div onClick={() => {
                 setmodalString(`
                   <b>Action</b> : ${data.action}${' '}<br /><b>Request Type</b> : ${data.change_type}
-                  <br /><b>Old Value</b> : ${string.Current.OTP_MAXIMUM_ENTERED ? string.Current.OTP_MAXIMUM_ENTERED : string.Current.OTP_EXPIRE_TIME}
-                  <br /><b>New Vlaue</b> : ${string.New.OTP_MAXIMUM_ENTERED ? string.New.OTP_MAXIMUM_ENTERED : string.New.OTP_EXPIRE_TIME}`)
+                  <div style="display: flex; flex-direction: row;">
+                  <div style="flex:1;margin-right: 5px;"><b>Current Value</b> : ${renderTableData(string.Current)}</div>
+                  <div style="flex:1;margin-left: 5px;"><b>New Value</b>: ${renderTableData(string.New)}</div>
+                  </div>
+                `)
                 setvisible(true)
               }}><span><a> : details</a></span></div>
             </Row>
@@ -152,6 +172,7 @@ const PendingApprovals =
                 onCancel={() => _onCancel()}
                 textCancel={textCancel}
                 textOk={textOk}
+                width={800}
                 modalString={modalString}
                 visible={visible}
               />
