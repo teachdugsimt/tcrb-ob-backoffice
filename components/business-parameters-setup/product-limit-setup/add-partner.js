@@ -3,11 +3,13 @@ import { withTranslation } from '../../../i18n'
 import { inject, observer } from 'mobx-react'
 import { Table, Row, Col, Menu, Card, Input, Select, Form, InputNumber, Divider } from 'antd'
 import { TcrbButton, TcrbPopconfirm } from '../../antd-styles/styles'
-
+import { toJS } from 'mobx';
 import SimpleModal from '../../simple-modal'
 import SimpleInput from '../../simple-input'
 
 const { Option } = Select;
+let txnLimit = null
+let dailyLimit = null
 
 const AddPartner =
   inject('businessParametersSetupStore')
@@ -44,18 +46,45 @@ const AddPartner =
         businessParametersSetupStore.goBack = true
       }
 
+      const submitAddSpecificLimit = () => {
+        let data = {
+          newData: {
+            partner_code: selectPartnerAndProduct.partner_code,
+            product_code: selectPartnerAndProduct.product_code,
+            transaction_code: '6931',
+            transaction_limit: txnLimit,
+            daily_limit: dailyLimit
+          }
+        }
+        setVisble(false)
+
+      }
+
+      const prepareAllLimitToSubmitAndUpdate = () => {
+        console.log(toJS(selectPartnerAndProduct))
+        setModalString(
+          <div style={{ textAlign: "center" }}>
+            <p> Add Partner {selectPartnerAndProduct.partner_code}/{selectPartnerAndProduct.partner_abbreviation} </p>
+            {/* <p>for {selectPartnerAndProduct.partner_code}/{selectPartnerAndProduct.partner_abbreviation} Channel/Partner !!!</p> */}
+          </div>
+        )
+        setVisble(true)
+        setTitleModal('Confirm')
+        setModalType("confirm")
+      }
+
       const columnPartnerList = [
         {
           title: 'Partner / Channel',
           dataIndex: 'product_type',
           render: (text, record) => renderOnclickHandler(text, record)
         },
-        {
+        /* {
           title: 'Product_Description',
           dataIndex: 'product_description',
           editable: true,
           render: (text, record) => renderOnclickHandler(text, record)
-        },
+        }, */
         {
           title: 'Txn Limit',
           dataIndex: 'transaction_limit',
