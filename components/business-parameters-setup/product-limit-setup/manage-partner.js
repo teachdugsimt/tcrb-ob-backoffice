@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { inject, observer } from 'mobx-react'
 import { withTranslation } from '../../../i18n'
-import { Table, Row, Col, Menu, Card, Input, Select, Form, InputNumber, Divider, Popconfirm } from 'antd'
+import { Table, Row, Col, Menu, Card, Input, Select, Form, InputNumber, Divider, Popconfirm, Space } from 'antd'
 import { DeleteOutlined, EditOutlined, FormOutlined } from '@ant-design/icons';
 
 import { TcrbButton, TcrbPopconfirm } from '../../antd-styles/styles'
@@ -288,10 +288,10 @@ const managePartner =
               {isEnableEditButton ? (
                 <TcrbButton shape="round" className="primary" onClick={() => { setEditEnableLimit() }}>Edit</TcrbButton>
               ) : (
-                  <div>
+                  <Space size={8}>
                     <TcrbButton shape="round" className="default" onClick={() => { cancelEditLimit() }}>Cancel</TcrbButton>
                     <TcrbButton shape="round" className="primary" onClick={() => { prepareAllLimitToSubmitAndUpdate() }}>Submit</TcrbButton>
-                  </div>
+                  </Space>
                 )}
             </Col>
           </Row>
