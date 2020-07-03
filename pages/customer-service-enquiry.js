@@ -1,11 +1,11 @@
 import React from 'react'
-import { SearchBar } from '../components/customer-service-enquiry/search-bar'
+import SearchBar from '../components/customer-service-enquiry/search-bar'
 import TableResult from '../components/customer-service-enquiry/table-result'
 import CustomerDetail from '../components/customer-service-enquiry/customer-detail'
 import { Row, Col } from 'antd'
 import { withTranslation } from '../i18n'
-const CustomerServiceEnquiry = () => {
-
+const CustomerServiceEnquiry = (props) => {
+  const { t } = props
   return (
     <Row>
       <Col span={24}>
@@ -23,4 +23,4 @@ CustomerServiceEnquiry.getInitialProps = async () => ({
   namespacesRequired: [],
 })
 
-export default withTranslation()(CustomerServiceEnquiry)
+export default withTranslation('common')(CustomerServiceEnquiry)

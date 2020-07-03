@@ -1,6 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 // import { Input } from 'antd'
+import { withTranslation } from '../i18n'
 const Label = styled.div`
   padding: 10px;
   display: flex;
@@ -15,8 +16,10 @@ const Value = styled.div`
   background-color: ${({ theme }) => theme.colors.grey}
 `
 
-export default function SimpleLabel(props) {
+function SimpleLabel(props) {
   return (
     <Label><Key>{props.label}</Key><Value>{props.value}</Value></Label>
   )
 }
+
+export default withTranslation('common')(SimpleLabel)

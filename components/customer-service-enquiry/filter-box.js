@@ -2,9 +2,9 @@ import React, { useState, useEffect } from 'react';
 import Highlighter from 'react-highlight-words';
 import { SearchOutlined } from '@ant-design/icons';
 import { Table, Input, Button, Space } from 'antd';
+import { withTranslation } from '../../i18n'
 
-
-export const getColumnSearchProps = (dataIndex, handleSearch, handleReset, titile) => {
+const getColumnSearchProps = (dataIndex, handleSearch, handleReset, titile) => {
   const [searchInput, setSearchInput] = useState("")
   const [searchedColumn, setSearchedColumn] = useState("")
   const [searchText, setSearchText] = useState("")
@@ -83,3 +83,4 @@ export const getColumnSearchProps = (dataIndex, handleSearch, handleReset, titil
   }
 }
 
+export default withTranslation('common')(getColumnSearchProps)

@@ -54,4 +54,4 @@ AdminHeader.getInitialProps = async () => ({
   namespacesRequired: [],
 })
 
-export default withTranslation()(AdminHeader)
+export default withTranslation('common')(AdminHeader)

@@ -93,5 +93,6 @@
   "feeDRAMT": "Fee_DR_Amt",
   "feeCRAMT": "Fee_CR_Amt",
   "amt": "Amt",
-  "onboardService": "Onboarded service"
+  "onboardService": "Onboarded service",
+  "notFoundPage": "404 - Page Not Found"
 }

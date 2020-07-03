@@ -61,7 +61,7 @@ const Signin =
       ]
 
       // const { authenStore } = useStores()
-      const { authenStore, businessParametersSetupStore } = props
+      const { authenStore, businessParametersSetupStore, t } = props
       const [id, setId] = useState("")
       const [password, setPassword] = useState("")
       const footName = authenStore.footName ? authenStore.footName : "IT SERVICE DESK CONTACT NUMBER IS 02-6xx-1234"
@@ -117,10 +117,10 @@ const Signin =
                     </Row>
                     <Row justify="end" align="center" style={{ paddingLeft: "20%", width: '100%' }}>
                       <Col style={{ marginRight: 20 }} align="center">
-                        <WrapperButtonAnt title={i18n.t("forNewWork")} />
+                        <WrapperButtonAnt title={t("forNewWork")} />
                       </Col>
                       <Col align="center">
-                        <WrapperButtonAnt title={i18n.t("support")} />
+                        <WrapperButtonAnt title={t("support")} />
                       </Col>
                     </Row>
                   </Row>
@@ -148,7 +148,7 @@ const Signin =
 
                           <Row span={24}>
                             <Col span={24}>
-                              <span style={{ marginLeft: 5, fontSize: '2em', color: colorID }}>{(id ? "" : "*") + " " + (i18n.t("username"))}</span>
+                              <span style={{ marginLeft: 5, fontSize: '2em', color: colorID }}>{(id ? "" : "*") + " " + (t("username"))}</span>
                               <MainInput value={id} onChange={e => {
                                 if (id) setcolorID("#D3D3D3")
                                 else setPassword("red")
@@ -159,7 +159,7 @@ const Signin =
 
                           <Row span={24} style={{ marginTop: "10%" }}>
                             <Col span={24}>
-                              <span style={{ marginLeft: 5, fontSize: '2em', color: colorPass }}>{(password ? "" : "*") + " " + (i18n.t("password"))}</span>
+                              <span style={{ marginLeft: 5, fontSize: '2em', color: colorPass }}>{(password ? "" : "*") + " " + (t("password"))}</span>
                               <MainInput type="password" value={password} onChange={e => {
                                 if (password) setcolorPass("#D3D3D3")
                                 else setPassword("red")
@@ -169,7 +169,7 @@ const Signin =
                           </Row>
 
                           <Row span={24} justify={'center'} style={{ marginTop: "10%" }}>
-                            <Button style={{ margin: 5, background: '#707070', color: 'white', borderRadius: 5, minHeight: 50, width: "50%", alignSelf: 'center', textAlign: 'center', fontSize: '2em' }} onClick={() => _submitForm()}>{i18n.t("submit")}</Button>
+                            <Button style={{ margin: 5, background: '#707070', color: 'white', borderRadius: 5, minHeight: 50, width: "50%", alignSelf: 'center', textAlign: 'center', fontSize: '2em' }} onClick={() => _submitForm()}>{t("submit")}</Button>
                           </Row>
                         </Col>
                       </Row>
@@ -190,7 +190,7 @@ const Signin =
         </Layout>
       )
     }))
-export default (Signin)
+export default withTranslation('common')(Signin)
 
 
 

@@ -61,5 +61,5 @@ MainLayout.getInitialProps = async () => ({
   namespacesRequired: [],
 })
 
-export default withRouter(withTranslation()(MainLayout))
+export default withRouter(withTranslation('common')(MainLayout))
 // HTTPS=true SSL_CRT_FILE=Certificate_chain.txt SSL_KEY_FILE=private_key.txt npm run dev

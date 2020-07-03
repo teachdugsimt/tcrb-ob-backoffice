@@ -102,7 +102,7 @@ const CustomerDetail =
 
     }))
 // citizen_id  = 912f74047dd8964c382a6d6287f0ed1
-export default withTranslation()(CustomerDetail)
+export default withTranslation('common')(CustomerDetail)
 
 
 

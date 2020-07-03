@@ -34,4 +34,4 @@ PendingApprove.getInitialProps = async () => ({
   namespacesRequired: [],
 })
 
-export default withTranslation()(PendingApprove)
+export default withTranslation('common')(PendingApprove)
