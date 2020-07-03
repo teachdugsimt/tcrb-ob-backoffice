@@ -55,7 +55,7 @@ const OtpUnlocking =
           let result = convertArrayObjectToArray(customerServicesMenuStore.accountInfo)
           customerServicesMenuStore.arrayAccountInfo = result
           console.log(result)
-          // setStringSwitch(toJS(result))
+          setStringSwitch(toJS(result))
         }
       }, [customerServicesMenuStore.accountInfo])
 
@@ -84,7 +84,8 @@ const OtpUnlocking =
         // let result = new Promise.all(
         return arrayObject.map(a => {
           console.log(a)
-          return [a.otp_is_locked, a.main_account_no, a.products]
+          let product_name = a.products.map(e => e.product_name_english)
+          return [a.otp_is_locked, a.main_account_no, product_name.join('<br />')]
         });
         // return result
         // resolve(result)
@@ -115,7 +116,12 @@ const OtpUnlocking =
         if (switchSelected === true) {
 
           customerServicesMenuStore.accountSelected = customerServicesMenuStore.accountInfo[index]
+          // console.log(customerServicesMenuStore.arrayAccountInfo)
+          let accInfo = toJS(customerServicesMenuStore.arrayAccountInfo)
+          // accInfo[0][0] = false
+          // console.log(accInfo)
           setStringSwitch(customerServicesMenuStore.arrayAccountInfo)
+          // setStringSwitch(false)
           setVisble(true)
           setModalString(
             <div style={{ textAlign: "center" }}>
@@ -165,12 +171,22 @@ const OtpUnlocking =
               onChange={(switchSelected, index) => onChange(switchSelected, index)} />
           ) : ('')}
           <SimpleModal
+            type='confirm'
             onOk={() => unlockOTP()}
             onCancel={() => closeModal()}
-            okText={t("confirm")}
-            cancelText={t("cancel")}
+            textOk={t("confirm")}
+            textCancel={t("cancel")}
             modalString={modalString}
             visible={visible}
+
+          // title={titleModal}
+          // type={modalType}
+          // onOk={() => _onConfirm()}
+          // onCancel={() => _onCancel()}
+          // textCancel={textCancel}
+          // textOk={textOk}
+          // modalString={modalString}
+          // visible={visible}
           />
         </div>
       )

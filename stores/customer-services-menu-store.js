@@ -55,7 +55,7 @@ class CustomerServicesMenuStore {
     this.apiFetching = true
     let temp = await CustomerServicesMenuApi.unlockOTPAccount({ main_account_no, cif })
     console.log(temp)
-    if (temp.ok && temp.data.statusCode === 200) {
+    if (temp.ok && temp.status === 200) {
       this.apiFetching = false
       this.unlockOtpInfo = temp.data.responseData
       this.accountInfoError = null
