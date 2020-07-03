@@ -32,7 +32,7 @@ function SimpleModal(props) {
         {/* <JsonTable rows={JSON.parse(props.modalString)} /> */}
         {typeof props.modalString === 'string' ? <div dangerouslySetInnerHTML={{ __html: props.modalString }} /> : props.modalString}
       </TcrbModal>
-    </div >
+    </div>
   )
 }
 export default withTranslation('common')(SimpleModal)

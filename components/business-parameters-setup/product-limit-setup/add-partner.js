@@ -3,6 +3,8 @@ import { withTranslation } from '../../../i18n'
 import { inject, observer } from 'mobx-react'
 import { Table, Row, Col, Menu, Card, Input, Select, Form, InputNumber, Divider } from 'antd'
 import { TcrbButton, TcrbPopconfirm } from '../../antd-styles/styles'
+import { green, gold } from '@ant-design/colors';
+import { addKeyToDataSource, addCommaInData } from '../../data-utility'
 import { toJS } from 'mobx';
 import SimpleModal from '../../simple-modal'
 import SimpleInput from '../../simple-input'
@@ -22,18 +24,37 @@ const AddPartner =
       const [titleModal, setTitleModal] = useState('')
       const [modalType, setModalType] = useState('')
       const [selectPartnerAndProduct, setSelectPartnerAndProduct] = useState({})
+      const [dataSource, setDataSource] = useState([])
 
 
 
       useEffect(() => {
-        businessParametersSetupStore.getDataChannelPartnerList()
+        console.log(toJS(businessParametersSetupStore.productSelect))
+        businessParametersSetupStore.getDataPartnerUnbindList(businessParametersSetupStore.productSelect)
+        businessParametersSetupStore.getDataPartnerBindingList(businessParametersSetupStore.productSelect)
       }, []);
 
       useEffect(() => {
-        if (businessParametersSetupStore.channelPartnerList.length > 1) {
-          setChannelPartnerList(businessParametersSetupStore.channelPartnerList)
+        if (businessParametersSetupStore.responsePartnerUnbindList.length >= 1) {
+          setChannelPartnerList(businessParametersSetupStore.responsePartnerUnbindList)
         }
-      }, [businessParametersSetupStore.channelPartnerList])
+      }, [businessParametersSetupStore.responsePartnerUnbindList])
+
+      useEffect(() => {
+        if (businessParametersSetupStore.responsePartnerBindingList.length >= 1) {
+          addKeyToDataSource(businessParametersSetupStore.responsePartnerBindingList).then(result => {
+            console.log(toJS(result))
+            setDataSource(result)
+          })
+        }
+      }, [businessParametersSetupStore.responsePartnerBindingList])
+
+      useEffect(() => {
+        if (businessParametersSetupStore.responseAddPartnerStatus) {
+          businessParametersSetupStore.getDataPartnerBindingList(businessParametersSetupStore.productSelect)
+        }
+      })
+
 
       const selectPartnerChanel = (value) => {
         let productSelectObject = channelPartnerList.filter(item => item.partner_code == value)
@@ -47,55 +68,76 @@ const AddPartner =
       }
 
       const submitAddSpecificLimit = () => {
-        let data = {
-          newData: {
-            partner_code: selectPartnerAndProduct.partner_code,
-            product_code: selectPartnerAndProduct.product_code,
-            transaction_code: '6931',
-            transaction_limit: txnLimit,
-            daily_limit: dailyLimit
-          }
+        let request = {
+          partner_code: selectPartnerAndProduct.partner_code,
+          product_code: businessParametersSetupStore.productSelect.product_code,
+          transaction_code: '6931',
+          transaction_limit: txnLimit,
+          daily_limit: dailyLimit
         }
+        businessParametersSetupStore.addSpecificLimit(request)
         setVisble(false)
 
       }
 
       const prepareAllLimitToSubmitAndUpdate = () => {
-        console.log(toJS(selectPartnerAndProduct))
         setModalString(
           <div style={{ textAlign: "center" }}>
-            <p> Add Partner {selectPartnerAndProduct.partner_code}/{selectPartnerAndProduct.partner_abbreviation} </p>
-            {/* <p>for {selectPartnerAndProduct.partner_code}/{selectPartnerAndProduct.partner_abbreviation} Channel/Partner !!!</p> */}
+            <p> Add Partner {selectPartnerAndProduct.partner_code}/{selectPartnerAndProduct.partner_abbreviation} To {businessParametersSetupStore.productSelect.product_type}</p>
+            <div>
+              <Row justify="center" gutter={[4, 4]}>
+                <Col>Txn Limit is </Col>
+                <Col>{addCommaInData(txnLimit, true)} </Col>
+                <Col>THB</Col>
+              </Row>
+              <Row justify="center" gutter={[4, 14]}>
+                <Col>Daily Limit is </Col>
+                <Col>{addCommaInData(dailyLimit, true)} </Col>
+                <Col>THB</Col>
+              </Row>
+            </div>
+            {/* Daily Limit is {addCommaInData(dailyLimit, true)} */}
+            {/* <p>Txn Limit is {addCommaInData(txnLimit, true)}</p> */}
           </div>
         )
         setVisble(true)
         setTitleModal('Confirm')
         setModalType("confirm")
       }
+      //1,2 active, 3 pending
+      const checkStatus = (record) => {
+        if (record.status === '1' || record.status === '2') {
+          return <p style={{ color: green[6] }}>Active</p>
+        } else if (record.status === '3') {
+          return <p style={{ color: gold[6] }}>Pending</p>
+        } else {
+          return null
+        }
+      }
 
       const columnPartnerList = [
         {
-          title: 'Partner / Channel',
-          dataIndex: 'product_type',
-          render: (text, record) => renderOnclickHandler(text, record)
+          title: '',
+          dataIndex: 'status',
+          width: '5%',
+          render: (text, record) => checkStatus(record)
         },
-        /* {
-          title: 'Product_Description',
-          dataIndex: 'product_description',
-          editable: true,
-          render: (text, record) => renderOnclickHandler(text, record)
-        }, */
+        {
+          title: 'Partner / Channel',
+          dataIndex: 'partner_code',
+          render: (text, record) => (record.partner_code + "/" + record.partner_abbreviation)
+        },
         {
           title: 'Txn Limit',
           dataIndex: 'transaction_limit',
           editable: true,
-          render: (text, record) => renderOnclickHandler(text, record)
+          render: (text, record) => addCommaInData(text, true)
         },
         {
           title: ' Daily Limit',
           dataIndex: 'daily_limit',
           editable: true,
-          render: (text, record) => renderOnclickHandler(text, record)
+          render: (text, record) => addCommaInData(text, true)
         }
       ]
       return (
@@ -146,7 +188,7 @@ const AddPartner =
           <Divider />
           <Table
             bordered
-            dataSource={[]}
+            dataSource={dataSource}
             columns={columnPartnerList}
             size="small"
           />
