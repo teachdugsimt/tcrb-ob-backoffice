@@ -1,5 +1,5 @@
 import { Select } from 'antd';
-import { i18n, withNamespaces, withTranslation } from '../../i18n'
+import { i18n, withTranslation } from '../../i18n'
 import { DropdownContainer } from './styles/dropdown-top-right-styles'
 import { spacing } from '../../theme/spacing'
 const { Option } = Select;
@@ -37,4 +37,4 @@ const DropdownTopRight = (props) => {
 DropdownTopRight.getInitialProps = async () => ({
   namespacesRequired: ['DropdownTopRight', 'digitalBackOfficeMaster', 'language'],
 })
-export default withTranslation('DropdownTopRight')(DropdownTopRight)
+export default withTranslation('common')(DropdownTopRight)

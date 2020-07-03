@@ -24,18 +24,8 @@ const StyledSwitch = styled(Switch)`
 `
 
 
-export default function SimpleSwitch(props) {
-  // const binding = (
-  //   <div style={{ marginTop: 20 }}>
-  //     <Row gutter={[4, 24]}>
-  //       <SimpleSearch search={searchIdCardNumber} prefixWording={t("idCard")} loading={customerServicesMenuStore.apiFetching} />
-  //     </Row>
-  //     {(isSearch) ? (
-  //       <AccountList />
-  //     ) : ('')}
-  //   </div>)
-
-
+function SimpleSwitch(props) {
+  const { t } = props
   const SwitchList = () => {
     const listItems = props.data.map((switchOn, index) => {
       let tmpSwitchOn = JSON.parse(JSON.stringify(switchOn))
@@ -61,7 +51,7 @@ export default function SimpleSwitch(props) {
                 </Col>)}
 
                 <Col span={4}>
-                  {tmpSwitchOn[0] ? (<StyledSpan>{i18n.t("otpIsLock")}</StyledSpan>) : (<StyledSpan>{i18n.t("otpIsReady")}</StyledSpan>)}
+                  {tmpSwitchOn[0] ? (<StyledSpan>{t("otpIsLock")}</StyledSpan>) : (<StyledSpan>{t("otpIsReady")}</StyledSpan>)}
                 </Col>
               </>
             )
@@ -79,3 +69,4 @@ export default function SimpleSwitch(props) {
     </Col>
   )
 }
+export default withTranslation('common')(SimpleSwitch)

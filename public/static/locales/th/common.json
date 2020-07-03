@@ -93,5 +93,6 @@
   "feeDRAMT": "Fee_DR_Amt",
   "feeCRAMT": "Fee_CR_Amt",
   "amt": "Amt",
-  "onboardService": "บริการ Onboard"
+  "onboardService": "บริการ Onboard",
+  "notFoundPage": "404 - ไม่พบหน้าที่ร้องขอ"
 }

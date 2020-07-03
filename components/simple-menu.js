@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react'
 import styled from 'styled-components';
 import { Select } from 'antd';
+import { withTranslation } from '../i18n'
 const { Option } = Select;
 
 
-export default function SimpleMenu(props) {
+function SimpleMenu(props) {
   return (
     <div>
       <Select
@@ -17,3 +18,4 @@ export default function SimpleMenu(props) {
   )
 
 }
+export default withTranslation('common')(SimpleMenu)

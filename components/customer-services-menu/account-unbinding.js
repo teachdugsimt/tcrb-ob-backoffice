@@ -43,8 +43,6 @@ const AccountUnbinding =
       const [visible, setVisble] = useState(false)
       const [modalString, setModalString] = useState('')
       const [accountId, setAccountId] = useState('')
-      // const stringSwitch = [{ accountName: i18n.t("bindingTCRBMobilBanking"), accountBindingStatus: true, accountType: '1' }, { accountName: i18n.t("bindingMicroPay"), accountBindingStatus: true, accountType: '2' }, { accountName: i18n.t("bindingTrueMoneyWallet"), accountBindingStatus: true, accountType: '3' }]
-      // const stringAccount = [{ accountNumber: '2233344514', accountName: i18n.t("normalSaving"), accountType: '1' }, { accountNumber: '123456789032', accountName: i18n.t("revolvingLoanNonTCG"), accountType: '2' }]
       const mockData = [{ accountName: 'Binding to TCRB Mobile Banking', accountBindingStatus: true, accountType: '1', main_account_no: '22223425566' }, { accountName: 'Binding to Micro Pay', accountBindingStatus: true, accountType: '2', main_account_no: '554432268776' }, { accountName: 'Binding to True Money Wallet', accountBindingStatus: true, accountType: '3', main_account_no: '11445677543' }]
       const [stringAccount, setStringAccount] = useState([])
       const [stringSwitch, setStringSwitch] = useState([])
@@ -66,7 +64,6 @@ const AccountUnbinding =
             convertArrayObjectToArray(customerServicesMenuStore.unbindAccountInfo).then(result => {
               console.log(result)
               customerServicesMenuStore.arrayUnbindAccountInfo = result
-              // setStringSwitch(result)
               setStringSwitch(result)
             })
           }
@@ -74,10 +71,7 @@ const AccountUnbinding =
       }, [customerServicesMenuStore.unbindAccountInfo])
 
       const searchIdCardNumber = async (value) => {
-        // console.log('eiei search:' + value)
-        // setIdCard(value)
         setIsSearch(true)
-        // customerServicesMenuStore.setCitizenId(value)
         await customerServicesMenuStore.getDataAccountUnbind(value)
 
       }
@@ -118,27 +112,8 @@ const AccountUnbinding =
                 </div>
               )
               break;
-            // case '2':
-            //   setModalString(
-            //     <div style={{ textAlign: "center" }}>
-            //       <p>{t("unbinding")}</p>
-            //       <p> {t("account") + " " + customerServicesMenuStore.accountId} from Micro Pay</p>
-            //     </div>
-            //   )
-            //   break;
-            // case '3':
-            //   setModalString(
-            //     <div style={{ textAlign: "center" }}>
-            //       <p>{t("unbinding")}</p>
-            //       <p> {t("account") + " " + customerServicesMenuStore.accountId} from True Money Wallet</p>
-            //     </div>
-            //   )
-            //   break;
-            // default:
-            //   break;
           }
         } else {
-          // setIsChecked(false)
         }
       }
 
@@ -190,9 +165,7 @@ const AccountUnbinding =
 
       const accountDetail = (
         <div style={{ margin: 20 }}>
-          {/* <Row gutter={[4, 24]}>
-        <Button onClick={() => setViewDetail(false)}>{i18n.t("back")}</Button>
-      </Row> */}
+
           <Row gutter={[4, 24]} align="top">
             <Col span={6}>
               <StyledInput readOnly={true} prefix={t('accountNumber')} defaultValue={customerServicesMenuStore.accountId} />
@@ -214,7 +187,6 @@ const AccountUnbinding =
           </Row>
 
           <Row gutter={[4, 24]} align="middle">
-            {/* <SwitchList /> */}
             <SimpleSwitch
               data={stringSwitch}
               onChange={(switchSelected, index) => onChange(switchSelected, index)}

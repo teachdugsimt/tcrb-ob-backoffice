@@ -5,11 +5,12 @@ import { TcrbButton, TcrbModal } from '../components/antd-styles/styles'
 // import { JsonToTable } from "react-json-to-table";
 // import { JsonTable } from 'react-json-table'
 
-export default function SimpleModal(props) {
+function SimpleModal(props) {
+  const { t } = props
   return (
     <div>
       <TcrbModal
-        title={i18n.t(props.title)}
+        title={t(props.title)}
         visible={props.visible}
         width={props.width || 520}
         onOk={() => props.onOk()}
@@ -34,3 +35,4 @@ export default function SimpleModal(props) {
     </div >
   )
 }
+export default withTranslation('common')(SimpleModal)

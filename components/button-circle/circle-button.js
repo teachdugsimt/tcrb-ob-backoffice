@@ -1,5 +1,6 @@
 import { Button, Radio } from 'antd';
 import { DownloadOutlined, RightCircleFilled } from '@ant-design/icons';
+import { withTranslation } from '../../i18n'
 
 const circleButton = (props) => {
   // shape : round, circle
@@ -15,4 +16,4 @@ const circleButton = (props) => {
   </Button>
 }
 
-export default circleButton
+export default withTranslation('common')(circleButton)

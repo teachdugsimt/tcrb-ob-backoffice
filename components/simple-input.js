@@ -1,6 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import { Input } from 'antd'
+import { withTranslation } from '../i18n'
 const StyledInput = styled(Input)`
   border-style: solid !important;
   border-width: 0px 0px 1px 0px !important;
@@ -20,10 +21,12 @@ const StyledInput = styled(Input)`
   `}
 
 `
-export default function SimpleInput(props) {
+function SimpleInput(props) {
   return (
     <div>
       <StyledInput onChange={(e) => props.onChange(e.target.value)} prefix={props.prefix} suffix={props.suffix} readOnly={props.readOnly} defaultValue={props.defaultValue} halfSize={props.halfSize} />
     </div>
   )
 }
+
+export default withTranslation('common')(SimpleLabel)
