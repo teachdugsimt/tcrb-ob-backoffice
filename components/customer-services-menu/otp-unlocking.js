@@ -60,6 +60,22 @@ const OtpUnlocking =
       }, [customerServicesMenuStore.accountInfo])
 
       useEffect(() => {
+        let accSuccInfo = toJS(customerServicesMenuStore.accountSuccessInfo)
+        console.log(accSuccInfo)
+        if (accSuccInfo) {
+          let updatedData = toJS(customerServicesMenuStore.accountInfo).map(element => {
+            if (element.main_account_no == accSuccInfo.main_account_no) {
+              element.otp_is_locked = false
+            }
+            return element
+          });
+
+          let result = convertArrayObjectToArray(updatedData)
+          setStringSwitch(toJS(result))
+        }
+      }, [customerServicesMenuStore.accountSuccessInfo])
+
+      useEffect(() => {
         if (isSearch) {
           if (customerServicesMenuStore.unlockOtpInfo.ok) {
             customerServicesMenuStore.accountSelected.otp_is_locked = false

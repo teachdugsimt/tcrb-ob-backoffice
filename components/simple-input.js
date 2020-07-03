@@ -29,4 +29,4 @@ function SimpleInput(props) {
   )
 }
 
-export default withTranslation('common')(SimpleLabel)
+export default withTranslation('common')(SimpleInput)
