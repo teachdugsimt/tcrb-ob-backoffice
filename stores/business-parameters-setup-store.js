@@ -39,6 +39,10 @@ class BusinessParameterSetup {
   @observable nextPageIsAddPartner = null
 
   @observable responseGetOtpPending = null
+  @observable responsePartnerUnbindList = []
+  @observable responsePartnerBindingList = []
+  @observable responseAddPartnerStatus = null
+  @observable responseActivePartnerBindingList = []
 
   @observable goBack = null
   @persist @observable persist_value = null
@@ -220,8 +224,8 @@ class BusinessParameterSetup {
 
   @action
   addNewProductLimit = async (params) => {
+    this.apiLoading = true
     let response = await BusinessParameterSetupApi.addNewProductLimit({ action: "Add", maker_id: "", currentData: {}, newData: params })
-    console.log(response)
     if (response.ok) {
       this.apiLoading = false
       this.productLimit = []
@@ -231,8 +235,20 @@ class BusinessParameterSetup {
     }
   }
   @action addSpecificLimit = async (params) => {
+    this.apiLoading = true
     let response = await BusinessParameterSetupApi.submitSpecificLimit({ action: "Add", maker_id: "", currentData: {}, newData: params })
-    console.log(response)
+    if (response.ok) {
+      this.apiLoading = false
+      this.responseAddPartnerStatus = true
+      this.responsePartnerBindingList = []
+    } else {
+      this.apiLoading = false
+    }
+  }
+
+  @action changeProductLimit = async (params) => {
+    this.apiLoading = true
+    let response = await BusinessParameterSetupApi.submitChangeProductLimit({ action: "Update", maker_id: "", currentData: params.currentData, newData: params.newData })
     if (response.ok) {
       this.apiLoading = false
     } else {
@@ -240,11 +256,61 @@ class BusinessParameterSetup {
     }
   }
 
-  @action changeProductLimit = async (params) => {
-    let response = await BusinessParameterSetupApi.submitChangePartnerLimit({ action: "Update", maker_id: "", currentData: {}, newData: params })
+  @action getDataPartnerUnbindList = async (params) => {
+    this.apiLoading = true
+    let response = await BusinessParameterSetupApi.getPartnerUnbindList({ product_code: params.product_code, transaction_code: '6931' })
+    if (response.ok) {
+      this.apiLoading = false
+      this.responsePartnerUnbindList = response.data.responseData
+    } else {
+      this.apiLoading = false
+    }
+  }
+
+  @action getDataPartnerBindingList = async (params) => {
+    this.apiLoading = true
+    let response = await BusinessParameterSetupApi.getPartnerBindingList({ product_code: params.product_code, transaction_code: '6931' })
+    if (response.ok) {
+      this.apiLoading = false
+      this.responseAddPartnerStatus = null
+      this.responsePartnerBindingList = response.data.responseData
+    } else {
+      this.apiLoading = false
+    }
+  }
+
+  @action getDataActivePartnerBindingList = async (params) => {
+    this.apiLoading = true
+    let response = await BusinessParameterSetupApi.getActivePartnerBindingList({ filter: { where: { product_code: params.product_code, transaction_code: '6931' } } })
     console.log(response)
     if (response.ok) {
       this.apiLoading = false
+      this.responseActivePartnerBindingList = response.data.responseData
+    } else {
+      this.apiLoading = false
+    }
+  }
+
+  @action submitUpdatePartnerLimit = async (params) => {
+    this.apiLoading = true
+    let response = await BusinessParameterSetupApi.updatePartnerLimit({ action: "Update", maker_id: "", currentData: params.currentData, newData: params.newData })
+    console.log(response)
+    if (response.ok) {
+      this.apiLoading = false
+      this.responseActivePartnerBindingList = []
+      this.getDataActivePartnerBindingList(this.productLimitDetail)
+    } else {
+      this.apiLoading = false
+    }
+  }
+
+  @action deletePartner = async (params) => {
+    this.apiLoading = true
+    let response = await BusinessParameterSetupApi.deletePartner({ action: "Delete", maker_id: "", currentData: params, newData: {} })
+    if (response.ok) {
+      this.apiLoading = false
+      this.responseActivePartnerBindingList = []
+      this.getDataActivePartnerBindingList(this.productLimitDetail)
     } else {
       this.apiLoading = false
     }
