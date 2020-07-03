@@ -12,7 +12,7 @@ class CustomerServicesMenuApi {
     return response
   }
 
-  getAccountProductsInfo = async (params) => {
+  getPartnerInfo = async (params) => {
     const response = await ExcuteApi('api/backoffice/v1/accounts/partner-info', params, "get")
     return response
   }
@@ -23,7 +23,7 @@ class CustomerServicesMenuApi {
   }
 
   unbindAccount = async (params) => {
-    const response = await ExcuteApi('api/accounts/unbind', params, "post")
+    const response = await ExcuteApi('api/backoffice/v1/accounts/unbind', params, "post")
     return response
   }
 }

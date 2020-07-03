@@ -84,25 +84,34 @@ class CustomerServicesMenuStore {
     }
   }
 
-  @action getDataAccountProduct = async (accountNumber) => {
+  @action getDataPartnerInfo = async (accountNumber) => {
     this.apiFetching = true
 
-    let temp = await CustomerServicesMenuApi.getAccountProductsInfo({ main_account_no: accountNumber })
+    let temp = await CustomerServicesMenuApi.getPartnerInfo({ main_account_no: accountNumber })
     console.log(temp)
-    if (temp.ok && temp.status === 200) { //change to status when real api
+    if (temp.ok && temp.status === 200 && !temp.problem) { //change to status when real api
       this.apiFetching = false
       this.unbindAccountInfo = temp.data.responseData
       // this.unbindAccountInfo = temp.data.responseData // for dev
     } else {
       this.apiFetching = false
+      this.unbindAccountInfo = temp
+      this.accountInfoError = get(temp, 'data.developerMessage', 'Unknown Error')
 
     }
   }
 
   @action submitAccountUnbiding = async () => {
+    // accountRefId: accountRefId,
+    //         partnerRefId: partnerRefId,
+    //         requestId: requestId,
+    //         transactionRefNo: transactionRefNo
     this.apiFetching = true
-    let { main_account_no, sub_account_no, partner_code } = this.accountSelected
-    let temp = await CustomerServicesMenuApi.unbindAccount({ main_account_no, sub_account_no, partner_code })
+    let { account_reference, partner_reference } = this.accountSelected
+    let requestId = "1234567890"
+    let transactionRefNo = "1234567890"
+    console.log("DATA >> ", { account_reference, partner_reference, requestId, transactionRefNo })
+    let temp = await CustomerServicesMenuApi.unbindAccount({ account_reference, partner_reference, requestId, transactionRefNo })
     if (temp.ok && temp.data.statusCode === 200) {
       this.apiFetching = false
       this.unlockOtpInfo = temp.data
