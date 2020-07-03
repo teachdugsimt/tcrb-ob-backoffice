@@ -28,6 +28,7 @@ class CustomerServicesMenuStore {
     console.log(temp)
     if (temp.ok && temp.status === 200) {
       this.searchFetching = false
+      console.log("Response >> ", temp.data.responseData)
       this.accountInfo = temp.data.responseData
       //waiting edit api
       // if (temp.responseData.data.name == 'Error') {

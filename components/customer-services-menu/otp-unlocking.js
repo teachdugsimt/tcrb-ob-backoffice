@@ -51,11 +51,11 @@ const OtpUnlocking =
 
       useEffect(() => {
         if (isSearch) {
-          convertArrayObjectToArray(customerServicesMenuStore.accountInfo).then(result => {
-            console.log(result)
-            customerServicesMenuStore.arrayAccountInfo = result
-            setStringSwitch(result)
-          })
+          console.log(toJS(customerServicesMenuStore.accountInfo))
+          let result = convertArrayObjectToArray(customerServicesMenuStore.accountInfo)
+          customerServicesMenuStore.arrayAccountInfo = result
+          console.log(result)
+          // setStringSwitch(toJS(result))
         }
       }, [customerServicesMenuStore.accountInfo])
 
@@ -80,10 +80,19 @@ const OtpUnlocking =
       }
 
       const convertArrayObjectToArray = (arrayObject) => {
-        return new Promise((resolve, reject) => {
-          let result = arrayObject.map(a => [a.otp_is_locked, a.main_account_no, a.product_name_english]);
-          resolve(result)
-        })
+        // return new Promise((resolve, reject) => {
+        // let result = new Promise.all(
+        return arrayObject.map(a => {
+          console.log(a)
+          return [a.otp_is_locked, a.main_account_no, a.products]
+        });
+        // return result
+        // resolve(result)
+        // })
+        // let result = arrayObject.map(a =>
+        // [a.otp_is_locked, a.main_account_no, a.product_name_english]
+        // );
+        // return result
       }
       const replaceNewDataForSetString = () => {
         let arrayAccountInfo = customerServicesMenuStore.accountInfo
@@ -91,9 +100,9 @@ const OtpUnlocking =
         // let newArray = stringSwitch.filter(accountInfo => accountInfo.accountNumber !== toJS(customerServicesMenuStore.accountSelected.accountNumber))
         let newArray = arrayAccountInfo.filter(accountInfo => accountInfo.main_account_no !== accountSelected.main_account_no)
 
-        convertArrayObjectToArray([...newArray, accountSelected]).then(result => {
-          setStringSwitch(result)
-        })
+        let result = convertArrayObjectToArray([...newArray, accountSelected])
+        // console.log(result)
+        setStringSwitch(result)
       }
 
       const closeModal = () => {
@@ -112,6 +121,9 @@ const OtpUnlocking =
             <div style={{ textAlign: "center" }}>
               <p>{t("unlockingOtp")}</p>
               <p> {t("accountNumber") + " " + customerServicesMenuStore.accountSelected.main_account_no}</p>
+              {/* {customerServicesMenuStore.accountSelected.products.map(e => {
+                return <div>{e.product_name_english}</div>
+              })} */}
             </div>
           )
 
