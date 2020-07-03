@@ -120,10 +120,14 @@ class CustomerServicesMenuStore {
       requestId, transactionRefNo
     })
     console.log(temp)
-    if (temp.ok && temp.data.statusCode === 200) {
+    if (temp.ok && temp.status === 200) {
       this.apiFetching = false
-      this.unlockOtpInfo = temp.data
+      // this.unlockOtpInfo = temp.data
+      // console.log(this.accountSelected)
+      // console.log(this.unbindAccountInfo)
+      this.unbindAccountInfo = this.unbindAccountInfo.filter(e => e.partner_reference != this.accountSelected.partner_reference)
       this.accountSelected = null
+      // console.log(this.unbindAccountInfo)
     } else {
       this.apiFetching = false
       // this.unlockOtpError = JSON.parse(temp.data.body)
