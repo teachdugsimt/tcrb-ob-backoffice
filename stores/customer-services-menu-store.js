@@ -10,6 +10,7 @@ class CustomerServicesMenuStore {
   @observable searchFetching = false
 
   @observable accountInfo = null
+  @observable accountSuccessInfo = null
   @observable arrayAccountInfo = []
   @observable accountInfoError = null
 
@@ -53,11 +54,13 @@ class CustomerServicesMenuStore {
     // this.accountSelected
     let { main_account_no, cif } = this.accountSelected
     this.apiFetching = true
+    this.accountSuccessInfo = null
     let temp = await CustomerServicesMenuApi.unlockOTPAccount({ main_account_no, cif })
     console.log(temp)
     if (temp.ok && temp.status === 200) {
       this.apiFetching = false
       this.unlockOtpInfo = temp.data.responseData
+      this.accountSuccessInfo = this.accountSelected
       this.accountInfoError = null
     } else {
       this.apiFetching = false
