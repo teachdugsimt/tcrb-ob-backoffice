@@ -114,10 +114,16 @@ class CustomerServicesMenuStore {
     let requestId = "1234567890"
     let transactionRefNo = "1234567890"
     console.log("DATA >> ", { account_reference, partner_reference, requestId, transactionRefNo })
-    let temp = await CustomerServicesMenuApi.unbindAccount({ account_reference, partner_reference, requestId, transactionRefNo })
+    let temp = await CustomerServicesMenuApi.unbindAccount({
+      accountRefId: account_reference,
+      partnerRefId: partner_reference,
+      requestId, transactionRefNo
+    })
+    console.log(temp)
     if (temp.ok && temp.data.statusCode === 200) {
       this.apiFetching = false
       this.unlockOtpInfo = temp.data
+      this.accountSelected = null
     } else {
       this.apiFetching = false
       // this.unlockOtpError = JSON.parse(temp.data.body)
