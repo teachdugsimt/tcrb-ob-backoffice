@@ -1,0 +1,15 @@
+{
+    "dev": {
+        "awscloudformation": {
+            "AuthRoleName": "amplify-tcrbobbackoffice-dev-134131-authRole",
+            "UnauthRoleArn": "arn:aws:iam::697504873437:role/amplify-tcrbobbackoffice-dev-134131-unauthRole",
+            "AuthRoleArn": "arn:aws:iam::697504873437:role/amplify-tcrbobbackoffice-dev-134131-authRole",
+            "Region": "ap-southeast-1",
+            "DeploymentBucketName": "amplify-tcrbobbackoffice-dev-134131-deployment",
+            "UnauthRoleName": "amplify-tcrbobbackoffice-dev-134131-unauthRole",
+            "StackName": "amplify-tcrbobbackoffice-dev-134131",
+            "StackId": "arn:aws:cloudformation:ap-southeast-1:697504873437:stack/amplify-tcrbobbackoffice-dev-134131/c873bb40-bf53-11ea-992a-062b7ab1ef08",
+            "AmplifyAppId": "d25v8tuaaiwm2g"
+        }
+    }
+}
