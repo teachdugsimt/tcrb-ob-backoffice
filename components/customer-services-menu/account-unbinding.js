@@ -217,16 +217,7 @@ const AccountUnbinding =
               modalString={modalString}
               visible={visible}
             />
-            {/* <SimpleModal
-            title={titleModal}
-            type={modalType}
-            onOk={() => _onConfirm()}
-            onCancel={() => _onCancel()}
-            textCancel={textCancel}
-            textOk={textOk}
-            modalString={modalString}
-            visible={visible}
-          /> */}
+
           </Row>
 
           <Row gutter={[4, 24]} align="bottom" justify="center">
