@@ -1,5 +1,5 @@
 import moment from 'moment'
-import { getColumnSearchProps } from './filter-box'
+import getColumnSearchProps from './filter-box'
 import { addCommaInData } from '../data-utility';
 import { withTranslation } from '../../i18n';
 
