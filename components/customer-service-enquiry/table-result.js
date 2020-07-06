@@ -305,7 +305,7 @@ const TableResult =
                 <Table
                   filtered={true}
                   onChange={(e) => setPage(e.current)}
-                  columns={clmTranInfo(handleSearch, handleReset, t)} dataSource={tableTranInfoData}
+                  columns={clmTranInfo(handleSearch, handleReset)} dataSource={tableTranInfoData}
                   pagination={{ current: JSON.parse(JSON.stringify(customerServiceEnquiry.pageCustomerEnquiryTable)) ? JSON.parse(JSON.stringify(customerServiceEnquiry.pageCustomerEnquiryTable)) : page, pageSize: pageSizeVal }}
                   size="small"
                   onChange={(pagination, filters, sorter, extra) => {
@@ -321,7 +321,7 @@ const TableResult =
                   filtered={true}
                   onChange={(e) => setPage(e.current)}
                   onRow={(item, index) => ({})}
-                  columns={clmPartnerInfo(handleSearch, handleReset, t)} dataSource={tableTranInfoData}
+                  columns={clmPartnerInfo(handleSearch, handleReset)} dataSource={tableTranInfoData}
                   pagination={{ current: JSON.parse(JSON.stringify(customerServiceEnquiry.pageCustomerEnquiryTable)) ? JSON.parse(JSON.stringify(customerServiceEnquiry.pageCustomerEnquiryTable)) : page, pageSize: pageSizeVal }}
                   size="small"
                   onChange={(pagination, filters, sorter, extra) => {
@@ -337,14 +337,14 @@ const TableResult =
                   filtered={true}
                   onChange={(e) => setPage(e.current)}
                   onRow={(item, index) => ({})}
-                  columns={clmAccInfo(handleSearch, handleReset, t)} dataSource={tableTranInfoData}
+                  columns={clmAccInfo(handleSearch, handleReset)} dataSource={tableTranInfoData}
                   pagination={{ current: JSON.parse(JSON.stringify(customerServiceEnquiry.pageCustomerEnquiryTable)) ? JSON.parse(JSON.stringify(customerServiceEnquiry.pageCustomerEnquiryTable)) : page, pageSize: pageSizeVal }}
                   size="small"
                   onChange={(pagination, filters, sorter, extra) => {
                     if (pagination) _handlePageSize(pagination)
                     customerServiceEnquiry.setPageCustomerEnquiry(pagination.current)
                     setPage(pagination.current)
-                    setTableTranInfoData(extra.currentDataSource, t)
+                    setTableTranInfoData(extra.currentDataSource)
                   }}
                 />
               </div>
@@ -353,7 +353,7 @@ const TableResult =
                   filtered={true}
                   onChange={(e) => setPage(e.current)}
                   onRow={(item, index) => ({})}
-                  columns={clmTxn(handleSearch, handleReset, t)} dataSource={tableTranInfoData}
+                  columns={clmTxn(handleSearch, handleReset)} dataSource={tableTranInfoData}
                   pagination={{ current: JSON.parse(JSON.stringify(customerServiceEnquiry.pageCustomerEnquiryTable)) ? JSON.parse(JSON.stringify(customerServiceEnquiry.pageCustomerEnquiryTable)) : page, pageSize: pageSizeVal }}
                   size="small"
                   onChange={(pagination, filters, sorter, extra) => {
