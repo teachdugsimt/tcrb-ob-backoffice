@@ -1,7 +1,7 @@
 import moment from 'moment'
 import getColumnSearchProps from './filter-box'
 import { addCommaInData } from '../data-utility';
-import { withTranslation } from '../../i18n';
+// import { withTranslation } from '../../i18n';
 
 export const clmTranInfo = (handleSearch, handleReset) => {
   return [
