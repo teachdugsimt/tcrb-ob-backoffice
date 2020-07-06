@@ -12,22 +12,22 @@ const EmptyLayout = inject('authenStore')(observer((props) => {
   // console.log("________________ EMPTY LAYOUT PROPS __________________")
   // console.log(props)
 
-  // if (authenStore.password && authenStore.id) {
-  return (
-    <MainLayout>
-      {props.children}
-    </MainLayout>
-  )
-  // }
-  // else if (props.router && props.router.route == "/_error") {
-  //   return <div>{props.children}</div>
-  // }
-  // else if (props.router.pathname.includes("/404") || props.router.route.includes("/404")) {
-  //   return <Custom404 />
-  // }
-  // else {
-  //   return <Login />
-  // }
+  if (authenStore.password && authenStore.id) {
+    return (
+      <MainLayout>
+        {props.children}
+      </MainLayout>
+    )
+  }
+  else if (props.router && props.router.route == "/_error") {
+    return <div>{props.children}</div>
+  }
+  else if (props.router.pathname.includes("/404") || props.router.route.includes("/404")) {
+    return <Custom404 />
+  }
+  else {
+    return <Login />
+  }
 }
 ))
 EmptyLayout.getInitialProps = async () => ({
