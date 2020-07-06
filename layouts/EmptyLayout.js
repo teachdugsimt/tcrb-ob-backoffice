@@ -35,8 +35,8 @@ EmptyLayout.getInitialProps = async () => ({
 })
 
 export default withRouter(
-  // withTranslation('common')
-  (EmptyLayout)
+  withTranslation('common')
+    (EmptyLayout)
 )
 // export default withRouter(withTranslation()(EmptyLayout))
 

@@ -125,5 +125,5 @@ AdminMenu.getInitialProps = async () => ({
 })
 
 
-export default (AdminMenu)
-// withTranslation('common')
+export default
+  withTranslation('common')(AdminMenu)

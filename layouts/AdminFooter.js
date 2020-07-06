@@ -21,5 +21,5 @@ AdminFooter.getInitialProps = async () => ({
   namespacesRequired: [],
 })
 
-export default (AdminFooter)
-// withTranslation('common')
+export default
+  withTranslation('common')(AdminFooter)
