@@ -81,4 +81,4 @@ const getColumnSearchProps = (dataIndex, handleSearch, handleReset, titile) => {
   }
 }
 
-export default withTranslation('common')(getColumnSearchProps)
+export default (getColumnSearchProps)
