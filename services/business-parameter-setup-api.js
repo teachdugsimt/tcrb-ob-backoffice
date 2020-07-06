@@ -42,6 +42,31 @@ class BusinessParameterSetupApi {
     return response
   }
 
+  getPartnerUnbindList = async (params) => {
+    const response = await ExcuteApi('api/backoffice/v1/product/' + params.product_code + '/unbindpartner', params.transaction_code, "get")
+    return response
+  }
+
+  getPartnerBindingList = async (params) => {
+    const response = await ExcuteApi('api/backoffice/v1/product/' + params.product_code + '/bindpartner', params.transaction_code, "get")
+    return response
+  }
+
+  getActivePartnerBindingList = async (params) => {
+    const response = await ExcuteApi('api/backoffice/v1/product/partnertransactionlimit/view', params, "get")
+    return response
+  }
+
+  updatePartnerLimit = async (params) => {
+    const response = await ExcuteApi('api/backoffice/v1/changerequest/productlimit', params, "post")
+    return response
+  }
+
+  deletePartner = async (params) => {
+    const response = await ExcuteApi('api/backoffice/v1/changerequest/productlimit', params, "post")
+    return response
+  }
+
   deleteProductLimit = async (params) => {
     const response = await ExcuteApi('api/backoffice/v1/changerequest/productlimit', params, "post")
     return response
@@ -58,6 +83,11 @@ class BusinessParameterSetupApi {
   }
 
   submitChangePartnerLimit = async (params) => {
+    const response = await ExcuteApi('api/backoffice/v1/changerequest/productlimit', params, "post")
+    return response
+  }
+
+  submitChangeProductLimit = async (params) => {
     const response = await ExcuteApi('api/backoffice/v1/changerequest/productlimit', params, "post")
     return response
   }

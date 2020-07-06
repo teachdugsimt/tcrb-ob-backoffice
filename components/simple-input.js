@@ -16,7 +16,7 @@ const StyledInput = styled(Input)`
   .ant-input-suffix{
     width:50px !important;
   }
-  ${({ halfSize }) => halfSize && `
+  ${({ halfsize }) => halfsize && `
        width:50%
   `}
 
@@ -24,9 +24,9 @@ const StyledInput = styled(Input)`
 function SimpleInput(props) {
   return (
     <div>
-      <StyledInput onChange={(e) => props.onChange(e.target.value)} prefix={props.prefix} suffix={props.suffix} readOnly={props.readOnly} defaultValue={props.defaultValue} halfSize={props.halfSize} />
+      <StyledInput onChange={(e) => props.onChange(e.target.value)} prefix={props.prefix} suffix={props.suffix} readOnly={props.readOnly} defaultValue={props.defaultValue} halfsize={props.halfSize} />
     </div>
   )
 }
 
-export default withTranslation('common')(SimpleLabel)
+export default withTranslation('common')(SimpleInput)

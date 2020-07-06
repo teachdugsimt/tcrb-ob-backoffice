@@ -66,8 +66,6 @@ const getColumnSearchProps = (dataIndex, handleSearch, handleReset, titile) => {
       // console.log("data index >> ", dataIndex)
       return record[dataIndex] && record[dataIndex].toString().toLowerCase().includes(value.toLowerCase())
     },
-
-
     render: text =>
       searchedColumn === dataIndex ?
         (

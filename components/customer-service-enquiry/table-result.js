@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react'
 import { inject, observer } from 'mobx-react'
 import styled from 'styled-components';
-// import {
-//   clmTranInfo, clmPartnerInfo, clmAccInfo, clmTxn,
-// } from './table-column';
+import {
+  clmTranInfo, clmPartnerInfo, clmAccInfo, clmTxn,
+} from './table-column';
 import { Table, Tabs, Carousel } from 'antd';
 import { TcrbTabs, TcrbSpin } from '../antd-styles/styles'
 import { RightOutlined, LeftOutlined } from '@ant-design/icons';
@@ -34,6 +34,7 @@ const TableResult =
       const [page, setPage] = useState(1)
       const [pageSizeVal, setPageSizeVal] = useState(10)
 
+      /*
       const clmTranInfo = (handleSearch, handleReset) => {
         return [
           {
@@ -226,7 +227,7 @@ const TableResult =
           },
         ];
       }
-
+      */
 
       const handleSearch = (selectedKeys, confirm, dataIndex) => {
         confirm();

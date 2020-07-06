@@ -61,7 +61,8 @@ const AccountUnbinding =
       useEffect(() => {
         if (isSearch) {
           if (customerServicesMenuStore.unbindAccountInfo) {
-            convertArrayObjectToArray(customerServicesMenuStore.unbindAccountInfo).then(result => {
+            console.log(toJS(customerServicesMenuStore.unbindAccountInfo))
+            convertArrayObjectToArray(toJS(customerServicesMenuStore.unbindAccountInfo)).then(result => {
               console.log(result)
               customerServicesMenuStore.arrayUnbindAccountInfo = result
               setStringSwitch(result)
@@ -83,16 +84,23 @@ const AccountUnbinding =
       }
 
       const convertArrayObjectToArray = (arrayObject) => {
+        console.log(arrayObject)
         return new Promise((resolve, reject) => {
-          let result = arrayObject.map(accountDetail => [(accountDetail.binding_status == '1') ? true : false, accountDetail.partner_name_english]);
-          resolve(result)
+          if (Array.isArray(arrayObject)) {
+            let result = arrayObject.map(accountDetail =>
+              [(accountDetail.binding_status == '1') ? true : false, accountDetail.partner_name_english]);
+            resolve(result)
+          } else {
+            resolve([])
+          }
         })
+
       }
 
       const selectAccount = async (selectedAccount) => {
         console.log(toJS(selectedAccount))
         customerServicesMenuStore.setAccountId(selectedAccount.main_account_no)
-        await customerServicesMenuStore.getDataAccountProduct(selectedAccount.main_account_no)
+        await customerServicesMenuStore.getDataPartnerInfo(selectedAccount.main_account_no)
         setViewDetail(true)
 
       }
@@ -100,7 +108,7 @@ const AccountUnbinding =
         console.log("indexOf :" + index, switchSelected)
         console.log(toJS(customerServicesMenuStore.unbindAccountInfo[index]))
         let accountSelected = customerServicesMenuStore.unbindAccountInfo[index]
-
+        customerServicesMenuStore.accountSelected = accountSelected
         if (switchSelected === true) {
           setVisble(true)
           switch (accountSelected.partner_code) {
@@ -123,21 +131,28 @@ const AccountUnbinding =
         await customerServicesMenuStore.submitAccountUnbiding()
       }
 
-      const AccountList = () => {
-        const listItems = stringAccount.map((string, index) =>
-          <Row key={index} gutter={[4, 24]}>
-            <Col span={24}>
-              <StyledA onClick={() => { selectAccount(string) }}>{string.main_account_no}</StyledA><StyledSpan> {string.product_name_english}</StyledSpan>
 
-            </Col>
-          </Row>
-        );
+      const AccountList = () => {
+
+        const listItems = stringAccount.map((string, index) => {
+          let product_name = string.products.map(e => e.product_name_english)
+          return (
+            <Row key={index} gutter={[4, 24]}>
+              <Col span={24}>
+                <StyledA onClick={() => { selectAccount(string) }}>{string.main_account_no}</StyledA>
+                <StyledSpan>{product_name.join(' ' + ',' + ' ')}</StyledSpan>
+              </Col>
+            </Row >
+          )
+        })
+
         return (
           <ul style={{ paddingInlineStart: 0 }}>{listItems}</ul>
         );
       }
       const newSearch = () => {
         console.log(customerServicesMenuStore.accountInfoError)
+
         return (
           <div style={{ margin: 20 }}>
             <Row gutter={[4, 24]}>
@@ -167,7 +182,7 @@ const AccountUnbinding =
         <div style={{ margin: 20 }}>
 
           <Row gutter={[4, 24]} align="top">
-            <Col span={6}>
+            <Col >
               <StyledInput readOnly={true} prefix={t('accountNumber')} defaultValue={customerServicesMenuStore.accountId} />
             </Col>
           </Row>
@@ -192,14 +207,17 @@ const AccountUnbinding =
               onChange={(switchSelected, index) => onChange(switchSelected, index)}
               isBinding={true}
             />
+
             <SimpleModal
+              type={"confirm"}
               onOk={() => unBindingAccount()}
               onCancel={() => setVisble(false)}
-              okText="Confirm"
-              cancelText="Cancel"
+              textCancel={'Cancel'}
+              textOk={'Confrim'}
               modalString={modalString}
               visible={visible}
             />
+
           </Row>
 
           <Row gutter={[4, 24]} align="bottom" justify="center">

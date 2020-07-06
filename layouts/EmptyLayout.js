@@ -28,12 +28,16 @@ const EmptyLayout = inject('authenStore')(observer((props) => {
   else {
     return <Login />
   }
-}))
+}
+))
 EmptyLayout.getInitialProps = async () => ({
   namespacesRequired: [],
 })
 
-export default withRouter(withTranslation('common')(EmptyLayout))
+export default withRouter(
+  withTranslation('common')
+    (EmptyLayout)
+)
 // export default withRouter(withTranslation()(EmptyLayout))
 
 
