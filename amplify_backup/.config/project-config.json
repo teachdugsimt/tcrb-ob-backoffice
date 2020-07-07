@@ -8,7 +8,7 @@
             "SourceDir": "src",
             "DistributionDir": "out",
             "BuildCommand": "npm run export",
-            "StartCommand": "npm run-script start"
+            "StartCommand": "npm run start"
         }
     },
     "providers": [
