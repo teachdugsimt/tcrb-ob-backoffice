@@ -21,4 +21,4 @@ Dashboard.getInitialProps = async () => ({
   namespacesRequired: [],
 })
 
-export default withTranslation()(Dashboard)
+export default withTranslation('common')(Dashboard)

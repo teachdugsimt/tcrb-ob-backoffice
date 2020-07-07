@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import { Input, Button } from 'antd'
 import styled from 'styled-components';
-import { i18n, withNamespaces, withTranslation } from '../i18n'
+import { withTranslation } from '../i18n'
 
 const { Search } = Input;
 
@@ -30,36 +30,13 @@ const StyledSearch = styled(Search)`
 `
 
 
-export default function SimpleSearch(props) {
-  // const RegSearch = () => {
-  //   return (
-  //     <div>
-  //       <StyledSearch
-  //         prefix={props.prefixWording}
-  //         placeholder="input ID Card"
-  //         enterButton="Search"
-  //         size="large"
-  //         disabled={props.disabled}
-  //         onSearch={value => props.search(value)}
-  //         onChange={() => console.log('change')}
-  //         defaultValue={props.defaultValue}
-  //         loading={props.loading}
-  //       />
-  //     </div>
-  //   )
-  // }
-  // const onChange = e => {
-  //   const { value } = e.target;
-  //   const reg = /^-?\d*(\.\d*)?$/;
-  //   if ((!isNaN(value) && reg.test(value)) || value === '' || value === '-') {
-  //     this.props.onChange(value);
-  //   }
-  // };
+function SimpleSearch(props) {
+  const { t } = props
   return (
     <div>
       <StyledSearch
         prefix={props.prefixWording}
-        placeholder={i18n.t("inputIdCard")}
+        placeholder={t("inputIdCard")}
         enterButton="Search"
         size="large"
         disabled={props.disabled}
@@ -72,3 +49,5 @@ export default function SimpleSearch(props) {
     </div>
   )
 }
+
+export default withTranslation('common')(SimpleSearch)

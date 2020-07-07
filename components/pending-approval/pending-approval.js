@@ -24,6 +24,7 @@ const HoverIconReject = styled(Col)`
 const PendingApprovals =
   inject('pendingApprovalStore')
     (observer((props) => {
+      const expand = { expandedRowRender: record => <p>{record.description}</p> };
       const [expandable, setExpandable] = useState(expand)
       const [hasData, setHasData] = useState(true)
       const [top, setTop] = useState('none')
@@ -35,7 +36,7 @@ const PendingApprovals =
       const [modalString, setmodalString] = useState("initialState")
       const [visible, setvisible] = useState(false)
       const { pendingApprovalStore, t } = props
-      const expand = { expandedRowRender: record => <p>{record.description}</p> };
+
 
 
       const renderTableData = (data) => {

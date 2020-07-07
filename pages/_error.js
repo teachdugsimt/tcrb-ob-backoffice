@@ -14,6 +14,9 @@ const withError = (Component) => class extends React.Component {
     if (statusCode && statusCode !== 200) {
       return <ErrorPage statusCode={statusCode} />
     }
+    else if (statusCode && statusCode == 404) {
+      return <ErrorPage statusCode={statusCode} />
+    }
     // return <Component {...this.props} />
   }
 }
@@ -22,7 +25,7 @@ withError.getInitialProps = async () => ({
   namespacesRequired: [],
 })
 
-export default withTranslation()(withError)
+export default withTranslation('common')(withError)
 
 // import withError from './withError'
 

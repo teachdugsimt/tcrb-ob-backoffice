@@ -11,4 +11,4 @@ ParametersSetup.getInitialProps = async () => ({
   namespacesRequired: [],
 })
 
-export default withTranslation()(ParametersSetup)
+export default withTranslation('common')(ParametersSetup)

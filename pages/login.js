@@ -8,5 +8,5 @@ Login.getInitialProps = async () => ({
   namespacesRequired: [],
 })
 
-export default withTranslation()(Login)
+export default withTranslation('common')(Login)
 

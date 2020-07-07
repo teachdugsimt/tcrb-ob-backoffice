@@ -43,8 +43,6 @@ const AccountUnbinding =
       const [visible, setVisble] = useState(false)
       const [modalString, setModalString] = useState('')
       const [accountId, setAccountId] = useState('')
-      // const stringSwitch = [{ accountName: i18n.t("bindingTCRBMobilBanking"), accountBindingStatus: true, accountType: '1' }, { accountName: i18n.t("bindingMicroPay"), accountBindingStatus: true, accountType: '2' }, { accountName: i18n.t("bindingTrueMoneyWallet"), accountBindingStatus: true, accountType: '3' }]
-      // const stringAccount = [{ accountNumber: '2233344514', accountName: i18n.t("normalSaving"), accountType: '1' }, { accountNumber: '123456789032', accountName: i18n.t("revolvingLoanNonTCG"), accountType: '2' }]
       const mockData = [{ accountName: 'Binding to TCRB Mobile Banking', accountBindingStatus: true, accountType: '1', main_account_no: '22223425566' }, { accountName: 'Binding to Micro Pay', accountBindingStatus: true, accountType: '2', main_account_no: '554432268776' }, { accountName: 'Binding to True Money Wallet', accountBindingStatus: true, accountType: '3', main_account_no: '11445677543' }]
       const [stringAccount, setStringAccount] = useState([])
       const [stringSwitch, setStringSwitch] = useState([])
@@ -63,10 +61,10 @@ const AccountUnbinding =
       useEffect(() => {
         if (isSearch) {
           if (customerServicesMenuStore.unbindAccountInfo) {
-            convertArrayObjectToArray(customerServicesMenuStore.unbindAccountInfo).then(result => {
+            console.log(toJS(customerServicesMenuStore.unbindAccountInfo))
+            convertArrayObjectToArray(toJS(customerServicesMenuStore.unbindAccountInfo)).then(result => {
               console.log(result)
               customerServicesMenuStore.arrayUnbindAccountInfo = result
-              // setStringSwitch(result)
               setStringSwitch(result)
             })
           }
@@ -74,10 +72,7 @@ const AccountUnbinding =
       }, [customerServicesMenuStore.unbindAccountInfo])
 
       const searchIdCardNumber = async (value) => {
-        // console.log('eiei search:' + value)
-        // setIdCard(value)
         setIsSearch(true)
-        // customerServicesMenuStore.setCitizenId(value)
         await customerServicesMenuStore.getDataAccountUnbind(value)
 
       }
@@ -89,16 +84,23 @@ const AccountUnbinding =
       }
 
       const convertArrayObjectToArray = (arrayObject) => {
+        console.log(arrayObject)
         return new Promise((resolve, reject) => {
-          let result = arrayObject.map(accountDetail => [(accountDetail.binding_status == '1') ? true : false, accountDetail.partner_name_english]);
-          resolve(result)
+          if (Array.isArray(arrayObject)) {
+            let result = arrayObject.map(accountDetail =>
+              [(accountDetail.binding_status == '1') ? true : false, accountDetail.partner_name_english]);
+            resolve(result)
+          } else {
+            resolve([])
+          }
         })
+
       }
 
       const selectAccount = async (selectedAccount) => {
         console.log(toJS(selectedAccount))
         customerServicesMenuStore.setAccountId(selectedAccount.main_account_no)
-        await customerServicesMenuStore.getDataAccountProduct(selectedAccount.main_account_no)
+        await customerServicesMenuStore.getDataPartnerInfo(selectedAccount.main_account_no)
         setViewDetail(true)
 
       }
@@ -106,7 +108,7 @@ const AccountUnbinding =
         console.log("indexOf :" + index, switchSelected)
         console.log(toJS(customerServicesMenuStore.unbindAccountInfo[index]))
         let accountSelected = customerServicesMenuStore.unbindAccountInfo[index]
-
+        customerServicesMenuStore.accountSelected = accountSelected
         if (switchSelected === true) {
           setVisble(true)
           switch (accountSelected.partner_code) {
@@ -118,27 +120,8 @@ const AccountUnbinding =
                 </div>
               )
               break;
-            // case '2':
-            //   setModalString(
-            //     <div style={{ textAlign: "center" }}>
-            //       <p>{t("unbinding")}</p>
-            //       <p> {t("account") + " " + customerServicesMenuStore.accountId} from Micro Pay</p>
-            //     </div>
-            //   )
-            //   break;
-            // case '3':
-            //   setModalString(
-            //     <div style={{ textAlign: "center" }}>
-            //       <p>{t("unbinding")}</p>
-            //       <p> {t("account") + " " + customerServicesMenuStore.accountId} from True Money Wallet</p>
-            //     </div>
-            //   )
-            //   break;
-            // default:
-            //   break;
           }
         } else {
-          // setIsChecked(false)
         }
       }
 
@@ -148,21 +131,28 @@ const AccountUnbinding =
         await customerServicesMenuStore.submitAccountUnbiding()
       }
 
-      const AccountList = () => {
-        const listItems = stringAccount.map((string, index) =>
-          <Row key={index} gutter={[4, 24]}>
-            <Col span={24}>
-              <StyledA onClick={() => { selectAccount(string) }}>{string.main_account_no}</StyledA><StyledSpan> {string.product_name_english}</StyledSpan>
 
-            </Col>
-          </Row>
-        );
+      const AccountList = () => {
+
+        const listItems = stringAccount.map((string, index) => {
+          let product_name = string.products.map(e => e.product_name_english)
+          return (
+            <Row key={index} gutter={[4, 24]}>
+              <Col span={24}>
+                <StyledA onClick={() => { selectAccount(string) }}>{string.main_account_no}</StyledA>
+                <StyledSpan>{product_name.join(' ' + ',' + ' ')}</StyledSpan>
+              </Col>
+            </Row >
+          )
+        })
+
         return (
           <ul style={{ paddingInlineStart: 0 }}>{listItems}</ul>
         );
       }
       const newSearch = () => {
         console.log(customerServicesMenuStore.accountInfoError)
+
         return (
           <div style={{ margin: 20 }}>
             <Row gutter={[4, 24]}>
@@ -190,11 +180,9 @@ const AccountUnbinding =
 
       const accountDetail = (
         <div style={{ margin: 20 }}>
-          {/* <Row gutter={[4, 24]}>
-        <Button onClick={() => setViewDetail(false)}>{i18n.t("back")}</Button>
-      </Row> */}
+
           <Row gutter={[4, 24]} align="top">
-            <Col span={6}>
+            <Col >
               <StyledInput readOnly={true} prefix={t('accountNumber')} defaultValue={customerServicesMenuStore.accountId} />
             </Col>
           </Row>
@@ -214,20 +202,22 @@ const AccountUnbinding =
           </Row>
 
           <Row gutter={[4, 24]} align="middle">
-            {/* <SwitchList /> */}
             <SimpleSwitch
               data={stringSwitch}
               onChange={(switchSelected, index) => onChange(switchSelected, index)}
               isBinding={true}
             />
+
             <SimpleModal
+              type={"confirm"}
               onOk={() => unBindingAccount()}
               onCancel={() => setVisble(false)}
-              okText="Confirm"
-              cancelText="Cancel"
+              textCancel={'Cancel'}
+              textOk={'Confrim'}
               modalString={modalString}
               visible={visible}
             />
+
           </Row>
 
           <Row gutter={[4, 24]} align="bottom" justify="center">

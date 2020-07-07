@@ -3,12 +3,12 @@ import { inject, observer } from 'mobx-react'
 import styled from 'styled-components';
 import { Menu, Dropdown, Button, message, DatePicker, Input } from 'antd';
 import { DownOutlined, UserOutlined } from '@ant-design/icons';
-import { data } from './data'
 import moment from 'moment'
+import { withTranslation } from '../../i18n';
 const { RangePicker } = DatePicker;
 const { Search } = Input
 
-export const SearchBox =
+const SearchBox =
   inject('customerServiceEnquiry')
     (observer((props) => {
       const { customerServiceEnquiry, t } = props
@@ -206,7 +206,7 @@ export const SearchBox =
       )
 
     }))
-
+export default withTranslation('common')(SearchBox)
 // citizen_id=  912f74047dd8964c382a6d6287f0ed1
 
 // 1. new search => reset pagination

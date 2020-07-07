@@ -36,6 +36,7 @@ class CustomApp extends App {
   }
 
   componentDidMount() {
+    i18n.languages = ["en", "th"]
     i18n.changeLanguage("en")
     let fixedNextDimension = document.getElementById("__next")
     fixedNextDimension.style.height = "100%"
@@ -55,7 +56,6 @@ class CustomApp extends App {
     return (
       <Provider {...this.mobxStore}>
         <ThemeProvider theme={theme}>
-
           <Head>
             <title>TCRB Backoffice</title>
           </Head>

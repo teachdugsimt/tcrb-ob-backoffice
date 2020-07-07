@@ -180,12 +180,12 @@ cursor: pointer;
 &:hover ${MenuIcon} {
   height: 4px;
   border-radius: 2px;
-  background-color: ${({ theme }) => theme.colors.palette.orange};;
+  background-color: ${({ theme }) => theme.colors.palette.orange};
 }
 &:hover ${MenuIcon2} {
   height: 4px;
   border-radius: 2px;
-  background-color: ${({ theme }) => theme.colors.palette.orange};;
+  background-color: ${({ theme }) => theme.colors.palette.orange};
 }
 `
 

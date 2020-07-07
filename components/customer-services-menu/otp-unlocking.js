@@ -51,13 +51,29 @@ const OtpUnlocking =
 
       useEffect(() => {
         if (isSearch) {
-          convertArrayObjectToArray(customerServicesMenuStore.accountInfo).then(result => {
-            console.log(result)
-            customerServicesMenuStore.arrayAccountInfo = result
-            setStringSwitch(result)
-          })
+          console.log(toJS(customerServicesMenuStore.accountInfo))
+          let result = convertArrayObjectToArray(customerServicesMenuStore.accountInfo)
+          customerServicesMenuStore.arrayAccountInfo = result
+          console.log(result)
+          setStringSwitch(toJS(result))
         }
       }, [customerServicesMenuStore.accountInfo])
+
+      useEffect(() => {
+        let accSuccInfo = toJS(customerServicesMenuStore.accountSuccessInfo)
+        console.log(accSuccInfo)
+        if (accSuccInfo) {
+          let updatedData = toJS(customerServicesMenuStore.accountInfo).map(element => {
+            if (element.main_account_no == accSuccInfo.main_account_no) {
+              element.otp_is_locked = false
+            }
+            return element
+          });
+
+          let result = convertArrayObjectToArray(updatedData)
+          setStringSwitch(toJS(result))
+        }
+      }, [customerServicesMenuStore.accountSuccessInfo])
 
       useEffect(() => {
         if (isSearch) {
@@ -80,10 +96,20 @@ const OtpUnlocking =
       }
 
       const convertArrayObjectToArray = (arrayObject) => {
-        return new Promise((resolve, reject) => {
-          let result = arrayObject.map(a => [a.otp_is_locked, a.main_account_no, a.product_name_english]);
-          resolve(result)
-        })
+        // return new Promise((resolve, reject) => {
+        // let result = new Promise.all(
+        return arrayObject.map(a => {
+          console.log(a)
+          let product_name = a.products.map(e => e.product_name_english)
+          return [a.otp_is_locked, a.main_account_no, product_name.join('<br />')]
+        });
+        // return result
+        // resolve(result)
+        // })
+        // let result = arrayObject.map(a =>
+        // [a.otp_is_locked, a.main_account_no, a.product_name_english]
+        // );
+        // return result
       }
       const replaceNewDataForSetString = () => {
         let arrayAccountInfo = customerServicesMenuStore.accountInfo
@@ -91,9 +117,9 @@ const OtpUnlocking =
         // let newArray = stringSwitch.filter(accountInfo => accountInfo.accountNumber !== toJS(customerServicesMenuStore.accountSelected.accountNumber))
         let newArray = arrayAccountInfo.filter(accountInfo => accountInfo.main_account_no !== accountSelected.main_account_no)
 
-        convertArrayObjectToArray([...newArray, accountSelected]).then(result => {
-          setStringSwitch(result)
-        })
+        let result = convertArrayObjectToArray([...newArray, accountSelected])
+        // console.log(result)
+        setStringSwitch(result)
       }
 
       const closeModal = () => {
@@ -106,12 +132,20 @@ const OtpUnlocking =
         if (switchSelected === true) {
 
           customerServicesMenuStore.accountSelected = customerServicesMenuStore.accountInfo[index]
+          // console.log(customerServicesMenuStore.arrayAccountInfo)
+          let accInfo = toJS(customerServicesMenuStore.arrayAccountInfo)
+          // accInfo[0][0] = false
+          // console.log(accInfo)
           setStringSwitch(customerServicesMenuStore.arrayAccountInfo)
+          // setStringSwitch(false)
           setVisble(true)
           setModalString(
             <div style={{ textAlign: "center" }}>
               <p>{t("unlockingOtp")}</p>
               <p> {t("accountNumber") + " " + customerServicesMenuStore.accountSelected.main_account_no}</p>
+              {/* {customerServicesMenuStore.accountSelected.products.map(e => {
+                return <div>{e.product_name_english}</div>
+              })} */}
             </div>
           )
 
@@ -153,12 +187,22 @@ const OtpUnlocking =
               onChange={(switchSelected, index) => onChange(switchSelected, index)} />
           ) : ('')}
           <SimpleModal
+            type='confirm'
             onOk={() => unlockOTP()}
             onCancel={() => closeModal()}
-            okText={t("confirm")}
-            cancelText={t("cancel")}
+            textOk={t("confirm")}
+            textCancel={t("cancel")}
             modalString={modalString}
             visible={visible}
+
+          // title={titleModal}
+          // type={modalType}
+          // onOk={() => _onConfirm()}
+          // onCancel={() => _onCancel()}
+          // textCancel={textCancel}
+          // textOk={textOk}
+          // modalString={modalString}
+          // visible={visible}
           />
         </div>
       )

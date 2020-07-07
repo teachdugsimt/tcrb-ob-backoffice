@@ -12,4 +12,4 @@ CustomerServiceList.getInitialProps = async () => ({
   namespacesRequired: [],
 })
 
-export default withTranslation()(CustomerServiceList)
+export default withTranslation('common')(CustomerServiceList)

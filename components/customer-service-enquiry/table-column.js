@@ -1,7 +1,7 @@
 import moment from 'moment'
-import { getColumnSearchProps } from './filter-box'
+import getColumnSearchProps from './filter-box'
 import { addCommaInData } from '../data-utility';
-import { withTranslation } from '../../i18n';
+// import { withTranslation } from '../../i18n';
 
 export const clmTranInfo = (handleSearch, handleReset, t) => {
   return [
@@ -42,16 +42,12 @@ export const clmTranInfo = (handleSearch, handleReset, t) => {
       dataIndex: 'transaction_sub_type',
     },
     {
-      // if(transaction_type == TOPUP)  sender product type
-      // if(transaction_type == RPYMNT) receiver product type
       title: t("prodType"),
       key: 'product_type',
       dataIndex: 'product_type',
       ...getColumnSearchProps('product_type', handleSearch, handleReset, 'Prod Type')
     },
     {
-      // if(transaction_type == TOPUP) sender_main_account_value
-      //  if(transaction_type == RPYMNT) receiver_main_account_value
       title: t("accountNo"),
       key: 'account_no',
       dataIndex: 'account_no',
@@ -99,8 +95,6 @@ export const clmPartnerInfo = (handleSearch, handleReset, t) => {
       ...getColumnSearchProps('transaction_reference', handleSearch, handleReset, 'Bank TranRef')
     },
     {
-      // if(transaction_type == TOPUP) sender_proxy_value
-      // if(transaction_type == RPYMNT) receiver_proxy_value
       title: t("mobileNumber"),
       key: 'mobile_no',
       dataIndex: 'mobile_no',
@@ -118,24 +112,18 @@ export const clmAccInfo = (handleSearch, handleReset, t) => {
       render: text => <div>{text}</div>,
     },
     {
-      // if(transaction_type == TOPUP) sender_main_account_value
-      // if(transaction_type == RPYMNT) receiver_main_account_value
       title: t("tcrbAccountRef"),
       dataIndex: 'tcrb_account_reference',
       key: 'tcrb_account_reference',
       ...getColumnSearchProps('tcrb_account_reference', handleSearch, handleReset, 'TCRB AccountRef')
     },
     {
-      // if(transaction_type == TOPUP) sender_sub_account_value
-      // if(transaction_type == RPYMNT) receiver_sub_account_value
       title: t("subAC"),
       dataIndex: 'sub_account',
       key: 'sub_account',
       ...getColumnSearchProps('sub_account', handleSearch, handleReset, 'Sub A/C')
     },
     {
-      // if(transaction_type == TOPUP) sender_name
-      // if(transaction_type == RPYMNT) receiver_name
       title: t("accountName"),
       key: 'account_name',
       dataIndex: 'account_name',
@@ -183,13 +171,11 @@ export const clmTxn = (handleSearch, handleReset, t) => {
       title: t("feeDREntry"),
       key: 'fee_debit_entries',
       dataIndex: 'fee_debit_entries',
-      // render: (text, record) => addCommaInData(text, false)
     },
     {
       title: t("feeDRAMT"),
       key: 'fee_amount',
       dataIndex: 'fee_amount',
-      // render: (text, record) => addCommaInData(text, true)
     },
     {
       title: t("feeCREntry"),
@@ -200,7 +186,6 @@ export const clmTxn = (handleSearch, handleReset, t) => {
       title: t("feeCRAMT"),
       key: 'bank_income_fee',
       dataIndex: 'bank_income_fee',
-      // render: (text, record) => addCommaInData(text, true)
     },
     {
       title: t("amt"),
