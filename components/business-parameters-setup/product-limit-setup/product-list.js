@@ -184,7 +184,7 @@ const ProductList =
           return (
             <div style={{ textAlign: "center" }}>
               <TcrbPopconfirm title="Sure to Delete?" onConfirm={(e) => { submitDeleteProduct(record) }} disabled={editingKey !== ''}>
-                <a><DeleteOutlined style={{ fontSize: '18px' }} /></a>
+                <a><DeleteOutlined style={{ fontSize: '18px', paddingRight: 8 }} /></a>
               </TcrbPopconfirm>
               <a onClick={() => selectProductToViewDetail(record)}><FormOutlined style={{ fontSize: '18px', color: '#FBA928' }} /></a>
               {/* <a onClick={() => selectProductToSpecificLimit(record)}><ApartmentOutlined style={{ fontSize: '18px', color: '#FBA928' }} /></a> */}

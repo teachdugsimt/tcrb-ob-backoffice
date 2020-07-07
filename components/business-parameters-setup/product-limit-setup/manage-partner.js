@@ -194,7 +194,7 @@ const managePartner =
         if (record.status === '1') {
           return editable ? (
             <span>
-              <TcrbPopconfirm title="Sure to Delete?" onConfirm={() => save(record.key)}>
+              <TcrbPopconfirm title="Sure to Save?" onConfirm={() => save(record.key)}>
                 <a style={{ marginRight: 8, }}>
                   Save
               </a>

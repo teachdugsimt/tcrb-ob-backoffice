@@ -5,6 +5,8 @@
   "scripts": {
     "dev": "NODE_OPTIONS='--inspect' next dev",
     "build": "next build",
+    "export": "next build && next export",
+    "deploy": "npm run export && now",
     "start": "next start",
     "test": "jest --coverage --env=node"
   },

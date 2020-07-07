@@ -59,9 +59,9 @@ class CustomApp extends App {
           <Head>
             <title>TCRB Backoffice</title>
           </Head>
-          {/* <EmptyLayout> */}
-          <Component {...pageProps} events={events} />
-          {/* </EmptyLayout> */}
+          <EmptyLayout>
+            <Component {...pageProps} events={events} />
+          </EmptyLayout>
         </ThemeProvider>
       </Provider>
     )
