@@ -64,7 +64,6 @@
   "pendingApprove": "PENDING APPROVE",
   "customerID": "Customer ID : ",
   "customerName": "Customer Name : ",
-
   "noData": "do not have data",
   "number": "No. ",
   "tranDate": "Tran Date",
@@ -94,5 +93,8 @@
   "feeCRAMT": "Fee_CR_Amt",
   "amt": "Amt",
   "onboardService": "Onboarded service",
-  "notFoundPage": "404 - Page Not Found"
+  "notFoundPage": "404 - Page Not Found",
+  "somethingWrong": "Something went wrong",
+  "reset": "Reset",
+  "filter": "Filter"
 }
