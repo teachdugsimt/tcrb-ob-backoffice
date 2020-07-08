@@ -1,10 +1,9 @@
 import React, { useState } from 'react'
 import styled from 'styled-components';
 import { PageHeader } from '../components/page-header';
-import { Row, Col } from 'antd'
+import { Row, Col, Button } from 'antd'
 import { withTranslation } from '../i18n'
 import { palette } from '../theme'
-import { Button } from 'antd'
 import TableProduct from '../components/product-onboard/table-product'
 import AddNewProduct from '../components/product-onboard/add-new-product'
 const ProductOnboarding = (props) => {
@@ -16,7 +15,7 @@ const ProductOnboarding = (props) => {
       {!addProduct ?
         <Col style={{ width: '100%' }}>
           <PageHeader>Product Onboarding</PageHeader>
-          <Button type="primary" onClick={() => setAddProduct(true)}>Add new Product</Button>
+          <Button type="primary" onClick={() => setAddProduct(true)}>Add new product</Button>
           <TableProduct />
         </Col>
         : <div style={{ display: 'flex', flex: 1 }}>

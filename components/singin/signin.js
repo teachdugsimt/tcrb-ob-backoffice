@@ -38,7 +38,7 @@ const Signin =
       let adminMenu = [
         { id: 1, name: "CUSTOMER SERVICES ENQUIRY", translate: "customerServicesEnquiry", linkTo: "/customer-service-enquiry", color: "#000000", typeLv: "42" },
         { id: 2, name: "CUSTOMER SERVICES MENU", translate: "customerServiceMenu", linkTo: "/customer-service-menu", color: "#000000", typeLv: "38" },
-        { id: 3, name: "PARTNER MANAGEMENT", translate: "partnerManagement", linkTo: "/", color: "#000000", typeLv: "38" },
+        { id: 3, name: "PARTNER MANAGEMENT", translate: "partnerManagement", linkTo: "/partner-mangement", color: "#000000", typeLv: "38" },
         { id: 4, name: "PRODUCT ONBOARDING", translate: "productOnboarding", linkTo: "/product-onboarding", color: "#000000", typeLv: "38" },
         { id: 5, name: "CONSENT MANAGEMENT", translate: "consentManagement", linkTo: "/", color: "#000000", typeLv: "30" },
         { id: 6, name: "TERM & CONDITION MANAGEMENT", translate: "term&conditionManagement", linkTo: "/", color: "#000000", typeLv: "30" },
