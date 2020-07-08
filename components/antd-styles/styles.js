@@ -84,20 +84,6 @@ const TcrbPopconfirm = styled(Popconfirm)`
     background-color: ${({ theme }) => theme.colors.primary};
     border-color: ${({ theme }) => theme.colors.primary};
     color:${({ theme }) => theme.colors.white};
-  }
-  .ant-popover{
-    background: red
-  }
-  .ant-popover-content{
-    .ant-popover-inner-content{
-      background-color:red;
-        .ant-btn-primary{
-          background-color: ${({ theme }) => theme.colors.primary};
-          border-color: ${({ theme }) => theme.colors.primary};
-          color:${({ theme }) => theme.colors.white};
-        }
-    }
-  }
 `
 
 export {

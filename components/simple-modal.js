@@ -26,7 +26,12 @@ function SimpleModal(props) {
           props.type == "request" && (<TcrbButton key="submit" type="primary" loading={props.fetching} onClick={() => props.onOk()}>
             {props.textOk}
           </TcrbButton>),
+          props.type == "edit" && (<TcrbButton key="edit" type="primary" onClick={() => props.onEdit()}>
+            {props.textEdit}
+          </TcrbButton>),
         ]}
+        maskClosable={false}
+
       >
         {/* <JsonToTable json={JSON.parse(props.modalString)} /> */}
         {/* <JsonTable rows={JSON.parse(props.modalString)} /> */}

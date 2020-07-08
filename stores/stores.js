@@ -28,7 +28,7 @@ export default function initializeStore(initialData = {}) {
       businessParametersSetupStore: new BusinessParameterSetup(),
       customerServiceEnquiry: new CustomerServiceEnquiry(),
       pendingApprovalStore: new PendingApproval(),
-      UserAccessManagementStore: new UserAccessManagement()
+      userAccessManagementStore: new UserAccessManagement()
     };
   }
   if (store === null) {
@@ -42,7 +42,7 @@ export default function initializeStore(initialData = {}) {
       businessParametersSetupStore: new BusinessParameterSetup(),
       customerServiceEnquiry: new CustomerServiceEnquiry(),
       pendingApprovalStore: new PendingApproval(),
-      UserAccessManagementStore: new UserAccessManagement()
+      userAccessManagementStore: new UserAccessManagement()
     };
   }
 
