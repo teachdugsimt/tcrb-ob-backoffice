@@ -179,7 +179,10 @@ const DepartmentList =
             title="Add new User"
             okText="Submit"
             cancelText="Cancel"
-            onCancel={onCancel}
+            onCancel={() => {
+              form.resetFields();
+              onCancel()
+            }}
             width={600}
             onOk={() => {
               form
@@ -192,6 +195,8 @@ const DepartmentList =
                   console.log('Validate Failed:', info);
                 });
             }}
+            maskClosable={false}
+
           >
             <Form
               form={form}

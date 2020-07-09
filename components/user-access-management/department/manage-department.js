@@ -309,7 +309,7 @@ const ManageDepartment =
           title: '',
           dataIndex: 'status',
           width: '5%',
-          render: (text, record) => checkDefaultStatus(record.request_status)
+          render: (text, record) => checkDefaultStatus(record.status, record.request_status)
         },
         {
           title: 'Section Name',

@@ -24,14 +24,28 @@ const addCommaInData = (text, isComma) => {
   }
 }
 
-const checkDefaultStatus = (request_status) => {
-  if (request_status == 'APPROVE') {
+const checkDefaultStatus = (status, request_status) => {
+  if (status == 'ACTIVE') {
+    if (request_status == 'APPROVE' || request_status == 'REJECT') {
+      return <span style={{ color: green[6] }}>Active</span>
+    } else if (request_status == 'PENDING') {
+      return <span style={{ color: gold[6] }}>Pending</span>
+    }
+
+  } else if (status == 'INACTIVE') {
+    if (request_status == 'PENDING') {
+      return <span style={{ color: gold[6] }}>Pending</span>
+    }
+  } else {
+    return null
+  }
+  /* if (request_status == 'APPROVE') {
     return <span style={{ color: green[6] }}>Active</span>
   } else if (request_status == 'PENDING') {
     return <span style={{ color: gold[6] }}>Pending</span>
   } else {
     return null
-  }
+  } */
 }
 
 const renderAction = (record, props) => {
