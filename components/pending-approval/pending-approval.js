@@ -48,7 +48,8 @@ const PendingApprovals =
               data[k].map(e => <div style={{ margin: 5, padding: 3, borderRadius: 3, backgroundColor: 'lightgray' }}>
                 {e.name}
               </div>) :
-              data[k]}</td>
+              data[k]}
+            </td>
           </tr>
         })}</table>)
       }
