@@ -188,7 +188,7 @@ const ManageDepartment =
         setModalType('confirm')
         setModalString(
           <div style={{ textAlign: "center" }}>
-            <p>Confirm to Change Name Department.</p>
+            <p>Confirm to Change Name Department {userAccessManagementStore.departmentSelected.name} to {departmentName}.</p>
             <p style={{ color: orange[6] }}>Your changes will take effect after being approved.</p>
           </div>
         )
@@ -198,7 +198,7 @@ const ManageDepartment =
       const submitEditSection = async (key) => {
         // Call api to update record status
         const row = await form.validateFields();
-
+        row.status = 'INACTIVE'
         row.request_status = 'PENDING' //waiting confirm now use call new api
         const newData = [...dataSourceSection];
         const index = newData.findIndex(item => key === item.key);
@@ -217,6 +217,7 @@ const ManageDepartment =
 
       const addNewSection = async (key) => {
         const row = await form.validateFields();
+        row.status = 'INACTIVE'
         row.request_status = 'PENDING' //waiting confirm now use call new api
         const newData = [...dataSourceSection]
         const index = newData.findIndex(item => key === item.key);
