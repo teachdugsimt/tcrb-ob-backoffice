@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { Table, Row, Col, Menu, Card, Input, Select, Form, InputNumber, Divider, Button, Modal, Drawer } from 'antd'
-import { TcrbButton, TcrbPopconfirm } from '../../antd-styles/styles'
-import { inject, observer } from 'mobx-react'
+import { TcrbButton, TcrbPopconfirm, TcrbModal } from '../../antd-styles/styles'
+import { inject, observer, useAsObservableSource } from 'mobx-react'
 import { orange, green, gold } from '@ant-design/colors';
 
 import SimpleModal from '../../simple-modal'
@@ -12,7 +12,7 @@ import UserAccessManagement from '../../../stores/user-access-management-store';
 
 const { Option } = Select;
 let departmentName = null
-let sectionArray = null
+let sectionArray = []
 const DepartmentList =
   inject('userAccessManagementStore')
     (observer((props) => {
@@ -23,7 +23,8 @@ const DepartmentList =
       const [textCancel, settextCancel] = useState("Cancel")
       const [modalString, setmodalString] = useState("")
       const [modalType, setModalType] = useState('')
-      const [visible, setvisible] = useState(false)
+      const [visible, setVisible] = useState(false)
+      const [visibleFormModal, setVisibleFormModal] = useState(false)
       const [visibleSection, setVisibleSection] = useState(false)
       const [dataSourceDepartment, setDataSourceDepartment] = useState([])
       const [addSection, setAddSection] = useState(false)
@@ -48,32 +49,22 @@ const DepartmentList =
         }
       }, [userAccessManagementStore.departmentList])
 
-      const children = [];
-      for (let i = 10; i < 36; i++) {
-        children.push(<Option key={i.toString(36) + i} value={i}>Section_{i}</Option>);
-      }
+      /* useEffect(() => {
+        if (userAccessManagementStore.departmentList.length >= 0) {
+          addKeyToDataSource(userAccessManagementStore.departmentList).then((result) => {
+            setDataSourceDepartment(result)
+          })
+        }
+      }, [userAccessManagementStore.departmentList]) */
 
-      const mockSection = [{
-        section_name: 'section_1',
-        team_name: 'team_1',
-        section_id: '01',
-        status: '1',
-        key: 1
-      },
-      {
-        section_name: 'section_2',
-        team_name: 'team_2',
-        section_id: '02',
-        status: '1',
-        key: 2
-      },
-      {
-        section_name: 'section_3',
-        team_name: 'team_3',
-        section_id: '03',
-        status: '1',
-        key: 3
-      }]
+
+      const submitDeleteDepartment = (record) => {
+        let indexRecordDelete = dataSourceDepartment.findIndex(item => record.key === item.key)
+        const newData = [...dataSourceDepartment];
+        newData[indexRecordDelete].status = '2'
+        userAccessManagementStore.submitDeleteDepartment(record)
+        //setDataSourceDepartment(newData) //waiting useEffect to check api success
+      }
 
       const save = async key => {
         const row = await form.validateFields();
@@ -108,7 +99,7 @@ const DepartmentList =
                 Edit
               </a>
               {/* </TcrbPopconfirm> */}
-              <TcrbPopconfirm title="Sure to Deactivate?" >
+              <TcrbPopconfirm title="Sure to Deactivate?" onConfirm={() => submitDeleteDepartment(record)}>
                 <a style={{ color: '#FBA928' }}>Deactivate</a>
               </TcrbPopconfirm>
               {/* <TcrbPopconfirm title="Sure to Delete?" disabled={editingKey !== ''} onConfirm={() => deletePartnerSelect(record)}>
@@ -181,71 +172,79 @@ const DepartmentList =
         }
       ]
 
-      const AddDepartment = () => {
+      const FormAddNewDepartment = ({ visible, onCreate, onCancel }) => {
         return (
-          <div>
-            <Row>
-              <Col span={10} style={{ padding: 4 }}>
-                <p>
-                  Department Name
-            </p>
-              </Col>
-              <Col span={14}>
-                <SimpleInput onChange={(value) => departmentName = value} />
-              </Col>
-            </Row>
-          </div>
-        )
-      }
+          <TcrbModal
+            visible={visible}
+            title="Add new User"
+            okText="Submit"
+            cancelText="Cancel"
+            onCancel={onCancel}
+            width={600}
+            onOk={() => {
+              form
+                .validateFields()
+                .then(values => {
+                  form.resetFields();
+                  onCreate(values);
+                })
+                .catch(info => {
+                  console.log('Validate Failed:', info);
+                });
+            }}
+          >
+            <Form
+              form={form}
+              layout="vertical"
+              name="form_in_modal"
+            >
 
-      const handleChange = (value) => {
-        console.log(value)
-        sectionArray = value
-      }
-
-
-      const SelectDepartment = (props) => {
-        return (
-          <Row>
-            <Col span={10} style={{ padding: 4 }}>
-              <p>Section / Team</p>
-            </Col>
-            <Col span={14}>
-              <Select
-                mode="tags"
-                style={{ width: '100%' }}
-                placeholder="Please select"
-                onChange={(value) => handleChange(value)}
-              >
-                {/* {children} */}
-              </Select>
-            </Col>
-          </Row>
-
+              <Row >
+                <Col span={10} style={{ padding: 4 }}>
+                  <span>
+                    Department Name
+              </span>
+                </Col>
+                <Col span={14}>
+                  <Form.Item
+                    name="departmentName"
+                    rules={[
+                      {
+                        required: true,
+                        message: 'Please input Department Name',
+                      },
+                    ]}
+                  >
+                    <SimpleInput />
+                  </Form.Item>
+                </Col>
+              </Row>
+              <Row>
+                <Col span={10} style={{ padding: 4 }}>
+                  <p>Section / Team</p>
+                </Col>
+                <Col span={14}>
+                  <Form.Item
+                    name="sectionName"
+                  >
+                    <Select
+                      mode="tags"
+                      style={{ width: '100%' }}
+                      placeholder="Please select"
+                    >
+                      {/* {children} */}
+                    </Select>
+                  </Form.Item>
+                </Col>
+              </Row>
+            </Form>
+          </TcrbModal>
         )
       }
 
       const viewDepartmentDetail = (record) => {
         userAccessManagementStore.departmentSelected = record
         userAccessManagementStore.nextPageIsManageDepartment = true
-      }
-
-      const ListSection = () => {
-        return (
-          <div>
-            <Row>
-              <Col flex={100}>
-
-                <Table
-                  bordered
-                  dataSource={dataSourceSection}
-                  columns={columnSection}
-                  size="small"
-                />
-              </Col>
-            </Row>
-          </div>
-        )
       }
 
       const selectSection = (section) => {
@@ -263,28 +262,31 @@ const DepartmentList =
             </div>
           )
         })
-        setvisible(true)
+        setVisible(true)
       }
 
       const openModalAddDepartment = () => {
-        setModalType('confirm')
-        settitle('Add New Department')
-        setmodalString(
-          <div>
-            <AddDepartment />
-            <SelectDepartment />
-          </div>
-        )
-        setvisible(true)
+        setVisibleFormModal(true)
       }
 
       const confirmDepartmentSelected = () => {
 
       }
 
-      const addNewDepartment = () => {
-        setvisible(false)
-        console.log(departmentName, sectionArray)
+      const addNewDepartment = (values) => {
+        let sections = []
+        for (let index = 0; index < values.sectionName.length; index++) {
+          sections.push({
+            name: values.sectionName[index]
+          })
+        }
+        let request = {
+          name: values.departmentName,
+          sections: sections
+        }
+        userAccessManagementStore.submitAddNewDepartment(request)
+        setVisibleFormModal(false)
+        console.log(request)
       }
 
       return (
@@ -304,7 +306,7 @@ const DepartmentList =
             title={title}
             type={modalType}
             onOk={() => addNewDepartment()}
-            onCancel={() => setvisible(false)}
+            onCancel={() => setVisible(false)}
             onEdit={() => onEditSection()}
             textCancel={textCancel}
             textOk={textOk}
@@ -312,6 +314,13 @@ const DepartmentList =
             width={600}
             modalString={modalString}
             visible={visible}
+          />
+          <FormAddNewDepartment
+            visible={visibleFormModal}
+            onCreate={addNewDepartment}
+            onCancel={() => {
+              setVisibleFormModal(false);
+            }}
           />
         </div>
       )

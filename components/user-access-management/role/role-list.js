@@ -80,6 +80,7 @@ const RoleList = inject('userAccessManagementStore')
         // render: (text, record) => renderActionGroup(record)
       }
     ]
+    console.log(columnRole, mockRoleList)
     return (
       <div>
         <Row gutter={[4, 24]}>

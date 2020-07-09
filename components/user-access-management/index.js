@@ -9,6 +9,8 @@ import Department from './department'
 import Group from './group'
 import Role from './role'
 import User from './user'
+import MenuAndFunction from './menu-and-function';
+import RoleBasedMatrix from './role-based-matrix';
 const UseAccessManagement =
   inject('userAccessManagementStore')
     (observer((props) => {
@@ -43,11 +45,13 @@ const UseAccessManagement =
                     <User />
                   </TabPane>
                   <TabPane tab={t("Menu and Function")} key="4" >
+                    <MenuAndFunction />
                   </TabPane>
                   <TabPane tab={t("Role")} key="5" >
                     <Role />
                   </TabPane>
                   <TabPane tab={t("Role based matrix")} key="6" >
+                    <RoleBasedMatrix />
                   </TabPane>
                 </TcrbTabs>
               </Col>

@@ -40,5 +40,25 @@ class UserAccessManagementApi {
     const response = await ExcuteApi('end point', params, "get")
     return response
   }
+
+  addNewDepartment = async (params) => {
+    const response = await ExcuteApi('api/backoffice/v1/changerequest', params, "post")
+    return response
+  }
+
+  addNewSection = async (params) => {
+    const response = await ExcuteApi('api/backoffice/v1/changerequest', params, "post")
+    return response
+  }
+
+  updateDepartment = async (params) => {
+    const response = await ExcuteApi('api/backoffice/v1/changerequest', params, "post")
+    return response
+  }
+
+  deleteDepartment = async (params) => {
+    const response = await ExcuteApi('api/backoffice/v1/changerequest', params, "post")
+    return response
+  }
 }
 export default new UserAccessManagementApi()
