@@ -24,7 +24,11 @@ const StyledInput = styled(Input)`
 function SimpleInput(props) {
   return (
     <div>
-      <StyledInput onChange={(e) => props.onChange(e.target.value)} prefix={props.prefix} suffix={props.suffix} readOnly={props.readOnly} defaultValue={props.defaultValue} halfsize={props.halfSize} />
+      <StyledInput
+        id={props.id}
+        name={props.name}
+        type={props.type}
+        onChange={(e) => props.onChange(e.target.value)} prefix={props.prefix} suffix={props.suffix} readOnly={props.readOnly} defaultValue={props.defaultValue} halfsize={props.halfSize} />
     </div>
   )
 }
