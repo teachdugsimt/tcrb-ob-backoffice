@@ -18,7 +18,7 @@ class AuthenStore {
     { id: 10, name: "MARKETING ADS ENQUIRY", linkTo: "/", color: "#000000", typeLv: "12" },
     { id: 11, name: "DASHBOARD & REPORTS", linkTo: "/", color: "#000000", typeLv: "42" },
     { id: 12, name: "BUSINESS PARAMETERS SETUP", linkTo: "/parameters-setup", color: "#000000", typeLv: "42" },
-    { id: 13, name: "USER ACCESS MANAGEMENT ENQUIRY", linkTo: "/", color: "#000000", typeLv: "42" },
+    { id: 13, name: "USER ACCESS MANAGEMENT ENQUIRY", linkTo: "/user-access-management", color: "#000000", typeLv: "42" },
     { id: 14, name: "DEVICE ENQUIRY", linkTo: "/", color: "#000000", typeLv: "42" },
 
   ]

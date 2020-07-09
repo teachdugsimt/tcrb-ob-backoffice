@@ -5,6 +5,11 @@
   --default-color-darker: #363535;
   --white-color: #ffffff;
 }
+.primary {
+  background-color: var(--primary-color) !important;
+  border-color: var(--primary-color) !important;
+  color: var(--white-color) !important;
+}
 .ant-btn-primary {
   background-color: var(--primary-color) !important;
   border-color: var(--primary-color) !important;
