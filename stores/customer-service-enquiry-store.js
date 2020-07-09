@@ -48,6 +48,7 @@ class CustomerServiceEnquiry {
         let addNoData = tmp_data.map((e, i) => {
           let tmp = JSON.parse(JSON.stringify(e))
           e.no = i + 1
+          e.key = i + 1
           if (e.transaction_type == "TOPUP") {
             e.product_type = tmp.sender_product_type
             e.account_no = tmp.sender_main_account_value

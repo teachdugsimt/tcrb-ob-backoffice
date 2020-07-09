@@ -5,6 +5,7 @@
   "customerServicesEnquiry": "บริการตรวจสอบข้อมูลลูกค้า",
   "customerServiceMenu": "บริการรายการลูกค้า",
   "partnerManagement": "จัดการ partner",
+  "productOnboarding": "จัดการ product",
   "consentManagement": "จัดการ consent",
   "term&conditionManagement": "จัดการ term & condition",
   "securityCodeEnquiry": "ตรวจสอบการเข้ารหัส",
@@ -64,7 +65,6 @@
   "pendingApprove": "การอนุมัติรายการ",
   "customerID": "รหัสลูกค้า : ",
   "customerName": "ชื่อลูกค้า : ",
-
   "noData": "do not have data",
   "number": "เลขที่",
   "tranDate": "Tran Date",
@@ -94,5 +94,8 @@
   "feeCRAMT": "Fee_CR_Amt",
   "amt": "Amt",
   "onboardService": "บริการ Onboard",
-  "notFoundPage": "404 - ไม่พบหน้าที่ร้องขอ"
+  "notFoundPage": "404 - ไม่พบหน้าที่ร้องขอ",
+  "somethingWrong": "บางอย่างผิดพลาด",
+  "reset": "รีเซ็ท",
+  "filter": "ตัวกรอง"
 }

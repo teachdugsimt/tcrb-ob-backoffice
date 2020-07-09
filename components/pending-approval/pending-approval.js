@@ -44,7 +44,11 @@ const PendingApprovals =
         return ReactDOMServer.renderToStaticMarkup(<table style={{ border: 1 }}>{keys.map((k, index) => {
           return <tr>
             <td style={{ border: '1px solid lightgrey', width: 200, paddingLeft: 10, backgroundColor: '#eeeeee' }}>{k}</td>
-            <td style={{ border: '1px solid lightgrey', width: 200, paddingLeft: 10 }}>{data[k]}</td>
+            <td style={{ border: '1px solid lightgrey', width: 200, paddingLeft: 10 }}>{Array.isArray(data[k]) ?
+              data[k].map(e => <div style={{ margin: 5, padding: 3, borderRadius: 3, backgroundColor: 'lightgray' }}>
+                {e.name}
+              </div>) :
+              data[k]}</td>
           </tr>
         })}</table>)
       }

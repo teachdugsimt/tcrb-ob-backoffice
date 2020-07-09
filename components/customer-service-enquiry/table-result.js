@@ -8,6 +8,7 @@ import { Table, Tabs, Carousel } from 'antd';
 import { TcrbTabs, TcrbSpin } from '../antd-styles/styles'
 import { RightOutlined, LeftOutlined } from '@ant-design/icons';
 import SimpleLabel from '../simple-label'
+import Message from './message'
 import 'moment/locale/th'
 import _ from 'lodash'
 import { withTranslation } from '../../i18n';
@@ -30,6 +31,12 @@ const TableResult =
       const [searchText, setSearchText] = useState([])
       const [page, setPage] = useState(1)
       const [pageSizeVal, setPageSizeVal] = useState(10)
+      const locale = {
+        filterTitle: t('filter'),
+        filterConfirm: t('confirm'),
+        filterReset: t('reset'),
+        emptyText: t('noData'),
+      }
 
       const handleSearch = (selectedKeys, confirm, dataIndex) => {
         confirm();
@@ -96,6 +103,7 @@ const TableResult =
       return (
         <div style={{ paddingTop: 10 }}>
           <TcrbSpin spinning={customerServiceEnquiry.fetchingGetListCustomerService} size="large" tip="Loading..." >
+            {customerServiceEnquiry.errorGetListCustomerService && <Message message={customerServiceEnquiry.errorGetListCustomerService.error ? customerServiceEnquiry.errorGetListCustomerService.error : t('somethingWrong')} />}
             <div style={{ display: 'flex', flexDirection: 'row' }}>
               {
                 searchText.map(e => {
