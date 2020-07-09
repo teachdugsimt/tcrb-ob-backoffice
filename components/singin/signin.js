@@ -50,7 +50,7 @@ const Signin =
         { id: 12, name: "DASHBOARD & REPORTS", translate: "dashboardReports", linkTo: "/", color: "#000000", typeLv: "42" },
         { id: 13, name: "BUSINESS PARAMETERS SETUP", translate: "businessParametersSetup", linkTo: "/parameters-setup", color: "#000000", typeLv: "42" },
         { id: 14, name: "PENDING APPROVE", translate: "pendingApprove", linkTo: "/pending-approve", color: "#000000", typeLv: "42" },
-        { id: 15, name: "USER ACCESS MANAGEMENT ENQUIRY", translate: "useAccessManagementEnquiry", linkTo: "/user-access-management", color: "#000000", typeLv: "42" },
+        { id: 15, name: "USER ACCESS MANAGEMENT ", translate: "useAccessManagementEnquiry", linkTo: "/user-access-management", color: "#000000", typeLv: "42" },
         { id: 16, name: "DEVICE ENQUIRY", translate: "deviceEnquiry", linkTo: "/", color: "#000000", typeLv: "42" },
 
       ]
