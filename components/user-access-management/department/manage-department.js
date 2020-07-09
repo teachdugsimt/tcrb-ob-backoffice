@@ -200,8 +200,15 @@ const ManageDepartment =
         const row = await form.validateFields();
         row.status = 'INACTIVE'
         row.request_status = 'PENDING' //waiting confirm now use call new api
+
         const newData = [...dataSourceSection];
         const index = newData.findIndex(item => key === item.key);
+        let request = {
+          newData: {
+            name: row.name
+          },
+          currentData: newData[index]
+        }
         if (index > -1) {
           const item = newData[index];
           newData.splice(index, 1, { ...item, ...row });
@@ -212,6 +219,8 @@ const ManageDepartment =
           setDataSourceSection(newData);
           setEditingKey('');
         }
+
+        userAccessManagementStore.updateSection(request)
         // setEditingKey('');
       }
 

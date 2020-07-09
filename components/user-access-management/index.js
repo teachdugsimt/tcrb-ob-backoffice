@@ -16,6 +16,12 @@ const UseAccessManagement =
     (observer((props) => {
       const { userAccessManagementStore, t } = props
 
+      useEffect(() => {
+        userAccessManagementStore.nextPageIsManageDepartment = false
+        userAccessManagementStore.nextPageIsManageGroup = false
+        userAccessManagementStore.nextPageIsManageUser = false
+      }, [])
+
       const setDefaultPage = (keyTab) => {
         switch (keyTab) {
           case "1":

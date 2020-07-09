@@ -118,7 +118,20 @@ export default class UserAccessManagement {
     console.log(tmp)
     if (tmp.ok & tmp.status === 200) {
       //when success
-      this.departmentList = tmp.data.responseData
+      this.apiFetching = false
+    } else {
+      //when error
+      this.apiFetching = false
+      this.responseApiError = true
+    }
+  }
+
+  @action updateSection = async (params) => {
+    this.apiFetching = true
+    let tmp = await UserAccessManagementApi.updateSection({ change_type: "SECTIONS", action: "Update", currentData: params.currentData, newData: params.newData, maker_id: '36' })
+    console.log(tmp)
+    if (tmp.ok & tmp.status === 200) {
+      //when success
       this.apiFetching = false
     } else {
       //when error
