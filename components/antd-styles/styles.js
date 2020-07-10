@@ -50,6 +50,21 @@ const TcrbButton = styled(Button)`
           color:${theme.colors.white} !important;
         }
     `}
+    ${({ disabled, theme }) => disabled && `
+        background-color: ${theme.colors.disabledDarker}!important;
+        border-color: ${theme.colors.disabledDarker}!important;
+        color:${theme.colors.disabled}!important;
+        &:hover{
+          background-color: ${theme.colors.disabledDarker}!important;
+          border-color: ${theme.colors.disabledDarker}!important;
+          color:${theme.colors.disabled}!important;
+        }
+        &:focus{
+          background-color: ${theme.colors.disabledDarker}!important;
+          border-color: ${theme.colors.disabledDarker}!important;
+          color:${theme.colors.disabled}!important;
+        }
+    `}
 `
 
 const TcrbModal = styled(Modal)`
