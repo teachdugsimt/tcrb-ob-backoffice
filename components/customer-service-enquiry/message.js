@@ -12,6 +12,7 @@ const Message = (props) => {
       description={props.message}
       type="error"
       showIcon
+    // onClose={(e) => { console.log(e) }}
     // closable
     />
 
