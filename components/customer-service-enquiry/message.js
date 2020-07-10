@@ -1,16 +1,23 @@
-import { message, Button } from 'antd';
+import { message, Button, Modal, Alert } from 'antd';
 // import { withTranslation } from '../../i18n'
 
 
 const Message = (props) => {
+  console.log(props)
+  return (
 
-  const info = () => {
-    message.info(props.message);
-  }
+    <Alert
+      style={{ marginBottom: 10 }}
+      message="Error"
+      description={props.message}
+      type="error"
+      showIcon
+    // closable
+    />
 
-  return <Button type="primary" onClick={info}>
-    {props.message}
-  </Button>
+  )
 }
 
 export default (Message)
+
+
