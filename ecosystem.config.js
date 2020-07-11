@@ -1,8 +1,8 @@
 module.exports = {
   apps: [
     {
-      name: 'app',
-      script: 'start',
+      name: 'tcrb-backoffice',
+      script: 'npm start',
       // Options reference: https://pm2.io/doc/en/runtime/reference/ecosystem-file/
       instances: 4,
       wait_ready: true,
