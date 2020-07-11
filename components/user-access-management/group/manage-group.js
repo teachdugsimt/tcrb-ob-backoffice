@@ -11,6 +11,8 @@ import { checkDefaultStatus } from '../../data-utility'
 
 const { Option } = Select;
 let listUserSelect = []
+let name = null
+let role_id = null
 const ManageGroup = inject('userAccessManagementStore')
   (observer((props) => {
     const { userAccessManagementStore, t } = props
@@ -194,7 +196,7 @@ const ManageGroup = inject('userAccessManagementStore')
         <Row gutter={[4, 24]}>
           <Col span={4}>Group Name</Col>
           <Col span={6}> {showEditGroup ?
-            <SimpleInput defaultValue={userAccessManagementStore.groupSelected.group_name} onChange={(e) => e} /> : userAccessManagementStore.groupSelected.group_name
+            <SimpleInput defaultValue={userAccessManagementStore.groupSelected.name} onChange={(value) => name = value} /> : userAccessManagementStore.groupSelected.name
           }
           </Col>
         </Row>

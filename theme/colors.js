@@ -16,4 +16,6 @@ export const colors = {
   dim: palette.lightGrey,
   grey: palette.lighterGrey,
   error: palette.angry,
+  disabled: palette.disabled,
+  disabledDarker: palette.disabledDarker
 }

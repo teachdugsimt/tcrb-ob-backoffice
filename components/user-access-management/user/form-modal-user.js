@@ -1,38 +1,40 @@
-import React, { useState, useEffect, useMemo, memo } from 'react'
-import { Table, Row, Col, Menu, Card, Input, Select, InputNumber, Divider, Button, Modal, Drawer, Form, DatePicker, Space } from 'antd'
-import { TcrbButton, TcrbPopconfirm } from '../../antd-styles/styles'
+import React, { useState, useEffect } from 'react'
+import { Table, Row, Col, Menu, Card, Input, Select, InputNumber, Divider, Button, Modal, Drawer, Form, DatePicker, Space, Spin } from 'antd'
+import { TcrbModal, TcrbSpin } from '../../antd-styles/styles';
 import { inject, observer } from 'mobx-react'
 
-import moment from 'moment';
-
-import { checkDefaultStatus, addKeyToDataSource } from '../../data-utility'
 import SimpleInput from '../../simple-input'
-import FormModalUser from './form-modal-user';
-
+import tableProductReg from '../../partner-onboard/table-product-reg';
+import { addKeyToDataSource } from '../../data-utility';
 const { Option } = Select;
 
-const UserList = inject('userAccessManagementStore')
+const FormModalUser = inject('userAccessManagementStore')
   (observer((props) => {
-    const [visible, setVisible] = useState(false)
-    const [userList, setUserList] = useState([])
     const [testSupervisor, setTestSupervisor] = useState([])
+    const [sectionList, setSectionLIst] = useState([])
+    // const { userAccessManagementStore } = props
     const [form] = Form.useForm();
-    const { userAccessManagementStore } = props
+    const { visible, onCreate, onCancel, userAccessManagementStore } = props
     const dateFormat = 'YYYY-MM-DD'
-
     useEffect(() => {
-      userAccessManagementStore.getDataUser()
-    }, [])
+      if (visible === true) {
+        setTestSupervisor([])
+        getOptionSectionList()
+      }
+    }, [visible])
 
-    useEffect(() => {
-      if (userAccessManagementStore.userList.length >= 0) {
-        addKeyToDataSource(userAccessManagementStore.userList).then(result => {
-          setUserList(result)
+    /* useEffect(() => {
+      if (userAccessManagementStore.optionSectionList.length >= 0) {
+        addKeyToDataSource(userAccessManagementStore.optionSectionList).then(result => {
+          setSectionLIst(result)
         })
       }
-    }, [userAccessManagementStore.userList])
-
+    }, [userAccessManagementStore.optionSectionList]) */
+    const getOptionSectionList = () => {
+      userAccessManagementStore.getDataSectionList()
+    }
     const testAddSupervisor = (id) => {
+      console.log('render')
       setTestSupervisor([
         { id: 0, name: 'sup_1' },
         { id: 1, name: 'sup_2' },
@@ -42,29 +44,33 @@ const UserList = inject('userAccessManagementStore')
 
       ])
     }
+    return (
+      <TcrbModal
+        visible={visible}
+        title="Add new User"
+        okText="Submit"
+        cancelText="Cancel"
+        destroyOnClose={true}
+        forceRender={true}
+        onCancel={() => {
+          onCancel()
+          form.resetFields();
+        }}
+        width={900}
+        onOk={() => {
+          form
+            .validateFields()
+            .then(values => {
+              form.resetFields();
+              onCreate(values);
+            })
+            .catch(info => {
+              console.log('Validate Failed:', info);
+            });
+        }}
+      >
+        <TcrbSpin spinning={userAccessManagementStore.apiFetching} size="large" tip="Loading..." >
 
-    // const MemoModalCreateForm = useMemo((visible, onCreate, onCancel, testSupervisor) => CollectionCreateForm)
-    const CollectionCreateForm = ({ visible, onCreate, onCancel, testSupervisor }) => {
-      return (
-        <Modal
-          visible={visible}
-          title="Add new User"
-          okText="Submit"
-          cancelText="Cancel"
-          onCancel={onCancel}
-          width={900}
-          onOk={() => {
-            form
-              .validateFields()
-              .then(values => {
-                form.resetFields();
-                onCreate(values);
-              })
-              .catch(info => {
-                console.log('Validate Failed:', info);
-              });
-          }}
-        >
           <Form
             form={form}
             layout="vertical"
@@ -78,7 +84,7 @@ const UserList = inject('userAccessManagementStore')
               <Col span={4} style={{ padding: 4 }}>
                 <span>
                   Employee ID
-              </span>
+          </span>
               </Col>
               <Col span={8}>
                 <Form.Item
@@ -96,7 +102,7 @@ const UserList = inject('userAccessManagementStore')
               <Col span={4} style={{ paddingLeft: 16 }}>
                 <span>
                   Supervisor
-              </span>
+          </span>
               </Col>
               <Col span={8}>
                 <Form.Item
@@ -113,7 +119,7 @@ const UserList = inject('userAccessManagementStore')
                     placeholder="Please select"
                     onChange={(value) => null}
                   >
-                    {/* {testSupervisor.map((item, index) => <Option key={index} value={item.id}>{item.name}</Option>)} */}
+                    {testSupervisor.map((item, index) => <Option key={index} value={item.id}>{item.name}</Option>)}
                   </Select>
                 </Form.Item>
               </Col>
@@ -122,7 +128,7 @@ const UserList = inject('userAccessManagementStore')
               <Col span={4} style={{ padding: 4 }}>
                 <span>
                   Name
-              </span>
+          </span>
               </Col>
               <Col span={8}>
                 <Form.Item
@@ -140,7 +146,7 @@ const UserList = inject('userAccessManagementStore')
               <Col span={4} style={{ paddingLeft: 16 }}>
                 <span>
                   Surname
-              </span>
+          </span>
               </Col>
               <Col span={8}>
                 <Form.Item
@@ -160,7 +166,7 @@ const UserList = inject('userAccessManagementStore')
               <Col span={4} style={{ padding: 4 }}>
                 <span>
                   Username
-              </span>
+          </span>
               </Col>
               <Col span={8}>
                 <Form.Item
@@ -178,7 +184,7 @@ const UserList = inject('userAccessManagementStore')
               <Col span={4} style={{ paddingLeft: 16 }}>
                 <span>
                   Email
-              </span>
+          </span>
               </Col>
               <Col span={8}>
                 <Form.Item
@@ -202,7 +208,7 @@ const UserList = inject('userAccessManagementStore')
               <Col span={4} style={{ padding: 4 }}>
                 <span>
                   Join Date
-              </span>
+          </span>
               </Col>
               <Col span={8}>
                 <Form.Item
@@ -221,7 +227,7 @@ const UserList = inject('userAccessManagementStore')
               <Col span={4} style={{ paddingLeft: 16 }}>
                 <span>
                   Last working date
-              </span>
+          </span>
               </Col>
               <Col span={8}>
                 <Form.Item
@@ -241,7 +247,7 @@ const UserList = inject('userAccessManagementStore')
               <Col span={4} style={{ padding: 4 }}>
                 <span>
                   Status
-              </span>
+          </span>
               </Col>
               <Col span={8}>
                 <Form.Item
@@ -259,7 +265,9 @@ const UserList = inject('userAccessManagementStore')
                     onChange={(value) => testAddSupervisor(value)}
                   >
                     {/* {children} */}
-
+                    <Option value="INACTIVE">INACTIVE</Option>
+                    <Option value="ACTIVE">ACTIVE</Option>
+                    <Option value="SUSPEND">SUSPEND</Option>
                   </Select>
 
                 </Form.Item>
@@ -267,7 +275,7 @@ const UserList = inject('userAccessManagementStore')
               <Col span={4} style={{ paddingLeft: 16 }}>
                 <span>
                   Section
-              </span>
+          </span>
               </Col>
               <Col span={8}>
                 <Form.Item
@@ -284,130 +292,17 @@ const UserList = inject('userAccessManagementStore')
                     placeholder="Please select"
                     onChange={(value) => testAddSupervisor(value)}
                   >
-                    <Option value="1">option1</Option>
+                    {sectionList.map((item, index) => <Option key={index} value={item.id}>{item.name}</Option>)}
                     {/* {children} */}
                   </Select>
                 </Form.Item>
               </Col>
             </Row>
           </Form>
-        </Modal>
-      );
-    }
+        </TcrbSpin>
+      </TcrbModal>
+    );
+  }
+  ))
 
-    const onCreate = values => {
-      console.log('Received values of form: ', values);
-      setVisible(false);
-    }
-
-    const viewUserDetail = (record) => {
-      userAccessManagementStore.userSelected = record
-      userAccessManagementStore.nextPageIsManageUser = true
-    }
-
-    const renderActionUser = (record) => {
-      if (record.request_status == 'APPROVE') {
-        return (
-          <div style={{ textAlign: "center" }}>
-            <a onClick={() => viewUserDetail(record)} style={{ marginRight: 8, color: '#FBA928' }}>
-              Edit
-          </a>
-            <TcrbPopconfirm title="Sure to Deactivate?" >
-              <a style={{ color: '#FBA928' }}>Deactivate</a>
-            </TcrbPopconfirm>
-          </div>
-        )
-      } else if (record.request_status == 'PENDING') {
-        return null
-      } else {
-        return null
-      }
-    }
-
-    const columnUser = [
-      {
-        title: '',
-        dataIndex: 'status',
-        width: '5%',
-        render: (text, record) => checkDefaultStatus(record.request_status)
-      },
-      {
-        title: 'Username',
-        dataIndex: 'username',
-        editable: true,
-        // render: (text, record) => (record.partner_code + "/" + record.partner_abbreviation)
-      },
-      {
-        title: 'Name',
-        dataIndex: 'name',
-        // render: (text, record) => renderSection(record)
-      },
-      {
-        title: 'Surname',
-        dataIndex: 'surname',
-        // render: (text, record) => renderSection(record)
-      },
-      {
-        title: 'Supervisor',
-        dataIndex: 'supervisor',
-        // render: (text, record) => renderSection(record)
-      },
-      {
-        title: 'Department',
-        dataIndex: 'department',
-        // render: (text, record) => renderSection(record)
-      },
-      {
-        title: 'Groups',
-        dataIndex: 'groups',
-        // render: (text, record) => renderSection(record)
-      },
-      {
-        title: 'Action',
-        dataIndex: 'operation',
-        width: '10%',
-        render: (text, record) => renderActionUser(record)
-      }
-    ]
-
-
-    return (
-      <div>
-        <Row gutter={[4, 24]}>
-          <Col span={2}>
-            <TcrbButton className="primary" onClick={() => setVisible(true)} >Add User</TcrbButton>
-          </Col>
-        </Row>
-        <Table
-          bordered
-          dataSource={userList}
-          columns={columnUser}
-          size="small"
-        />
-        {/* <CollectionCreateForm
-          visible={visible}
-          onCreate={onCreate}
-          onCancel={() => {
-            setVisible(false);
-          }}
-        /> */}
-        <FormModalUser
-          visible={visible}
-          onCreate={onCreate}
-          onCancel={() => {
-            setVisible(false);
-          }}
-        />
-        {/* <MemoModalCreateForm
-          visible={visible}
-          onCreate={onCreate}
-          onCancel={() => {
-            setVisible(false);
-          }}
-          testSupervisor={testSupervisor}
-        /> */}
-      </div>
-    )
-  }))
-
-export default UserList
+export default FormModalUser

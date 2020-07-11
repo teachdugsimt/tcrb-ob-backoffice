@@ -41,12 +41,57 @@ class UserAccessManagementApi {
     return response
   }
 
+  getFunction = async (params) => {
+    const response = await ExcuteApi('api/backoffice/v1/functions', params, "get")
+    return response
+  }
+
+  getMenu = async (params) => {
+    const response = await ExcuteApi('api/backoffice/v1/menus', params, "get")
+    return response
+  }
+
+  getGroup = async (params) => {
+    const response = await ExcuteApi('api/backoffice/v1/groups', params, "get")
+    return response
+  }
+
+  getUser = async (params) => {
+    const response = await ExcuteApi('api/backoffice/v1/userprofiles', params, "get")
+    return response
+  }
+
+  getRole = async (params) => {
+    const response = await ExcuteApi('api/backoffice/v1/roles', params, "get")
+    return response
+  }
+
+  getSection = async (params) => {
+    const response = await ExcuteApi('api/backoffice/v1/sections', params, "get")
+    return response
+  }
+
   addNewDepartment = async (params) => {
     const response = await ExcuteApi('api/backoffice/v1/changerequest', params, "post")
     return response
   }
 
   addNewSection = async (params) => {
+    const response = await ExcuteApi('api/backoffice/v1/changerequest', params, "post")
+    return response
+  }
+
+  addNewFunction = async (params) => {
+    const response = await ExcuteApi('api/backoffice/v1/changerequest', params, "post")
+    return response
+  }
+
+  addNewRole = async (params) => {
+    const response = await ExcuteApi('api/backoffice/v1/changerequest', params, "post")
+    return response
+  }
+
+  addFunctionToMenu = async (params) => {
     const response = await ExcuteApi('api/backoffice/v1/changerequest', params, "post")
     return response
   }
@@ -61,9 +106,40 @@ class UserAccessManagementApi {
     return response
   }
 
+  updateFunction = async (params) => {
+    const response = await ExcuteApi('api/backoffice/v1/changerequest', params, "post")
+    return response
+  }
+
+  updateMenu = async (params) => {
+    const response = await ExcuteApi('api/backoffice/v1/changerequest', params, "post")
+    return response
+  }
+
+  updateRole = async (params) => {
+    const response = await ExcuteApi('api/backoffice/v1/changerequest', params, "post")
+    return response
+  }
+
   deleteDepartment = async (params) => {
     const response = await ExcuteApi('api/backoffice/v1/changerequest', params, "post")
     return response
   }
+
+  deleteFunction = async (params) => {
+    const response = await ExcuteApi('api/backoffice/v1/changerequest', params, "post")
+    return response
+  }
+
+  deleteMenu = async (params) => {
+    const response = await ExcuteApi('api/backoffice/v1/changerequest', params, "post")
+    return response
+  }
+
+  deleteRole = async (params) => {
+    const response = await ExcuteApi('api/backoffice/v1/changerequest', params, "post")
+    return response
+  }
+
 }
 export default new UserAccessManagementApi()

@@ -26,6 +26,7 @@ const ManageDepartment =
       const [modalString, setModalString] = useState("")
       const [modalType, setModalType] = useState('')
       const [visible, setVisible] = useState(false)
+      const [isDisableButtonAddSection, setIsDisableButtonAddSection] = useState(false)
       const [form] = Form.useForm();
 
       const { userAccessManagementStore, t } = props
@@ -137,8 +138,9 @@ const ManageDepartment =
         let indexSection = dataSourceSection.findIndex(item => key === item.key)
         const newData = [...dataSourceSection]
         newData.splice(indexSection, 1)
-        setDataSource(newData);
+        setDataSourceSection(newData);
         setEditingKey('');
+        setIsDisableButtonAddSection(false)
       }
 
       const deactivateSectionSelect = (record) => {
@@ -221,6 +223,7 @@ const ManageDepartment =
         }
 
         userAccessManagementStore.updateSection(request)
+        setIsDisableButtonAddSection(false)
         // setEditingKey('');
       }
 
@@ -247,8 +250,13 @@ const ManageDepartment =
 
         // console.log(row)
         userAccessManagementStore.submitAddNewSection(request)
+        setIsDisableButtonAddSection(false)
       }
 
+      const cancelEditSection = () => {
+        setIsDisableButtonAddSection(false)
+        setEditingKey('')
+      }
       const renderActionSectionAndTeam = (record) => {
         const editable = isEditing(record);
         if (record.request_status === 'APPROVE') {
@@ -259,7 +267,7 @@ const ManageDepartment =
                   Save
                 </a>
               </TcrbPopconfirm>
-              <TcrbPopconfirm title="Sure to cancel?" onConfirm={() => setEditingKey('')}>
+              <TcrbPopconfirm title="Sure to cancel?" onConfirm={() => cancelEditSection()}>
                 <a style={{ color: '#3e3e3e' }}>Cancel</a>
               </TcrbPopconfirm>
             </span>
@@ -297,13 +305,13 @@ const ManageDepartment =
         }
         setDataSourceSection([...dataSourceSection, newSection])
         edit(newSection)
+        setIsDisableButtonAddSection(true)
         // setDisabledButtonAddRow(true)
       }
 
       const submitEditDepartmentName = () => {
         console.log(departmentName)
         setVisible(false)
-        userAccessManagementStore.departmentSelected
         let request = {
           newData: {
             name: departmentName
@@ -381,7 +389,7 @@ const ManageDepartment =
           <Divider />
           <Row gutter={[4, 24]}>
             <Col span={2}>
-              <TcrbButton className="primary" onClick={() => addRowProductList()}>Add Section</TcrbButton>
+              <TcrbButton className="primary" onClick={() => addRowProductList()} disabled={isDisableButtonAddSection}>Add Section</TcrbButton>
             </Col>
           </Row>
           <Row>
