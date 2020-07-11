@@ -20,6 +20,7 @@ const UseAccessManagement =
         userAccessManagementStore.nextPageIsManageDepartment = false
         userAccessManagementStore.nextPageIsManageGroup = false
         userAccessManagementStore.nextPageIsManageUser = false
+        userAccessManagementStore.nextPageIsManageMenu = false
       }, [])
 
       const setDefaultPage = (keyTab) => {
@@ -32,6 +33,9 @@ const UseAccessManagement =
             break;
           case "3":
             userAccessManagementStore.nextPageIsManageUser = false
+            break;
+          case "4":
+            userAccessManagementStore.nextPageIsManageMenu = false
             break;
         }
       }

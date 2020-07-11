@@ -7,7 +7,7 @@ import { orange, green, gold } from '@ant-design/colors';
 import SimpleModal from '../../simple-modal'
 import SimpleInput from '../../simple-input'
 
-import { checkDefaultStatus, renderAction } from '../../data-utility'
+import { checkDefaultStatus, renderAction, addKeyToDataSource } from '../../data-utility'
 import UserAccessManagement from '../../../stores/user-access-management-store';
 
 const { Option } = Select;
@@ -22,10 +22,19 @@ const GroupList = inject('userAccessManagementStore')
     const [modalString, setmodalString] = useState("")
     const [modalType, setModalType] = useState('confirm')
     const [visible, setvisible] = useState(false)
-    const [roleList, setRoleList] = useState([])
+    const [groupList, setGroupList] = useState([])
     useEffect(() => {
-      setRoleList(mockRoleList)
+      userAccessManagementStore.getDataGroup()
     }, [])
+
+    useEffect(() => {
+      if (userAccessManagementStore.groupList.length >= 0) {
+        addKeyToDataSource(userAccessManagementStore.groupList).then(result => {
+          setGroupList(result)
+        })
+      }
+
+    }, [userAccessManagementStore.groupList])
     const mockRoleList = [
       {
         id: 1,
@@ -143,17 +152,17 @@ const GroupList = inject('userAccessManagementStore')
     }
 
     const renderUsers = (record) => {
-      if (record.user <= 0) {
+      if (record.map_user_groups <= 0) {
         return <span>0 user</span>
       } else {
         return <div>
-          <a onClick={() => viewUsers(record)}>{record.user} Users</a>
+          <a onClick={() => viewUsers(record)}>{record.map_user_groups.length} Users</a>
         </div>
       }
     }
 
     const renderActionGroup = (record) => {
-      if (record.status === '1') {
+      if (record.request_status == 'APPROVE') {
         return (
           <div style={{ textAlign: "center" }}>
             <TcrbPopconfirm title="Sure to Edit?" onConfirm={() => viewManageGroup(record)}>
@@ -165,8 +174,7 @@ const GroupList = inject('userAccessManagementStore')
             </TcrbPopconfirm>
           </div>
         )
-
-      } else if (record.status === '2') {
+      } else if (record.request_status == 'PENDING') {
         return null
       } else {
         return null
@@ -178,11 +186,11 @@ const GroupList = inject('userAccessManagementStore')
         title: '',
         dataIndex: 'status',
         width: '5%',
-        render: (text, record) => checkDefaultStatus(text)
+        render: (text, record) => checkDefaultStatus(record.status, record.request_status)
       },
       {
         title: 'Name',
-        dataIndex: 'group_name',
+        dataIndex: 'name',
         // render: (text, record) => (record.partner_code + "/" + record.partner_abbreviation)
       },
       {
@@ -192,7 +200,7 @@ const GroupList = inject('userAccessManagementStore')
       },
       {
         title: 'Users',
-        dataIndex: 'user',
+        dataIndex: 'map_user_groups',
         render: (text, record) => renderUsers(record)
       },
       {
@@ -252,7 +260,7 @@ const GroupList = inject('userAccessManagementStore')
                 placeholder="Please select"
                 onChange={(value) => roleSelect = value}
               >
-                {roleList.map((item, index) => <Option key={index} value={item.id}>{item.role_name}</Option>)}
+                {/* {roleList.map((item, index) => <Option key={index} value={item.id}>{item.role_name}</Option>)} */}
               </Select>
             </Col>
           </Row>
@@ -292,7 +300,7 @@ const GroupList = inject('userAccessManagementStore')
         </Row>
         <Table
           bordered
-          dataSource={mockGroupList}
+          dataSource={groupList}
           columns={columnGroup}
           size="small"
         />

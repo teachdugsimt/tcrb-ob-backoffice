@@ -69,7 +69,7 @@ const PendingApprovals = inject("pendingApprovalStore")(
                             backgroundColor: "lightgray",
                           }}
                         >
-                          {e.name}
+                          {e.name || e}
                         </div>
                       ))
                     : data[k]}

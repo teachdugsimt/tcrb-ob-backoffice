@@ -10,5 +10,7 @@ export const palette = {
   angry: "#dd3333",
   blue: "#0c7fc7",
   default: "#3e3e3e",
-  defaultDarker: "#363535"
+  defaultDarker: "#363535",
+  disabled: '##f5f5f5',
+  disabledDarker: '#d9d9d9'
 }
