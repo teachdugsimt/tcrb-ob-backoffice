@@ -23,8 +23,12 @@ const GroupList = inject('userAccessManagementStore')
     const [modalType, setModalType] = useState('confirm')
     const [visible, setvisible] = useState(false)
     const [groupList, setGroupList] = useState([])
+    const [roleOptionList, setRoleOptionList] = useState([])
+    const [userInGroupList, setUserInGroupList] = useState([])
+
     useEffect(() => {
       userAccessManagementStore.getDataGroup()
+      userAccessManagementStore.getDataRoleOptionList()
     }, [])
 
     useEffect(() => {
@@ -33,8 +37,16 @@ const GroupList = inject('userAccessManagementStore')
           setGroupList(result)
         })
       }
-
     }, [userAccessManagementStore.groupList])
+
+    useEffect(() => {
+      if (userAccessManagementStore.optionRoleList.length >= 0) {
+        addKeyToDataSource(userAccessManagementStore.optionRoleList).then(result => {
+          setRoleOptionList(result)
+        })
+      }
+
+    }, [userAccessManagementStore.optionRoleList])
     const mockRoleList = [
       {
         id: 1,
@@ -139,8 +151,29 @@ const GroupList = inject('userAccessManagementStore')
       }
     ]
 
-    const viewUsers = () => {
-      setmodalString(<UserList />)
+    const viewUsers = (record) => {
+      let newUserObject = []
+      let groupList = record.map_user_groups.length
+      for (let index = 0; index < groupList; index++) {
+        newUserObject.push({
+          name: record.map_user_groups[index].user_profile.name,
+          surname: record.map_user_groups[index].user_profile.surname,
+          email: record.map_user_groups[index].user_profile.email,
+          ...record.map_user_groups[index]
+        })
+      }
+      addKeyToDataSource(newUserObject).then(result => {
+        setUserInGroupList(result)
+        setmodalString(
+          <Table
+            dataSource={result}
+            columns={columnUser}
+            size="small"
+            pagination={false}
+          />
+        )
+      })
+
       setModalType('')
       setModalTitle('User List')
       setvisible(true)
@@ -165,10 +198,7 @@ const GroupList = inject('userAccessManagementStore')
       if (record.request_status == 'APPROVE') {
         return (
           <div style={{ textAlign: "center" }}>
-            <TcrbPopconfirm title="Sure to Edit?" onConfirm={() => viewManageGroup(record)}>
-              <a style={{ marginRight: 8 }}>Edit</a>
-
-            </TcrbPopconfirm>
+            <a style={{ marginRight: 8, color: '#FBA928' }} onClick={() => viewManageGroup(record)}>Edit</a>
             <TcrbPopconfirm title="Sure to Deactivate?" >
               <a style={{ color: '#FBA928' }}>Deactivate</a>
             </TcrbPopconfirm>
@@ -217,16 +247,16 @@ const GroupList = inject('userAccessManagementStore')
         title: '',
         dataIndex: 'status',
         width: '5%',
-        render: (text, record) => checkDefaultStatus(text)
+        render: (text, record) => checkDefaultStatus(record.status, record.request_status)
       },
       {
         title: 'Name',
-        dataIndex: 'user_name',
+        dataIndex: 'name',
         // render: (text, record) => (record.partner_code + "/" + record.partner_abbreviation)
       },
       {
-        title: 'Last Name',
-        dataIndex: 'role_name',
+        title: 'Surname',
+        dataIndex: 'surname',
         // render: (text, record) => renderSection(record)
       }
     ]
@@ -234,7 +264,12 @@ const GroupList = inject('userAccessManagementStore')
     const addNewGroup = () => {
       //call api
       setvisible(false)
-      console.log(groupName, roleSelect)
+      let request = {
+        name: groupName,
+        role_id: roleSelect
+      }
+      userAccessManagementStore.submitAddNewGroup(request)
+      // console.log(groupName, roleSelect)
     }
 
     const FormAddNewGroup = () => {
@@ -260,7 +295,7 @@ const GroupList = inject('userAccessManagementStore')
                 placeholder="Please select"
                 onChange={(value) => roleSelect = value}
               >
-                {/* {roleList.map((item, index) => <Option key={index} value={item.id}>{item.role_name}</Option>)} */}
+                {roleOptionList.map((item, index) => <Option key={index} value={item.id}>{item.name}</Option>)}
               </Select>
             </Col>
           </Row>
@@ -274,9 +309,10 @@ const GroupList = inject('userAccessManagementStore')
           <Row>
             <Col flex={100}>
               <Table
-                dataSource={mockUserList}
+                dataSource={userInGroupList}
                 columns={columnUser}
                 size="small"
+                pagination={false}
               />
             </Col>
           </Row>

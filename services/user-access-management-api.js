@@ -21,13 +21,8 @@ class UserAccessManagementApi {
     return response
   }
 
-  getGroup = async (params) => {
-    const response = await ExcuteApi('end point', params, "get")
-    return response
-  }
-
   getGroupDetail = async (params) => {
-    const response = await ExcuteApi('end point', params, "get")
+    const response = await ExcuteApi('api/backoffice/v1/groups/' + params, null, "get")
     return response
   }
 
@@ -61,8 +56,23 @@ class UserAccessManagementApi {
     return response
   }
 
+  getUserDetail = async (params) => {
+    const response = await ExcuteApi('api/backoffice/v1/userprofiles/' + params, null, "get")
+    return response
+  }
+
+  getSupervisor = async (params) => {
+    const response = await ExcuteApi('api/backoffice/v1/userprofiles', params, "get")
+    return response
+  }
+
   getRole = async (params) => {
     const response = await ExcuteApi('api/backoffice/v1/roles', params, "get")
+    return response
+  }
+
+  getMatrix = async (params) => {
+    const response = await ExcuteApi('api/backoffice/v1/maprolesfunctions', params, "get")
     return response
   }
 
@@ -91,7 +101,22 @@ class UserAccessManagementApi {
     return response
   }
 
+  addNewUser = async (params) => {
+    const response = await ExcuteApi('api/backoffice/v1/changerequest', params, "post")
+    return response
+  }
+
+  addNewGroup = async (params) => {
+    const response = await ExcuteApi('api/backoffice/v1/changerequest', params, "post")
+    return response
+  }
+
   addFunctionToMenu = async (params) => {
+    const response = await ExcuteApi('api/backoffice/v1/changerequest', params, "post")
+    return response
+  }
+
+  addGroupToUser = async (params) => {
     const response = await ExcuteApi('api/backoffice/v1/changerequest', params, "post")
     return response
   }
@@ -121,6 +146,11 @@ class UserAccessManagementApi {
     return response
   }
 
+  updateUser = async (params) => {
+    const response = await ExcuteApi('api/backoffice/v1/changerequest', params, "post")
+    return response
+  }
+
   deleteDepartment = async (params) => {
     const response = await ExcuteApi('api/backoffice/v1/changerequest', params, "post")
     return response
@@ -137,6 +167,16 @@ class UserAccessManagementApi {
   }
 
   deleteRole = async (params) => {
+    const response = await ExcuteApi('api/backoffice/v1/changerequest', params, "post")
+    return response
+  }
+
+  deleteGroupInUser = async (params) => {
+    const response = await ExcuteApi('api/backoffice/v1/changerequest', params, "post")
+    return response
+  }
+
+  deleteUserInGroup = async (params) => {
     const response = await ExcuteApi('api/backoffice/v1/changerequest', params, "post")
     return response
   }
