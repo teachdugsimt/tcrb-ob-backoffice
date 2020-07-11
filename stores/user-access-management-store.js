@@ -79,13 +79,14 @@ export default class UserAccessManagement {
     }
   }
 
-  @action getDataGroupDetail = async () => {
+  @action getDataGroupDetail = async (params) => {
     //some action
     this.apiFetching = true
     let tmp = await UserAccessManagementApi.getGroupDetail(params)
-
+    console.log(tmp)
     if (tmp.ok & tmp.status === 200) {
       //when success
+      this.groupSelected = tmp.data.responseData
       this.apiFetching = false
     } else {
       //when error
@@ -421,7 +422,7 @@ export default class UserAccessManagement {
           status: "ACTIVE"
         }
       },
-      // isSelectedGroup: true
+      isSelectedGroup: true
     })
     console.log(tmp)
     if (tmp.ok & tmp.status === 200) {
@@ -767,10 +768,31 @@ export default class UserAccessManagement {
 
   @action submitDeleteGroupInUser = async (params) => {
     this.apiFetching = true
-    let tmp = await UserAccessManagementApi.deleteGroupInUser({ change_type: "USERS", action: "Delete", currentData: params, newData: {}, maker_id: '36' })
+    let tmp = await UserAccessManagementApi.deleteGroupInUser({ change_type: "MAP_USER_GROUPS", action: "Delete", currentData: params, newData: {}, maker_id: '36' })
     console.log(tmp)
     if (tmp.ok & tmp.status === 200) {
       //when success
+      let userId = this.userSelected.id
+      this.userSelected = {}
+      this.getDataUserDetail(userId)
+      this.apiFetching = false
+      // this.getDataRole()
+    } else {
+      //when error
+      this.apiFetching = false
+      this.responseApiError = true
+    }
+  }
+
+  @action submitDeleteUserInGroup = async (params) => {
+    this.apiFetching = true
+    let tmp = await UserAccessManagementApi.deleteUserInGroup({ change_type: "MAP_USER_GROUPS", action: "Delete", currentData: params, newData: {}, maker_id: '36' })
+    console.log(tmp)
+    if (tmp.ok & tmp.status === 200) {
+      //when success
+      let groupId = this.groupSelected.id
+      this.groupSelected = {}
+      this.getDataUserDetail(groupId)
       // this.roleList = []
       this.apiFetching = false
       // this.getDataRole()

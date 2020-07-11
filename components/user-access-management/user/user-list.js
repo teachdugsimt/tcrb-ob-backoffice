@@ -2,12 +2,13 @@ import React, { useState, useEffect, useMemo, memo } from 'react'
 import { Table, Row, Col, Menu, Card, Input, Select, InputNumber, Divider, Button, Modal, Drawer, Form, DatePicker, Space } from 'antd'
 import { TcrbButton, TcrbPopconfirm } from '../../antd-styles/styles'
 import { inject, observer } from 'mobx-react'
-
 import moment from 'moment';
 
 import { checkDefaultStatus, addKeyToDataSource } from '../../data-utility'
 import SimpleInput from '../../simple-input'
+import SimpleModal from '../../simple-modal'
 import FormModalUser from './form-modal-user';
+import { toJS } from 'mobx';
 
 const { Option } = Select;
 
@@ -16,6 +17,11 @@ const UserList = inject('userAccessManagementStore')
     const [visible, setVisible] = useState(false)
     const [userList, setUserList] = useState([])
     const [testSupervisor, setTestSupervisor] = useState([])
+    const [modalTitle, setModalTitle] = useState("")
+    const [textCancel, setTextCancel] = useState("Cancel")
+    const [modalString, setModalString] = useState("")
+    const [modalType, setModalType] = useState('confirm')
+    const [modalFromVisible, setModalFromVisible] = useState(false)
     const [form] = Form.useForm();
     const { userAccessManagementStore } = props
     const dateFormat = 'YYYY-MM-DD'
@@ -312,6 +318,34 @@ const UserList = inject('userAccessManagementStore')
       userAccessManagementStore.nextPageIsManageUser = true
     }
 
+    const selectGroup = (record) => {
+      console.log(toJS(record))
+      let newUserObject = []
+      let groupList = record.map_user_groups.length
+      for (let index = 0; index < groupList; index++) {
+        newUserObject.push({
+          name: record.map_user_groups[index].group.name,
+          ...record.map_user_groups[index]
+        })
+      }
+      setModalType('')
+      setModalTitle('Group in User')
+
+      addKeyToDataSource(newUserObject).then(result => {
+        setModalString(
+          <div>
+            <Table
+              bordered
+              dataSource={result}
+              columns={columnGroup}
+              size="small"
+            />
+          </div>
+        )
+      })
+      setVisible(true)
+    }
+
     const renderActionUser = (record) => {
       if (record.request_status == 'APPROVE') {
         return (
@@ -328,6 +362,22 @@ const UserList = inject('userAccessManagementStore')
         return null
       } else {
         return null
+      }
+    }
+
+    const renderGroup = (record) => {
+      // console.log(toJS(record.map_user_groups.length))
+      let lengthGroup = record.map_user_groups.length
+      if (record.map_user_groups.length <= 0) {
+        return (
+          <span>0 Groups</span>
+        )
+      } else {
+        return (
+          <div>
+            <a onClick={() => selectGroup(record)}>{record.map_user_groups.length} Groups</a>
+          </div>
+        )
       }
     }
 
@@ -366,8 +416,8 @@ const UserList = inject('userAccessManagementStore')
       },
       {
         title: 'Groups',
-        dataIndex: 'groups',
-        // render: (text, record) => renderSection(record)
+        dataIndex: 'map_user_groups',
+        render: (text, record) => renderGroup(record)
       },
       {
         title: 'Action',
@@ -377,12 +427,26 @@ const UserList = inject('userAccessManagementStore')
       }
     ]
 
+    const columnGroup = [
+      {
+        title: '',
+        dataIndex: 'status',
+        width: '5%',
+        render: (text, record) => checkDefaultStatus(record.status, record.request_status)
+      },
+      {
+        title: 'Group name',
+        dataIndex: 'name',
+        render: (text, record) => record.name
+      }
+    ]
+
 
     return (
       <div>
         <Row gutter={[4, 24]}>
           <Col span={2}>
-            <TcrbButton className="primary" onClick={() => setVisible(true)} >Add User</TcrbButton>
+            <TcrbButton className="primary" onClick={() => setModalFromVisible(true)} >Add User</TcrbButton>
           </Col>
         </Row>
         <Table
@@ -399,11 +463,20 @@ const UserList = inject('userAccessManagementStore')
           }}
         /> */}
         <FormModalUser
-          visible={visible}
+          visible={modalFromVisible}
           onCreate={onCreate}
           onCancel={() => {
-            setVisible(false);
+            setModalFromVisible(false);
           }}
+        />
+        <SimpleModal
+          title={modalTitle}
+          type={modalType}
+          onCancel={() => setVisible(false)}
+          textCancel={textCancel}
+          width={600}
+          modalString={modalString}
+          visible={visible}
         />
         {/* <MemoModalCreateForm
           visible={visible}

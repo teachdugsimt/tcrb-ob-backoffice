@@ -25,6 +25,7 @@ const GroupList = inject('userAccessManagementStore')
     const [groupList, setGroupList] = useState([])
     const [roleOptionList, setRoleOptionList] = useState([])
     const [userInGroupList, setUserInGroupList] = useState([])
+
     useEffect(() => {
       userAccessManagementStore.getDataGroup()
       userAccessManagementStore.getDataRoleOptionList()
@@ -36,7 +37,6 @@ const GroupList = inject('userAccessManagementStore')
           setGroupList(result)
         })
       }
-
     }, [userAccessManagementStore.groupList])
 
     useEffect(() => {
@@ -152,8 +152,28 @@ const GroupList = inject('userAccessManagementStore')
     ]
 
     const viewUsers = (record) => {
-      setUserInGroupList(record)
-      setmodalString(<UserList />)
+      let newUserObject = []
+      let groupList = record.map_user_groups.length
+      for (let index = 0; index < groupList; index++) {
+        newUserObject.push({
+          name: record.map_user_groups[index].user_profile.name,
+          surname: record.map_user_groups[index].user_profile.surname,
+          email: record.map_user_groups[index].user_profile.email,
+          ...record.map_user_groups[index]
+        })
+      }
+      addKeyToDataSource(newUserObject).then(result => {
+        setUserInGroupList(result)
+        setmodalString(
+          <Table
+            dataSource={result}
+            columns={columnUser}
+            size="small"
+            pagination={false}
+          />
+        )
+      })
+
       setModalType('')
       setModalTitle('User List')
       setvisible(true)
@@ -227,7 +247,7 @@ const GroupList = inject('userAccessManagementStore')
         title: '',
         dataIndex: 'status',
         width: '5%',
-        render: (text, record) => checkDefaultStatus(text)
+        render: (text, record) => checkDefaultStatus(record.status, record.request_status)
       },
       {
         title: 'Name',
@@ -292,6 +312,7 @@ const GroupList = inject('userAccessManagementStore')
                 dataSource={userInGroupList}
                 columns={columnUser}
                 size="small"
+                pagination={false}
               />
             </Col>
           </Row>

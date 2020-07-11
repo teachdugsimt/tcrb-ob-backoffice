@@ -22,7 +22,7 @@ class UserAccessManagementApi {
   }
 
   getGroupDetail = async (params) => {
-    const response = await ExcuteApi('end point', params, "get")
+    const response = await ExcuteApi('api/backoffice/v1/groups/' + params, null, "get")
     return response
   }
 
@@ -172,6 +172,11 @@ class UserAccessManagementApi {
   }
 
   deleteGroupInUser = async (params) => {
+    const response = await ExcuteApi('api/backoffice/v1/changerequest', params, "post")
+    return response
+  }
+
+  deleteUserInGroup = async (params) => {
     const response = await ExcuteApi('api/backoffice/v1/changerequest', params, "post")
     return response
   }

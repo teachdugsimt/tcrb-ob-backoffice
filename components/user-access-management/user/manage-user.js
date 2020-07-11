@@ -7,7 +7,7 @@ import { orange, green, gold } from '@ant-design/colors';
 import { TcrbButton, TcrbPopconfirm } from '../../antd-styles/styles'
 import SimpleInput from '../../simple-input'
 import SimpleModal from '../../simple-modal'
-import { addKeyToDataSource } from '../../data-utility';
+import { addKeyToDataSource, checkDefaultStatus } from '../../data-utility';
 import userAccessManagement from '..';
 import moment from 'moment';
 import { toJS } from 'mobx';
@@ -35,8 +35,7 @@ const ManageUser = inject('userAccessManagementStore')
       userAccessManagementStore.getDataGroupOptionList()
       userAccessManagementStore.getDataSectionList()
       // console.log(toJS(userAccessManagementStore.userSelected))
-      mapKeyToGroupList(userAccessManagementStore.userSelected.map_user_groups)
-
+      // mapKeyToGroupList(userAccessManagementStore.userSelected.map_user_groups)
     }, [])
 
     useEffect(() => {
@@ -56,14 +55,13 @@ const ManageUser = inject('userAccessManagementStore')
     }, [userAccessManagementStore.supervisorList])
 
     useEffect(() => {
-      if (userAccessManagementStore.optionSectionList.length >= 0) {
-        mapKeyToGroupList(userAccessManagementStore.userSelected.map_user_groups)
-      }
-    }, [userAccessManagementStore.optionSectionList])
-
-    useEffect(() => {
       console.log(toJS(userAccessManagementStore.userSelected))
+      if (Object.keys(userAccessManagementStore.userSelected).length === 0) {
+        null
+      } else {
+        splitMapUserGroups(userAccessManagementStore.userSelected.map_user_groups)
 
+      }
     }, [userAccessManagementStore.userSelected])
 
     const goBackToUserList = () => {
@@ -74,10 +72,18 @@ const ManageUser = inject('userAccessManagementStore')
       userAccessManagementStore.getDataSupervisor(sectionId)
     }
 
-    const mapKeyToGroupList = (groupListNonKey) => {
-      addKeyToDataSource(groupListNonKey).then(result => {
-        setGroupListInUser(result)
-      })
+    const splitMapUserGroups = (dataMapUserGroup) => {
+      console.log(toJS(dataMapUserGroup))
+      let newUserObject = []
+      for (let index = 0; index < dataMapUserGroup.length; index++) {
+        newUserObject.push({
+          ...dataMapUserGroup[index],
+          name: dataMapUserGroup[index].group.name,
+          key: index
+        })
+      }
+      setGroupListInUser(newUserObject)
+      console.log(newUserObject)
     }
 
     const deactivateGroupSelect = (record) => {
@@ -85,22 +91,27 @@ const ManageUser = inject('userAccessManagementStore')
         user_id: userAccessManagementStore.userSelected.id,
         group_id: record.id
       }
-      userAccessManagementStore.submitDeleteGroupInUser(request)
+      userAccessManagementStore.submitDeleteGroupInUser(record)
     }
     const renderActionGroupInUser = (record) => {
-      if (record.request_status === 'APPROVE') {
-        <div style={{ textAlign: "center" }}>
-          <TcrbPopconfirm title="Sure to Deactivate?" onConfirm={() => deactivateGroupSelect(record)}>
-            <a style={{ color: '#FBA928' }}>Deactivate</a>
-          </TcrbPopconfirm>
-        </div>
+      if (record.status == 'ACTIVE') {
+        if (record.request_status == 'APPROVE' || record.request_status == 'REJECT') {
+          return (
+            <div style={{ textAlign: "center" }}>
+              <TcrbPopconfirm title="Sure to Deactivate?" onConfirm={() => deactivateGroupSelect(record)}>
+                <a style={{ color: '#FBA928' }}>Deactivate</a>
+              </TcrbPopconfirm>
+            </div>
+          )
+        } else if (record.request_status == 'PENDING') {
+          return null
+        }
 
-      } else if (record.request_status === 'PENDING') {
-        return null
-      } else if (record.request_status === 'REJECT') {
-        return null
-      }
-      else {
+      } else if (status == 'INACTIVE') {
+        if (record.request_status == 'PENDING') {
+          return null
+        }
+      } else {
         return null
       }
     }
@@ -113,13 +124,8 @@ const ManageUser = inject('userAccessManagementStore')
       },
       {
         title: 'Group name',
-        dataIndex: 'group_name',
+        dataIndex: 'name',
         // render: (text, record) => (record.partner_code + "/" + record.partner_abbreviation)
-      },
-      {
-        title: 'Role Name',
-        dataIndex: 'role_name',
-        // render: (text, record) => renderSection(record)
       },
       {
         title: 'Action',
@@ -505,7 +511,7 @@ const ManageUser = inject('userAccessManagementStore')
         </Row>
         <Table
           bordered
-          dataSource={[]}
+          dataSource={groupListInUser}
           columns={columnGroup}
           size="small"
         />

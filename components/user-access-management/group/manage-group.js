@@ -8,6 +8,7 @@ import SimpleInput from '../../simple-input'
 import SimpleModal from '../../simple-modal'
 
 import { checkDefaultStatus, addKeyToDataSource } from '../../data-utility'
+import { toJS } from 'mobx';
 
 const { Option } = Select;
 let listUserSelect = []
@@ -28,13 +29,42 @@ const ManageGroup = inject('userAccessManagementStore')
 
     useEffect(() => {
       setRoleList([])
-      addKeyToUserInGroup(userAccessManagementStore.groupSelected.map_user_groups)
+      console.log(toJS(userAccessManagementStore.groupSelected))
+      splitMapUserGroups(userAccessManagementStore.groupSelected.map_user_groups)
+      // addKeyToUserInGroup(userAccessManagementStore.groupSelected.map_user_groups)
     }, [])
+
+    useEffect(() => {
+      console.log(toJS(userAccessManagementStore.groupSelected))
+      if (Object.keys(userAccessManagementStore.groupSelected).length === 0) {
+        null
+      } else {
+        splitMapUserGroups(userAccessManagementStore.groupSelected.map_user_groups)
+
+      }
+
+    }, [userAccessManagementStore.groupSelected])
 
     const addKeyToUserInGroup = (userInGroupList) => {
       addKeyToDataSource(userInGroupList).then(result => {
         setUserInGroupList(result)
       })
+    }
+
+    const splitMapUserGroups = (dataMapUserGroup) => {
+      console.log(toJS(dataMapUserGroup))
+      let newUserObject = []
+      for (let index = 0; index < dataMapUserGroup.length; index++) {
+        newUserObject.push({
+          name: dataMapUserGroup[index].user_profile.name,
+          surname: dataMapUserGroup[index].user_profile.surname,
+          email: dataMapUserGroup[index].user_profile.email,
+          key: index,
+          ...dataMapUserGroup[index]
+        })
+      }
+      setUserInGroupList(newUserObject)
+      console.log(newUserObject)
     }
 
 
@@ -48,12 +78,12 @@ const ManageGroup = inject('userAccessManagementStore')
       },
       {
         title: 'Name',
-        dataIndex: 'user_name',
+        dataIndex: 'name',
         // render: (text, record) => (record.partner_code + "/" + record.partner_abbreviation)
       },
       {
         title: 'Last Name',
-        dataIndex: 'role_name',
+        dataIndex: 'surname',
         // render: (text, record) => renderSection(record)
       },
       {
@@ -100,6 +130,7 @@ const ManageGroup = inject('userAccessManagementStore')
 
     const deleteUserSelected = (record) => {
       //waiting call api
+      userAccessManagementStore.submitDeleteUserInGroup(record)
     }
 
     const addUser = () => {
@@ -108,12 +139,23 @@ const ManageGroup = inject('userAccessManagementStore')
     }
 
     const renderActionGroupUser = (record) => {
-      if (record.status === '1') {
-        return (
-          <TcrbPopconfirm title="Sure to Delete?" onConfirm={() => deleteUserSelected(record)}>
-            <a><DeleteOutlined style={{ fontSize: '18px', paddingRight: 8 }} /></a>
-          </TcrbPopconfirm>
-        )
+      if (record.status == 'ACTIVE') {
+        if (record.request_status == 'APPROVE' || record.request_status == 'REJECT') {
+          return (
+            <div style={{ textAlign: "center" }}>
+              <TcrbPopconfirm title="Sure to Deactivate?" onConfirm={() => deleteUserSelected(record)}>
+                <a style={{ color: '#FBA928' }}>Deactivate</a>
+              </TcrbPopconfirm>
+            </div>
+          )
+        } else if (record.request_status == 'PENDING') {
+          return null
+        }
+
+      } else if (status == 'INACTIVE') {
+        if (record.request_status == 'PENDING') {
+          return null
+        }
       } else {
         return null
       }
