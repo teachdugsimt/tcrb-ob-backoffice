@@ -36,18 +36,33 @@ const TcrbButton = styled(Button)`
     `}
 
     ${({ className, theme }) => className == 'primary' && `
-        background-color: ${theme.colors.primary};
-        border-color: ${theme.colors.primary};
-        color:${theme.colors.white};
+        background-color: ${theme.colors.primary} !important;
+        border-color: ${theme.colors.primary} !important;
+        color:${theme.colors.white} !important;
         &:hover{
-          background-color: ${theme.colors.primaryDarker};
-          border-color: ${theme.colors.primaryDarker};
-          color:${theme.colors.white};
+          background-color: ${theme.colors.primaryDarker} !important;
+          border-color: ${theme.colors.primaryDarker} !important;
+          color:${theme.colors.white} !important;
         }
         &:focus{
-          background-color: ${theme.colors.primaryDarker};
-          border-color: ${theme.colors.primaryDarker};
-          color:${theme.colors.white};
+          background-color: ${theme.colors.primaryDarker} !important;
+          border-color: ${theme.colors.primaryDarker} !important;
+          color:${theme.colors.white} !important;
+        }
+    `}
+    ${({ disabled, theme }) => disabled && `
+        background-color: ${theme.colors.disabledDarker}!important;
+        border-color: ${theme.colors.disabledDarker}!important;
+        color:${theme.colors.disabled}!important;
+        &:hover{
+          background-color: ${theme.colors.disabledDarker}!important;
+          border-color: ${theme.colors.disabledDarker}!important;
+          color:${theme.colors.disabled}!important;
+        }
+        &:focus{
+          background-color: ${theme.colors.disabledDarker}!important;
+          border-color: ${theme.colors.disabledDarker}!important;
+          color:${theme.colors.disabled}!important;
         }
     `}
 `
@@ -84,20 +99,6 @@ const TcrbPopconfirm = styled(Popconfirm)`
     background-color: ${({ theme }) => theme.colors.primary};
     border-color: ${({ theme }) => theme.colors.primary};
     color:${({ theme }) => theme.colors.white};
-  }
-  .ant-popover{
-    background: red
-  }
-  .ant-popover-content{
-    .ant-popover-inner-content{
-      background-color:red;
-        .ant-btn-primary{
-          background-color: ${({ theme }) => theme.colors.primary};
-          border-color: ${({ theme }) => theme.colors.primary};
-          color:${({ theme }) => theme.colors.white};
-        }
-    }
-  }
 `
 
 export {

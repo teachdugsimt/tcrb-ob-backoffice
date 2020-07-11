@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { Input, Row, Col, Layout, Modal, Switch } from 'antd'
 import styled from 'styled-components';
-import SimpleModal from './simple-modal'
+import Simple from './simple-modal'
 import { toJS } from 'mobx';
 import { i18n, withNamespaces, withTranslation } from '../i18n'
 

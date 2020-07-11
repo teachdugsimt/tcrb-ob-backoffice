@@ -1,15 +1,8 @@
 import React, { useContext } from 'react'
 import styled from 'styled-components';
-// import { useStores } from '../../hooks/use-stores'
-import { inject, observer } from 'mobx-react'
+import { Col, Row } from 'antd'
 import initializeStore from '../../stores/stores';
 import { i18n } from '../../i18n'
-// const width = inject('versatileStore')(observer((props) => {
-//   console.log("Props : ",props)
-//   let { versatileStore } = props
-//   console.log("Width : ", versatileStore)
-//   return versatileStore ? versatileStore : 329;
-// }))
 
 const width = () => {
   let store = initializeStore()
@@ -20,12 +13,7 @@ const size = () => {
   return i18n.language == "th" ? 18 : 14
 }
 
-// const width = () => {
-//   const { versatileStore } = useStores()
-//   return versatileStore.sidebarWidth
-// }
-
-const FirstLayer = styled.div`
+const FirstLayer = styled(Col)`
 display: flex;
 flex: 1;
 flex-direction: column;
