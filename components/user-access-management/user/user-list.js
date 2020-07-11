@@ -297,6 +297,13 @@ const UserList = inject('userAccessManagementStore')
 
     const onCreate = values => {
       console.log('Received values of form: ', values);
+      let request = {
+        ...values,
+        join_date: moment(values.join_data).format('YYYY-MM-DD'),
+        last_working_date: moment(values.last_working_date).format('YYYY-MM-DD')
+      }
+      console.log(request)
+      userAccessManagementStore.submitAddNewUser(request)
       setVisible(false);
     }
 
@@ -329,7 +336,7 @@ const UserList = inject('userAccessManagementStore')
         title: '',
         dataIndex: 'status',
         width: '5%',
-        render: (text, record) => checkDefaultStatus(record.request_status)
+        render: (text, record) => checkDefaultStatus(record.status, record.request_status)
       },
       {
         title: 'Username',

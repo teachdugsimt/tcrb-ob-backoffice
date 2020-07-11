@@ -7,7 +7,7 @@ import { inject, observer } from 'mobx-react'
 import SimpleInput from '../../simple-input'
 import SimpleModal from '../../simple-modal'
 
-import { checkDefaultStatus } from '../../data-utility'
+import { checkDefaultStatus, addKeyToDataSource } from '../../data-utility'
 
 const { Option } = Select;
 let listUserSelect = []
@@ -24,62 +24,27 @@ const ManageGroup = inject('userAccessManagementStore')
     const [modalString, setmodalString] = useState("")
     const [modalType, setModalType] = useState('confirm')
     const [visible, setvisible] = useState(false)
-    const [userList, setUserList] = useState([])
+    const [userInGroupList, setUserInGroupList] = useState([])
 
     useEffect(() => {
-      setRoleList(mockGroupList)
-      setUserList(mockUserList)
+      setRoleList([])
+      addKeyToUserInGroup(userAccessManagementStore.groupSelected.map_user_groups)
     }, [])
 
-    const mockGroupList = [
-      {
-        id: 1,
-        key: 1,
-        group_name: "group_1",
-        role_name: "role_1",
-        user: 5,
-        status: '1'
-      },
-      {
-        id: 2,
-        key: 2,
-        group_name: "group_2",
-        role_name: "role_2",
-        user: 5,
-        status: '1'
-      },
-      {
-        id: 3,
-        key: 3,
-        group_name: "group_3",
-        role_name: "role_3",
-        user: 5,
-        status: '1'
-      },
-      {
-        id: 4,
-        key: 4,
-        group_name: "group_4",
-        role_name: "role_4",
-        user: 5,
-        status: '2'
-      },
-      {
-        id: 5,
-        key: 5,
-        group_name: "group_5",
-        role_name: "role_5",
-        user: 0,
-        status: '1'
-      }
-    ]
+    const addKeyToUserInGroup = (userInGroupList) => {
+      addKeyToDataSource(userInGroupList).then(result => {
+        setUserInGroupList(result)
+      })
+    }
+
+
 
     const columnUser = [
       {
         title: '',
         dataIndex: 'status',
         width: '5%',
-        render: (text, record) => checkDefaultStatus(text)
+        render: (text, record) => checkDefaultStatus(record.status, record.request_status)
       },
       {
         title: 'Name',
@@ -96,39 +61,6 @@ const ManageGroup = inject('userAccessManagementStore')
         dataIndex: 'operation',
         width: '10%',
         render: (text, record) => renderActionGroupUser(record)
-      }
-    ]
-
-    const mockUserList = [
-      {
-        id: 1,
-        key: 1,
-        user_name: "name_1",
-        status: '1'
-      },
-      {
-        id: 2,
-        key: 2,
-        user_name: "name_2",
-        status: '1'
-      },
-      {
-        id: 3,
-        key: 3,
-        user_name: "name_3",
-        status: '1'
-      },
-      {
-        id: 4,
-        key: 4,
-        user_name: "name_4",
-        status: '1'
-      },
-      {
-        id: 5,
-        key: 5,
-        user_name: "name_5",
-        status: '1'
       }
     ]
 
@@ -235,7 +167,7 @@ const ManageGroup = inject('userAccessManagementStore')
         </Row>
         <Table
           bordered
-          dataSource={mockUserList}
+          dataSource={userInGroupList}
           columns={columnUser}
           size="small"
         />

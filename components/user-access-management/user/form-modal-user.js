@@ -10,39 +10,41 @@ const { Option } = Select;
 
 const FormModalUser = inject('userAccessManagementStore')
   (observer((props) => {
-    const [testSupervisor, setTestSupervisor] = useState([])
-    const [sectionList, setSectionLIst] = useState([])
+    const [supervisorList, setSupervisorList] = useState([])
+    const [sectionList, setSectionList] = useState([])
     // const { userAccessManagementStore } = props
     const [form] = Form.useForm();
     const { visible, onCreate, onCancel, userAccessManagementStore } = props
     const dateFormat = 'YYYY-MM-DD'
     useEffect(() => {
       if (visible === true) {
-        setTestSupervisor([])
+        setSupervisorList([])
         getOptionSectionList()
       }
     }, [visible])
 
-    /* useEffect(() => {
+    useEffect(() => {
       if (userAccessManagementStore.optionSectionList.length >= 0) {
         addKeyToDataSource(userAccessManagementStore.optionSectionList).then(result => {
-          setSectionLIst(result)
+          setSectionList(result)
         })
       }
-    }, [userAccessManagementStore.optionSectionList]) */
+    }, [userAccessManagementStore.optionSectionList])
+
+    useEffect(() => {
+      if (userAccessManagementStore.supervisorList.length >= 0) {
+        addKeyToDataSource(userAccessManagementStore.supervisorList).then(result => {
+          setSupervisorList(result)
+        })
+      }
+    }, [userAccessManagementStore.supervisorList])
+
+
     const getOptionSectionList = () => {
       userAccessManagementStore.getDataSectionList()
     }
-    const testAddSupervisor = (id) => {
-      console.log('render')
-      setTestSupervisor([
-        { id: 0, name: 'sup_1' },
-        { id: 1, name: 'sup_2' },
-        { id: 2, name: 'sup_3' },
-        { id: 3, name: 'sup_4' },
-        { id: 4, name: 'sup_5' },
-
-      ])
+    const testAddSupervisor = (sectionId) => {
+      userAccessManagementStore.getDataSupervisor(sectionId)
     }
     return (
       <TcrbModal
@@ -84,7 +86,7 @@ const FormModalUser = inject('userAccessManagementStore')
               <Col span={4} style={{ padding: 4 }}>
                 <span>
                   Employee ID
-          </span>
+                </span>
               </Col>
               <Col span={8}>
                 <Form.Item
@@ -101,25 +103,26 @@ const FormModalUser = inject('userAccessManagementStore')
               </Col>
               <Col span={4} style={{ paddingLeft: 16 }}>
                 <span>
-                  Supervisor
-          </span>
+                  Section
+                </span>
               </Col>
               <Col span={8}>
                 <Form.Item
-                  name="supervisor_id"
+                  name="section_id"
                   rules={[
                     {
                       required: true,
-                      message: 'Please input Supervisor!',
+                      message: 'Please input Section!',
                     },
                   ]}
                 >
                   <Select
                     style={{ width: '100%' }}
                     placeholder="Please select"
-                    onChange={(value) => null}
+                    onChange={(value) => testAddSupervisor(value)}
                   >
-                    {testSupervisor.map((item, index) => <Option key={index} value={item.id}>{item.name}</Option>)}
+                    {sectionList.map((item, index) => <Option key={index} value={item.id}>{item.name}</Option>)}
+                    {/* {children} */}
                   </Select>
                 </Form.Item>
               </Col>
@@ -170,7 +173,7 @@ const FormModalUser = inject('userAccessManagementStore')
               </Col>
               <Col span={8}>
                 <Form.Item
-                  name="user_name"
+                  name="username"
                   rules={[
                     {
                       required: true,
@@ -234,7 +237,7 @@ const FormModalUser = inject('userAccessManagementStore')
                   name="last_working_date"
                   rules={[
                     {
-                      required: true,
+                      // required: true,
                       message: 'Please input the title of collection!',
                     },
                   ]}
@@ -254,7 +257,7 @@ const FormModalUser = inject('userAccessManagementStore')
                   name="status"
                   rules={[
                     {
-                      required: true,
+                      // required: true,
                       message: 'Please input Status!',
                     },
                   ]}
@@ -262,7 +265,7 @@ const FormModalUser = inject('userAccessManagementStore')
                   <Select
                     style={{ width: '100' }}
                     placeholder="Please select"
-                    onChange={(value) => testAddSupervisor(value)}
+                    onChange={(value) => (value)}
                   >
                     {/* {children} */}
                     <Option value="INACTIVE">INACTIVE</Option>
@@ -274,29 +277,29 @@ const FormModalUser = inject('userAccessManagementStore')
               </Col>
               <Col span={4} style={{ paddingLeft: 16 }}>
                 <span>
-                  Section
-          </span>
+                  Supervisor
+                </span>
               </Col>
               <Col span={8}>
                 <Form.Item
-                  name="section_id"
+                  name="supervisor_id"
                   rules={[
                     {
-                      required: true,
-                      message: 'Please input Section!',
+                      // required: true,
+                      message: 'Please input Supervisor!',
                     },
                   ]}
                 >
                   <Select
                     style={{ width: '100%' }}
                     placeholder="Please select"
-                    onChange={(value) => testAddSupervisor(value)}
+                    onChange={(value) => null}
                   >
-                    {sectionList.map((item, index) => <Option key={index} value={item.id}>{item.name}</Option>)}
-                    {/* {children} */}
+                    {supervisorList.map((item, index) => <Option key={index} value={item.id}>{item.name}</Option>)}
                   </Select>
                 </Form.Item>
               </Col>
+
             </Row>
           </Form>
         </TcrbSpin>

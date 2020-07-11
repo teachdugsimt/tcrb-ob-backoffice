@@ -19,8 +19,13 @@ export default class UserAccessManagement {
   @observable functionOptionList = []
   @observable groupList = []
   @observable userList = []
+  @observable supervisorList = []
   @observable roleList = []
   @observable optionSectionList = []
+  @observable optionGroupList = []
+  @observable optionUserList = []
+  @observable optionRoleList = []
+  @observable dataMatrix = []
 
   @observable departmentSelected = null
   @observable groupSelected = null
@@ -63,21 +68,6 @@ export default class UserAccessManagement {
     //some action
     this.apiFetching = true
     let tmp = await UserAccessManagementApi.getDepartmentDetail(params)
-
-    if (tmp.ok & tmp.status === 200) {
-      //when success
-      this.apiFetching = false
-    } else {
-      //when error
-      this.apiFetching = false
-      this.responseApiError = true
-    }
-  }
-
-  @action getDataGroup = async () => {
-    //some action
-    this.apiFetching = true
-    let tmp = await UserAccessManagementApi.getGroup(params)
 
     if (tmp.ok & tmp.status === 200) {
       //when success
@@ -194,6 +184,28 @@ export default class UserAccessManagement {
     }
   }
 
+  @action getDataGroupOptionList = async () => {
+    //some action
+    this.apiFetching = true
+    let tmp = await UserAccessManagementApi.getGroup({
+      filter: {
+        where: {
+          status: "ACTIVE"
+        }
+      }
+    })
+    console.log(tmp)
+    if (tmp.ok & tmp.status === 200) {
+      //when success
+      this.optionGroupList = tmp.data.responseData
+      this.apiFetching = false
+    } else {
+      //when error
+      this.apiFetching = false
+      this.responseApiError = true
+    }
+  }
+
   @action getDataUser = async () => {
     //some action
     this.apiFetching = true
@@ -216,6 +228,47 @@ export default class UserAccessManagement {
     if (tmp.ok & tmp.status === 200) {
       //when success
       this.userList = tmp.data.responseData
+      this.apiFetching = false
+    } else {
+      //when error
+      this.apiFetching = false
+      this.responseApiError = true
+    }
+  }
+
+  @action getDataUserDetail = async (params) => {
+    //some action
+    this.apiFetching = true
+    let tmp = await UserAccessManagementApi.getUserDetail(params)
+    console.log(tmp)
+    if (tmp.ok & tmp.status === 200) {
+      //when success
+      this.userSelected = tmp.data.responseData
+      this.apiFetching = false
+    } else {
+      //when error
+      this.apiFetching = false
+      this.responseApiError = true
+    }
+  }
+
+  @action getDataSupervisor = async (params) => {
+    //some action
+    this.apiFetching = true
+    let tmp = await UserAccessManagementApi.getSupervisor({
+      filter: {
+        where: {
+          $and: [
+            { status: "ACTIVE" },
+            { section_id: params },
+          ]
+        }
+      }
+    })
+    console.log(tmp)
+    if (tmp.ok & tmp.status === 200) {
+      //when success
+      this.supervisorList = tmp.data.responseData
       this.apiFetching = false
     } else {
       //when error
@@ -315,7 +368,6 @@ export default class UserAccessManagement {
     }
   }
 
-  //getSection
   @action getDataSectionList = async (params) => {
     //some action
     this.apiFetching = true
@@ -330,6 +382,67 @@ export default class UserAccessManagement {
     if (tmp.ok & tmp.status === 200) {
       //when success
       this.optionSectionList = tmp.data.responseData
+      this.apiFetching = false
+    } else {
+      //when error
+      this.apiFetching = false
+      this.responseApiError = true
+    }
+  }
+
+  @action getDataUserOptionList = async (params) => {
+    //some action
+    this.apiFetching = true
+    let tmp = await UserAccessManagementApi.getUser({
+      filter: {
+        where: {
+          status: "ACTIVE"
+        }
+      }
+    })
+    console.log(tmp)
+    if (tmp.ok & tmp.status === 200) {
+      //when success
+      this.optionSectionList = tmp.data.responseData
+      this.apiFetching = false
+    } else {
+      //when error
+      this.apiFetching = false
+      this.responseApiError = true
+    }
+  }
+
+  @action getDataRoleOptionList = async (params) => {
+    //some action
+    this.apiFetching = true
+    let tmp = await UserAccessManagementApi.getRole({
+      filter: {
+        where: {
+          status: "ACTIVE"
+        }
+      },
+      // isSelectedGroup: true
+    })
+    console.log(tmp)
+    if (tmp.ok & tmp.status === 200) {
+      //when success
+      this.optionRoleList = tmp.data.responseData
+      this.apiFetching = false
+    } else {
+      //when error
+      this.apiFetching = false
+      this.responseApiError = true
+    }
+  }
+
+  @action getDataMatrix = async (params) => {
+    //some action
+    this.apiFetching = true
+    let tmp = await UserAccessManagementApi.getMatrix()
+    console.log(tmp)
+    if (tmp.ok & tmp.status === 200) {
+      //when success
+      this.dataMatrix = tmp.data.responseData
       this.apiFetching = false
     } else {
       //when error
@@ -361,6 +474,22 @@ export default class UserAccessManagement {
       //when success
       this.departmentList = tmp.data.responseData
       this.apiFetching = false
+    } else {
+      //when error
+      this.apiFetching = false
+      this.responseApiError = true
+    }
+  }
+
+  @action submitAddNewGroup = async (params) => {
+    this.apiFetching = true
+    let tmp = await UserAccessManagementApi.addNewGroup({ change_type: "GROUPS", action: "Add", currentData: {}, newData: params, maker_id: '36' })
+    console.log(tmp)
+    if (tmp.ok & tmp.status === 200) {
+      //when success
+      this.groupList = []
+      this.apiFetching = false
+      this.getDataGroup()
     } else {
       //when error
       this.apiFetching = false
@@ -425,6 +554,41 @@ export default class UserAccessManagement {
       this.functionList = []
       this.apiFetching = false
       this.getDataFunction()
+    } else {
+      //when error
+      this.apiFetching = false
+      this.responseApiError = true
+    }
+  }
+
+  @action submitAddNewUser = async (params) => {
+    this.apiFetching = true
+    let tmp = await UserAccessManagementApi.addNewUser({ change_type: "USER_PROFILES", action: "Add", currentData: {}, newData: params, maker_id: '36' })
+    console.log(tmp)
+    if (tmp.ok & tmp.status === 200) {
+      //when success
+      this.userList = []
+      this.apiFetching = false
+      this.getDataUser()
+    } else {
+      //when error
+      this.apiFetching = false
+      this.responseApiError = true
+    }
+  }
+
+  @action submitAddGroupToUser = async (params) => {
+    this.apiFetching = true
+    let tmp = await UserAccessManagementApi.addGroupToUser({ change_type: "MAP_USER_GROUPS", action: "Add", currentData: {}, newData: params, maker_id: '36' })
+    console.log(tmp)
+    if (tmp.ok & tmp.status === 200) {
+      //when success
+      // this.functionList = []
+      let user_id = this.userSelected.id
+      this.userSelected = {}
+      this.apiFetching = false
+      this.getDataUserDetail(user_id)
+      // this.getDataFunction()
     } else {
       //when error
       this.apiFetching = false
@@ -506,6 +670,22 @@ export default class UserAccessManagement {
     }
   }
 
+  @action updateUser = async (params) => {
+    this.apiFetching = true
+    let tmp = await UserAccessManagementApi.updateUser({ change_type: "USER_PROFILES", action: "Update", currentData: params.currentData, newData: params.newData, maker_id: '36' })
+    console.log(tmp)
+    if (tmp.ok & tmp.status === 200) {
+      //when success
+      // this.roleList = []
+      this.apiFetching = false
+      // this.getDataRole()
+    } else {
+      //when error
+      this.apiFetching = false
+      this.responseApiError = true
+    }
+  }
+
   @action submitDeleteDepartment = async (params) => {
     this.apiFetching = true
     let tmp = await UserAccessManagementApi.deleteDepartment({ change_type: "DEPARTMENTS", action: "Delete", currentData: params, newData: {}, maker_id: '36' })
@@ -578,6 +758,22 @@ export default class UserAccessManagement {
       this.roleList = []
       this.apiFetching = false
       this.getDataRole()
+    } else {
+      //when error
+      this.apiFetching = false
+      this.responseApiError = true
+    }
+  }
+
+  @action submitDeleteGroupInUser = async (params) => {
+    this.apiFetching = true
+    let tmp = await UserAccessManagementApi.deleteGroupInUser({ change_type: "USERS", action: "Delete", currentData: params, newData: {}, maker_id: '36' })
+    console.log(tmp)
+    if (tmp.ok & tmp.status === 200) {
+      //when success
+      // this.roleList = []
+      this.apiFetching = false
+      // this.getDataRole()
     } else {
       //when error
       this.apiFetching = false

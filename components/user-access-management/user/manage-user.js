@@ -1,34 +1,115 @@
 import React, { useEffect, useState } from 'react'
-import { Table, Row, Col, Menu, Card, Input, Select, Form, InputNumber, Divider, Button, Modal, Drawer, Space } from 'antd'
+import { Table, Row, Col, Menu, Card, Input, Select, Form, InputNumber, Divider, Button, Modal, Drawer, Space, DatePicker } from 'antd'
 import { DeleteOutlined, EditOutlined, FormOutlined } from '@ant-design/icons';
 import { inject, observer } from 'mobx-react'
+import { orange, green, gold } from '@ant-design/colors';
 
 import { TcrbButton, TcrbPopconfirm } from '../../antd-styles/styles'
 import SimpleInput from '../../simple-input'
 import SimpleModal from '../../simple-modal'
+import { addKeyToDataSource } from '../../data-utility';
+import userAccessManagement from '..';
+import moment from 'moment';
+import { toJS } from 'mobx';
 
 const { Option } = Select;
-
+let groupSelect = null
+let dataEditUserProfile = null
 const ManageUser = inject('userAccessManagementStore')
   (observer((props) => {
     const [viewEditUserDetail, setViewEditUserDetail] = useState(false)
     const [modalTitle, setModalTitle] = useState('')
     const [modalType, setModalType] = useState('')
-    const [visible, setVisiable] = useState(false)
+    const [visible, setVisible] = useState(false)
     const [modalString, setModalString] = useState('')
+    const [optionGroupList, setOptionGroupList] = useState([])
+    const [supervisorList, setSupervisorList] = useState([])
+    const [sectionList, setSectionList] = useState([])
+    const [groupListInUser, setGroupListInUser] = useState([])
+    const dateFormat = 'YYYY-MM-DD'
+
     const { userAccessManagementStore } = props
     const [form] = Form.useForm();
+
+    useEffect(() => {
+      userAccessManagementStore.getDataGroupOptionList()
+      userAccessManagementStore.getDataSectionList()
+      // console.log(toJS(userAccessManagementStore.userSelected))
+      mapKeyToGroupList(userAccessManagementStore.userSelected.map_user_groups)
+
+    }, [])
+
+    useEffect(() => {
+      if (userAccessManagementStore.optionGroupList.length >= 0) {
+        addKeyToDataSource(userAccessManagementStore.optionGroupList).then(result => {
+          setOptionGroupList(result)
+        })
+      }
+    }, [userAccessManagementStore.optionGroupList])
+
+    useEffect(() => {
+      if (userAccessManagementStore.supervisorList.length >= 0) {
+        addKeyToDataSource(userAccessManagementStore.supervisorList).then(result => {
+          setSupervisorList(result)
+        })
+      }
+    }, [userAccessManagementStore.supervisorList])
+
+    useEffect(() => {
+      if (userAccessManagementStore.optionSectionList.length >= 0) {
+        mapKeyToGroupList(userAccessManagementStore.userSelected.map_user_groups)
+      }
+    }, [userAccessManagementStore.optionSectionList])
+
+    useEffect(() => {
+      console.log(toJS(userAccessManagementStore.userSelected))
+
+    }, [userAccessManagementStore.userSelected])
 
     const goBackToUserList = () => {
       userAccessManagementStore.nextPageIsManageUser = false
     }
 
+    const getSupervisorList = (sectionId) => {
+      userAccessManagementStore.getDataSupervisor(sectionId)
+    }
+
+    const mapKeyToGroupList = (groupListNonKey) => {
+      addKeyToDataSource(groupListNonKey).then(result => {
+        setGroupListInUser(result)
+      })
+    }
+
+    const deactivateGroupSelect = (record) => {
+      let request = {
+        user_id: userAccessManagementStore.userSelected.id,
+        group_id: record.id
+      }
+      userAccessManagementStore.submitDeleteGroupInUser(request)
+    }
+    const renderActionGroupInUser = (record) => {
+      if (record.request_status === 'APPROVE') {
+        <div style={{ textAlign: "center" }}>
+          <TcrbPopconfirm title="Sure to Deactivate?" onConfirm={() => deactivateGroupSelect(record)}>
+            <a style={{ color: '#FBA928' }}>Deactivate</a>
+          </TcrbPopconfirm>
+        </div>
+
+      } else if (record.request_status === 'PENDING') {
+        return null
+      } else if (record.request_status === 'REJECT') {
+        return null
+      }
+      else {
+        return null
+      }
+    }
     const columnGroup = [
       {
         title: '',
         dataIndex: 'status',
         width: '5%',
-        render: (text, record) => checkDefaultStatus(text)
+        render: (text, record) => checkDefaultStatus(record.status, record.request_status)
       },
       {
         title: 'Group name',
@@ -44,18 +125,57 @@ const ManageUser = inject('userAccessManagementStore')
         title: 'Action',
         dataIndex: 'operation',
         width: '10%',
-        render: (text, record) => renderActionGroupUser(record)
+        render: (text, record) => renderActionGroupInUser(record)
       }
     ]
-    const FormEditUser = () => {
+
+    const openModalSubmitEditUserProfile = (values) => {
+      dataEditUserProfile = values
+      setModalTitle('Confirm')
+      setModalType('confirm')
+      setModalString(
+        <div style={{ textAlign: "center" }}>
+          <p>Confirm to Change UserProfile.</p>
+          <p style={{ color: orange[6] }}>Your changes will take effect after being approved.</p>
+        </div>
+      )
+      setVisible(true)
+    }
+
+    const submitEditUser = () => {
+      console.log(dataEditUserProfile)
+      let request = {
+        currentData: userAccessManagementStore.userSelected,
+        newData: {
+          ...dataEditUserProfile,
+          join_date: moment(dataEditUserProfile.join_data).format('YYYY-MM-DD'),
+          last_working_date: moment(dataEditUserProfile.last_working_date).format('YYYY-MM-DD')
+        }
+      }
+      userAccessManagementStore.updateUser(request)
+    }
+
+    const FormEditUser = ({ onSubmitEditUser }) => {
       return (
         <Form
           form={form}
           layout="vertical"
           name="form_in_modal"
           initialValues={{
-            'title': 'public',
+            'employee_code': userAccessManagementStore.userSelected.employee_code,
+            'section_id': userAccessManagementStore.userSelected.section_id,
+            'name': userAccessManagementStore.userSelected.name,
+            'surname': userAccessManagementStore.userSelected.surname,
+            'username': userAccessManagementStore.userSelected.name,
+            'email': userAccessManagementStore.userSelected.name,
+            'join_date': moment(userAccessManagementStore.userSelected.join_date),
+            'last_working_date': moment(userAccessManagementStore.userSelected.last_working_date)
           }}
+          onFinish={(values) => {
+            onSubmitEditUser(values)
+            form.resetFields()
+          }}
+
         >
 
           <Row >
@@ -66,7 +186,7 @@ const ManageUser = inject('userAccessManagementStore')
             </Col>
             <Col span={8}>
               <Form.Item
-                name="title"
+                name="employee_code"
                 rules={[
                   {
                     required: true,
@@ -74,29 +194,31 @@ const ManageUser = inject('userAccessManagementStore')
                   },
                 ]}
               >
-                <SimpleInput defaultValue={'s'} />
+                <SimpleInput defaultValue={userAccessManagementStore.userSelected.employee_code} />
               </Form.Item>
             </Col>
             <Col span={4} style={{ paddingLeft: 16 }}>
               <span>
-                Supervisor
-              </span>
+                Section
+                </span>
             </Col>
             <Col span={8}>
               <Form.Item
-                name="supervisor"
+                name="section_id"
                 rules={[
                   {
                     required: true,
-                    message: 'Please input the title of collection!',
+                    message: 'Please input Section!',
                   },
                 ]}
               >
                 <Select
                   style={{ width: '100%' }}
                   placeholder="Please select"
-                  onChange={(value) => null}
+                  onChange={(value) => getSupervisorList(value)}
+                  defaultValue={userAccessManagementStore.userSelected.section_id}
                 >
+                  {sectionList.map((item, index) => <Option key={index} value={item.id}>{item.name}</Option>)}
                   {/* {children} */}
                 </Select>
               </Form.Item>
@@ -118,7 +240,7 @@ const ManageUser = inject('userAccessManagementStore')
                   },
                 ]}
               >
-                <SimpleInput />
+                <SimpleInput defaultValue={userAccessManagementStore.userSelected.name} />
               </Form.Item>
             </Col>
             <Col span={4} style={{ paddingLeft: 16 }}>
@@ -136,7 +258,7 @@ const ManageUser = inject('userAccessManagementStore')
                   },
                 ]}
               >
-                <SimpleInput />
+                <SimpleInput defaultValue={userAccessManagementStore.userSelected.surname} />
               </Form.Item>
             </Col>
           </Row>
@@ -148,7 +270,7 @@ const ManageUser = inject('userAccessManagementStore')
             </Col>
             <Col span={8}>
               <Form.Item
-                name="Username"
+                name="username"
                 rules={[
                   {
                     required: true,
@@ -156,7 +278,7 @@ const ManageUser = inject('userAccessManagementStore')
                   },
                 ]}
               >
-                <SimpleInput />
+                <SimpleInput defaultValue={userAccessManagementStore.userSelected.username} />
               </Form.Item>
             </Col>
             <Col span={4} style={{ paddingLeft: 16 }}>
@@ -169,16 +291,12 @@ const ManageUser = inject('userAccessManagementStore')
                 name="email"
                 rules={[
                   {
-                    type: 'email',
-                    message: 'The input is not valid E-mail!',
-                  },
-                  {
                     required: true,
                     message: 'Please input the title of collection!',
                   },
                 ]}
               >
-                <SimpleInput />
+                <SimpleInput defaultValue={userAccessManagementStore.userSelected.email} />
               </Form.Item>
             </Col>
           </Row>
@@ -190,16 +308,15 @@ const ManageUser = inject('userAccessManagementStore')
             </Col>
             <Col span={8}>
               <Form.Item
-                name="jonDate"
+                name="join_date"
                 rules={[
                   {
-                    required: true,
+                    required: false,
                     message: 'Please input the title of collection!',
                   },
                 ]}
               >
-                {/* <DatePicker style={{ width: '100%' }} /> */}
-
+                <DatePicker style={{ width: '100%' }} format={dateFormat} defaultValue={moment(userAccessManagementStore.userSelected.join_date, dateFormat)} />
               </Form.Item>
             </Col>
             <Col span={4} style={{ paddingLeft: 16 }}>
@@ -209,15 +326,15 @@ const ManageUser = inject('userAccessManagementStore')
             </Col>
             <Col span={8}>
               <Form.Item
-                name="lastWorkingDate"
+                name="last_working_date"
                 rules={[
                   {
-                    required: true,
+                    required: false,
                     message: 'Please input the title of collection!',
                   },
                 ]}
               >
-                {/* <DatePicker style={{ width: '100%' }} /> */}
+                <DatePicker style={{ width: '100%' }} format={dateFormat} defaultValue={moment(userAccessManagementStore.userSelected.last_working_date, dateFormat)} />
               </Form.Item>
             </Col>
           </Row>
@@ -229,10 +346,10 @@ const ManageUser = inject('userAccessManagementStore')
             </Col>
             <Col span={8}>
               <Form.Item
-                name="status"
+                name="user_status"
                 rules={[
                   {
-                    required: true,
+                    // required: true,
                     message: 'Please input the title of collection!',
                   },
                 ]}
@@ -249,16 +366,16 @@ const ManageUser = inject('userAccessManagementStore')
             </Col>
             <Col span={4} style={{ paddingLeft: 16 }}>
               <span>
-                Section
-              </span>
+                Supervisor
+                </span>
             </Col>
             <Col span={8}>
               <Form.Item
-                name="section"
+                name="supervisor_id"
                 rules={[
                   {
-                    required: true,
-                    message: 'Please input the title of collection!',
+                    // required: true,
+                    message: 'Please input Supervisor!',
                   },
                 ]}
               >
@@ -267,7 +384,7 @@ const ManageUser = inject('userAccessManagementStore')
                   placeholder="Please select"
                   onChange={(value) => null}
                 >
-                  {/* {children} */}
+                  {supervisorList.map((item, index) => <Option key={index} value={item.id}>{item.name}</Option>)}
                 </Select>
               </Form.Item>
             </Col>
@@ -289,6 +406,7 @@ const ManageUser = inject('userAccessManagementStore')
         </Form>
       )
     }
+
     const FormShowUser = () => {
       return (
         <div>
@@ -335,9 +453,9 @@ const ManageUser = inject('userAccessManagementStore')
               <Select
                 style={{ width: '100%' }}
                 placeholder="Please select"
-                onChange={(value) => roleSelect = value}
+                onChange={(value) => group = value}
               >
-                {/* {roleList.map((item, index) => <Option key={index} value={item.id}>{item.role_name}</Option>)} */}
+                {optionGroupList.map((item, index) => <Option key={index} value={item.id}>{item.name}</Option>)}
               </Select>
             </Col>
           </Row>
@@ -345,23 +463,31 @@ const ManageUser = inject('userAccessManagementStore')
       )
     }
     const addGroupToUser = () => {
+      groupSelect = null
       setModalTitle('Add Group to User')
       setModalType('confirm')
       setModalString(
         <Select
           style={{ width: '100%' }}
           placeholder="Please select"
-          onChange={(value) => roleSelect = value}
+          onChange={(value) => groupSelect = value}
         >
-          {/* {roleList.map((item, index) => <Option key={index} value={item.id}>{item.role_name}</Option>)} */}
+          {optionGroupList.map((item, index) => <Option key={index} value={item.id}>{item.name}</Option>)}
         </Select>
       )
-      setVisiable(true)
+      setVisible(true)
     }
 
     const addGroup = () => {
-      setVisiable(false)
+      console.log(groupSelect)
+      let request = {
+        user_id: userAccessManagementStore.userSelected.id,
+        group_id: groupSelect
+      }
+      userAccessManagementStore.submitAddGroupToUser(request)
+      setVisible(false)
     }
+
 
     return (
       <div>
@@ -370,7 +496,7 @@ const ManageUser = inject('userAccessManagementStore')
             <TcrbButton className="default" onClick={() => goBackToUserList()} >Back</TcrbButton>
           </Col>
         </Row>
-        {viewEditUserDetail ? <FormEditUser /> : <FormShowUser />}
+        {viewEditUserDetail ? <FormEditUser onSubmitEditUser={openModalSubmitEditUserProfile} /> : <FormShowUser />}
         <Divider />
         <Row gutter={[4, 24]}>
           <Col span={2}>
@@ -386,7 +512,9 @@ const ManageUser = inject('userAccessManagementStore')
         <SimpleModal
           title={modalTitle}
           type={modalType}
-          onOk={() => addGroup()}
+          onOk={() => {
+            viewEditUserDetail ? submitEditUser() : addGroup()
+          }}
           onCancel={() => setVisible(false)}
           textCancel={'Cancel'}
           textOk={'Submit'}
