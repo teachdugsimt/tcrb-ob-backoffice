@@ -151,6 +151,11 @@ class UserAccessManagementApi {
     return response
   }
 
+  updateMatrix = async (params) => {
+    const response = await ExcuteApi('api/backoffice/v1/changerequest', params, "post")
+    return response
+  }
+
   deleteDepartment = async (params) => {
     const response = await ExcuteApi('api/backoffice/v1/changerequest', params, "post")
     return response

@@ -26,6 +26,7 @@ export default class UserAccessManagement {
   @observable optionUserList = []
   @observable optionRoleList = []
   @observable dataMatrix = []
+  @observable updateDataMatrix = []
 
   @observable departmentSelected = null
   @observable groupSelected = null
@@ -64,6 +65,21 @@ export default class UserAccessManagement {
     }
   }
 
+  @action updateMatrixRequest = async (params) => {
+    //some action
+    this.apiFetching = true
+    let tmp = await UserAccessManagementApi.updateMatrix(params)
+    console.log(tmp)
+    if (tmp.ok & tmp.status === 200) {
+      //when success
+      this.apiFetching = false
+      this.updateDataMatrix = tmp.data.responseData
+    } else {
+      //when error
+      this.apiFetching = false
+      this.responseApiError = true
+    }
+  }
   @action getDataDepartmentDetail = async () => {
     //some action
     this.apiFetching = true
