@@ -181,19 +181,19 @@ const RoleBasedMatrix = inject("userAccessManagementStore")(
       );
       if (check_have_ever_update_cell && check_have_ever_update_cell != undefined) {
         if (check_have_ever_update_cell.is_allowed === true) {
-          slot_data = check_have_ever_update_cell.is_masked === true  ? "Mark"  : "Unmark";
+          slot_data = check_have_ever_update_cell.is_masked === true  ? "M"  : "U";
         } else {
-          slot_data = "Not Use";
+          slot_data = "-";
         }
       } else {
         if (this_cell.is_allowed === true) {
-          slot_data = this_cell.is_masked === true ? "Mark" : "Unmark";
+          slot_data = this_cell.is_masked === true ? "M" : "U";
         }
         else if (this_cell.is_masked === undefined && this_cell.is_allowed === undefined){
           slot_data = "-"
         }
         else if (this_cell.is_allowed === false){
-          slot_data = "Not Use";
+          slot_data = "-";
         }
 
       }
@@ -228,9 +228,9 @@ const RoleBasedMatrix = inject("userAccessManagementStore")(
                     _handleChangeCell(e, this_cell);
                   }}
                 >
-                  <Option value="unmark"> Unmark</Option>
-                  <Option value="mark">Mark</Option>
-                  <Option value="notUse">Not Use</Option>
+                  <Option value="unmark"> U</Option>
+                  <Option value="mark">M</Option>
+                  <Option value="notUse">-</Option>
                 </Select>
               );
             },
@@ -301,8 +301,9 @@ const RoleBasedMatrix = inject("userAccessManagementStore")(
           columns={column && column.length > 1 ? column : []}
           dataSource={mockDataSourceDynamic}
           onRow={(r) => ({
-            onClick: (e) => console.log("Fuck Yeah : ", (r, e)),
+            onClick: (e) => console.log("Item : ", (r, e)),
           })}
+          size="small"
         />
         <Button onClick={() => clickSubmit()}>Submit</Button>
       </div>
