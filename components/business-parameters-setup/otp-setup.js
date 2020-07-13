@@ -4,35 +4,20 @@ import styled from 'styled-components'
 import { inject, observer } from 'mobx-react'
 import { withTranslation } from '../../i18n'
 import SimpleModal from '../simple-modal'
+import SimpleInput from '../simple-input'
 import { TcrbButton } from '../antd-styles/styles'
 import { toJS } from 'mobx'
 import { addKeyToDataSource } from '../data-utility'
-
-const StyledInput = styled(Input)`
-  background-color: unset !important;
-  border: unset !important;
-  border-bottom: 1px solid black !important;
-  box-shadow: none !important;
-  .ant-input{
-    text-align: right !important;
-    background-color: unset !important;
-    padding-right:8px !important;
-    ${'' /* cursor:not-allowed !important; */}
-  }
-  .ant-input-suffix{
-            width:50px !important;
-          }
-`
 
 const OtpSetup =
   inject('businessParametersSetupStore')
     (observer((props) => {
       const { t, businessParametersSetupStore } = props
-      const [expireOtp, setExpire] = useState(null)
+      const [expireOtp, setExpire] = useState('')
       const [visibleExpireEdit, setvisibleExpireEdit] = useState(true)
       const [visibleExpireSubmit, setvisibleExpireSubmit] = useState(false)
 
-      const [newMaximumOtp, setNewMaximumOtp] = useState(null)
+      const [newMaximumOtp, setNewMaximumOtp] = useState('')
       const [visibleEditMaximum, setvisibleEditMaximum] = useState(true)
       const [visibleSubmitMaximum, setvisibleSubmitMaximum] = useState(false)
 
@@ -51,11 +36,15 @@ const OtpSetup =
       const [typeUpdate, setTypeUpdate] = useState("")
 
       useEffect(() => {
-        if (!businessParametersSetupStore.responseGetOtpValue || businessParametersSetupStore.fetchingGetOtp == null) {
+        /* if (!businessParametersSetupStore.responseGetOtpValue || businessParametersSetupStore.fetchingGetOtp == null) {
           let data = { otpParamsField: "OTP_EXPIRE_TIME,OTP_MAXIMUM_ENTERED,OTP_TOKEN_EXPIRE_TIME" }
           businessParametersSetupStore.getOTPdata(data)
-        }
+          console.log('getOtpData')
+        } */
+        let data = { otpParamsField: "OTP_EXPIRE_TIME,OTP_MAXIMUM_ENTERED,OTP_TOKEN_EXPIRE_TIME" }
+        businessParametersSetupStore.getOTPdata(data)
         businessParametersSetupStore.responseUpdateOtp = null
+        businessParametersSetupStore.responseGetOtpValue = null
         businessParametersSetupStore.getDataOtpPendingList()
       }, [])
 
@@ -78,7 +67,6 @@ const OtpSetup =
                 break;
             }
           }
-          console.log(toJS(newRequestOtpPending))
           addKeyToDataSource(newRequestOtpPending).then(result => {
             setDataSourceOtpPendingList(result)
           })
@@ -86,14 +74,15 @@ const OtpSetup =
 
       }, [businessParametersSetupStore.responseGetOtpPending])
       useEffect(() => {
-
-        let newProps = JSON.parse(JSON.stringify(businessParametersSetupStore.responseGetOtpValue))
-        if (newProps && newProps != undefined) {
-          if (!expireOtp || !newMaximumOtp) {
-            let tmpExpire = newProps.find(e => e.Name == "OTP_EXPIRE_TIME")
-            let tmpMaximum = newProps.find(e => e.Name == "OTP_MAXIMUM_ENTERED")
-            setExpire(tmpExpire.Value)
-            setNewMaximumOtp(tmpMaximum.Value)
+        if (businessParametersSetupStore.responseGetOtpValue != null) {
+          let newProps = businessParametersSetupStore.responseGetOtpValue
+          if (newProps && newProps != undefined) {
+            if (!expireOtp || !newMaximumOtp) {
+              let tmpExpire = newProps.find(e => e.Name == "OTP_EXPIRE_TIME")
+              let tmpMaximum = newProps.find(e => e.Name == "OTP_MAXIMUM_ENTERED")
+              setExpire(tmpExpire.Value)
+              setNewMaximumOtp(tmpMaximum.Value)
+            }
           }
         }
       }, [businessParametersSetupStore.responseGetOtpValue])
@@ -304,7 +293,7 @@ const OtpSetup =
         <div>
           <Row gutter={[8, 8]}>
             <Col span={10}>
-              <StyledInput readOnly={isReadOnlyInputMaximum} id={"otp-maximum-retrying"} disabled={isDisableEditMaximum} value={newMaximumOtp} onChange={(e) => setNewMaximumOtp(e.target.value)} prefix={t("otpMaximumRetrying")} suffix={t("otpTime")} />
+              <SimpleInput readOnly={isReadOnlyInputMaximum} id={"otp-maximum-retrying"} disabled={isDisableEditMaximum} value={newMaximumOtp} onChange={(value) => setNewMaximumOtp(value)} prefix={t("otpMaximumRetrying")} suffix={t("otpTime")} />
             </Col>
             <Col span={6}>
               {visibleEditMaximum && <TcrbButton disabled={isDisableEditMaximum} onClick={() => _onClickMaximumRetry()} className="default">{t("edit")}</TcrbButton>}
@@ -313,7 +302,7 @@ const OtpSetup =
           </Row>
           <Row gutter={[8, 36]}>
             <Col span={10}>
-              <StyledInput readOnly={isReadOnlyInputExpiration} disabled={isDisableEditExpiration} id={"otp-expiration-period"} value={expireOtp} onChange={(e) => setExpire(e.target.value)} prefix={t("otpExpirationPeriod")} suffix={t("otpSecond")} />
+              <SimpleInput readOnly={isReadOnlyInputExpiration} disabled={isDisableEditExpiration} id={"otp-expiration-period"} value={expireOtp} onChange={(value) => setExpire(value)} prefix={t("otpExpirationPeriod")} suffix={t("otpSecond")} />
             </Col>
             <Col span={6}>
               {visibleExpireEdit && <TcrbButton disabled={isDisableEditExpiration} onClick={() => _onClickExpiration()} className="default">{t("edit")}</TcrbButton>}
