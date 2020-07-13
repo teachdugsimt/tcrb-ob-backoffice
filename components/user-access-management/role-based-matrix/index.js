@@ -38,6 +38,12 @@ const RoleBasedMatrix = inject("userAccessManagementStore")(
     // }, [])
 
     useEffect(() => {
+      if(matrixAll && matrixAll.length > 0){
+      addFunctionToDataSource(matrixAll);
+      addRoleToColumn();}
+    }, [matrixAll])
+
+    useEffect(() => {
       if (userAccessManagementStore.dataMatrix) {
         let tmp_matrix = JSON.parse(
           JSON.stringify(userAccessManagementStore.dataMatrix)
@@ -45,8 +51,8 @@ const RoleBasedMatrix = inject("userAccessManagementStore")(
         tmp_matrix = tmp_matrix.filter((e) => e.functions.length > 0);
         console.log("TMP LIST MATRIX", tmp_matrix);
         setmatrixAll(tmp_matrix);
-        addFunctionToDataSource(tmp_matrix);
-        addRoleToColumn();
+        // addFunctionToDataSource(tmp_matrix);
+        // addRoleToColumn();
       }
     }, [userAccessManagementStore.dataMatrix]);
 
