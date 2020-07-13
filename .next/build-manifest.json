@@ -20,6 +20,10 @@
     "/_polyfills": [
       "static/runtime/polyfills.js"
     ],
+    "/product-onboarding": [
+      "static/runtime/webpack.js",
+      "static/runtime/main.js"
+    ],
     "/user-access-management": [
       "static/runtime/webpack.js",
       "static/runtime/main.js"
