@@ -12,6 +12,8 @@ const StyledInput = styled(Input)`
   border-radius: 0px;
   .ant-input{
     text-align: right !important;
+    padding-right:8px !important;
+
   }
   .ant-input-suffix{
     width:50px !important;
@@ -28,7 +30,7 @@ function SimpleInput(props) {
         id={props.id}
         name={props.name}
         type={props.type}
-        onChange={(e) => props.onChange(e.target.value)} prefix={props.prefix} suffix={props.suffix} readOnly={props.readOnly} defaultValue={props.defaultValue} halfsize={props.halfSize} />
+        onChange={(e) => props.onChange(e.target.value)} prefix={props.prefix} suffix={props.suffix} readOnly={props.readOnly} defaultValue={props.defaultValue} halfsize={props.halfSize} value={props.value} />
     </div>
   )
 }

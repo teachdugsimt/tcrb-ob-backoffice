@@ -3,9 +3,9 @@
 
 const awsmobile = {
     "aws_project_region": "ap-southeast-1",
-    "aws_content_delivery_bucket": "tcrbobbackoffice-20200706210442-hostingbucket-dev",
+    "aws_content_delivery_bucket": "tcrb.onlinebanking-backoffice.com-dev",
     "aws_content_delivery_bucket_region": "ap-southeast-1",
-    "aws_content_delivery_url": "https://d2ac1duk3k07si.cloudfront.net"
+    "aws_content_delivery_url": "http://tcrb.onlinebanking-backoffice.com-dev.s3-website-ap-southeast-1.amazonaws.com"
 };
 
 

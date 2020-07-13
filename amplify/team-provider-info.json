@@ -1,23 +1,15 @@
 {
-    "devnext": {
+    "dev": {
         "awscloudformation": {
-            "AuthRoleName": "amplify-tcrbobbackoffice-devnext-141156-authRole",
-            "UnauthRoleArn": "arn:aws:iam::313571681948:role/amplify-tcrbobbackoffice-devnext-141156-unauthRole",
-            "AuthRoleArn": "arn:aws:iam::313571681948:role/amplify-tcrbobbackoffice-devnext-141156-authRole",
+            "AuthRoleName": "amplify-tcrbobbackoffice-dev-143442-authRole",
+            "UnauthRoleArn": "arn:aws:iam::313571681948:role/amplify-tcrbobbackoffice-dev-143442-unauthRole",
+            "AuthRoleArn": "arn:aws:iam::313571681948:role/amplify-tcrbobbackoffice-dev-143442-authRole",
             "Region": "ap-southeast-1",
-            "DeploymentBucketName": "amplify-tcrbobbackoffice-devnext-141156-deployment",
-            "UnauthRoleName": "amplify-tcrbobbackoffice-devnext-141156-unauthRole",
-            "StackName": "amplify-tcrbobbackoffice-devnext-141156",
-            "StackId": "arn:aws:cloudformation:ap-southeast-1:313571681948:stack/amplify-tcrbobbackoffice-devnext-141156/26189360-c021-11ea-a455-06679e986658",
-            "AmplifyAppId": "d3h7ugkzowep5c"
-        },
-        "categories": {
-            "hosting": {
-                "amplifyhosting": {
-                    "appId": "d3h7ugkzowep5c",
-                    "type": "cicd"
-                }
-            }
+            "DeploymentBucketName": "amplify-tcrbobbackoffice-dev-143442-deployment",
+            "UnauthRoleName": "amplify-tcrbobbackoffice-dev-143442-unauthRole",
+            "StackName": "amplify-tcrbobbackoffice-dev-143442",
+            "StackId": "arn:aws:cloudformation:ap-southeast-1:313571681948:stack/amplify-tcrbobbackoffice-dev-143442/558d2310-c024-11ea-a461-02f584878410",
+            "AmplifyAppId": "dtkl6s88l76r2"
         }
     }
 }
