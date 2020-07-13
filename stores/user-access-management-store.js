@@ -60,6 +60,10 @@ export default class UserAccessManagement {
     } else {
       //when error
       this.apiFetching = false
+      this.responseErrorMessage = {
+        title: 'getDataDepartment',
+        body: tmp.originalError.message
+      }
       this.responseApiError = true
     }
   }
@@ -75,6 +79,10 @@ export default class UserAccessManagement {
     } else {
       //when error
       this.apiFetching = false
+      this.responseErrorMessage = {
+        title: 'getDataDepartmentDetail',
+        body: tmp.originalError.message
+      }
       this.responseApiError = true
     }
   }
@@ -91,6 +99,10 @@ export default class UserAccessManagement {
     } else {
       //when error
       this.apiFetching = false
+      this.responseErrorMessage = {
+        title: 'getDataGroupDetail',
+        body: tmp.originalError.message
+      }
       this.responseApiError = true
     }
   }
@@ -121,6 +133,10 @@ export default class UserAccessManagement {
     } else {
       //when error
       this.apiFetching = false
+      this.responseErrorMessage = {
+        title: 'getDataFunction',
+        body: tmp.originalError.message
+      }
       this.responseApiError = true
     }
   }
@@ -151,6 +167,10 @@ export default class UserAccessManagement {
     } else {
       //when error
       this.apiFetching = false
+      this.responseErrorMessage = {
+        title: 'getDataMenu',
+        body: tmp.originalError.message
+      }
       this.responseApiError = true
     }
   }
@@ -181,6 +201,10 @@ export default class UserAccessManagement {
     } else {
       //when error
       this.apiFetching = false
+      this.responseErrorMessage = {
+        title: 'getDataGroup',
+        body: tmp.originalError.message
+      }
       this.responseApiError = true
     }
   }
@@ -203,6 +227,10 @@ export default class UserAccessManagement {
     } else {
       //when error
       this.apiFetching = false
+      this.responseErrorMessage = {
+        title: 'getDataGroupOptionList',
+        body: tmp.originalError.message
+      }
       this.responseApiError = true
     }
   }
@@ -233,6 +261,10 @@ export default class UserAccessManagement {
     } else {
       //when error
       this.apiFetching = false
+      this.responseErrorMessage = {
+        title: 'getDataUser',
+        body: tmp.originalError.message
+      }
       this.responseApiError = true
     }
   }
@@ -249,6 +281,10 @@ export default class UserAccessManagement {
     } else {
       //when error
       this.apiFetching = false
+      this.responseErrorMessage = {
+        title: 'getDataUserDetail',
+        body: tmp.originalError.message
+      }
       this.responseApiError = true
     }
   }
@@ -274,6 +310,10 @@ export default class UserAccessManagement {
     } else {
       //when error
       this.apiFetching = false
+      this.responseErrorMessage = {
+        title: 'getDataSupervisor',
+        body: tmp.originalError.message
+      }
       this.responseApiError = true
     }
   }
@@ -300,6 +340,10 @@ export default class UserAccessManagement {
     } else {
       //when error
       this.apiFetching = false
+      this.responseErrorMessage = {
+        title: 'getDataFunctionList',
+        body: tmp.originalError.message
+      }
       this.responseApiError = true
     }
   }
@@ -334,6 +378,10 @@ export default class UserAccessManagement {
     } else {
       //when error
       this.apiFetching = false
+      this.responseErrorMessage = {
+        title: 'getDataFunctionListInMenu',
+        body: tmp.originalError.message
+      }
       this.responseApiError = true
     }
   }
@@ -365,6 +413,10 @@ export default class UserAccessManagement {
     } else {
       //when error
       this.apiFetching = false
+      this.responseErrorMessage = {
+        title: 'getDataRole',
+        body: tmp.originalError.message
+      }
       this.responseApiError = true
     }
   }
@@ -387,6 +439,10 @@ export default class UserAccessManagement {
     } else {
       //when error
       this.apiFetching = false
+      this.responseErrorMessage = {
+        title: 'getDataSectionList',
+        body: tmp.originalError.message
+      }
       this.responseApiError = true
     }
   }
@@ -404,11 +460,15 @@ export default class UserAccessManagement {
     console.log(tmp)
     if (tmp.ok & tmp.status === 200) {
       //when success
-      this.optionSectionList = tmp.data.responseData
+      this.optionUserList = tmp.data.responseData
       this.apiFetching = false
     } else {
       //when error
       this.apiFetching = false
+      this.responseErrorMessage = {
+        title: 'getDataUserOptionList',
+        body: tmp.originalError.message
+      }
       this.responseApiError = true
     }
   }
@@ -432,6 +492,10 @@ export default class UserAccessManagement {
     } else {
       //when error
       this.apiFetching = false
+      this.responseErrorMessage = {
+        title: 'getDataRoleOptionList',
+        body: tmp.originalError.message
+      }
       this.responseApiError = true
     }
   }
@@ -448,6 +512,10 @@ export default class UserAccessManagement {
     } else {
       //when error
       this.apiFetching = false
+      this.responseErrorMessage = {
+        title: 'getDataMatrix',
+        body: tmp.originalError.message
+      }
       this.responseApiError = true
     }
   }
@@ -463,6 +531,10 @@ export default class UserAccessManagement {
     } else {
       //when error
       this.apiFetching = false
+      this.responseErrorMessage = {
+        title: 'submitAddNewDepartment',
+        body: tmp.originalError.message
+      }
       this.responseApiError = true
     }
   }
@@ -478,6 +550,10 @@ export default class UserAccessManagement {
     } else {
       //when error
       this.apiFetching = false
+      this.responseErrorMessage = {
+        title: 'submitAddNewSection',
+        body: tmp.originalError.message
+      }
       this.responseApiError = true
     }
   }
@@ -494,6 +570,10 @@ export default class UserAccessManagement {
     } else {
       //when error
       this.apiFetching = false
+      this.responseErrorMessage = {
+        title: 'submitAddNewGroup',
+        body: tmp.originalError.message
+      }
       this.responseApiError = true
     }
   }
@@ -510,6 +590,10 @@ export default class UserAccessManagement {
     } else {
       //when error
       this.apiFetching = false
+      this.responseErrorMessage = {
+        title: 'submitAddNewFunction',
+        body: tmp.originalError.message
+      }
       this.responseApiError = true
     }
   }
@@ -526,6 +610,10 @@ export default class UserAccessManagement {
     } else {
       //when error
       this.apiFetching = false
+      this.responseErrorMessage = {
+        title: 'submitAddNewMenu',
+        body: tmp.originalError.message
+      }
       this.responseApiError = true
     }
   }
@@ -542,6 +630,10 @@ export default class UserAccessManagement {
     } else {
       //when error
       this.apiFetching = false
+      this.responseErrorMessage = {
+        title: 'submitAddNewRole',
+        body: tmp.originalError.message
+      }
       this.responseApiError = true
     }
   }
@@ -558,6 +650,10 @@ export default class UserAccessManagement {
     } else {
       //when error
       this.apiFetching = false
+      this.responseErrorMessage = {
+        title: 'submitAddFunctionToMenu',
+        body: tmp.originalError.message
+      }
       this.responseApiError = true
     }
   }
@@ -593,6 +689,33 @@ export default class UserAccessManagement {
     } else {
       //when error
       this.apiFetching = false
+      this.responseErrorMessage = {
+        title: 'submitAddGroupToUser',
+        body: tmp.originalError.message
+      }
+      this.responseApiError = true
+    }
+  }
+
+  @action submitAddUserToGroup = async (params) => {
+    this.apiFetching = true
+    let tmp = await UserAccessManagementApi.addUserToGroup({ change_type: "MAP_USER_GROUPS", action: "Add", currentData: {}, newData: params, maker_id: '36' })
+    console.log(tmp)
+    if (tmp.ok & tmp.status === 200) {
+      //when success
+      // this.functionList = []
+      let group_id = this.groupSelected.id
+      this.groupSelected = {}
+      this.apiFetching = false
+      this.getDataGroupDetail(group_id)
+      // this.getDataFunction()
+    } else {
+      //when error
+      this.apiFetching = false
+      this.responseErrorMessage = {
+        title: 'submitAddUserToGroup',
+        body: tmp.originalError.message
+      }
       this.responseApiError = true
     }
   }
@@ -607,6 +730,10 @@ export default class UserAccessManagement {
     } else {
       //when error
       this.apiFetching = false
+      this.responseErrorMessage = {
+        title: 'updateDepartment',
+        body: tmp.originalError.message
+      }
       this.responseApiError = true
     }
   }
@@ -621,6 +748,10 @@ export default class UserAccessManagement {
     } else {
       //when error
       this.apiFetching = false
+      this.responseErrorMessage = {
+        title: 'updateSection',
+        body: tmp.originalError.message
+      }
       this.responseApiError = true
     }
   }
@@ -637,6 +768,10 @@ export default class UserAccessManagement {
     } else {
       //when error
       this.apiFetching = false
+      this.responseErrorMessage = {
+        title: 'updateFunction',
+        body: tmp.originalError.message
+      }
       this.responseApiError = true
     }
   }
@@ -651,6 +786,10 @@ export default class UserAccessManagement {
     } else {
       //when error
       this.apiFetching = false
+      this.responseErrorMessage = {
+        title: 'updateMenu',
+        body: tmp.originalError.message
+      }
       this.responseApiError = true
     }
   }
@@ -667,6 +806,10 @@ export default class UserAccessManagement {
     } else {
       //when error
       this.apiFetching = false
+      this.responseErrorMessage = {
+        title: 'updateRole',
+        body: tmp.originalError.message
+      }
       this.responseApiError = true
     }
   }
@@ -683,6 +826,10 @@ export default class UserAccessManagement {
     } else {
       //when error
       this.apiFetching = false
+      this.responseErrorMessage = {
+        title: 'updateUser',
+        body: tmp.originalError.message
+      }
       this.responseApiError = true
     }
   }
@@ -699,6 +846,10 @@ export default class UserAccessManagement {
     } else {
       //when error
       this.apiFetching = false
+      this.responseErrorMessage = {
+        title: 'submitDeleteDepartment',
+        body: tmp.originalError.message
+      }
       this.responseApiError = true
     }
   }
@@ -714,6 +865,10 @@ export default class UserAccessManagement {
     } else {
       //when error
       this.apiFetching = false
+      this.responseErrorMessage = {
+        title: 'submitDeleteSection',
+        body: tmp.originalError.message
+      }
       this.responseApiError = true
     }
   }
@@ -730,6 +885,10 @@ export default class UserAccessManagement {
     } else {
       //when error
       this.apiFetching = false
+      this.responseErrorMessage = {
+        title: 'submitDeleteFunction',
+        body: tmp.originalError.message
+      }
       this.responseApiError = true
     }
   }
@@ -746,6 +905,10 @@ export default class UserAccessManagement {
     } else {
       //when error
       this.apiFetching = false
+      this.responseErrorMessage = {
+        title: 'submitDeleteMenu',
+        body: tmp.originalError.message
+      }
       this.responseApiError = true
     }
   }
@@ -762,6 +925,10 @@ export default class UserAccessManagement {
     } else {
       //when error
       this.apiFetching = false
+      this.responseErrorMessage = {
+        title: 'submitDeleteRole',
+        body: tmp.originalError.message
+      }
       this.responseApiError = true
     }
   }
@@ -780,6 +947,10 @@ export default class UserAccessManagement {
     } else {
       //when error
       this.apiFetching = false
+      this.responseErrorMessage = {
+        title: 'submitDeleteGroupInUser',
+        body: tmp.originalError.message
+      }
       this.responseApiError = true
     }
   }
@@ -799,6 +970,10 @@ export default class UserAccessManagement {
     } else {
       //when error
       this.apiFetching = false
+      this.responseErrorMessage = {
+        title: 'submitDeleteUserInGroup',
+        body: tmp.originalError.message
+      }
       this.responseApiError = true
     }
   }
