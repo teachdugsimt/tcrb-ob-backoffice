@@ -305,6 +305,7 @@ const UserList = inject('userAccessManagementStore')
       console.log('Received values of form: ', values);
       let request = {
         ...values,
+        full_name: values.name + " " + values.surname,
         join_date: moment(values.join_data).format('YYYY-MM-DD'),
         last_working_date: moment(values.last_working_date).format('YYYY-MM-DD')
       }

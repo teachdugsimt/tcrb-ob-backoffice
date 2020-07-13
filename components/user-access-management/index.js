@@ -5,6 +5,8 @@ import { withTranslation } from '../../i18n'
 import { inject, observer } from 'mobx-react'
 import { TcrbTabs, TcrbSpin } from '../antd-styles/styles'
 
+import SimpleModal from '../simple-modal'
+
 import Department from './department'
 import Group from './group'
 import Role from './role'
@@ -23,6 +25,13 @@ const UseAccessManagement =
         userAccessManagementStore.nextPageIsManageMenu = false
       }, [])
 
+      useEffect(() => {
+        if (userAccessManagementStore.responseApiError === true) {
+          openModalError()
+        }
+
+      }, [userAccessManagementStore.responseApiError])
+
       const setDefaultPage = (keyTab) => {
         switch (keyTab) {
           case "1":
@@ -38,6 +47,16 @@ const UseAccessManagement =
             userAccessManagementStore.nextPageIsManageMenu = false
             break;
         }
+      }
+
+      const openModalError = () => {
+        Modal.error({
+          title: userAccessManagementStore.responseErrorMessage.title,
+          content: userAccessManagementStore.responseErrorMessage.body,
+          onOk() {
+            userAccessManagementStore.responseApiError = false
+          },
+        });
       }
       return (
         <div style={{ height: "100%" }}>

@@ -11,7 +11,7 @@ import { checkDefaultStatus, addKeyToDataSource } from '../../data-utility'
 import { toJS } from 'mobx';
 
 const { Option } = Select;
-let listUserSelect = []
+let userSelect = {}
 let name = null
 let role_id = null
 const ManageGroup = inject('userAccessManagementStore')
@@ -22,15 +22,17 @@ const ManageGroup = inject('userAccessManagementStore')
     const [modalTitle, setModalTitle] = useState("")
     const [textOk, settextOk] = useState("Submit")
     const [textCancel, settextCancel] = useState("Cancel")
-    const [modalString, setmodalString] = useState("")
+    const [modalString, setModalString] = useState("")
     const [modalType, setModalType] = useState('confirm')
-    const [visible, setvisible] = useState(false)
+    const [visible, setVisible] = useState(false)
     const [userInGroupList, setUserInGroupList] = useState([])
+    const [optionUserList, setOptionUserList] = useState([])
 
     useEffect(() => {
       setRoleList([])
       console.log(toJS(userAccessManagementStore.groupSelected))
       splitMapUserGroups(userAccessManagementStore.groupSelected.map_user_groups)
+      userAccessManagementStore.getDataUserOptionList()
       // addKeyToUserInGroup(userAccessManagementStore.groupSelected.map_user_groups)
     }, [])
 
@@ -45,6 +47,14 @@ const ManageGroup = inject('userAccessManagementStore')
 
     }, [userAccessManagementStore.groupSelected])
 
+    useEffect(() => {
+      if (userAccessManagementStore.optionUserList.length >= 0) {
+        addKeyToDataSource(userAccessManagementStore.optionUserList).then(result => {
+          setOptionUserList(result)
+        })
+      }
+    }, [userAccessManagementStore.optionUserList])
+
     const addKeyToUserInGroup = (userInGroupList) => {
       addKeyToDataSource(userInGroupList).then(result => {
         setUserInGroupList(result)
@@ -52,7 +62,6 @@ const ManageGroup = inject('userAccessManagementStore')
     }
 
     const splitMapUserGroups = (dataMapUserGroup) => {
-      console.log(toJS(dataMapUserGroup))
       let newUserObject = []
       for (let index = 0; index < dataMapUserGroup.length; index++) {
         newUserObject.push({
@@ -64,7 +73,6 @@ const ManageGroup = inject('userAccessManagementStore')
         })
       }
       setUserInGroupList(newUserObject)
-      console.log(newUserObject)
     }
 
 
@@ -98,12 +106,11 @@ const ManageGroup = inject('userAccessManagementStore')
       return (
         <div>
           <Select
-            mode="multiple"
             style={{ width: '100%' }}
             placeholder="Please select user"
-            onChange={(value) => { listUserSelect = value }}
+            onChange={(value) => { userSelect = value }}
           >
-            {userList.map((item, index) => <Option key={index} value={item.id}>{item.user_name}</Option>)}
+            {optionUserList.map((item, index) => <Option key={index} value={item.id}>{item.name}</Option>)}
           </Select>
         </div>
       )
@@ -124,8 +131,8 @@ const ManageGroup = inject('userAccessManagementStore')
 
     const openModalAddUser = () => {
       setModalTitle('Add user to ' + userAccessManagementStore.groupSelected.group_name)
-      setmodalString(<AddUserToGroup />)
-      setvisible(true)
+      setModalString(<AddUserToGroup />)
+      setVisible(true)
     }
 
     const deleteUserSelected = (record) => {
@@ -135,7 +142,17 @@ const ManageGroup = inject('userAccessManagementStore')
 
     const addUser = () => {
       //waiting call api
-      setvisible(false)
+      setVisible(false)
+      let userObjectSelect = optionUserList.filter(item => item.id == userSelect)
+      let request = {
+        user_id: userObjectSelect[0].id,
+        full_name: userObjectSelect[0].full_name,
+        group_id: userAccessManagementStore.groupSelected.id,
+        group_name: userAccessManagementStore.groupSelected.name,
+      }
+      console.log(request)
+      userAccessManagementStore.submitAddUserToGroup(request)
+      setVisible(false)
     }
 
     const renderActionGroupUser = (record) => {
@@ -217,7 +234,7 @@ const ManageGroup = inject('userAccessManagementStore')
           title={modalTitle}
           type={modalType}
           onOk={() => addUser()}
-          onCancel={() => setvisible(false)}
+          onCancel={() => setVisible(false)}
           textCancel={textCancel}
           textOk={textOk}
           width={600}

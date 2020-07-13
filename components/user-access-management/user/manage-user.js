@@ -486,10 +486,16 @@ const ManageUser = inject('userAccessManagementStore')
 
     const addGroup = () => {
       console.log(groupSelect)
+      // for(let index=0;index < optionGroupList.length)
+      let groupObjectSelect = optionGroupList.filter(item => item.id == groupSelect)
       let request = {
         user_id: userAccessManagementStore.userSelected.id,
-        group_id: groupSelect
+        full_name: userAccessManagementStore.userSelected.full_name,
+        group_id: groupSelect,
+        group_name: groupObjectSelect[0].name,
+        full_name: userAccessManagementStore.userSelected.name + " " + userAccessManagementStore.userSelected.surname
       }
+      console.log(request)
       userAccessManagementStore.submitAddGroupToUser(request)
       setVisible(false)
     }

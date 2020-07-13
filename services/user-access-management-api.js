@@ -121,6 +121,11 @@ class UserAccessManagementApi {
     return response
   }
 
+  addUserToGroup = async (params) => {
+    const response = await ExcuteApi('api/backoffice/v1/changerequest', params, "post")
+    return response
+  }
+
   updateDepartment = async (params) => {
     const response = await ExcuteApi('api/backoffice/v1/changerequest', params, "post")
     return response
