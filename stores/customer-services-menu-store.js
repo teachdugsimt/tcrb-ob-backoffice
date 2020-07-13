@@ -7,7 +7,6 @@ class CustomerServicesMenuStore {
   @observable accountId = {}
   @observable accountSelected = {}
   @observable apiFetching = false
-  @observable searchFetching = false
 
   @observable accountInfo = null
   @observable accountSuccessInfo = null
@@ -24,11 +23,11 @@ class CustomerServicesMenuStore {
 
   @action getDataAccountOtpUnlock = async (citizenId) => {
     this.citizenId = { citizen_id: citizenId }
-    this.searchFetching = true
+    this.apiFetching = true
     let temp = await CustomerServicesMenuApi.getAccountInfo(this.citizenId)
     console.log(temp)
     if (temp.ok && temp.status === 200) {
-      this.searchFetching = false
+      this.apiFetching = false
       console.log("Response >> ", temp.data.responseData)
       this.accountInfo = temp.data.responseData
       //waiting edit api
@@ -40,7 +39,7 @@ class CustomerServicesMenuStore {
         this.customerServicesMenuStore.accountInfoError.responseData.userMessage = temp.originalError.message
         this.accountInfoError = null
       } else {
-        this.searchFetching = false
+        this.apiFetching = false
         // this.accountInfoError = JSON.parse(temp.data.body)
         // console.log(temp.problem)
         // this.accountInfoError = temp.originalError.message
@@ -71,15 +70,15 @@ class CustomerServicesMenuStore {
 
   @action getDataAccountUnbind = async (accountNumber) => {
     this.citizenId = { citizen_id: accountNumber }
-    this.searchFetching = true
+    this.apiFetching = true
     let temp = await CustomerServicesMenuApi.getAccountInfoUnbinding(this.citizenId)
     console.log(temp)
     if (temp.ok && temp.status === 200) {
-      this.searchFetching = false
+      this.apiFetching = false
       this.accountInfo = temp.data.responseData
       this.accountInfoError = null
     } else {
-      this.searchFetching = false
+      this.apiFetching = false
       // let problem = getGeneralApiProblem(response)
       // this.accountInfoError = JSON.parse(temp.data.body)
 

@@ -10,6 +10,7 @@ import { get } from 'lodash'
 import { toJS } from 'mobx';
 // import { i18n, withNamespaces } from '../../i18n'
 import { withTranslation } from '../../i18n'
+import { isEmpty } from '../data-utility';
 
 
 const StyledA = styled.a`
@@ -88,11 +89,21 @@ const OtpUnlocking =
         customerServicesMenuStore.accountInfoError = null
       }, [])
 
-      const searchIdCardNumber = async (value) => {
-        setIdCard(value)
-        setIsSearch(true)
-        //call api
-        await customerServicesMenuStore.getDataAccountOtpUnlock(value)
+      const searchIdCardNumber = (value) => {
+        console.log(isEmpty(value))
+        // isEmpty(value)
+        if (isEmpty(value)) {
+          //waiting confirm for show popup
+          Modal.warning({
+            title: 'Warning.',
+            content: 'Please Enter ID Card Number.',
+          });
+        } else {
+          setIdCard(value)
+          setIsSearch(true)
+          //call api
+          customerServicesMenuStore.getDataAccountOtpUnlock(value)
+        }
       }
 
       const convertArrayObjectToArray = (arrayObject) => {
@@ -163,7 +174,7 @@ const OtpUnlocking =
       return (
         <div style={{ margin: 20 }}>
           <Row gutter={[4, 24]}>
-            <SimpleSearch search={searchIdCardNumber} prefixWording={t("idCard")} loading={customerServicesMenuStore.searchFetching} />
+            <SimpleSearch search={searchIdCardNumber} prefixWording={t("idCard")} />
           </Row>
 
           <Row gutter={[16, 24]}>
@@ -194,15 +205,6 @@ const OtpUnlocking =
             textCancel={t("cancel")}
             modalString={modalString}
             visible={visible}
-
-          // title={titleModal}
-          // type={modalType}
-          // onOk={() => _onConfirm()}
-          // onCancel={() => _onCancel()}
-          // textCancel={textCancel}
-          // textOk={textOk}
-          // modalString={modalString}
-          // visible={visible}
           />
         </div>
       )
