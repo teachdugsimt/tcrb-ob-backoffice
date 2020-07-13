@@ -29,6 +29,13 @@ const RoleBasedMatrix = inject("userAccessManagementStore")(
       userAccessManagementStore.getDataMatrix();
     }, []);
 
+    // useEffect(() => {
+    //   return () => {
+    //     if(matrixAll && matrixAll.length > 0 && JSON.parse(JSON.stringify(userAccessManagementStore.dataMatrix)))
+    //       userAccessManagementStore.clearMatrixData();
+    //   }
+    // }, [])
+
     useEffect(() => {
       if (userAccessManagementStore.dataMatrix) {
         let tmp_matrix = JSON.parse(
@@ -222,7 +229,6 @@ const RoleBasedMatrix = inject("userAccessManagementStore")(
                   placeholder="Please select"
                   defaultValue={slot_data}
                   showArrow={false}
-                  // value={slot_data}
                   onChange={(e) => {
                     console.log("Record send to handle change : ", e, this_cell);
                     _handleChangeCell(e, this_cell);
@@ -300,9 +306,6 @@ const RoleBasedMatrix = inject("userAccessManagementStore")(
         <Table
           columns={column && column.length > 1 ? column : []}
           dataSource={mockDataSourceDynamic}
-          onRow={(r) => ({
-            onClick: (e) => console.log("Item : ", (r, e)),
-          })}
           size="small"
         />
         <Button onClick={() => clickSubmit()}>Submit</Button>
