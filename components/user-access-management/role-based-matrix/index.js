@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { Table, Select, Button } from "antd";
+import { Table, Select, Button, Row, Col } from "antd";
+import { TcrbButton, TcrbPopconfirm, TcrbTabs  } from '../../antd-styles/styles'
 import { inject, observer } from "mobx-react";
-import {withTranslation} from '../../../i18n'
-import _ from 'lodash'
+import { withTranslation } from "../../../i18n";
+import _ from "lodash";
 
 const { Option } = Select;
 
@@ -62,6 +63,7 @@ const RoleBasedMatrix = inject("userAccessManagementStore")(
     };
 
     const addFunctionToDataSource = (arr) => {
+      console.log("Arr first when Reload :: ", arr);
       if (arr && arr.length > 0) {
         let function_all = _getAllFunction(arr);
         // console.log("FUNCTIONS ALL : ", function_all);
@@ -74,17 +76,25 @@ const RoleBasedMatrix = inject("userAccessManagementStore")(
               role_name: role.name,
               function_id: func.id,
               function_name: func.name,
-              is_allowed: _getFieldByRoleAndFunction(role.id, func.id, "is_allowed"),
-              is_masked: _getFieldByRoleAndFunction(role.id, func.id, "is_masked"),
+              is_allowed: _getFieldByRoleAndFunction(
+                role.id,
+                func.id,
+                "is_allowed"
+              ),
+              is_masked: _getFieldByRoleAndFunction(
+                role.id,
+                func.id,
+                "is_masked"
+              ),
             };
           });
-          each_row.key = "row"+indFunc
+          each_row.key = "row" + indFunc;
           each_row.function_name = func.name;
           result_source.push(each_row);
         });
         // let all_role_name = _getAllRoleName(matrixAll)
-        let non_duplicate_data = _.uniqBy(result_source, 'function_name');
-        console.log("DataSource -> non_duplicate_data :: ", non_duplicate_data)
+        let non_duplicate_data = _.uniqBy(result_source, "function_name");
+        console.log("DataSource -> non_duplicate_data :: ", non_duplicate_data);
         setMockDataSourceDynamic(non_duplicate_data);
       } else {
         return [];
@@ -155,7 +165,12 @@ const RoleBasedMatrix = inject("userAccessManagementStore")(
           role.functions.map((func, indFunc) => {
             if (role.id == role_id && func.id == function_id) {
               // console.log("E found : ", func[typedata])
-              result_search_is_allowed = func[typedata] === true ? true : (func[typedata] === false ? false : null) ;
+              result_search_is_allowed =
+                func[typedata] === true
+                  ? true
+                  : func[typedata] === false
+                  ? false
+                  : null;
               // console.log("Found !! :: ", result_search_is_allowed)
             } else {
               // result_search_is_allowed = null;
@@ -164,7 +179,7 @@ const RoleBasedMatrix = inject("userAccessManagementStore")(
         }
       });
       // console.log(role_id, " - ", function_id , " - ", typedata," - ",result_search_is_allowed);
-      return result_search_is_allowed
+      return result_search_is_allowed;
     };
 
     const _getFieldFromDataSource = (role_name_tmp, index_round) => {
@@ -180,35 +195,39 @@ const RoleBasedMatrix = inject("userAccessManagementStore")(
     };
 
     const _getSlotValueData = (this_cell) => {
-      let slot_data
+      let slot_data;
       let check_have_ever_update_cell = cellArrayChange.find(
         (e) =>
           e.function_id == this_cell.function_id &&
           e.role_id == this_cell.role_id
       );
-      if (check_have_ever_update_cell && check_have_ever_update_cell != undefined) {
+      if (
+        check_have_ever_update_cell &&
+        check_have_ever_update_cell != undefined
+      ) {
         if (check_have_ever_update_cell.is_allowed === true) {
-          slot_data = check_have_ever_update_cell.is_masked === true  ? "M"  : "U";
+          slot_data =
+            check_have_ever_update_cell.is_masked === true ? "M" : "U";
         } else {
           slot_data = "-";
         }
       } else {
         if (this_cell.is_allowed === true) {
           slot_data = this_cell.is_masked === true ? "M" : "U";
-        }
-        else if (this_cell.is_masked === undefined && this_cell.is_allowed === undefined){
-          slot_data = "-"
-        }
-        else if (this_cell.is_allowed === false){
+        } else if (
+          this_cell.is_masked === undefined &&
+          this_cell.is_allowed === undefined
+        ) {
+          slot_data = "-";
+        } else if (this_cell.is_allowed === false) {
           slot_data = "-";
         }
-
       }
-      return slot_data
-    }
+      return slot_data;
+    };
 
     const addRoleToColumn = () => {
-      let tmp_column = []
+      let tmp_column = [];
       for (let index = 0; index <= matrixAll.length; index++) {
         if (index == 0) {
           tmp_column.push({
@@ -230,7 +249,11 @@ const RoleBasedMatrix = inject("userAccessManagementStore")(
                   defaultValue={slot_data}
                   showArrow={false}
                   onChange={(e) => {
-                    console.log("Record send to handle change : ", e, this_cell);
+                    console.log(
+                      "Record send to handle change : ",
+                      e,
+                      this_cell
+                    );
                     _handleChangeCell(e, this_cell);
                   }}
                 >
@@ -284,11 +307,11 @@ const RoleBasedMatrix = inject("userAccessManagementStore")(
             data: JSON.parse(
               JSON.stringify(userAccessManagementStore.dataMatrix)
             ),
-            maker_id: 100
+            maker_id: 100,
           },
           newData: {
             data: tmp_to_update,
-            maker_id: 100
+            maker_id: 100,
           },
           maker_id: 100,
         };
@@ -302,19 +325,40 @@ const RoleBasedMatrix = inject("userAccessManagementStore")(
     };
 
     return (
-      <div>
-        <Table
-          columns={column && column.length > 1 ? column : []}
-          dataSource={mockDataSourceDynamic}
-          size="small"
-        />
-        <Button onClick={() => clickSubmit()}>Submit</Button>
-      </div>
+      <Col>
+          <Table
+            columns={column && column.length > 1 ? column : []}
+            dataSource={mockDataSourceDynamic && mockDataSourceDynamic.length > 1 ? mockDataSourceDynamic : []}
+            size="small"
+          />
+          <Row>
+            <Col span={10} style={{ marginTop: -38 }}>
+              <TcrbButton className='primary' onClick={() => clickSubmit()}>Submit</TcrbButton>
+            </Col>
+          </Row>
+      </Col>
     );
   })
 );
 
+// RoleBasedMatrix.getInitialProps = async () => ({
+//   namespacesRequired: [],
+// })
+
 export default withTranslation()(RoleBasedMatrix);
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 // let data = [
 //         {
