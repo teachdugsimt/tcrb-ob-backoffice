@@ -68,9 +68,15 @@ const renderAction = (record, props) => {
     return null
   }
 }
+
+const isEmpty = (value) => {
+  return value == '' || value === ''
+}
+
 export {
   addKeyToDataSource,
   addCommaInData,
   checkDefaultStatus,
-  renderAction
+  renderAction,
+  isEmpty
 }
