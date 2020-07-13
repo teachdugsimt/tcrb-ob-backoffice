@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Row, Col, Layout, Tabs, Spin } from 'antd'
 import OtpSetup from './otp-setup'
 import ProductLimitSetup from './product-limit-setup'
