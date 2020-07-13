@@ -1,0 +1,70 @@
+:root {
+  --primary-color: #fba928;
+  --primary-color-darker: #eb9918;
+  --default-color: #3e3e3e;
+  --default-color-darker: #363535;
+  --white-color: #ffffff;
+}
+.primary {
+  background-color: var(--primary-color) !important;
+  border-color: var(--primary-color) !important;
+  color: var(--white-color) !important;
+}
+.ant-btn-primary {
+  background-color: var(--primary-color) !important;
+  border-color: var(--primary-color) !important;
+}
+.ant-btn-primary:hover.ant-btn-primary:focus {
+  background-color: var(--primary-color-darker);
+  border-color: var(--primary-color-darker);
+  color: var(--white-color);
+}
+.ant-btn {
+  background-color: var(--default-color);
+  color: var(--white-color);
+}
+.ant-btn:hover {
+  background-color: var(--default-color-darker);
+  border-color: var(--default-color-darker);
+  color: var(--white-color);
+}
+.ant-btn:focus {
+  background-color: var(--default-color-darker);
+  border-color: var(--default-color-darker);
+  color: var(--white-color);
+}
+.ant-carousel .slick-next {
+  right: -10px;
+}
+.slick-disabled {
+  display: none !important;
+}
+.ant-pagination-item-active a,
+.ant-pagination-item-active a:hover,
+.ant-pagination-item a:hover,
+.ant-pagination-prev:hover,
+.ant-pagination-next:hover,
+.ant-pagination-item:focus {
+  color: var(--primary-color) !important;
+  border-color: var(--primary-color) !important;
+}
+.ant-pagination-item-active,
+.ant-pagination-item-active:hover {
+  border-color: var(--primary-color);
+}
+a.ant-pagination-item-link,
+a.ant-pagination-item-link {
+  color: var(--primary-color);
+  border-color: var(--primary-color);
+}
+a.ant-pagination-item-link:hover {
+  color: var(--primary-color-darker) !important;
+}
+.ant-pagination-jump-prev
+  .ant-pagination-item-container
+  .ant-pagination-item-link-icon,
+.ant-pagination-jump-next
+  .ant-pagination-item-container
+  .ant-pagination-item-link-icon {
+  color: var(--primary-color);
+}
