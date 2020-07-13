@@ -196,7 +196,7 @@ const MenuList = inject('userAccessManagementStore')
 
     const renderFunction = (record) => {
       return <div>
-        <a onClick={() => openModalShowFunctionList(record.functions)}>{record.functions.length} Function</a>
+        <a onClick={() => openModalShowFunctionList(record.functions)}>{record.functions ? record.functions.length : '-'} Function</a>
       </div>
     }
 

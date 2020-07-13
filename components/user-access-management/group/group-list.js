@@ -9,6 +9,7 @@ import SimpleInput from '../../simple-input'
 
 import { checkDefaultStatus, renderAction, addKeyToDataSource } from '../../data-utility'
 import UserAccessManagement from '../../../stores/user-access-management-store';
+import { toJS } from 'mobx';
 
 const { Option } = Select;
 let groupName = null
@@ -211,6 +212,14 @@ const GroupList = inject('userAccessManagementStore')
       }
     }
 
+    const renderRoleName = (role) => {
+      if (role != null) {
+        return role.name
+      } else {
+        return null
+      }
+    }
+
     const columnGroup = [
       {
         title: '',
@@ -225,8 +234,8 @@ const GroupList = inject('userAccessManagementStore')
       },
       {
         title: 'Role',
-        dataIndex: 'role_name',
-        // render: (text, record) => renderSection(record)
+        dataIndex: 'role',
+        render: (text, record) => renderRoleName(record.role)
       },
       {
         title: 'Users',
