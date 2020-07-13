@@ -20,6 +20,10 @@
     "/_polyfills": [
       "static/runtime/polyfills.js"
     ],
+    "/pending-approve": [
+      "static/runtime/webpack.js",
+      "static/runtime/main.js"
+    ],
     "/user-access-management": [
       "static/runtime/webpack.js",
       "static/runtime/main.js"
