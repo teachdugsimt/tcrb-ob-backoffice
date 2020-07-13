@@ -37,9 +37,11 @@ const PendingApprovals = inject("pendingApprovalStore")(
 
     const renderTableData = (data) => {
       const keys = Object.keys(data);
+      console.log(data)
       return ReactDOMServer.renderToStaticMarkup(
         <table style={{ border: 1 }}>
           {keys.map((k, index) => {
+            console.log('KEY', k)
             return (
               <tr>
                 <td
@@ -61,18 +63,21 @@ const PendingApprovals = inject("pendingApprovalStore")(
                 >
                   {Array.isArray(data[k])
                     ? data[k].map((e) => (
-                        <div
-                          style={{
-                            margin: 5,
-                            padding: 3,
-                            borderRadius: 3,
-                            backgroundColor: "lightgray",
-                          }}
-                        >
-                          {e.name || e}
-                        </div>
-                      ))
-                    : data[k]}
+                      <div
+                        style={{
+                          margin: 5,
+                          padding: 3,
+                          borderRadius: 3,
+                          backgroundColor: "lightgray",
+                        }}
+                      >
+                        {e.name || e.id || e}
+                        {/* {!Array.isArray(e) ? e.name || e : 'list of data'} */}
+                      </div>
+                    ))
+                    // : (data[k]) //
+                    : (typeof data[k] == 'object' ? '[object, object]' : data[k])
+                  }
                 </td>
               </tr>
             );
@@ -108,14 +113,14 @@ const PendingApprovals = inject("pendingApprovalStore")(
                   setmodalString(`
                   <b>Action</b> : ${
                     data.action
-                  }${" "}<br /><b>Request Type</b> : ${data.change_type}
+                    }${" "}<br /><b>Request Type</b> : ${data.change_type}
                   <div style="display: flex; flex-direction: row;">
                   <div style="flex:1;margin-right: 5px;"><b>Current Value</b> : ${renderTableData(
-                    string.Current
-                  )}</div>
+                      string.Current
+                    )}</div>
                   <div style="flex:1;margin-left: 5px;"><b>New Value</b>: ${renderTableData(
-                    string.New
-                  )}</div>
+                      string.New
+                    )}</div>
                   </div>
                 `);
                   setvisible(true);
@@ -242,7 +247,7 @@ const PendingApprovals = inject("pendingApprovalStore")(
               pagination={{ position: [top, bottom] }}
               columns={tableColumns}
               dataSource={pendingApprovalData}
-              // scroll={scroll}
+            // scroll={scroll}
             />
             <SimpleModal
               title={title}
