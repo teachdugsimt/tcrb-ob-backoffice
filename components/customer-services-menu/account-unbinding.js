@@ -2,12 +2,13 @@ import React, { useState, useEffect } from 'react'
 import SimpleSearch from '../simple-search'
 import SimpleSwitch from '../simple-switch'
 import styled from 'styled-components'
-import { Row, Switch, Col, Button, Input, Alert } from 'antd';
+import { Row, Switch, Col, Button, Input, Alert, Modal } from 'antd';
 import SimpleModal from '../simple-modal'
 import { inject, observer } from 'mobx-react'
 import { toJS } from 'mobx';
 import { withTranslation } from '../../i18n'
 import { TcrbSwitch } from '../antd-styles/styles'
+import { isEmpty } from '../data-utility'
 
 const StyledA = styled.a`
   display: initial;
@@ -40,10 +41,12 @@ const AccountUnbinding =
     (observer((props) => {
       const [isSearch, setIsSearch] = useState(false);
       const [viewDetail, setViewDetail] = useState(false);
-      const [visible, setVisble] = useState(false)
+      const [visible, setVisible] = useState(false)
+      const [modalType, setModalType] = useState('confirm')
+      const [modalTitle, setModalTitle] = useState('')
+      const [titleModal, setTitleModal] = useState('')
       const [modalString, setModalString] = useState('')
       const [accountId, setAccountId] = useState('')
-      const mockData = [{ accountName: 'Binding to TCRB Mobile Banking', accountBindingStatus: true, accountType: '1', main_account_no: '22223425566' }, { accountName: 'Binding to Micro Pay', accountBindingStatus: true, accountType: '2', main_account_no: '554432268776' }, { accountName: 'Binding to True Money Wallet', accountBindingStatus: true, accountType: '3', main_account_no: '11445677543' }]
       const [stringAccount, setStringAccount] = useState([])
       const [stringSwitch, setStringSwitch] = useState([])
       const { customerServicesMenuStore, t } = props
@@ -72,8 +75,17 @@ const AccountUnbinding =
       }, [customerServicesMenuStore.unbindAccountInfo])
 
       const searchIdCardNumber = async (value) => {
-        setIsSearch(true)
-        await customerServicesMenuStore.getDataAccountUnbind(value)
+        if (isEmpty(value)) {
+          Modal.warning({
+            title: 'Warning.',
+            content: 'Please Enter ID Card Number.',
+          })
+        } else {
+          setIsSearch(true)
+          customerServicesMenuStore.getDataAccountUnbind(value)
+        }
+        /* setIsSearch(true)
+        customerServicesMenuStore.getDataAccountUnbind(value) */
 
       }
 
@@ -97,10 +109,10 @@ const AccountUnbinding =
 
       }
 
-      const selectAccount = async (selectedAccount) => {
+      const selectAccount = (selectedAccount) => {
         console.log(toJS(selectedAccount))
         customerServicesMenuStore.setAccountId(selectedAccount.main_account_no)
-        await customerServicesMenuStore.getDataPartnerInfo(selectedAccount.main_account_no)
+        customerServicesMenuStore.getDataPartnerInfo(selectedAccount.main_account_no)
         setViewDetail(true)
 
       }
@@ -110,23 +122,20 @@ const AccountUnbinding =
         let accountSelected = customerServicesMenuStore.unbindAccountInfo[index]
         customerServicesMenuStore.accountSelected = accountSelected
         if (switchSelected === true) {
-          setVisble(true)
-          switch (accountSelected.partner_code) {
-            case "TMDS":
-              setModalString(
-                <div style={{ textAlign: "center" }}>
-                  <p>{t("unbinding")}</p>
-                  <p> {t("account") + " " + accountSelected.main_account_no} from Micro Pay</p>
-                </div>
-              )
-              break;
-          }
+          setModalTitle('Confirm to Unbinding Account.')
+          setModalString(
+            <div style={{ textAlign: "center" }}>
+              <p>{t("unbinding")}</p>
+              <p> {t("account") + " " + accountSelected.main_account_no} from {accountSelected.partner_abbreviation}</p>
+            </div>
+          )
+          setVisible(true)
         } else {
         }
       }
 
       const unBindingAccount = async () => {
-        setVisble(false)
+        setVisible(false)
         // call api
         await customerServicesMenuStore.submitAccountUnbiding()
       }
@@ -142,7 +151,7 @@ const AccountUnbinding =
                 <StyledA onClick={() => { selectAccount(string) }}>{string.main_account_no}</StyledA>
                 <StyledSpan>{product_name.join(' ' + ',' + ' ')}</StyledSpan>
               </Col>
-            </Row >
+            </Row>
           )
         })
 
@@ -156,7 +165,7 @@ const AccountUnbinding =
         return (
           <div style={{ margin: 20 }}>
             <Row gutter={[4, 24]}>
-              <SimpleSearch search={searchIdCardNumber} prefixWording={t("idCard")} loading={customerServicesMenuStore.searchFetching} />
+              <SimpleSearch search={searchIdCardNumber} prefixWording={t("idCard")} />
             </Row>
             <Row gutter={[16, 24]}>
               <Col span={9}>
@@ -209,11 +218,12 @@ const AccountUnbinding =
             />
 
             <SimpleModal
-              type={"confirm"}
+              title={modalTitle}
+              type={modalType}
               onOk={() => unBindingAccount()}
-              onCancel={() => setVisble(false)}
+              onCancel={() => setVisible(false)}
               textCancel={'Cancel'}
-              textOk={'Confrim'}
+              textOk={'Confirm'}
               modalString={modalString}
               visible={visible}
             />
