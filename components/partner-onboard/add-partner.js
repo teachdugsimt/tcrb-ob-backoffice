@@ -10,6 +10,8 @@ const AddPartner = () => {
   const formik = useFormik({
     initialValues: {
       parentAssignName: '',
+      partnerAssignName: '',
+      partnerSegment: '',
       assignName: '',
       registeredApplicationName: '',
       juristicID: '',
@@ -17,6 +19,8 @@ const AddPartner = () => {
       partnerContactMobileNo: '',
       partnerContactName: '',
       juristicName_th: '',
+      juristicName_en: '',
+      subDistrict: '',
       status: ''
     },
     onSubmit: values => {
@@ -84,7 +88,14 @@ const AddPartner = () => {
                 <label htmlFor="partnerAssignName">Partner Assign Name</label>
               </div>
               <div style={{ display: 'flex', width: 300 }}>
-                <Input placeholder="Partner Assign Name" />
+                <Input
+                  id="partnerAssignName"
+                  name="partnerAssignName"
+                  type="partnerAssignName"
+                  onChange={formik.handleChange}
+                  value={formik.values.partnerAssignName}
+                  placeholder="Partner Assign Name"
+                />
               </div>
             </div>
           </div>
@@ -94,7 +105,14 @@ const AddPartner = () => {
                 <label htmlFor="JuristicID">Juristic ID</label>
               </div>
               <div style={{ display: 'flex', width: 300 }}>
-                <Input placeholder="Juristic ID" />
+                <Input
+                  id="juristicId"
+                  name="juristicId"
+                  type="juristicId"
+                  onChange={formik.handleChange}
+                  value={formik.values.juristicId}
+                  placeholder="Juristic ID"
+                />
               </div>
             </div>
             <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', marginLeft: 50 }}>
@@ -102,7 +120,14 @@ const AddPartner = () => {
                 <label htmlFor="juristicName_th">Juristic Name(TH)</label>
               </div>
               <div style={{ display: 'flex', width: 300 }}>
-                <Input placeholder="Juristic Name(TH)" />
+                <Input
+                  id="juristis_th"
+                  name="juristis_th"
+                  type="juristis_th"
+                  onChange={formik.handleChange}
+                  value={formik.values.juristis_th}
+                  placeholder="Juristic Name(TH)"
+                />
               </div>
             </div>
           </div>
@@ -112,7 +137,14 @@ const AddPartner = () => {
                 <label htmlFor="juristicName_en">Juristic Name(En)</label>
               </div>
               <div style={{ display: 'flex', width: 300 }}>
-                <Input placeholder="Juristic Name(En)" />
+                <Input
+                  id="juristic_en"
+                  name="juristic_en"
+                  type="juristic_en"
+                  onChange={formik.handleChange}
+                  value={formik.values.juristic_en}
+                  placeholder="Juristic Name(En)"
+                />
               </div>
             </div>
             <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', marginLeft: 50 }}>
@@ -120,7 +152,13 @@ const AddPartner = () => {
                 <label htmlFor="productSegment">Product Segment</label>
               </div>
               <div style={{ display: 'flex', width: 300 }}>
-                <Input placeholder="Product Segment" />
+                <Input
+                  id="productSegment"
+                  name="productSegment"
+                  type="productSegment"
+                  onChange={formik.handleChange}
+                  value={formik.values.productSegment}
+                  placeholder="Product Segment" />
               </div>
             </div>
           </div>
@@ -146,7 +184,8 @@ const AddPartner = () => {
               <div style={{ width: 150 }}></div>
               <div style={{ display: 'flex', width: 150 }}>
                 <Dropdown overlay={menu}>
-                  <Button style={{ backgroundColor: 'white', color: "Lightgrey", width: 150, border: '1px solid Lightgrey' }}>
+                  <Button
+                    style={{ backgroundColor: 'white', color: "Lightgrey", width: 150, border: '1px solid Lightgrey' }}>
                     Sub-district <DownOutlined />
                   </Button>
                 </Dropdown>
