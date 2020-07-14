@@ -50,6 +50,7 @@ const AdminMenu = inject('authenStore', 'versatileStore', 'loginStore')(observer
   const [focusText, setfocusText] = useState(FOCUS_TEXT)
   const [focusLink, setfocusLink] = useState(FOCUS_LINK)
   const [stateMenu, setStateMenu] = useState([])
+  const [listNoneLink, setvisibleNolink] = useState([])
   // const { authenStore, versatileStore } = useStores()
   const { t, authenStore, versatileStore, loginStore } = props
   console.log("____________ Authen Store MENU _________________")
@@ -75,29 +76,22 @@ const AdminMenu = inject('authenStore', 'versatileStore', 'loginStore')(observer
   //     { key: 16, id: 16, name: "DEVICE ENQUIRY", translate: "deviceEnquiry", link_to: "/", color: "#000000", typeLv: "42" },
   //   ]
 
-  //   // else {
-  //   //   authenStore.setMenu(adminMenu)
-  //   // }
+  //     authenStore.setMenu(adminMenu)
   // }, [])
+
   useEffect(() => {
     setIsShow(true)
   }, [])
 
   useEffect(() => {
-    let newPropsLogin = JSON.parse(JSON.stringify(loginStore.data_login))
-    if (newPropsLogin.userProfile && newPropsLogin.userProfile != null && newPropsLogin.userProfile.menus) {
-      if (stateMenu != newPropsLogin.userProfile.menus && authenStore.menu != newPropsLogin.userProfile.menus && check_update_menu == 0) {
-        console.log('--------LOOP MENU --------')
-        check_update_menu = 1
-        setStateMenu(newPropsLogin.userProfile.menus)
-        authenStore.setMenu(newPropsLogin.userProfile.menus)
-      }
+    let tmp_menu = JSON.parse(JSON.stringify(loginStore.data_menu))
+    if (tmp_menu && tmp_menu.length > 0) {
+      console.log("Tmp MENU REALLY :: ", tmp_menu)
+      authenStore.setMenu(tmp_menu)
+      setStateMenu(tmp_menu)
     }
-  }, [JSON.parse(JSON.stringify(loginStore.data_login))])
+  }, [loginStore.data_menu])
 
-  // useEffect(() => {
-  //   console.log("--------- Menu is comming ---------")
-  // }, [JSON.parse(JSON.stringify(authenStore.menu))])
   const setSideBar = () => {
     if (isShow) {
       versatileStore.setSidebarWidth(58)
@@ -137,6 +131,8 @@ const AdminMenu = inject('authenStore', 'versatileStore', 'loginStore')(observer
     }
   }
 
+  console.log("_____________ MENU REAL ____________")
+  console.log(listNoneLink)
   return <MainContainerMenu>
 
     <SubMainContainer>
@@ -152,10 +148,20 @@ const AdminMenu = inject('authenStore', 'versatileStore', 'loginStore')(observer
 
       {isShow == true && <MainDivMenu style={ShowAnimation}>
         <MainUl>
-          {authenStore.menu.length > 0 && authenStore.menu.map((item, i) => {
+          {authenStore.menu && authenStore.menu != undefined && authenStore.menu.length > 0 && authenStore.menu.map((item, i) => {
             let e = JSON.parse(JSON.stringify(item))
-            console.log("FUCK MENU :: ", e, i)
-            return <BorderMenu style={{ marginBottom: i == (authenStore.getMenu.length - 1) ? 10 : 0, ...focusText }}><Link key={"link-menu-" + e.id} href={e.link_to}>
+            let link_to
+            if (e.link_to) {
+              link_to = e.link_to
+            } else if (!e.link_to && e.translate == "customerServiceEnquiry") {
+              link_to = "/customer-service-enquiry"
+            } else {
+              link_to = "/"
+              let tmp = []
+              tmp.push({ id: e.id, name: e.name })
+              setvisibleNolink(tmp)
+            }
+            return <BorderMenu style={{ marginBottom: i == (authenStore.getMenu.length - 1) ? 10 : 0, ...focusText }}><Link key={"link-menu-" + e.id} href={link_to}>
               <SpanText id={"span-text-" + e.id}><LinkColorMenu style={focusLink}>{t(e.translate)}</LinkColorMenu></SpanText>
             </Link></BorderMenu>
           })}

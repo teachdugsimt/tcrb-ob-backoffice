@@ -31,7 +31,7 @@ const Signin =
         setcolorID("#D3D3D3")
         setcolorPass("#D3D3D3")
         return () => {
-          // let newPropsLogin = JSON.parse(JSON.stringify(loginStore.data_login))
+          // let newPropsLogin = JSON.parse(JSON.stringify(loginStore.data_signin))
           // let newPropsLoginError = JSON.parse(JSON.stringify(loginStore.error_login))
           // if (newPropsLoginError && newPropsLoginError.code) {
           //   loginStore.clearCacheLogin("error")
@@ -44,12 +44,7 @@ const Signin =
       }, [])
 
       useEffect(() => {
-        return () => {
-        }
-      }, [businessParametersSetupStore.dataAxios])
-
-      useEffect(() => {
-        let newPropsLogin = JSON.parse(JSON.stringify(loginStore.data_login))
+        let newPropsLogin = JSON.parse(JSON.stringify(loginStore.data_signin))
         let newPropsLoginError = JSON.parse(JSON.stringify(loginStore.error_login))
         console.log("newPropsLogin", newPropsLogin)
         console.log("newPropsLoginError", newPropsLoginError)
@@ -62,7 +57,7 @@ const Signin =
             // if (newPropsLogin.userProfile && newPropsLogin.userProfile.menus) {
             //   authenStore.setMenu(newPropsLogin.userProfile.menus)
             // } else { authenStore.setMenu(adminMenu) }
-            console.log(JSON.parse(JSON.stringify(authenStore.menu)))
+            // console.log(JSON.parse(JSON.stringify(authenStore.menu)))
             Router.push("/")
           }
         }
@@ -77,7 +72,7 @@ const Signin =
           //   Router.push("/")
           // }
         }
-      }, [JSON.parse(JSON.stringify(loginStore.data_login)), JSON.parse(JSON.stringify(loginStore.error_login))])
+      }, [JSON.parse(JSON.stringify(loginStore.data_signin)), JSON.parse(JSON.stringify(loginStore.error_login))])
 
       const _submitForm = async () => {
         if (!id || !password) {

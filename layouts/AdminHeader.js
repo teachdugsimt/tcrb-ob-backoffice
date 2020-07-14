@@ -21,7 +21,7 @@ const AdminHeader = inject('authenStore', 'loginStore')(observer((props) => {
   }
   useEffect(() => {
     let propsSignout = JSON.parse(JSON.stringify(loginStore.data_logout))
-    let propsLogin = JSON.parse(JSON.stringify(loginStore.data_login))
+    let propsLogin = JSON.parse(JSON.stringify(loginStore.data_signin))
     if(propsSignout && propsSignout.signOut == true && !propsLogin){
       // Router.push("/login")
     }

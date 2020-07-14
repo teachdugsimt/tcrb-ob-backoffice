@@ -11,7 +11,7 @@ const EmptyLayout = inject('authenStore', 'loginStore')(observer((props) => {
   // const { authenStore } = useStores()
   const { authenStore, loginStore } = props
   console.log("________________ EMPTY LAYOUT PROPS __________________")
-  const propsLogin = JSON.parse(JSON.stringify(loginStore.data_login))
+  const propsLogin = JSON.parse(JSON.stringify(loginStore.data_signin))
   const propsLoginError = JSON.parse(JSON.stringify(loginStore.error_login))
   const dataSignout = JSON.parse(JSON.stringify(loginStore.data_logout))
   console.log(propsLogin)

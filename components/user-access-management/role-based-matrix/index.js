@@ -42,27 +42,27 @@ const RoleBasedMatrix = inject("userAccessManagementStore")(
         addFunctionToDataSource(matrixAll);
         addRoleToColumn();
       }
-      else {
-        let data = [
-            {
-              id: 1,
-              name: "role1",
-              functions: [
-                { id: 1, is_allowed: false, is_masked: false, name: "function1" },
-                { id: 2, is_allowed: false, is_masked: false, name: "function2"},
-              ],
-            },
-            {
-              id: 2,
-              name: "role2",
-              functions: [{ id: 8, is_allowed: false, is_masked: false,name: "function3" },
-              { id: 9, is_allowed: false, is_masked: false,name: "function4" }],
-            },
-          ]
-          setmatrixAll(data)
-          addFunctionToDataSource(matrixAll);
-        addRoleToColumn();
-      }
+      // else {
+      //   let data = [
+      //       {
+      //         id: 1,
+      //         name: "role1",
+      //         functions: [
+      //           { id: 1, is_allowed: false, is_masked: false, name: "function1" },
+      //           { id: 2, is_allowed: false, is_masked: false, name: "function2"},
+      //         ],
+      //       },
+      //       {
+      //         id: 2,
+      //         name: "role2",
+      //         functions: [{ id: 8, is_allowed: false, is_masked: false,name: "function3" },
+      //         { id: 9, is_allowed: false, is_masked: false,name: "function4" }],
+      //       },
+      //     ]
+      //     setmatrixAll(data)
+      //     addFunctionToDataSource(matrixAll);
+      //   addRoleToColumn();
+      // }
     }, [matrixAll])
 
     useEffect(() => {

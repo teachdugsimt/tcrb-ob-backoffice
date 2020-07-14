@@ -14,10 +14,10 @@ const index =
       const { authenStore, loginStore, t } = props
 
       useEffect(() => {
-        let loginProps = JSON.parse(JSON.stringify(loginStore.data_login))
+        let loginProps = JSON.parse(JSON.stringify(loginStore.data_signin))
         console.log("Index Props screen :: ", loginProps)
         console.log(JSON.parse(JSON.stringify(authenStore.menu)))
-      }, [JSON.parse(JSON.stringify(loginStore.data_login))])
+      }, [JSON.parse(JSON.stringify(loginStore.data_signin))])
 
       return <div>
         <h1 style={{ color: 'red' }}>{authenStore.id ? "ID :" + authenStore.id : ""}</h1>
