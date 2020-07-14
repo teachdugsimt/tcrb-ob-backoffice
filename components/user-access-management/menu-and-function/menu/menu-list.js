@@ -85,7 +85,7 @@ const MenuList = inject('userAccessManagementStore')
       )
     } */
 
-    const FormAddNewDepartment = ({ visible, onCreate, onCancel }) => {
+    const FormAddNewMenu = ({ visible, onCreate, onCancel }) => {
       return (
         <TcrbModal
           visible={visible}
@@ -155,6 +155,19 @@ const MenuList = inject('userAccessManagementStore')
                 </Form.Item>
               </Col>
             </Row>
+            {/* <Row>
+              <Col span={10} style={{ padding: 4 }}>
+                <p>Path Function</p>
+              </Col>
+              <Col span={14}>
+                <Form.Item
+                  name="link_to"
+                >
+                  <SimpleInput />
+
+                </Form.Item>
+              </Col>
+            </Row> */}
           </Form>
         </TcrbModal>
       )
@@ -293,7 +306,7 @@ const MenuList = inject('userAccessManagementStore')
           columns={columnMenu}
           size="small"
         />
-        <FormAddNewDepartment
+        <FormAddNewMenu
           visible={visibleFormAddNewMenu}
           onCreate={addNewMenu}
           onCancel={() => {
