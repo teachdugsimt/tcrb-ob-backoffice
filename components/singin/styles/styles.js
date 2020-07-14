@@ -80,6 +80,15 @@ font-weight: bold;
 font-size: ${({ theme }) => theme.size.header}px;
 `
 
+const RowTextCenter =styled(Row)`
+position: absolute;
+left: 0;
+right: 0;
+margin-left: auto;
+margin-right: auto;
+width: 100%;
+`
+
 const RowWrapButtonHeader = styled(Row)`
 padding-left: 20% !important;
 width: 100% !important;
@@ -110,10 +119,23 @@ margin-right: 2%;
 `
 
 const ContentMiddle = styled(Content)`
-
 height: 100% !important;
 background: rgb(0,0,0) !important;
 background-image: linear-gradient(180deg, rgba(0,0,0,1) 0%, rgba(62,62,62,1) 50%, rgba(112,112,112,1) 100%) !important;`
+
+const SpanFirstLine = styled.span`
+font-size: 3.3em;
+color: #3C3A3A;
+margin-left: 8% ;
+`
+
+const SpanSecondLine = styled.span`
+font-size: 3.3em;
+color: #3C3A3A;
+margin-left: 35%;
+position: absolute;
+z-index: 100 ;
+`
 
 const WrapperImageLogo = (props) => {
   return <ImgLogo src={props.src} alt='logo' id='logoImage' />
@@ -144,4 +166,7 @@ export {
   ContentMiddle,
   RowWrapButtonHeader,
   ColumnButtonHeader,
+  RowTextCenter,
+  SpanFirstLine,
+  SpanSecondLine,
 }
