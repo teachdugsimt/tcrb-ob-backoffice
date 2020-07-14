@@ -80,6 +80,18 @@ font-weight: bold;
 font-size: ${({ theme }) => theme.size.header}px;
 `
 
+const RowWrapButtonHeader = styled(Row)`
+padding-left: 20% !important;
+width: 100% !important;
+`
+
+const HeaderLogin = styled(Header)`
+height: 8vh !important;
+padding-left: 1.5% !important;
+width: 100% !important;
+background: #000000 !important;
+`
+
 const SideWrapperMain = styled(Sider)`
   .ant-layout-sider {
     min-width: 280px !important;
@@ -92,6 +104,16 @@ const SideWrapperMain = styled(Sider)`
     width: 295px !important;
   }
 `
+
+const ColumnButtonHeader = styled(Col)`
+margin-right: 2%;
+`
+
+const ContentMiddle = styled(Content)`
+
+height: 100% !important;
+background: rgb(0,0,0) !important;
+background-image: linear-gradient(180deg, rgba(0,0,0,1) 0%, rgba(62,62,62,1) 50%, rgba(112,112,112,1) 100%) !important;`
 
 const WrapperImageLogo = (props) => {
   return <ImgLogo src={props.src} alt='logo' id='logoImage' />
@@ -118,4 +140,8 @@ export {
   TextFooter,
   FooterText,
   SideWrapperMain,
+  HeaderLogin,
+  ContentMiddle,
+  RowWrapButtonHeader,
+  ColumnButtonHeader,
 }

@@ -90,6 +90,7 @@ const TcrbSpin = styled(Spin)`
 `
 
 const TcrbPopconfirm = styled(Popconfirm)`
+    z-index: 999;
     color: ${({ theme }) => theme.colors.primary};
     &:hover{
       color: ${({ theme }) => theme.colors.primaryDarker};

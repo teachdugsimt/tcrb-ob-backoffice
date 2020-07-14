@@ -5,14 +5,19 @@ import { inject, observer } from 'mobx-react'
 import Login from '../pages/login'
 import { withTranslation } from '../i18n'
 import Custom404 from '../pages/404'
+import login from '../pages/login'
 
-const EmptyLayout = inject('authenStore')(observer((props) => {
+const EmptyLayout = inject('authenStore', 'loginStore')(observer((props) => {
   // const { authenStore } = useStores()
-  const { authenStore } = props
-  // console.log("________________ EMPTY LAYOUT PROPS __________________")
-  // console.log(props)
+  const { authenStore, loginStore } = props
+  console.log("________________ EMPTY LAYOUT PROPS __________________")
+  const propsLogin = JSON.parse(JSON.stringify(loginStore.data_login))
+  const propsLoginError = JSON.parse(JSON.stringify(loginStore.error_login))
+  const dataSignout = JSON.parse(JSON.stringify(loginStore.data_logout))
+  console.log(propsLogin)
+  console.log(propsLoginError)
 
-  if (authenStore.password && authenStore.id) {
+  if (propsLogin && propsLogin.idToken && authenStore.id) {
     return (
       <MainLayout>
         {props.children}
@@ -24,6 +29,10 @@ const EmptyLayout = inject('authenStore')(observer((props) => {
   }
   else if (props.router.pathname.includes("/404") || props.router.route.includes("/404")) {
     return <Custom404 />
+  }
+  else if (!propsLogin && !authenStore.id) {
+    // Router.push("/login")
+    return <Login />
   }
   else {
     return <Login />
