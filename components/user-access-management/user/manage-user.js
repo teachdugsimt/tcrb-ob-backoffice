@@ -417,27 +417,27 @@ const ManageUser = inject('userAccessManagementStore')
       return (
         <div>
           <Row gutter={[4, 24]}>
-            <Col span={4}>Employee ID</Col>
+            <Col span={4} style={{ fontWeight: "bold" }}>Employee ID</Col>
             <Col span={6}> {userAccessManagementStore.userSelected.employee_id}</Col>
-            <Col span={4}>Supervisor</Col>
+            <Col span={4} style={{ fontWeight: "bold" }}>Supervisor</Col>
             <Col span={6}> {userAccessManagementStore.userSelected.supervisor}</Col>
           </Row>
           <Row gutter={[4, 24]}>
-            <Col span={4}>Name</Col>
+            <Col span={4} style={{ fontWeight: "bold" }}>Name</Col>
             <Col span={6}> {userAccessManagementStore.userSelected.name}</Col>
-            <Col span={4}>Surname</Col>
+            <Col span={4} style={{ fontWeight: "bold" }}>Surname</Col>
             <Col span={6}> {userAccessManagementStore.userSelected.surname}</Col>
           </Row>
           <Row gutter={[4, 24]}>
-            <Col span={4}>Username</Col>
+            <Col span={4} style={{ fontWeight: "bold" }}>Username</Col>
             <Col span={6}> {userAccessManagementStore.userSelected.username}</Col>
-            <Col span={4}>E-mail</Col>
+            <Col span={4} style={{ fontWeight: "bold" }}>E-mail</Col>
             <Col span={6}> {userAccessManagementStore.userSelected.email}</Col>
           </Row>
           <Row gutter={[4, 24]}>
-            <Col span={4}>Status</Col>
+            <Col span={4} style={{ fontWeight: "bold" }}>Status</Col>
             <Col span={6}> {userAccessManagementStore.userSelected.status}</Col>
-            <Col span={4}>Section</Col>
+            <Col span={4} style={{ fontWeight: "bold" }}>Section</Col>
             <Col span={6}> {userAccessManagementStore.userSelected.section}</Col>
           </Row>
           <Row justify="end" style={{ marginTop: 8 }}>

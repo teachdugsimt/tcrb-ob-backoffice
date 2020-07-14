@@ -138,7 +138,7 @@ const FunctionList = inject('userAccessManagementStore')
                 Save
                 </a>
             </TcrbPopconfirm>
-            <TcrbPopconfirm title="Sure to cancel?" onConfirm={() => cancelEditFunction()}>
+            <TcrbPopconfirm title="Sure to cancel?" onConfirm={() => setEditingKey('')}>
               <a style={{ color: '#3e3e3e' }}>Cancel</a>
             </TcrbPopconfirm>
           </span>

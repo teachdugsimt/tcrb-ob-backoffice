@@ -146,7 +146,7 @@ const ManageMenu =
       const FormAddNewMenu = () => {
         return (
           <Row>
-            <Col span={10} >
+            <Col span={10} style={{ fontWeight: "bold" }}>
               <span>
                 Function Name
               </span>
@@ -317,7 +317,7 @@ const ManageMenu =
             </Col>
           </Row>
           <Row gutter={[4, 24]}>
-            <Col span={5}>Menu</Col>
+            <Col span={5} style={{ fontWeight: "bold" }}>Menu</Col>
             <Col span={7}> {showEditMenu ?
               <SimpleInput defaultValue={userAccessManagementStore.menuSelected.name} onChange={(value) => menuName = value} /> : userAccessManagementStore.menuSelected.name
             }

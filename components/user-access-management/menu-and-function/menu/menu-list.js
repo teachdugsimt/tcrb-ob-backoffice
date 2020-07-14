@@ -224,9 +224,18 @@ const MenuList = inject('userAccessManagementStore')
     }
 
     const renderFunction = (record) => {
-      return <div>
-        <a onClick={() => openModalShowFunctionList(record.functions)}>{record.functions ? record.functions.length : '-'} Function</a>
-      </div>
+      if (record.functions.length <= 0) {
+        return (
+          <div>
+            <span>{record.functions.length} Function</span>
+          </div>
+        )
+      } else {
+        return <div>
+          <a onClick={() => openModalShowFunctionList(record.functions)}>{record.functions ? record.functions.length : '-'} Function</a>
+        </div>
+      }
+
     }
 
     const viewMenuManage = (record) => {

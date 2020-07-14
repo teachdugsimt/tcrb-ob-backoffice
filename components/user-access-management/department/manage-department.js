@@ -247,8 +247,6 @@ const ManageDepartment =
           name: row.name,
           department_id: userAccessManagementStore.departmentSelected.id
         }
-
-        // console.log(row)
         userAccessManagementStore.submitAddNewSection(request)
         setIsDisableButtonAddSection(false)
       }
@@ -286,7 +284,7 @@ const ManageDepartment =
             return null
           }
 
-        } else if (status == 'INACTIVE') {
+        } else if (record.status == 'INACTIVE') {
           if (record.request_status == 'PENDING') {
             return null
           }
@@ -409,7 +407,7 @@ const ManageDepartment =
             </Col>
           </Row>
           <Row gutter={[4, 24]}>
-            <Col span={5}>Department</Col>
+            <Col span={5} style={{ fontWeight: "bold" }}>Department Name</Col>
             <Col span={7}> {showEditDepartment ?
               <SimpleInput defaultValue={userAccessManagementStore.departmentSelected.name} onChange={(value) => departmentName = value} /> : userAccessManagementStore.departmentSelected.name
             }
