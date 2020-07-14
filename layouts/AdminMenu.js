@@ -40,7 +40,7 @@ const FOCUS_TEXT = {
 const FOCUS_LINK = {
   // color: "#FBA928",
 }
-
+let check_update_menu = 0
 const AdminMenu = inject('authenStore', 'versatileStore', 'loginStore')(observer((props) => {
   const [Bergur, setBergur] = useState({})
   const [ButtonDiv, setButtonDiv] = useState(BUTTON_DIV)
@@ -79,12 +79,16 @@ const AdminMenu = inject('authenStore', 'versatileStore', 'loginStore')(observer
   //   //   authenStore.setMenu(adminMenu)
   //   // }
   // }, [])
+  useEffect(() => {
+    setIsShow(true)
+  }, [])
 
   useEffect(() => {
     let newPropsLogin = JSON.parse(JSON.stringify(loginStore.data_login))
-    if (newPropsLogin.userProfile && newPropsLogin.userProfile.menus) {
-      if (stateMenu != newPropsLogin.userProfile.menus && authenStore.menu.length < 1) {
-        // console.log('FUCK YOUUUUUUUUUUUU MENUUUU')
+    if (newPropsLogin.userProfile && newPropsLogin.userProfile != null && newPropsLogin.userProfile.menus) {
+      if (stateMenu != newPropsLogin.userProfile.menus && authenStore.menu != newPropsLogin.userProfile.menus && check_update_menu == 0) {
+        console.log('--------LOOP MENU --------')
+        check_update_menu = 1
         setStateMenu(newPropsLogin.userProfile.menus)
         authenStore.setMenu(newPropsLogin.userProfile.menus)
       }
@@ -148,7 +152,7 @@ const AdminMenu = inject('authenStore', 'versatileStore', 'loginStore')(observer
 
       {isShow == true && <MainDivMenu style={ShowAnimation}>
         <MainUl>
-          {authenStore.menu.length > 0 &&  authenStore.menu.map((item, i) => {
+          {authenStore.menu.length > 0 && authenStore.menu.map((item, i) => {
             let e = JSON.parse(JSON.stringify(item))
             console.log("FUCK MENU :: ", e, i)
             return <BorderMenu style={{ marginBottom: i == (authenStore.getMenu.length - 1) ? 10 : 0, ...focusText }}><Link key={"link-menu-" + e.id} href={e.link_to}>
