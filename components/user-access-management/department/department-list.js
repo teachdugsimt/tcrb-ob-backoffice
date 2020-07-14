@@ -116,9 +116,15 @@ const DepartmentList =
       }
 
       const renderSection = (record) => {
-        return <div>
-          <a onClick={() => selectSection(record.sections)}>{record.sections.length} Section</a>
-        </div>
+        if (record.sections.length > 0) {
+          return <a onClick={() => selectSection(record.sections)}>{record.sections.length} Section</a>
+        } else {
+          return <span>{record.sections.length} Section</span>
+        }
+        /* return <div>
+          {record.sections.length > 0 && <a onClick={() => selectSection(record.sections)}>{record.sections.length} Section</a>}
+          {record.sections.length < 0 && <span>{record.sections.length} Section</span>}
+        </div> */
       }
 
       const checkStatus = (record) => {
@@ -176,7 +182,7 @@ const DepartmentList =
         return (
           <TcrbModal
             visible={visible}
-            title="Add new User"
+            title="Add New Department."
             okText="Submit"
             cancelText="Cancel"
             onCancel={() => {
