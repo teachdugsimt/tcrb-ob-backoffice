@@ -4,24 +4,16 @@ import Router, { withRouter } from 'next/router'
 import {
   WrapperImageBackgroundSignin, TextFooter, FooterText, BorderMainDiv, MainInput, SideWrapperMain, WrapperImageLogo,
   WrapLogo, WrapperButtonAnt, HeaderLogin, ContentMiddle, RowWrapButtonHeader, ColumnButtonHeader, RowTextCenter,
-  SpanFirstLine, SpanSecondLine,
+  SpanFirstLine, SpanSecondLine, ColMainInput, RowPadding, RowWidthMax, RowWidthMaxAndHidden, ColWidthMaxAndPaddingTop,
+  ColWidthMax, SpanInputText, RowMarginTop, ButtonLogin, FooterMy
 } from './styles/styles'
 import { TcrbButton, TcrbPopconfirm, TcrbSpin } from '../antd-styles/styles'
 import { Row, Col, Divider, Form, Input, Button, Checkbox } from 'antd';
 import { Layout } from 'antd';
 import { i18n, withTranslation } from '../../i18n'
-const { Header, Footer, Sider, Content } = Layout;
 import logo02 from '../../images/logo.png'
 import background from './styles/background.png'
 import login from '../../pages/login';
-
-const layout = {
-  labelCol: { span: 8 },
-  wrapperCol: { span: 16 },
-};
-const tailLayout = {
-  wrapperCol: { offset: 8, span: 16 },
-};
 
 const Signin =
   inject('authenStore', 'businessParametersSetupStore', 'loginStore')
@@ -104,7 +96,9 @@ const Signin =
         } else if (newPropsLogin) {
           setvisible(false)
           if (newPropsLogin.idToken) {
-            authenStore.setMenu(adminMenu)
+            // if (newPropsLogin.userProfile && newPropsLogin.userProfile.menus) {
+            //   authenStore.setMenu(newPropsLogin.userProfile.menus)
+            // } else { authenStore.setMenu(adminMenu) }
             console.log(JSON.parse(JSON.stringify(authenStore.menu)))
             Router.push("/")
           }
@@ -176,25 +170,25 @@ const Signin =
             <ContentMiddle>
 
               <RowTextCenter justify={"center"}>
-                <Col style={{ width: '100%', paddingTop: "5%" }}>
+                <ColWidthMaxAndPaddingTop>
                   <Col><SpanFirstLine>“Being human in the digital world</SpanFirstLine></Col>
                   <Col><SpanSecondLine>is about building a digital world for humans”</SpanSecondLine></Col>
-                </Col>
+                </ColWidthMaxAndPaddingTop>
               </RowTextCenter>
 
-              <Row justify={"center"} align={"bottom"} style={{ height: "100%", overflow: 'hidden' }}>
+              <RowWidthMaxAndHidden justify={"center"} align={"bottom"} >
 
-                <BorderMainDiv align={"bottom"} style={{ width: "70%", background: 'black' }}>
-                  <Col span={24} style={{ height: '100%', marginTop: "2%" }}>
+                <BorderMainDiv align={"bottom"}>
+                  <ColMainInput span={24} >
 
-                    <Row style={{ height: 20 }}></Row>
-                    <Row align={"middle"} justify={"center"} span={24} style={{ width: '100%' }}>
-                      <Row span={24} style={{ width: '100%' }}>
+                    <RowPadding />
+                    <RowWidthMax align={"middle"} justify={"center"} span={24}>
+                      <RowWidthMax span={24}>
                         <Col span={12} offset={6} >
 
                           <Row span={24}>
                             <Col span={24}>
-                              <span style={{ marginLeft: 5, fontSize: '2em', color: colorID }}>{(id ? "" : "*") + " " + (t("username"))}</span>
+                              <SpanInputText style={{ color: colorID }}>{((t("username"))}</SpanInputText>
                               <MainInput value={id} onChange={e => {
                                 if (id) setcolorID("#D3D3D3")
                                 else setPassword("red")
@@ -203,45 +197,50 @@ const Signin =
                             </Col>
                           </Row>
 
-                          <Row span={24} style={{ marginTop: "10%" }}>
+                          <RowMarginTop span={24}>
                             <Col span={24}>
-                              <span style={{ marginLeft: 5, fontSize: '2em', color: colorPass }}>{(password ? "" : "*") + " " + (t("password"))}</span>
+                              <SpanInputText style={{ color: colorPass }}>{(t("password"))}</SpanInputText>
                               <MainInput type="password" value={password} onChange={e => {
                                 if (password) setcolorPass("#D3D3D3")
                                 else setPassword("red")
                                 setPassword(e.target.value)
                               }}></MainInput>
                             </Col>
+                          </RowMarginTop>
+
+                          <RowMarginTop span={24} justify={'center'}>
+
+                            {!loginStore.fetching_login && <ButtonLogin onClick={() => _submitForm()}>{t("submit")}</ButtonLogin>}
+                            <TcrbSpin spinning={loginStore.fetching_login} size="large" tip="Loading..." >
+                            </TcrbSpin>
+                          </RowMarginTop>
+
+                          <Row span={24} justify={'center'}>
+                            <Col gutter={[8, 8]}>
+
+                              {visible && loginStore.error_login && loginStore.error_login.code && <TcrbPopconfirm placement="top" title={loginStore.error_login.message}
+                                onCancel={() => setvisible(false)} onConfirm={() => setvisible(false)} >
+                                <a>{loginStore.error_login.code}</a>
+                              </TcrbPopconfirm>}
+                            </Col>
                           </Row>
-
-                          <Row span={24} justify={'center'} style={{ marginTop: "10%" }}>
-
-                            <Button style={{ margin: 5, background: '#707070', color: 'white', borderRadius: 5, minHeight: 50, width: "50%", alignSelf: 'center', textAlign: 'center', fontSize: '2em' }} onClick={() => _submitForm()}>{t("submit")}</Button>
-                            {visible && loginStore.error_login && loginStore.error_login.code && <TcrbPopconfirm placement="top" title={loginStore.error_login.message}
-                              onCancel={() => setvisible(false)} onConfirm={() => setvisible(false)} >
-                              <a>{loginStore.error_login.code}</a>
-                            </TcrbPopconfirm>}
-                          </Row>
-
-                          <TcrbSpin spinning={loginStore.fetching_login} style={{ width: "100%", height: "100%" }} size="large" tip="Loading..." >
-                          </TcrbSpin>
 
                         </Col>
-                      </Row>
-                    </Row>
-                  </Col>
+                      </RowWidthMax>
+                    </RowWidthMax>
+                  </ColMainInput>
                 </BorderMainDiv>
 
-              </Row>
+              </RowWidthMaxAndHidden>
             </ContentMiddle>
 
-            <Footer style={{ background: '#000000', minHeight: "5vh" }}>
+            <FooterMy>
               <FooterText>{footName}</FooterText>
-            </Footer>
+            </FooterMy>
 
           </Layout>
 
-          <SideWrapperMain width={"20%"} style={{ zIndex: 0, width: "100%", height: '100%' }}>
+          <SideWrapperMain width={"20%"}>
             <WrapperImageBackgroundSignin src={background} />
           </SideWrapperMain>
 
