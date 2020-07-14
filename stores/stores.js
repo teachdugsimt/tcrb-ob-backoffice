@@ -16,8 +16,8 @@ const isServer = typeof window === 'undefined';
 useStaticRendering(isServer);
 
 let store = null;
-
 export default function initializeStore(initialData = {}) {
+
   if (isServer) {
     return {
       // uiStore: new UIStore(),

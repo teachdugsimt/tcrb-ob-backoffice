@@ -46,8 +46,8 @@ const Signin =
       useEffect(() => {
         let newPropsLogin = JSON.parse(JSON.stringify(loginStore.data_signin))
         let newPropsLoginError = JSON.parse(JSON.stringify(loginStore.error_login))
-        console.log("newPropsLogin", newPropsLogin)
-        console.log("newPropsLoginError", newPropsLoginError)
+        // console.log("newPropsLogin", newPropsLogin)
+        // console.log("newPropsLoginError", newPropsLoginError)
 
         if (newPropsLoginError && newPropsLoginError.code) {
           setvisible(true)

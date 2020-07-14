@@ -92,16 +92,16 @@ const AdminMenu = inject('authenStore', 'versatileStore', 'loginStore')(observer
     if (tmp_menu && tmp_menu.length > 0 && check_update_menu == 0) {
       check_update_menu = 1
       console.log("Tmp MENU REALLY :: ", tmp_menu)
-      // let default_menu = [
-      //   { key: 1, id: 1, name: "CUSTOMER SERVICES ENQUIRY", translate: "customerServicesEnquiry", link_to: "/customer-service-enquiry", color: "#000000", typeLv: "42" },
-      //   { key: 2, id: 2, name: "CUSTOMER SERVICES MENU", translate: "customerServiceMenu", link_to: "/customer-service-menu", color: "#000000", typeLv: "38" },
-      //   { key: 13, id: 13, name: "BUSINESS PARAMETERS SETUP", translate: "businessParametersSetup", link_to: "/parameters-setup", color: "#000000", typeLv: "42" },
-      //   { key: 14, id: 14, name: "PENDING APPROVE", translate: "pendingApprove", link_to: "/pending-approve", color: "#000000", typeLv: "42" },
-      //   { key: 15, id: 15, name: "USER ACCESS MANAGEMENT ", translate: "useAccessManagementEnquiry", link_to: "/user-access-management", color: "#000000", typeLv: "42" },
-      // ]
-      // let real_menu = default_menu.concat(tmp_menu)
-      authenStore.setMenu(tmp_menu)
-      setStateMenu(tmp_menu)
+      let default_menu = [
+        // { key: 1, id: 1, name: "CUSTOMER SERVICES ENQUIRY", translate: "customerServicesEnquiry", link_to: "/customer-service-enquiry", color: "#000000", typeLv: "42" },
+        // { key: 2, id: 2, name: "CUSTOMER SERVICES MENU", translate: "customerServiceMenu", link_to: "/customer-service-menu", color: "#000000", typeLv: "38" },
+        // { key: 13, id: 13, name: "BUSINESS PARAMETERS SETUP", translate: "businessParametersSetup", link_to: "/parameters-setup", color: "#000000", typeLv: "42" },
+        { key: 14, id: 14, name: "PENDING APPROVE", translate: "pendingApprove", link_to: "/pending-approve", color: "#000000", typeLv: "42" },
+        { key: 15, id: 15, name: "USER ACCESS MANAGEMENT ", translate: "useAccessManagementEnquiry", link_to: "/user-access-management", color: "#000000", typeLv: "42" },
+      ]
+      let real_menu = tmp_menu.concat(default_menu)
+      authenStore.setMenu(real_menu)
+      setStateMenu(real_menu)
     }
   }, [loginStore.data_menu])
 

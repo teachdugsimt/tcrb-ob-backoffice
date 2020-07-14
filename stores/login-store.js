@@ -1,5 +1,6 @@
 import { observable, action, computed } from 'mobx'
 import { LoginApi } from '../services'
+import { persist } from 'mobx-persist'
 
 class LoginStore {
   @observable
@@ -9,8 +10,7 @@ class LoginStore {
   // data_signin = null
   // @observable
   // data_signin = null
-  @observable
-  data_signin = {}
+  @persist('object') @observable data_signin = {}
   @observable
   data_token = {}
   @observable
