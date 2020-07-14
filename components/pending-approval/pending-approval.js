@@ -62,7 +62,7 @@ const PendingApprovals = inject("pendingApprovalStore")(
                   }}
                 >
                   {Array.isArray(data[k])
-                    ? data[k].map((e) => (
+                    ? data[k].map((e, index) => (
                       <div
                         style={{
                           margin: 5,
@@ -70,6 +70,7 @@ const PendingApprovals = inject("pendingApprovalStore")(
                           borderRadius: 3,
                           backgroundColor: "lightgray",
                         }}
+                        key={index}
                       >
                         {e.name || e.id || e}
                         {/* {!Array.isArray(e) ? e.name || e : 'list of data'} */}

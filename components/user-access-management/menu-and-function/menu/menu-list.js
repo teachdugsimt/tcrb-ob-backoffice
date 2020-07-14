@@ -85,7 +85,7 @@ const MenuList = inject('userAccessManagementStore')
       )
     } */
 
-    const FormAddNewDepartment = ({ visible, onCreate, onCancel }) => {
+    const FormAddNewMenu = ({ visible, onCreate, onCancel }) => {
       return (
         <TcrbModal
           visible={visible}
@@ -146,7 +146,7 @@ const MenuList = inject('userAccessManagementStore')
                   name="function_list_id"
                 >
                   <Select
-                    mode="tags"
+                    mode="multiple"
                     style={{ width: '100%' }}
                     placeholder="Please select Function"
                   >
@@ -155,6 +155,19 @@ const MenuList = inject('userAccessManagementStore')
                 </Form.Item>
               </Col>
             </Row>
+            {/* <Row>
+              <Col span={10} style={{ padding: 4 }}>
+                <p>Path Function</p>
+              </Col>
+              <Col span={14}>
+                <Form.Item
+                  name="link_to"
+                >
+                  <SimpleInput />
+
+                </Form.Item>
+              </Col>
+            </Row> */}
           </Form>
         </TcrbModal>
       )
@@ -168,7 +181,23 @@ const MenuList = inject('userAccessManagementStore')
 
     const addNewMenu = (values) => {
       setVisibleFormAddNewMenu(false)
-      userAccessManagementStore.submitAddNewMenu(values)
+      let newFunctionList = []
+      for (let index = 0; index < values.function_list_id.length; index++) {
+        for (let indexFunction = 0; indexFunction < functionList.length; indexFunction++) {
+          if (values.function_list_id[index] == functionList[indexFunction].id) {
+            newFunctionList.push({
+              name: functionList[indexFunction].name,
+              id: values.function_list_id[index]
+            })
+          }
+        }
+      }
+      // console.log(newFunctionList, values)
+      let request = {
+        name: values.name,
+        function_list: newFunctionList
+      }
+      userAccessManagementStore.submitAddNewMenu(request)
     }
 
     const deactivateMenuSelect = (record) => {
@@ -277,7 +306,7 @@ const MenuList = inject('userAccessManagementStore')
           columns={columnMenu}
           size="small"
         />
-        <FormAddNewDepartment
+        <FormAddNewMenu
           visible={visibleFormAddNewMenu}
           onCreate={addNewMenu}
           onCancel={() => {
