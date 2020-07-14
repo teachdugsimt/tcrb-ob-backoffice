@@ -13,7 +13,6 @@ import { Layout } from 'antd';
 import { i18n, withTranslation } from '../../i18n'
 import logo02 from '../../images/logo.png'
 import background from './styles/background.png'
-import login from '../../pages/login';
 
 const Signin =
   inject('authenStore', 'businessParametersSetupStore', 'loginStore')
