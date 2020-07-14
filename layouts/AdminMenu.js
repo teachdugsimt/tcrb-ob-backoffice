@@ -84,7 +84,7 @@ const AdminMenu = inject('authenStore', 'versatileStore', 'loginStore')(observer
     let newPropsLogin = JSON.parse(JSON.stringify(loginStore.data_login))
     if (newPropsLogin.userProfile && newPropsLogin.userProfile.menus) {
       if (stateMenu != newPropsLogin.userProfile.menus && authenStore.menu.length < 1) {
-        console.log('FUCK YOUUUUUUUUUUUU MENUUUU')
+        // console.log('FUCK YOUUUUUUUUUUUU MENUUUU')
         setStateMenu(newPropsLogin.userProfile.menus)
         authenStore.setMenu(newPropsLogin.userProfile.menus)
       }

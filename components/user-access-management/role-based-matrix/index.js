@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Table, Select, Button, Row, Col } from "antd";
-import { TcrbButton, TcrbPopconfirm, TcrbTabs  } from '../../antd-styles/styles'
+import { TcrbButton, TcrbPopconfirm, TcrbTabs } from '../../antd-styles/styles'
 import { inject, observer } from "mobx-react";
 import { withTranslation } from "../../../i18n";
 import _ from "lodash";
@@ -38,9 +38,31 @@ const RoleBasedMatrix = inject("userAccessManagementStore")(
     // }, [])
 
     useEffect(() => {
-      if(matrixAll && matrixAll.length > 0){
-      addFunctionToDataSource(matrixAll);
-      addRoleToColumn();}
+      if (matrixAll && matrixAll.length > 0) {
+        addFunctionToDataSource(matrixAll);
+        addRoleToColumn();
+      }
+      else {
+        let data = [
+            {
+              id: 1,
+              name: "role1",
+              functions: [
+                { id: 1, is_allowed: false, is_masked: false, name: "function1" },
+                { id: 2, is_allowed: false, is_masked: false, name: "function2"},
+              ],
+            },
+            {
+              id: 2,
+              name: "role2",
+              functions: [{ id: 8, is_allowed: false, is_masked: false,name: "function3" },
+              { id: 9, is_allowed: false, is_masked: false,name: "function4" }],
+            },
+          ]
+          setmatrixAll(data)
+          addFunctionToDataSource(matrixAll);
+        addRoleToColumn();
+      }
     }, [matrixAll])
 
     useEffect(() => {
@@ -175,8 +197,8 @@ const RoleBasedMatrix = inject("userAccessManagementStore")(
                 func[typedata] === true
                   ? true
                   : func[typedata] === false
-                  ? false
-                  : null;
+                    ? false
+                    : null;
               // console.log("Found !! :: ", result_search_is_allowed)
             } else {
               // result_search_is_allowed = null;
@@ -332,24 +354,24 @@ const RoleBasedMatrix = inject("userAccessManagementStore")(
 
     return (
       <Col>
-          <Table
-            columns={column && column.length > 1 ? column : []}
-            dataSource={mockDataSourceDynamic && mockDataSourceDynamic.length > 1 ? mockDataSourceDynamic : []}
-            size="small"
-          />
-          <Row>
-            <Col span={10} style={{ marginTop: -38 }}>
-              <TcrbButton className='primary' onClick={() => clickSubmit()}>Submit</TcrbButton>
-            </Col>
-          </Row>
+        <Table
+          columns={column && column.length > 1 ? column : []}
+          dataSource={mockDataSourceDynamic && mockDataSourceDynamic.length > 1 ? mockDataSourceDynamic : []}
+          size="small"
+        />
+        <Row>
+          <Col span={10} style={{ marginTop: -38 }}>
+            <TcrbButton className='primary' onClick={() => clickSubmit()}>Submit</TcrbButton>
+          </Col>
+        </Row>
       </Col>
     );
   })
 );
 
-// RoleBasedMatrix.getInitialProps = async () => ({
-//   namespacesRequired: [],
-// })
+RoleBasedMatrix.getInitialProps = async () => ({
+  namespacesRequired: [],
+})
 
 export default withTranslation()(RoleBasedMatrix);
 
