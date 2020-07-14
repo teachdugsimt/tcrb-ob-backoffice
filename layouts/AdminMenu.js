@@ -51,7 +51,8 @@ const AdminMenu = inject('authenStore', 'versatileStore')(observer((props) => {
   const [focusLink, setfocusLink] = useState(FOCUS_LINK)
   // const { authenStore, versatileStore } = useStores()
   const { t, authenStore, versatileStore } = props
-
+  console.log("____________ Authen Store MENU _________________")
+  console.log(JSON.parse(JSON.stringify(authenStore.menu)))
   const setSideBar = () => {
     if (isShow) {
       versatileStore.setSidebarWidth(58)

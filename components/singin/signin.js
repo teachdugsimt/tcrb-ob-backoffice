@@ -3,7 +3,7 @@ import { inject, observer } from 'mobx-react'
 import Router, { withRouter } from 'next/router'
 import {
   WrapperImageBackgroundSignin, TextFooter, FooterText, BorderMainDiv, MainInput, SideWrapperMain, WrapperImageLogo,
-  WrapLogo, WrapperButtonAnt, HeaderLogin, ContentMiddle, RowWrapButtonHeader
+  WrapLogo, WrapperButtonAnt, HeaderLogin, ContentMiddle, RowWrapButtonHeader, ColumnButtonHeader, RowTextCenter
 } from './styles/styles'
 import { TcrbButton, TcrbPopconfirm, TcrbSpin } from '../antd-styles/styles'
 import { Row, Col, Divider, Form, Input, Button, Checkbox } from 'antd';
@@ -103,6 +103,8 @@ const Signin =
         } else if (newPropsLogin) {
           setvisible(false)
           if (newPropsLogin.idToken) {
+            authenStore.setMenu(adminMenu)
+            console.log(JSON.parse(JSON.stringify(authenStore.menu)))
             Router.push("/")
           }
         }
@@ -158,9 +160,9 @@ const Signin =
                       </Col>
                     </Row>
                     <RowWrapButtonHeader justify="end" align="center" >
-                      <Col style={{ marginRight: '2%' }} align="center">
+                      <ColumnButtonHeader align="center">
                         <WrapperButtonAnt title={t("forNewWork")} />
-                      </Col>
+                      </ColumnButtonHeader>
                       <Col align="center">
                         <WrapperButtonAnt title={t("support")} />
                       </Col>
@@ -172,12 +174,12 @@ const Signin =
 
             <ContentMiddle>
 
-              <Row justify={"center"} style={{ position: 'absolute', left: 0, right: 0, marginLeft: 'auto', marginRight: 'auto', width: '100%' }}>
+              <RowTextCenter justify={"center"}>
                 <Col style={{ width: '100%', paddingTop: "5%" }}>
                   <Col><span style={{ fontSize: '3.3em', color: '#3C3A3A', marginLeft: '8%' }}>“Being human in the digital world</span></Col>
                   <Col><span style={{ fontSize: '3.3em', color: '#3C3A3A', marginLeft: '35%', position: 'absolute', zIndex: 100 }}>is about building a digital world for humans”</span></Col>
                 </Col>
-              </Row>
+              </RowTextCenter>
 
               <Row justify={"center"} align={"bottom"} style={{ height: "100%", overflow: 'hidden' }}>
 

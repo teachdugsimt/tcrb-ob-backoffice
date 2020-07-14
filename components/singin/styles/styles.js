@@ -80,6 +80,15 @@ font-weight: bold;
 font-size: ${({ theme }) => theme.size.header}px;
 `
 
+const RowTextCenter =styled(Row)`
+position: absolute;
+left: 0;
+right: 0;
+margin-left: auto;
+margin-right: auto;
+width: 100%;
+`
+
 const RowWrapButtonHeader = styled(Row)`
 padding-left: 20% !important;
 width: 100% !important;
@@ -144,4 +153,5 @@ export {
   ContentMiddle,
   RowWrapButtonHeader,
   ColumnButtonHeader,
+  RowTextCenter,
 }
