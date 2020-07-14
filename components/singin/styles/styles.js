@@ -30,12 +30,14 @@ const BorderMainDiv = styled(Row)`
 height: 60% !important;
 width: 70% !important;
 background: black !important;
-border-top-left-radius: 36px;
-border-top-right-radius: 36px;
+border-top-left-radius: 36px !important;
+border-top-right-radius: 36px !important;
 border-style: solid !important;
 border-width: 1px 1px 0px 1px !important;
 border-color: #707070 !important;
-overflow: scroll;
+overflow: scroll !important;
+width: 70% !important;
+background: black !important;
 `
 
 const MainInput = styled.input`
@@ -81,12 +83,12 @@ font-size: ${({ theme }) => theme.size.header}px;
 `
 
 const RowTextCenter =styled(Row)`
-position: absolute;
-left: 0;
-right: 0;
-margin-left: auto;
-margin-right: auto;
-width: 100%;
+position: absolute !important;
+left: 0 !important;
+right: 0 !important;
+margin-left: auto !important;
+margin-right: auto !important;
+width: 100% !important;
 `
 
 const RowWrapButtonHeader = styled(Row)`
@@ -102,6 +104,10 @@ background: #000000 !important;
 `
 
 const SideWrapperMain = styled(Sider)`
+z-index: 1;
+width: 100% !important;
+height: 100% !important;
+
   .ant-layout-sider {
     min-width: 280px !important;
     max-width: 320px !important;
@@ -115,7 +121,7 @@ const SideWrapperMain = styled(Sider)`
 `
 
 const ColumnButtonHeader = styled(Col)`
-margin-right: 2%;
+margin-right: 2% !important;;
 `
 
 const ContentMiddle = styled(Content)`
@@ -135,6 +141,63 @@ color: #3C3A3A;
 margin-left: 35%;
 position: absolute;
 z-index: 100 ;
+`
+
+const ColWidthMax = styled(Col)`
+width: 100% !important;
+`
+
+const ColWidthMaxAndPaddingTop = styled(ColWidthMax)`
+padding-top: 5% !important;
+`
+
+const ColMainInput = styled(Col)`
+height: 100% !important;
+margin-top: 2% !important;
+`
+
+const RowPadding = styled(Row)`
+height: 20px !important;
+`
+
+const RowWidthMax = styled(Row)`
+width: 100% !important;
+`
+
+const RowWidthMaxAndHidden = styled(Row)`
+height: 100% !important;
+overflow: hidden !important;
+`
+
+const SpanInputText = styled.span`
+margin-left: 5px;
+font-size: 2em;
+`
+
+const RowMarginTop = styled(Row)`
+margin-top: 10% !important;
+`
+
+const ButtonLogin = styled(Button)`
+margin: 5px !important;
+background: #707070 !important;
+color: white !important;
+border-radius: 5px !important;
+min-height: 50px !important;
+width: 50% !important;
+align-self: center !important;
+text-align: center !important;
+font-size: 2em  !important;
+`
+
+const FooterMy = styled(Footer)`
+background-color: #000000 !important;
+min-height: 50px !important;
+z-index: 100 !important;
+position: absolute !important;
+right: 0 !important;
+bottom: 0 !important;
+left: 0 !important;
 `
 
 const WrapperImageLogo = (props) => {
@@ -169,4 +232,14 @@ export {
   RowTextCenter,
   SpanFirstLine,
   SpanSecondLine,
+  ColMainInput,
+  RowPadding,
+  RowWidthMax,
+  RowWidthMaxAndHidden,
+  ColWidthMaxAndPaddingTop,
+  ColWidthMax,
+  SpanInputText,
+  RowMarginTop,
+  ButtonLogin,
+  FooterMy
 }
