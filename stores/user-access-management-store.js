@@ -542,8 +542,9 @@ export default class UserAccessManagement {
     console.log(tmp)
     if (tmp.ok && tmp.status === 200) {
       //when success
-      this.departmentList = tmp.data.responseData
+      this.departmentList = []
       this.apiFetching = false
+      this.getDataDepartment()
     } else {
       //when error
       this.apiFetching = false
@@ -660,9 +661,10 @@ export default class UserAccessManagement {
     console.log(tmp)
     if (tmp.ok && tmp.status === 200) {
       //when success
-      this.functionList = []
+      let menu_id = this.menuSelected.id
+      this.functionListInMenu = []
       this.apiFetching = false
-      this.getDataFunction()
+      this.getDataFunctionListInMenu(menu_id)
     } else {
       //when error
       this.apiFetching = false

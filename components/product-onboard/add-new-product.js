@@ -49,6 +49,7 @@ const AddNewProduct = (props) => {
       status: ''
     },
     onSubmit: values => {
+      console.log(values)
       alert(JSON.stringify(values, null, 2));
     },
   });
@@ -64,16 +65,24 @@ const AddNewProduct = (props) => {
   }
 
   return (
+
     <div style={{ display: 'flex', flex: 1, flexDirection: 'column' }}>
       <PageHeader>Add new product</PageHeader>
-      <div style={{ height: 255, borderBottom: '1px  solid Lightgrey' }}>
+      <div style={{ height: 700, borderBottom: '1px  solid Lightgrey' }}>
         <form onSubmit={formik.handleSubmit} style={{ display: 'flex', flex: 1, flexDirection: 'column' }}>
           <div style={{ display: 'flex', flex: 1, flexDirection: 'row', marginTop: 20, alignItems: 'center' }}>
             <div style={{ width: 150 }}>
               <label htmlFor="productCode">Product Code</label>
             </div>
             <div style={{ display: 'flex', width: 300 }}>
-              <Input placeholder="Product Code" />
+              <Input
+                id="productCode"
+                name="productCode"
+                type="productCode"
+                onChange={formik.handleChange}
+                value={formik.values.productCode}
+                placeholder="Product Code"
+              />
             </div>
           </div>
           <div style={{ display: 'flex', flex: 1, flexDirection: 'row', marginTop: 20 }}>
@@ -82,7 +91,14 @@ const AddNewProduct = (props) => {
                 <label htmlFor="productName_th">Product Name(TH)</label>
               </div>
               <div style={{ display: 'flex', width: 300 }}>
-                <Input placeholder="Product Name(TH)" />
+                <Input
+                  id="productName_th"
+                  name="productName_th"
+                  type="productName_th"
+                  onChange={formik.handleChange}
+                  value={formik.values.productName_th}
+                  placeholder="Product Name(TH)"
+                />
               </div>
             </div>
             <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', marginLeft: 50 }}>
@@ -90,7 +106,14 @@ const AddNewProduct = (props) => {
                 <label htmlFor="productName_en">Product Name(EN)</label>
               </div>
               <div style={{ display: 'flex', width: 300 }}>
-                <Input placeholder="Product Name(EN)" />
+                <Input
+                  id="productName_en"
+                  name="productName_en"
+                  type="productName_en"
+                  onChange={formik.handleChange}
+                  value={formik.values.productName_en}
+                  placeholder="Product Name(EN)"
+                />
               </div>
             </div>
           </div>
@@ -100,7 +123,14 @@ const AddNewProduct = (props) => {
                 <label htmlFor="accountType">Account Type</label>
               </div>
               <div style={{ display: 'flex', width: 300 }}>
-                <Input placeholder="Account Type" />
+                <Input
+                  id="accountType"
+                  name="accountType"
+                  type="accountType"
+                  onChange={formik.handleChange}
+                  value={formik.values.accountType}
+                  placeholder="Account Type"
+                />
               </div>
             </div>
             <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', marginLeft: 50 }}>
@@ -108,7 +138,14 @@ const AddNewProduct = (props) => {
                 <label htmlFor="productSegment">Product Segment</label>
               </div>
               <div style={{ display: 'flex', width: 300 }}>
-                <Input placeholder="Product Segment" />
+                <Input
+                  id="productSegment"
+                  name="productSegment"
+                  type="productSegment"
+                  onChange={formik.handleChange}
+                  value={formik.values.productSegment}
+                  placeholder="Product Segment"
+                />
               </div>
             </div>
           </div>
@@ -117,23 +154,31 @@ const AddNewProduct = (props) => {
               <label htmlFor="descriptiom">Desscription</label>
             </div>
             <div style={{ display: 'flex', width: 800 }}>
-              <TextArea placeholder="Desscription" />
+              <TextArea
+                id="description"
+                name="description"
+                type="description"
+                onChange={formik.handleChange}
+                value={formik.values.desscription}
+                placeholder="Description"
+              />
             </div>
           </div>
+
+          <div style={{ marginTop: 20 }}>
+            <PageHeader>Grant Service</PageHeader>
+            <Button type="primary" onClick={() => setVisible(true)}>Add</Button>
+            <Table
+              style={{ marginTop: 20 }}
+              columns={columns}
+              dataSource={data}
+              size="small"
+            />
+          </div>
+          <div style={{ height: 40, marginTop: 20, display: 'flex', justifyContent: 'flex-end', alignItems: 'center' }}>
+            <button type="submit" style={{ backgroundColor: 'orange', border: '0px', height: 35, width: 80, textAlign: 'center', color: 'white' }}>Submit</button>
+          </div>
         </form>
-      </div>
-      <div style={{ marginTop: 20 }}>
-        <PageHeader>Grant Service</PageHeader>
-        <Button type="primary" onClick={() => setVisible(true)}>Add</Button>
-        <Table
-          style={{ marginTop: 20 }}
-          columns={columns}
-          dataSource={data}
-          size="small"
-        />
-      </div>
-      <div style={{ height: 40, marginTop: 20, display: 'flex', justifyContent: 'flex-end', alignItems: 'center' }}>
-        <Button type="primary">Submit</Button>
       </div>
       <Modal
         title="Select Service"
@@ -147,7 +192,7 @@ const AddNewProduct = (props) => {
           </a>
         </Dropdown>
       </Modal>
-    </div >
+    </div>
   )
 }
 
