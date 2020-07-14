@@ -1,17 +1,19 @@
-import React, { Component, useState, useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import { inject, observer } from 'mobx-react'
 import Router, { withRouter } from 'next/router'
 import {
   WrapperImageBackgroundSignin, TextFooter, FooterText, BorderMainDiv, MainInput, SideWrapperMain, WrapperImageLogo,
-  WrapLogo, WrapperButtonAnt,
+  WrapLogo, WrapperButtonAnt, HeaderLogin, ContentMiddle, RowWrapButtonHeader, ColumnButtonHeader, RowTextCenter,
+  SpanFirstLine, SpanSecondLine,
 } from './styles/styles'
+import { TcrbButton, TcrbPopconfirm, TcrbSpin } from '../antd-styles/styles'
 import { Row, Col, Divider, Form, Input, Button, Checkbox } from 'antd';
-import { BusinessParameterSetupApi } from '../../services/'
 import { Layout } from 'antd';
 import { i18n, withTranslation } from '../../i18n'
 const { Header, Footer, Sider, Content } = Layout;
 import logo02 from '../../images/logo.png'
 import background from './styles/background.png'
+import login from '../../pages/login';
 
 const layout = {
   labelCol: { span: 8 },
@@ -22,17 +24,17 @@ const tailLayout = {
 };
 
 const Signin =
-  inject('authenStore', 'businessParametersSetupStore')
+  inject('authenStore', 'businessParametersSetupStore', 'loginStore')
     (observer((props) => {
       let customerMenu = [
-        { key: 1,id: 1, name: "CUSTOMER SERVICES ENQUIRY", translate: "customerServicesEnquiry", linkTo: "/customer-service-enquiry", color: "#000000", typeLv: "42" },
-        { key: 2,id: 2, name: "CUSTOMER SERVICES MENU", translate: "customerServiceMenu", linkTo: "/customer-service-menu", color: "#000000", typeLv: "38" },
-        { key: 3,id: 3, name: "PARTNER MANAGEMENT", translate: "partnerManagement", linkTo: "/", color: "#000000", typeLv: "38" },
-        { key: 4,id: 4, name: "CONSENT MANAGEMENT", translate: "consentManagement", linkTo: "/", color: "#000000", typeLv: "30" },
-        { key: 5,id: 5, name: "TERM & CONDITION MANAGEMENT", translate: "term&conditionManagement", linkTo: "/", color: "#000000", typeLv: "30" },
-        { key: 6,id: 6, name: "SECURITY CODE ENQUIRY", translate: "securityCodeEnquiry", linkTo: "/", color: "#000000", typeLv: "50" },
-        { key: 7,id: 12, name: "BUSINESS PARAMETERS SETUP", translate: "businessParametersSetup", linkTo: "/parameters-setup", color: "#000000", typeLv: "42" },
-        { key: 8,id: 13, name: "PENDING APPROVE", translate: "pendingApprove", linkTo: "/pending-approve", color: "#000000", typeLv: "42" },
+        { key: 1, id: 1, name: "CUSTOMER SERVICES ENQUIRY", translate: "customerServicesEnquiry", linkTo: "/customer-service-enquiry", color: "#000000", typeLv: "42" },
+        { key: 2, id: 2, name: "CUSTOMER SERVICES MENU", translate: "customerServiceMenu", linkTo: "/customer-service-menu", color: "#000000", typeLv: "38" },
+        { key: 3, id: 3, name: "PARTNER MANAGEMENT", translate: "partnerManagement", linkTo: "/", color: "#000000", typeLv: "38" },
+        { key: 4, id: 4, name: "CONSENT MANAGEMENT", translate: "consentManagement", linkTo: "/", color: "#000000", typeLv: "30" },
+        { key: 5, id: 5, name: "TERM & CONDITION MANAGEMENT", translate: "term&conditionManagement", linkTo: "/", color: "#000000", typeLv: "30" },
+        { key: 6, id: 6, name: "SECURITY CODE ENQUIRY", translate: "securityCodeEnquiry", linkTo: "/", color: "#000000", typeLv: "50" },
+        { key: 7, id: 12, name: "BUSINESS PARAMETERS SETUP", translate: "businessParametersSetup", linkTo: "/parameters-setup", color: "#000000", typeLv: "42" },
+        { key: 8, id: 13, name: "PENDING APPROVE", translate: "pendingApprove", linkTo: "/pending-approve", color: "#000000", typeLv: "42" },
       ]
 
       let adminMenu = [
@@ -55,24 +57,33 @@ const Signin =
       ]
 
       let userMenu = [
-        { key: 1,id: 1, name: "CUSTOMER SERVICES ENQUIRY", translate: "customerServicesEnquiry", linkTo: "/customer-service-enquiry", color: "#000000", typeLv: "42" },
-        { key: 2,id: 2, name: "CUSTOMER SERVICES MENU", translate: "customerServiceMenu", linkTo: "/customer-service-menu", color: "#000000", typeLv: "38" },
-        { key: 3,id: 12, name: "BUSINESS PARAMETERS SETUP", translate: "businessParametersSetup", linkTo: "/parameters-setup", color: "#000000", typeLv: "42" },
-        { key: 4,id: 13, name: "PENDING APPROVE", translate: "pendingApprove", linkTo: "/pending-approve", color: "#000000", typeLv: "42" },
+        { key: 1, id: 1, name: "CUSTOMER SERVICES ENQUIRY", translate: "customerServicesEnquiry", linkTo: "/customer-service-enquiry", color: "#000000", typeLv: "42" },
+        { key: 2, id: 2, name: "CUSTOMER SERVICES MENU", translate: "customerServiceMenu", linkTo: "/customer-service-menu", color: "#000000", typeLv: "38" },
+        { key: 3, id: 12, name: "BUSINESS PARAMETERS SETUP", translate: "businessParametersSetup", linkTo: "/parameters-setup", color: "#000000", typeLv: "42" },
+        { key: 4, id: 13, name: "PENDING APPROVE", translate: "pendingApprove", linkTo: "/pending-approve", color: "#000000", typeLv: "42" },
       ]
 
       // const { authenStore } = useStores()
-      const { authenStore, businessParametersSetupStore, t } = props
+      const { authenStore, businessParametersSetupStore, loginStore, t } = props
       const [id, setId] = useState("")
       const [password, setPassword] = useState("")
       const footName = authenStore.footName ? authenStore.footName : "IT SERVICE DESK CONTACT NUMBER IS 02-6xx-1234"
       const [colorID, setcolorID] = useState("#D3D3D3")
       const [colorPass, setcolorPass] = useState("#D3D3D3")
+      const [visible, setvisible] = useState(false)
       useEffect(() => {
         i18n.changeLanguage("en")
         setcolorID("#D3D3D3")
         setcolorPass("#D3D3D3")
         return () => {
+          // let newPropsLogin = JSON.parse(JSON.stringify(loginStore.data_login))
+          // let newPropsLoginError = JSON.parse(JSON.stringify(loginStore.error_login))
+          // if (newPropsLoginError && newPropsLoginError.code) {
+          //   loginStore.clearCacheLogin("error")
+          //   setvisible(true)
+          // } else if (newPropsLogin && newPropsLogin.accessToken) {
+          //   // Router.push("/")
+          // }
           // cleanup
         }
       }, [])
@@ -82,7 +93,36 @@ const Signin =
         }
       }, [businessParametersSetupStore.dataAxios])
 
-      const _submitForm = () => {
+      useEffect(() => {
+        let newPropsLogin = JSON.parse(JSON.stringify(loginStore.data_login))
+        let newPropsLoginError = JSON.parse(JSON.stringify(loginStore.error_login))
+        console.log("newPropsLogin", newPropsLogin)
+        console.log("newPropsLoginError", newPropsLoginError)
+
+        if (newPropsLoginError && newPropsLoginError.code) {
+          setvisible(true)
+        } else if (newPropsLogin) {
+          setvisible(false)
+          if (newPropsLogin.idToken) {
+            authenStore.setMenu(adminMenu)
+            console.log(JSON.parse(JSON.stringify(authenStore.menu)))
+            Router.push("/")
+          }
+        }
+
+        return () => {
+          // if (newPropsLoginError && newPropsLoginError.code) {
+          // console.log(":: CACHE WAS CLEAR :: ")
+          // loginStore.clearCacheLogin("error")
+          // loginStore.clearCacheLogin("success")
+          //   setvisible(true)
+          // } else if (newPropsLogin && newPropsLogin.accessToken) {
+          //   Router.push("/")
+          // }
+        }
+      }, [JSON.parse(JSON.stringify(loginStore.data_login)), JSON.parse(JSON.stringify(loginStore.error_login))])
+
+      const _submitForm = async () => {
         if (!id || !password) {
           setcolorID("red")
           setcolorPass("red")
@@ -91,24 +131,28 @@ const Signin =
         else {
           authenStore.setProfile(id, password)
           authenStore.setType("50")
-          if (id.includes("customer")) {
-            authenStore.setMenu(customerMenu)
-          } else if (id.includes("admin")) {
-            authenStore.setMenu(adminMenu)
-          } else {
-            authenStore.setMenu(userMenu)
-          }
-          Router.push("/")
+          let call_login = await loginStore.requestLogin({
+            username: id, password
+          })
+          // if (id.includes("customer")) {
+          //   authenStore.setMenu(customerMenu)
+          // } else if (id.includes("admin")) {
+          //   authenStore.setMenu(adminMenu)
+          // } else {
+          //   authenStore.setMenu(userMenu)
+          // }
         }
       }
 
       return (
+
         <Layout style={{ width: "100%", height: "100%" }}>
+
           <Layout>
             <Row>
               <Col span={24}>
-                <Header style={{ height: "8vh", paddingLeft: 0, width: '100%', background: '#000000' }}>
-                  <Row style={{ width: '100%' }} gutter={{ xs: 8, sm: 16, md: 24, lg: 32 }}>
+                <HeaderLogin>
+                  <Row gutter={{ xs: 8, sm: 16, md: 24, lg: 32 }}>
                     <Row justify="start" align="top">
                       <Col span="4" >
                         <WrapLogo>
@@ -116,29 +160,30 @@ const Signin =
                         </WrapLogo>
                       </Col>
                     </Row>
-                    <Row justify="end" align="center" style={{ paddingLeft: "20%", width: '100%' }}>
-                      <Col style={{ marginRight: 20 }} align="center">
+                    <RowWrapButtonHeader justify="end" align="center" >
+                      <ColumnButtonHeader align="center">
                         <WrapperButtonAnt title={t("forNewWork")} />
-                      </Col>
+                      </ColumnButtonHeader>
                       <Col align="center">
                         <WrapperButtonAnt title={t("support")} />
                       </Col>
-                    </Row>
+                    </RowWrapButtonHeader>
                   </Row>
-                </Header>
+                </HeaderLogin>
               </Col>
             </Row>
 
-            <Content style={{ height: "100%", background: "rgb(0,0,0)", backgroundImage: "linear-gradient(180deg, rgba(0,0,0,1) 0%, rgba(62,62,62,1) 50%, rgba(112,112,112,1) 100%)" }}>
+            <ContentMiddle>
 
-              <Row justify={"center"} style={{ position: 'absolute', left: 0, right: 0, marginLeft: 'auto', marginRight: 'auto', width: '100%' }}>
+              <RowTextCenter justify={"center"}>
                 <Col style={{ width: '100%', paddingTop: "5%" }}>
-                  <Col><span style={{ fontSize: '3.3em', color: '#3C3A3A', marginLeft: '8%' }}>“Being human in the digital world</span></Col>
-                  <Col><span style={{ fontSize: '3.3em', color: '#3C3A3A', marginLeft: '35%', position: 'absolute', zIndex: 100 }}>is about building a digital world for humans”</span></Col>
+                  <Col><SpanFirstLine>“Being human in the digital world</SpanFirstLine></Col>
+                  <Col><SpanSecondLine>is about building a digital world for humans”</SpanSecondLine></Col>
                 </Col>
-              </Row>
+              </RowTextCenter>
 
               <Row justify={"center"} align={"bottom"} style={{ height: "100%", overflow: 'hidden' }}>
+
                 <BorderMainDiv align={"bottom"} style={{ width: "70%", background: 'black' }}>
                   <Col span={24} style={{ height: '100%', marginTop: "2%" }}>
 
@@ -170,25 +215,38 @@ const Signin =
                           </Row>
 
                           <Row span={24} justify={'center'} style={{ marginTop: "10%" }}>
+
                             <Button style={{ margin: 5, background: '#707070', color: 'white', borderRadius: 5, minHeight: 50, width: "50%", alignSelf: 'center', textAlign: 'center', fontSize: '2em' }} onClick={() => _submitForm()}>{t("submit")}</Button>
+                            {visible && loginStore.error_login && loginStore.error_login.code && <TcrbPopconfirm placement="top" title={loginStore.error_login.message}
+                              onCancel={() => setvisible(false)} onConfirm={() => setvisible(false)} >
+                              <a>{loginStore.error_login.code}</a>
+                            </TcrbPopconfirm>}
                           </Row>
+
+                          <TcrbSpin spinning={loginStore.fetching_login} style={{ width: "100%", height: "100%" }} size="large" tip="Loading..." >
+                          </TcrbSpin>
+
                         </Col>
                       </Row>
                     </Row>
                   </Col>
                 </BorderMainDiv>
+
               </Row>
-            </Content>
+            </ContentMiddle>
 
             <Footer style={{ background: '#000000', minHeight: "5vh" }}>
               <FooterText>{footName}</FooterText>
             </Footer>
+
           </Layout>
 
           <SideWrapperMain width={"20%"} style={{ zIndex: 0, width: "100%", height: '100%' }}>
             <WrapperImageBackgroundSignin src={background} />
           </SideWrapperMain>
+
         </Layout>
+
       )
     }))
 export default withTranslation('common')(Signin)
