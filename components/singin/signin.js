@@ -3,7 +3,8 @@ import { inject, observer } from 'mobx-react'
 import Router, { withRouter } from 'next/router'
 import {
   WrapperImageBackgroundSignin, TextFooter, FooterText, BorderMainDiv, MainInput, SideWrapperMain, WrapperImageLogo,
-  WrapLogo, WrapperButtonAnt, HeaderLogin, ContentMiddle, RowWrapButtonHeader, ColumnButtonHeader, RowTextCenter
+  WrapLogo, WrapperButtonAnt, HeaderLogin, ContentMiddle, RowWrapButtonHeader, ColumnButtonHeader, RowTextCenter,
+  SpanFirstLine, SpanSecondLine,
 } from './styles/styles'
 import { TcrbButton, TcrbPopconfirm, TcrbSpin } from '../antd-styles/styles'
 import { Row, Col, Divider, Form, Input, Button, Checkbox } from 'antd';
@@ -176,8 +177,8 @@ const Signin =
 
               <RowTextCenter justify={"center"}>
                 <Col style={{ width: '100%', paddingTop: "5%" }}>
-                  <Col><span style={{ fontSize: '3.3em', color: '#3C3A3A', marginLeft: '8%' }}>“Being human in the digital world</span></Col>
-                  <Col><span style={{ fontSize: '3.3em', color: '#3C3A3A', marginLeft: '35%', position: 'absolute', zIndex: 100 }}>is about building a digital world for humans”</span></Col>
+                  <Col><SpanFirstLine>“Being human in the digital world</SpanFirstLine></Col>
+                  <Col><SpanSecondLine>is about building a digital world for humans”</SpanSecondLine></Col>
                 </Col>
               </RowTextCenter>
 
