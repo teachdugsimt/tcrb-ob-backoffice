@@ -9,7 +9,11 @@ import login from '../pages/login'
 
 const EmptyLayout = inject('authenStore', 'loginStore')(observer((props) => {
   // const { authenStore } = useStores()
-  const { authenStore, loginStore } = props
+  const { authenStore, loginStore,
+    WrappedComponent,
+    clientCondition,
+    serverCondition,
+    location } = props
   console.log("________________ EMPTY LAYOUT PROPS __________________")
   const propsLogin = JSON.parse(JSON.stringify(loginStore.data_signin))
   const propsLoginError = JSON.parse(JSON.stringify(loginStore.error_login))
@@ -39,32 +43,71 @@ const EmptyLayout = inject('authenStore', 'loginStore')(observer((props) => {
   }
 }
 ))
-EmptyLayout.getInitialProps = async () => ({
-  namespacesRequired: [],
-})
-
+EmptyLayout.getInitialProps = async (ctx) => {
+  console.log("_________________ CTX ON LAYOUT CONTROL __________________")
+  console.log(ctx)
+  return { namespacesRequired: [] }
+}
 export default withRouter(
   withTranslation('common')
     (EmptyLayout)
 )
-// export default withRouter(withTranslation()(EmptyLayout))
 
 
 
-// import withError from './withError'
 
-// class Example extends React.Component {
-//     static async getInitialProps(ctx) {
-//         if (error) { // define your app error logic here
-//           ctx.res.statusCode = 404;
-//         }
 
-//         return { /* ... */ }
+
+
+
+
+
+
+
+
+
+
+// import React, { useContext } from 'react'
+// import Router, { withRouter } from 'next/router'
+// import MainLayout from './MainLayout'
+// import { inject, observer } from 'mobx-react'
+// import Login from '../pages/login'
+// import { withTranslation } from '../i18n'
+// import Custom404 from '../pages/404'
+// import login from '../pages/login'
+
+// export default function EmptyLayout({
+//   WrappedComponent,
+//   clientCondition,
+//   serverCondition,
+//   location
+// }) {
+//   const EmptyLayoutWrapper = props => {
+//     const router = useRouter();
+//     const redirectCondition = clientCondition();
+//     if (isBrowser() && redirectCondition) {
+//       router.push(location);
+//       return <></>;
+//     }
+//     return <MainLayout>
+//       {props.children}
+//     </MainLayout>;
+//   };
+
+//   EmptyLayoutWrapper.getInitialProps = async (ctx) => {
+//     if (!isBrowser() && ctx.res) {
+//       if (serverCondition(ctx)) {
+//         ctx.res.writeHead(302, { Location: location });
+//         ctx.res.end();
+//       }
 //     }
 
-//     render() {
-//         /* ... */
-//     }
+//     const componentProps =
+//       WrappedComponent.getInitialProps &&
+//       (await WrappedComponent.getInitialProps(ctx));
+
+//     return { ...componentProps };
+//   };
+
+//   return EmptyLayoutWrapper;
 // }
-
-// export default withError(Example);

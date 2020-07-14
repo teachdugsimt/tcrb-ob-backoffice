@@ -148,8 +148,8 @@ const Signin =
                             <Col span={24}>
                               <SpanInputText style={{ color: colorID }}>{t("username")}</SpanInputText>
                               <MainInput value={id} onChange={e => {
-                                if (id) setcolorID("#D3D3D3")
-                                else setPassword("red")
+                                // if (id) setcolorID("#D3D3D3")
+                                // else setPassword("red")
                                 setId(e.target.value)
                               }}></MainInput>
                             </Col>
@@ -159,8 +159,8 @@ const Signin =
                             <Col span={24}>
                               <SpanInputText style={{ color: colorPass }}>{(t("password"))}</SpanInputText>
                               <MainInput type="password" value={password} onChange={e => {
-                                if (password) setcolorPass("#D3D3D3")
-                                else setPassword("red")
+                                // if (password) setcolorPass("#D3D3D3")
+                                // else setPassword("red")
                                 setPassword(e.target.value)
                               }}></MainInput>
                             </Col>
