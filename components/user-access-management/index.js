@@ -38,10 +38,10 @@ const UseAccessManagement =
             userAccessManagementStore.nextPageIsManageDepartment = false
             break;
           case "2":
-            userAccessManagementStore.nextPageIsManageGroup = false
+            userAccessManagementStore.nextPageIsManageUser = false
             break;
           case "3":
-            userAccessManagementStore.nextPageIsManageUser = false
+            userAccessManagementStore.nextPageIsManageGroup = false
             break;
           case "4":
             userAccessManagementStore.nextPageIsManageMenu = false
@@ -67,11 +67,11 @@ const UseAccessManagement =
                   <TabPane tab={t("Department")} key="1">
                     <Department />
                   </TabPane>
-                  <TabPane tab={t("Group")} key="2" >
-                    <Group />
-                  </TabPane>
-                  <TabPane tab={t("User")} key="3" >
+                  <TabPane tab={t("User")} key="2" >
                     <User />
+                  </TabPane>
+                  <TabPane tab={t("Group")} key="3" >
+                    <Group />
                   </TabPane>
                   <TabPane tab={t("Menu and Function")} key="4" >
                     <MenuAndFunction />
