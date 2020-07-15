@@ -16,6 +16,7 @@ const isServer = typeof window === 'undefined';
 useStaticRendering(isServer);
 
 let store = null;
+
 export default function initializeStore(initialData = {}) {
 
   if (isServer) {
@@ -30,7 +31,8 @@ export default function initializeStore(initialData = {}) {
       customerServiceEnquiry: new CustomerServiceEnquiry(),
       pendingApprovalStore: new PendingApproval(),
       userAccessManagementStore: new UserAccessManagement(),
-      loginStore: new LoginStore()
+      loginStore: new LoginStore(),
+        // .then(() => console.log('some hydrated : TEST PERSIST STORE SUCCESS :: '))
     };
   }
   if (store === null) {
@@ -46,8 +48,27 @@ export default function initializeStore(initialData = {}) {
       pendingApprovalStore: new PendingApproval(),
       userAccessManagementStore: new UserAccessManagement(),
       loginStore: new LoginStore()
+
+
+
+
+
+
+
+
     };
   }
 
   return store;
 }
+
+
+
+// original
+// const initialState = window.__STATE__.some || {
+//   obj: { a: 2, b: 1 }
+// }
+// export const someStore = new SomeStore()
+
+// hydrate('some', someStore, initialState)
+//   .then(() => console.log('some hydrated'))

@@ -161,6 +161,7 @@ height: 20px !important;
 `
 
 const RowWidthMax = styled(Row)`
+height: 100% !important;
 width: 100% !important;
 `
 

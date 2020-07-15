@@ -22,7 +22,7 @@ class LoginStore {
   tmp_menu1 = []
 
   @observable
-  data_signin_new = null
+  profile = null
 
   @observable
   fetching_logout = null
@@ -56,6 +56,8 @@ class LoginStore {
         refreshToken: data.refreshToken
       }
       this.data_signin = tmp_token
+      this.profile = data.userProfile
+
       try {
         this.data_menu = data.userProfile.menus
       } catch (error) {
