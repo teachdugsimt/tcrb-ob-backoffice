@@ -191,6 +191,8 @@ const ProductList =
             </div>)
         } else if (record.status === '2') {
           return null
+        } else if (record.status === '3') {
+          return null
         } else {
           return (<div>
             <TcrbPopconfirm title={"Confirm to Add !!!"} onConfirm={() => { submitAddnewProduct(record.key) }} >
@@ -205,7 +207,7 @@ const ProductList =
       const renderStatus = (record) => {
         if (record.status === '1') {
           return <p style={{ color: green[6] }}>Active</p>
-        } else if (record.status === '2') {
+        } else if (record.status === '2' || record.status === '3') {
           return <p style={{ color: gold[6] }}>Pending</p>
         } else {
           return null
@@ -246,7 +248,7 @@ const ProductList =
           dataIndex: 'transaction_limit',
           editable: true,
           render: (text, record) => addCommaInData(text, true),
-          sorter: (a, b) => a.product_description.localeCompare(b.product_description),
+          sorter: (a, b) => a.transaction_limit - (b.transaction_limit),
           sortDirections: ['descend', 'ascend'],
         },
         {
@@ -254,7 +256,7 @@ const ProductList =
           dataIndex: 'daily_limit',
           editable: true,
           render: (text, record) => addCommaInData(text, true),
-          sorter: (a, b) => a.daily_limit.localeCompare(b.daily_limit),
+          sorter: (a, b) => a.daily_limit - (b.daily_limit),
           sortDirections: ['descend', 'ascend'],
         },
         {
