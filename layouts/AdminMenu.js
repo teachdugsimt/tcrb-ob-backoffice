@@ -178,7 +178,7 @@ const AdminMenu = inject('authenStore', 'versatileStore', 'loginStore')(observer
               link_to = "/customer-service-enquiry"
             }
             else if (e.translate == "parameterManagement") {
-              link_to = "/partner-mangement"
+              link_to = "/parameters-setup"
             }
             else if (e.translate == "dashboardReporting") {
               link_to = "/"
