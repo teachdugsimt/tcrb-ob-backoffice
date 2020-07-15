@@ -79,23 +79,12 @@ const AdminMenu = inject('authenStore', 'versatileStore', 'loginStore')(observer
   //     authenStore.setMenu(adminMenu)
   // }, [])
 
-  const [checkRender, setcheckRender] = useState(false)
-
-  // useEffect(() => {
-  //   if (stateMenu && stateMenu.length > 0) {
-  //     setcheckRender(true)
-  //   }
-  // }, [stateMenu])
-
   useEffect(() => {
-    let tmp_menu = JSON.parse(JSON.stringify(loginStore.data_menu))
+    let tmp_menu = JSON.parse(JSON.stringify(loginStore.data_menu)) && JSON.parse(JSON.stringify(Object.keys(loginStore.data_menu).length > 0)) ? JSON.parse(JSON.stringify(loginStore.data_menu)) : []
     if (tmp_menu && tmp_menu.length > 0 && check_update_menu == 0) {
       check_update_menu = 1
-      console.log("Tmp MENU REALLY :: ", tmp_menu)
+      // console.log("Tmp MENU REALLY :: ", tmp_menu)
       let default_menu = [
-        // { key: 1, id: 1, name: "CUSTOMER SERVICES ENQUIRY", translate: "customerServicesEnquiry", link_to: "/customer-service-enquiry", color: "#000000", typeLv: "42" },
-        // { key: 2, id: 2, name: "CUSTOMER SERVICES MENU", translate: "customerServiceMenu", link_to: "/customer-service-menu", color: "#000000", typeLv: "38" },
-        // { key: 13, id: 13, name: "BUSINESS PARAMETERS SETUP", translate: "businessParametersSetup", link_to: "/parameters-setup", color: "#000000", typeLv: "42" },
         { key: 14, id: 14, name: "PENDING APPROVE", translate: "pendingApprove", link_to: "/pending-approve", color: "#000000", typeLv: "42" },
         { key: 15, id: 15, name: "USER ACCESS MANAGEMENT ", translate: "useAccessManagementEnquiry", link_to: "/user-access-management", color: "#000000", typeLv: "42" },
       ]
@@ -166,8 +155,6 @@ const AdminMenu = inject('authenStore', 'versatileStore', 'loginStore')(observer
             console.log("INIFINITE LOOP : ", i)
             let e = JSON.parse(JSON.stringify(item))
             let link_to
-            // 1. Lost - pending approve
-            // 2. Lost - uam
             if (e.link_to) {
               link_to = e.link_to
             }
@@ -189,7 +176,6 @@ const AdminMenu = inject('authenStore', 'versatileStore', 'loginStore')(observer
             else {
               link_to = "/"
             }
-
             return <BorderMenu style={{ marginBottom: 10, ...focusText }}><Link key={"link-menu-" + e.id} href={link_to}>
               <SpanText id={"span-text-" + e.id}><LinkColorMenu style={focusLink}>{t(e.translate)}</LinkColorMenu></SpanText>
             </Link></BorderMenu>

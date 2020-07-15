@@ -19,9 +19,6 @@ class LoginStore {
   error_login = null
 
   @observable
-  tmp_menu1 = []
-
-  @observable
   profile = null
 
   @observable
@@ -58,11 +55,7 @@ class LoginStore {
       this.data_signin = tmp_token
       this.profile = data.userProfile
 
-      try {
-        this.data_menu = data.userProfile.menus
-      } catch (error) {
-        this.tmp_menu1 = data.userProfile.menus
-      }
+      this.data_menu = Object.keys(data.userProfile).length == 0 ? {} : data.userProfile.menus
       this.error_login = null
 
     } else {
