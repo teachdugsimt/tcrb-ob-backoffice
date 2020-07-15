@@ -7,7 +7,7 @@ import { orange, green, gold } from '@ant-design/colors';
 import SimpleModal from '../../simple-modal'
 import SimpleInput from '../../simple-input'
 
-import { addKeyToDataSource } from '../../data-utility'
+import { addKeyToDataSource, checkDefaultStatus } from '../../data-utility'
 import UserAccessManagement from '../../../stores/user-access-management-store';
 
 const { Option } = Select;
@@ -91,34 +91,58 @@ const DepartmentList =
       }
 
       const renderActionDepartment = (record) => {
-        if (record.request_status == 'APPROVE') {
+        if (record.status == 'ACTIVE') {
+          if (record.request_status == 'APPROVE' || record.request_status == 'REJECT') {
+            return (
+              <div style={{ textAlign: "center" }}>
+                <a disabled={editingKey !== ''} onClick={() => viewDepartmentDetail(record)} style={{ marginRight: 8, color: '#FBA928' }}>
+                  Edit
+              </a>
+                {/* </TcrbPopconfirm> */}
+                <TcrbPopconfirm title="Sure to Deactivate?" onConfirm={() => submitDeleteDepartment(record)}>
+                  <a style={{ color: '#FBA928' }}>Deactivate</a>
+                </TcrbPopconfirm>
+              </div>
+            )
+          } else if (record.request_status == 'PENDING') {
+            return null
+          }
+
+        } else if (status == 'INACTIVE') {
+          if (record.request_status == 'PENDING') {
+            return null
+          }
+        } else {
+          return null
+        }
+        /* if (record.request_status == 'APPROVE') {
           return (
             <div style={{ textAlign: "center" }}>
-              {/* <TcrbPopconfirm title="Sure to Edit?" onConfirm={() => edit(record)}> */}
-              <a disabled={editingKey !== ''} onClick={() => viewDepartmentDetail(record)} style={{ marginRight: 8, color: '#FBA928' }}>
+              <a  onClick={() => viewDepartmentDetail(record)} style={{ marginRight: 8, color: '#FBA928' }}>
                 Edit
               </a>
-              {/* </TcrbPopconfirm> */}
               <TcrbPopconfirm title="Sure to Deactivate?" onConfirm={() => submitDeleteDepartment(record)}>
                 <a style={{ color: '#FBA928' }}>Deactivate</a>
               </TcrbPopconfirm>
-              {/* <TcrbPopconfirm title="Sure to Delete?" disabled={editingKey !== ''} onConfirm={() => deletePartnerSelect(record)}>
-                  <a><DeleteOutlined style={{ fontSize: '18px', paddingRight: 8 }} /></a>
-                </TcrbPopconfirm>
-                <a disabled={editingKey !== ''} onClick={() => edit(record)}><EditOutlined style={{ fontSize: '18px', color: '#FBA928' }} /></a> */}
             </div>
           )
         } else if (record.request_status == 'PENDING') {
           return null
         } else {
           return null
-        }
+        } */
       }
 
       const renderSection = (record) => {
-        return <div>
-          <a onClick={() => selectSection(record.sections)}>{record.sections.length} Section</a>
-        </div>
+        if (record.sections.length > 0) {
+          return <a onClick={() => selectSection(record.sections)}>{record.sections.length} Section</a>
+        } else {
+          return <span>{record.sections.length} Section</span>
+        }
+        /* return <div>
+          {record.sections.length > 0 && <a onClick={() => selectSection(record.sections)}>{record.sections.length} Section</a>}
+          {record.sections.length < 0 && <span>{record.sections.length} Section</span>}
+        </div> */
       }
 
       const checkStatus = (record) => {
@@ -137,7 +161,7 @@ const DepartmentList =
           title: '',
           dataIndex: 'status',
           width: '5%',
-          render: (text, record) => checkStatus(record)
+          render: (text, record) => checkDefaultStatus(record.status, record.request_status)
         },
         {
           title: 'Department',
@@ -176,7 +200,7 @@ const DepartmentList =
         return (
           <TcrbModal
             visible={visible}
-            title="Add new User"
+            title="Add New Department."
             okText="Submit"
             cancelText="Cancel"
             onCancel={() => {

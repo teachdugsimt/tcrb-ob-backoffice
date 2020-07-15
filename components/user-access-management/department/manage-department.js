@@ -247,8 +247,6 @@ const ManageDepartment =
           name: row.name,
           department_id: userAccessManagementStore.departmentSelected.id
         }
-
-        // console.log(row)
         userAccessManagementStore.submitAddNewSection(request)
         setIsDisableButtonAddSection(false)
       }
@@ -259,7 +257,48 @@ const ManageDepartment =
       }
       const renderActionSectionAndTeam = (record) => {
         const editable = isEditing(record);
-        if (record.request_status === 'APPROVE') {
+        if (record.status == 'ACTIVE') {
+          if (record.request_status == 'APPROVE' || record.request_status == 'REJECT') {
+            return editable ? (
+              <span>
+                <TcrbPopconfirm title="Sure to Save?" onConfirm={() => submitEditSection(record.key)}>
+                  <a style={{ marginRight: 8, }}>
+                    Save
+                  </a>
+                </TcrbPopconfirm>
+                <TcrbPopconfirm title="Sure to cancel?" onConfirm={() => cancelEditSection()}>
+                  <a style={{ color: '#3e3e3e' }}>Cancel</a>
+                </TcrbPopconfirm>
+              </span>
+            ) : (
+                <div style={{ textAlign: "center" }}>
+                  <a disabled={editingKey !== ''} onClick={() => edit(record)} style={{ marginRight: 8, color: '#FBA928' }}>
+                    Edit
+                  </a>
+                  <TcrbPopconfirm title="Sure to Deactivate?" onConfirm={() => deactivateSectionSelect(record)}>
+                    <a style={{ color: '#FBA928' }}>Deactivate</a>
+                  </TcrbPopconfirm>
+                </div>
+              );
+          } else if (record.request_status == 'PENDING') {
+            return null
+          }
+
+        } else if (record.status == 'INACTIVE') {
+          if (record.request_status == 'PENDING') {
+            return null
+          }
+        } else {
+          return (<div>
+            <TcrbPopconfirm title={"Confirm to Add !!!"} onConfirm={() => { addNewSection(record.key) }} >
+              <a>Confirm</a>
+            </TcrbPopconfirm><br />
+            <TcrbPopconfirm title={"Confirm to Cancel !!!"} onConfirm={() => { cancelAddNewSection(record.key) }} >
+              <a>Cancel</a>
+            </TcrbPopconfirm>
+          </div>)
+        }
+        /* if (record.request_status === 'APPROVE') {
           return editable ? (
             <span>
               <TcrbPopconfirm title="Sure to Save?" onConfirm={() => submitEditSection(record.key)}>
@@ -295,7 +334,7 @@ const ManageDepartment =
               <a>Cancel</a>
             </TcrbPopconfirm>
           </div>)
-        }
+        } */
       }
 
       const addRowProductList = () => {
@@ -368,7 +407,7 @@ const ManageDepartment =
             </Col>
           </Row>
           <Row gutter={[4, 24]}>
-            <Col span={5}>Department</Col>
+            <Col span={5} style={{ fontWeight: "bold" }}>Department Name</Col>
             <Col span={7}> {showEditDepartment ?
               <SimpleInput defaultValue={userAccessManagementStore.departmentSelected.name} onChange={(value) => departmentName = value} /> : userAccessManagementStore.departmentSelected.name
             }

@@ -29,11 +29,9 @@ const ManageGroup = inject('userAccessManagementStore')
     const [optionUserList, setOptionUserList] = useState([])
 
     useEffect(() => {
-      setRoleList([])
-      console.log(toJS(userAccessManagementStore.groupSelected))
       splitMapUserGroups(userAccessManagementStore.groupSelected.map_user_groups)
       userAccessManagementStore.getDataUserOptionList()
-      // addKeyToUserInGroup(userAccessManagementStore.groupSelected.map_user_groups)
+      userAccessManagementStore.getDataRoleOptionList()
     }, [])
 
     useEffect(() => {
@@ -54,6 +52,15 @@ const ManageGroup = inject('userAccessManagementStore')
         })
       }
     }, [userAccessManagementStore.optionUserList])
+
+    useEffect(() => {
+      if (userAccessManagementStore.optionRoleList.length >= 0) {
+        addKeyToDataSource(userAccessManagementStore.optionRoleList).then(result => {
+          setRoleList(result)
+        })
+      }
+
+    }, [userAccessManagementStore.optionRoleList])
 
     const addKeyToUserInGroup = (userInGroupList) => {
       addKeyToDataSource(userInGroupList).then(result => {
@@ -109,6 +116,7 @@ const ManageGroup = inject('userAccessManagementStore')
             style={{ width: '100%' }}
             placeholder="Please select user"
             onChange={(value) => { userSelect = value }}
+          // defaultValue="StfDB"
           >
             {optionUserList.map((item, index) => <Option key={index} value={item.id}>{item.name}</Option>)}
           </Select>
@@ -185,27 +193,35 @@ const ManageGroup = inject('userAccessManagementStore')
           </Col>
         </Row>
         <Row gutter={[4, 24]}>
-          <Col span={4}>Group Name</Col>
+          <Col span={4} style={{ fontWeight: "bold" }}>Group Name</Col>
           <Col span={6}> {showEditGroup ?
             <SimpleInput defaultValue={userAccessManagementStore.groupSelected.name} onChange={(value) => name = value} /> : userAccessManagementStore.groupSelected.name
           }
           </Col>
         </Row>
-        {showEditGroup ? <Row gutter={[4, 24]}>
-          <Col span={4}>Role</Col>
+        <Row gutter={[4, 24]}>
+          <Col span={4} style={{ fontWeight: "bold" }}>Role</Col>
           <Col span={6}>
-            <Select
+            {showEditGroup ?
+              <Select
+                style={{ width: '100%' }}
+                placeholder="Please select Role"
+                onChange={(value) => roleSelect = value}
+                defaultValue={userAccessManagementStore.groupSelected.role.name}
+              >
+                {roleList.map((item, index) => <Option key={index} value={item.id}>{item.name}</Option>)}
+              </Select> : userAccessManagementStore.groupSelected.role.name
+            }
+            {/* <Select
               style={{ width: '100%' }}
-              placeholder="Please select"
+              placeholder="Please select Role"
               onChange={(value) => roleSelect = value}
-              defaultValue={1} //waiting value from store
+              defaultValue={userAccessManagementStore.groupSelected.role.name}
             >
-              {roleList.map((item, index) => <Option key={index} value={item.id}>{item.role_name}</Option>)}
-            </Select>
+              {roleList.map((item, index) => <Option key={index} value={item.id}>{item.name}</Option>)}
+            </Select> */}
           </Col>
-        </Row> :
-          null
-        }
+        </Row>
 
         <Row justify="center" style={{ marginTop: 8 }}>
           <Col span={4}>

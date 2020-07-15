@@ -24,7 +24,7 @@ const ManageUser = inject('userAccessManagementStore')
     const [modalString, setModalString] = useState('')
     const [optionGroupList, setOptionGroupList] = useState([])
     const [supervisorList, setSupervisorList] = useState([])
-    const [sectionList, setSectionList] = useState([])
+    const [optionSectionList, setOptionSectionList] = useState([])
     const [groupListInUser, setGroupListInUser] = useState([])
     const dateFormat = 'YYYY-MM-DD'
 
@@ -34,7 +34,7 @@ const ManageUser = inject('userAccessManagementStore')
     useEffect(() => {
       userAccessManagementStore.getDataGroupOptionList()
       userAccessManagementStore.getDataSectionList()
-      // console.log(toJS(userAccessManagementStore.userSelected))
+      console.log(toJS(userAccessManagementStore.userSelected))
       // mapKeyToGroupList(userAccessManagementStore.userSelected.map_user_groups)
     }, [])
 
@@ -53,6 +53,14 @@ const ManageUser = inject('userAccessManagementStore')
         })
       }
     }, [userAccessManagementStore.supervisorList])
+
+    useEffect(() => {
+      if (userAccessManagementStore.optionSectionList.length >= 0) {
+        addKeyToDataSource(userAccessManagementStore.optionSectionList).then(result => {
+          setOptionSectionList(result)
+        })
+      }
+    }, [userAccessManagementStore.optionSectionList])
 
     useEffect(() => {
       console.log(toJS(userAccessManagementStore.userSelected))
@@ -161,6 +169,12 @@ const ManageUser = inject('userAccessManagementStore')
       userAccessManagementStore.updateUser(request)
     }
 
+    const renderOptionSelectFindNameById = (sectionId) => {
+      let nameSectionSelect = optionSectionList.filter(
+        item => item.id == userAccessManagementStore.userSelected.section_id
+      )
+    }
+
     const FormEditUser = ({ onSubmitEditUser }) => {
       return (
         <Form
@@ -222,9 +236,9 @@ const ManageUser = inject('userAccessManagementStore')
                   style={{ width: '100%' }}
                   placeholder="Please select"
                   onChange={(value) => getSupervisorList(value)}
-                  defaultValue={userAccessManagementStore.userSelected.section_id}
+                // defaultValue={renderOptionSelectFindNameById()}
                 >
-                  {sectionList.map((item, index) => <Option key={index} value={item.id}>{item.name}</Option>)}
+                  {optionSectionList.map((item, index) => <Option key={index} value={item.id}>{item.name}</Option>)}
                   {/* {children} */}
                 </Select>
               </Form.Item>
@@ -417,27 +431,27 @@ const ManageUser = inject('userAccessManagementStore')
       return (
         <div>
           <Row gutter={[4, 24]}>
-            <Col span={4}>Employee ID</Col>
+            <Col span={4} style={{ fontWeight: "bold" }}>Employee ID</Col>
             <Col span={6}> {userAccessManagementStore.userSelected.employee_id}</Col>
-            <Col span={4}>Supervisor</Col>
+            <Col span={4} style={{ fontWeight: "bold" }}>Supervisor</Col>
             <Col span={6}> {userAccessManagementStore.userSelected.supervisor}</Col>
           </Row>
           <Row gutter={[4, 24]}>
-            <Col span={4}>Name</Col>
+            <Col span={4} style={{ fontWeight: "bold" }}>Name</Col>
             <Col span={6}> {userAccessManagementStore.userSelected.name}</Col>
-            <Col span={4}>Surname</Col>
+            <Col span={4} style={{ fontWeight: "bold" }}>Surname</Col>
             <Col span={6}> {userAccessManagementStore.userSelected.surname}</Col>
           </Row>
           <Row gutter={[4, 24]}>
-            <Col span={4}>Username</Col>
+            <Col span={4} style={{ fontWeight: "bold" }}>Username</Col>
             <Col span={6}> {userAccessManagementStore.userSelected.username}</Col>
-            <Col span={4}>E-mail</Col>
+            <Col span={4} style={{ fontWeight: "bold" }}>E-mail</Col>
             <Col span={6}> {userAccessManagementStore.userSelected.email}</Col>
           </Row>
           <Row gutter={[4, 24]}>
-            <Col span={4}>Status</Col>
+            <Col span={4} style={{ fontWeight: "bold" }}>Status</Col>
             <Col span={6}> {userAccessManagementStore.userSelected.status}</Col>
-            <Col span={4}>Section</Col>
+            <Col span={4} style={{ fontWeight: "bold" }}>Section</Col>
             <Col span={6}> {userAccessManagementStore.userSelected.section}</Col>
           </Row>
           <Row justify="end" style={{ marginTop: 8 }}>

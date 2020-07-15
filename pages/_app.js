@@ -19,6 +19,8 @@ import EmptyLayout from '../layouts/EmptyLayout'
 class CustomApp extends App {
 
   static async getInitialProps(appContext) {
+    console.log("_________________ GET INITIAL PROPS APP _______________________")
+    console.log(appContext)
     const mobxStore = initializeStore();
     appContext.ctx.mobxStore = mobxStore;
     const appProps = await App.getInitialProps(appContext);

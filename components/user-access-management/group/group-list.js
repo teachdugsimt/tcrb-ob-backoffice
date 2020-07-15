@@ -48,6 +48,7 @@ const GroupList = inject('userAccessManagementStore')
       }
 
     }, [userAccessManagementStore.optionRoleList])
+
     const mockRoleList = [
       {
         id: 1,
@@ -170,7 +171,6 @@ const GroupList = inject('userAccessManagementStore')
             dataSource={result}
             columns={columnUser}
             size="small"
-            pagination={false}
           />
         )
       })
