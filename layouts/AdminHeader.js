@@ -22,7 +22,7 @@ const AdminHeader = inject('authenStore', 'loginStore')(observer((props) => {
   useEffect(() => {
     let propsSignout = JSON.parse(JSON.stringify(loginStore.data_logout))
     let propsLogin = JSON.parse(JSON.stringify(loginStore.data_signin))
-    if(propsSignout && propsSignout.signOut == true && !propsLogin){
+    if (propsSignout && propsSignout.signOut == true && !propsLogin) {
       // Router.push("/login")
     }
   }, [JSON.parse(JSON.stringify(loginStore.data_logout))])
@@ -47,8 +47,8 @@ const AdminHeader = inject('authenStore', 'loginStore')(observer((props) => {
             <DivAccount>
               <WrapperImageAccount src={account} />
               <DivName>
-                <TextName>{t('mockName')}</TextName>
-                <TextName>{t('mockLastName')}</TextName>
+                <TextName>{loginStore.profile ? loginStore.profile.username : ""}</TextName>
+                {/* <TextName>{loginStore.profile ? loginStore.profile.surname : ""}</TextName> */}
               </DivName>
             </DivAccount>
           </ContentMainDiv>
