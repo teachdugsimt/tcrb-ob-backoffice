@@ -44,7 +44,7 @@ class LoginStore {
     this.fetching_login = true
     const tmp = await LoginApi.LoginApi(params)
     console.log(tmp)
-    if (tmp && tmp.ok && tmp.status === 200 && tmp.data) {
+    if (tmp && tmp.ok && tmp.status === 200 && tmp.data && tmp.data.responseData) {
       //when success
       let data = JSON.parse(JSON.stringify(tmp.data.responseData))
       this.fetching_login = false
