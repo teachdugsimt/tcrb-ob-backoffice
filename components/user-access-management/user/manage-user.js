@@ -158,6 +158,7 @@ const ManageUser = inject('userAccessManagementStore')
 
     const submitEditUser = () => {
       console.log(dataEditUserProfile)
+      setVisible(false)
       let request = {
         currentData: userAccessManagementStore.userSelected,
         newData: {

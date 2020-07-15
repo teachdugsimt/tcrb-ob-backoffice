@@ -3,13 +3,16 @@ import styled from 'styled-components';
 
 const TcrbTabs = styled(Tabs)`
     .ant-tabs-tab-active{
-      color: ${({ theme }) => theme.colors.palette.orange};
+      color: ${({ theme }) => theme.colors.palette.orange} !important;
     }
     .ant-tabs-tab:hover{
       color: ${({ theme }) => theme.colors.palette.orange};
     }
     .ant-tabs-ink-bar {
       background: ${({ theme }) => theme.colors.palette.orange};
+    }
+    .ant-tabs-tab.ant-tabs-tab-active .ant-tabs-tab-btn{
+      color: ${({ theme }) => theme.colors.palette.orange} !important;
     }
 `
 
