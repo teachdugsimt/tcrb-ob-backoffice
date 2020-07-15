@@ -56,8 +56,8 @@ const UserList = inject('userAccessManagementStore')
         join_date: moment(values.join_data).format('YYYY-MM-DD'),
         last_working_date: values.last_working_date == undefined ? values.last_working_date : moment(values.last_working_date).format('YYYY-MM-DD')
       }
-      console.log(request)
-      // userAccessManagementStore.submitAddNewUser(request)
+      // console.log(request)
+      userAccessManagementStore.submitAddNewUser(request)
       setModalFromVisible(false);
     }
 
