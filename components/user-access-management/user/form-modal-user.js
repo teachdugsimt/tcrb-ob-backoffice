@@ -237,7 +237,7 @@ const FormModalUser = inject('userAccessManagementStore')
                   name="last_working_date"
                   rules={[
                     {
-                      // required: true,
+                      required: false,
                       message: 'Please input Last Working Date',
                     },
                   ]}
