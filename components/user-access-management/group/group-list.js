@@ -171,7 +171,6 @@ const GroupList = inject('userAccessManagementStore')
             dataSource={result}
             columns={columnUser}
             size="small"
-            pagination={false}
           />
         )
       })

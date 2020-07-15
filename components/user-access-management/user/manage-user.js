@@ -24,7 +24,7 @@ const ManageUser = inject('userAccessManagementStore')
     const [modalString, setModalString] = useState('')
     const [optionGroupList, setOptionGroupList] = useState([])
     const [supervisorList, setSupervisorList] = useState([])
-    const [sectionList, setSectionList] = useState([])
+    const [optionSectionList, setOptionSectionList] = useState([])
     const [groupListInUser, setGroupListInUser] = useState([])
     const dateFormat = 'YYYY-MM-DD'
 
@@ -34,7 +34,7 @@ const ManageUser = inject('userAccessManagementStore')
     useEffect(() => {
       userAccessManagementStore.getDataGroupOptionList()
       userAccessManagementStore.getDataSectionList()
-      // console.log(toJS(userAccessManagementStore.userSelected))
+      console.log(toJS(userAccessManagementStore.userSelected))
       // mapKeyToGroupList(userAccessManagementStore.userSelected.map_user_groups)
     }, [])
 
@@ -53,6 +53,14 @@ const ManageUser = inject('userAccessManagementStore')
         })
       }
     }, [userAccessManagementStore.supervisorList])
+
+    useEffect(() => {
+      if (userAccessManagementStore.optionSectionList.length >= 0) {
+        addKeyToDataSource(userAccessManagementStore.optionSectionList).then(result => {
+          setOptionSectionList(result)
+        })
+      }
+    }, [userAccessManagementStore.optionSectionList])
 
     useEffect(() => {
       console.log(toJS(userAccessManagementStore.userSelected))
@@ -161,6 +169,12 @@ const ManageUser = inject('userAccessManagementStore')
       userAccessManagementStore.updateUser(request)
     }
 
+    const renderOptionSelectFindNameById = (sectionId) => {
+      let nameSectionSelect = optionSectionList.filter(
+        item => item.id == userAccessManagementStore.userSelected.section_id
+      )
+    }
+
     const FormEditUser = ({ onSubmitEditUser }) => {
       return (
         <Form
@@ -222,9 +236,9 @@ const ManageUser = inject('userAccessManagementStore')
                   style={{ width: '100%' }}
                   placeholder="Please select"
                   onChange={(value) => getSupervisorList(value)}
-                  defaultValue={userAccessManagementStore.userSelected.section_id}
+                // defaultValue={renderOptionSelectFindNameById()}
                 >
-                  {sectionList.map((item, index) => <Option key={index} value={item.id}>{item.name}</Option>)}
+                  {optionSectionList.map((item, index) => <Option key={index} value={item.id}>{item.name}</Option>)}
                   {/* {children} */}
                 </Select>
               </Form.Item>
