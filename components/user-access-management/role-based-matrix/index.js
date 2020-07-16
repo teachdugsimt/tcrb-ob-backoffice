@@ -60,12 +60,12 @@ const RoleBasedMatrix = inject("userAccessManagementStore")(
 
         let propsFunctions = JSON.parse(JSON.stringify(userAccessManagementStore.functionList))
 
-        let tmp_matrix =
-        propsRoles.map((e, i) => {
-          propsFunctions.map((func, ind) => {
+        // let tmp_matrix =
+        //   propsRoles.map((e, i) => {
+        //     propsFunctions.map((func, ind) => {
 
-          })
-        })
+        //     })
+        //   })
 
 
 
