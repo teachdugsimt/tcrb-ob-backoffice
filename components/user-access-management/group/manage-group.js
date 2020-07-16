@@ -9,6 +9,7 @@ import SimpleModal from '../../simple-modal'
 
 import { checkDefaultStatus, addKeyToDataSource } from '../../data-utility'
 import { toJS } from 'mobx';
+import { get } from 'lodash'
 
 const { Option } = Select;
 let userSelect = {}
@@ -195,7 +196,7 @@ const ManageGroup = inject('userAccessManagementStore')
         <Row gutter={[4, 24]}>
           <Col span={4} style={{ fontWeight: "bold" }}>Group Name</Col>
           <Col span={6}> {showEditGroup ?
-            <SimpleInput defaultValue={userAccessManagementStore.groupSelected.name} onChange={(value) => name = value} /> : userAccessManagementStore.groupSelected.name
+            <SimpleInput defaultValue={userAccessManagementStore.groupSelected.name} onChange={(value) => name = value} /> : get(userAccessManagementStore, 'groupSelected.name', null)
           }
           </Col>
         </Row>
@@ -210,7 +211,7 @@ const ManageGroup = inject('userAccessManagementStore')
                 defaultValue={userAccessManagementStore.groupSelected.role.name}
               >
                 {roleList.map((item, index) => <Option key={index} value={item.id}>{item.name}</Option>)}
-              </Select> : userAccessManagementStore.groupSelected.role.name
+              </Select> : get(userAccessManagementStore, 'groupSelected.role.name', null)
             }
             {/* <Select
               style={{ width: '100%' }}

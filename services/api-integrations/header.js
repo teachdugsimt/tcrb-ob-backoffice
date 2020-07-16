@@ -33,7 +33,7 @@ const Header = (api_gw_id = null, vpc_id = null) => {
       // 'x-apigw-api-id': "dwl8p0fxml",
       // "Upgrade-Insecure-Requests": "1",
     },
-    timeout: 10000
+    timeout: 20000
   }
   return header
 }

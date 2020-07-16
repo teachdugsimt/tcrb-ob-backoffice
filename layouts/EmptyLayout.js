@@ -6,6 +6,7 @@ import { inject, observer } from 'mobx-react'
 import { withTranslation } from '../i18n'
 import Custom404 from '../pages/404'
 import dynamic from "next/dynamic";
+import jsCookie from 'js-cookie';
 const Login = dynamic(() => import("../pages/login"));
 
 const EmptyLayout = inject('authenStore', 'loginStore')(observer((props) => {
@@ -13,6 +14,8 @@ const EmptyLayout = inject('authenStore', 'loginStore')(observer((props) => {
   const { authenStore, loginStore } = props
   console.log(props)
   console.log("________________ EMPTY LAYOUT PROPS __________________")
+  let cookie_session = jsCookie.get('token')
+  console.log(cookie_session)
   const propsLogin = JSON.parse(JSON.stringify(loginStore.data_signin))
   const propsLoginError = JSON.parse(JSON.stringify(loginStore.error_login))
   const dataSignout = JSON.parse(JSON.stringify(loginStore.data_logout))
@@ -41,78 +44,31 @@ const EmptyLayout = inject('authenStore', 'loginStore')(observer((props) => {
 }
 ))
 EmptyLayout.getInitialProps = async (context) => {
-  console.log("_________________ context ON LAYOUT CONTROL __________________")
+  console.log("_________________ GET INITAL PROPS EMPTY LAYOUT __________________")
   console.log(context)
 
-  const { sessions } = readCookies(context.req);
-  if (!sessions) return { loggedIn: false };
-  else
-    return { namespacesRequired: [] }
+  // const { sessions } = readCookies(context.req);
+  // if (!sessions) return { loggedIn: false };
+  // else
+  //   return { namespacesRequired: [] }
+
+
+
+  let initProps = {};
+  if (context && context.headers) {
+    let cookies = context.headers.cookie;
+    if (typeof cookies === 'string') {
+      const cookiesJSON = JSON.parse(JSON.stringify(cookies));
+      initProps.token = cookiesJSON.token;
+    }
+  }
+  return initProps;
+
+
+
 }
 export default withRouter(
   withTranslation('common')
     (EmptyLayout)
 )
 
-
-// PrivatePage.getInitialProps = async context => {
-//   const { sessions } = readCookies(context.req);
-//   if (!session) return { loggedIn: false };
-//   // the code required for your private page
-// };
-
-
-
-
-
-
-
-
-
-
-
-
-// import React, { useContext } from 'react'
-// import Router, { withRouter } from 'next/router'
-// import MainLayout from './MainLayout'
-// import { inject, observer } from 'mobx-react'
-// import Login from '../pages/login'
-// import { withTranslation } from '../i18n'
-// import Custom404 from '../pages/404'
-// import login from '../pages/login'
-
-// export default function EmptyLayout({
-//   WrappedComponent,
-//   clientCondition,
-//   serverCondition,
-//   location
-// }) {
-//   const EmptyLayoutWrapper = props => {
-//     const router = useRouter();
-//     const redirectCondition = clientCondition();
-//     if (isBrowser() && redirectCondition) {
-//       router.push(location);
-//       return <></>;
-//     }
-//     return <MainLayout>
-//       {props.children}
-//     </MainLayout>;
-//   };
-
-//   EmptyLayoutWrapper.getInitialProps = async (ctx) => {
-//     if (!isBrowser() && ctx.res) {
-//       if (serverCondition(ctx)) {
-//         ctx.res.writeHead(302, { Location: location });
-//         ctx.res.end();
-//       }
-//     }
-
-//     const componentProps =
-//       WrappedComponent.getInitialProps &&
-//       (await WrappedComponent.getInitialProps(ctx));
-
-//     return { ...componentProps };
-//   };
-
-//   return EmptyLayoutWrapper;
-// }

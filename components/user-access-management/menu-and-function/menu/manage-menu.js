@@ -38,6 +38,7 @@ const ManageMenu =
         /*  addKeyToDataSource(userAccessManagementStore.menuSelected.functions).then(result => {
            setDataSourceFunction(result)
          }) */
+        console.log(toJS(userAccessManagementStore.menuSelected))
         userAccessManagementStore.getDataFunctionList()
         userAccessManagementStore.getDataFunctionListInMenu(userAccessManagementStore.menuSelected.id)
 
@@ -119,10 +120,14 @@ const ManageMenu =
       }
 
       const addFunction = () => {
+        console.log(toJS(userAccessManagementStore.menuSelected))
         let request = {
-          menu_id: userAccessManagementStore.menuSelected.id,
-          ...functionOptionSelected
+          // newData: {
+          ...functionOptionSelected,
+          menu_id: userAccessManagementStore.menuSelected.id
+          // }
         }
+        // console.log(request)
         userAccessManagementStore.submitAddFunctionToMenu(request)
         // userAccessManagementStore.getDataFunctionListInMenu(userAccessManagementStore.menuSelected.id)
       }

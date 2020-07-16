@@ -19,10 +19,7 @@ class LoginStore {
   error_login = null
 
   @observable
-  tmp_menu1 = []
-
-  @observable
-  data_signin_new = null
+  profile = null
 
   @observable
   fetching_logout = null
@@ -44,7 +41,7 @@ class LoginStore {
     this.fetching_login = true
     const tmp = await LoginApi.LoginApi(params)
     console.log(tmp)
-    if (tmp && tmp.ok && tmp.status === 200 && tmp.data) {
+    if (tmp && tmp.ok && tmp.status === 200 && tmp.data && tmp.data.responseData) {
       //when success
       let data = JSON.parse(JSON.stringify(tmp.data.responseData))
       this.fetching_login = false
@@ -56,11 +53,9 @@ class LoginStore {
         refreshToken: data.refreshToken
       }
       this.data_signin = tmp_token
-      try {
-        this.data_menu = data.userProfile.menus
-      } catch (error) {
-        this.tmp_menu1 = data.userProfile.menus
-      }
+      this.profile = data.userProfile
+
+      this.data_menu = Object.keys(data.userProfile).length == 0 ? {} : data.userProfile.menus
       this.error_login = null
 
     } else {

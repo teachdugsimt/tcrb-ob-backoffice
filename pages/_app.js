@@ -19,14 +19,25 @@ import EmptyLayout from '../layouts/EmptyLayout'
 class CustomApp extends App {
 
   static async getInitialProps(appContext) {
-    console.log("_________________ GET INITIAL PROPS APP _______________________")
+    console.log("_________________ GET INITIAL PROPS _APP _______________________")
     console.log(appContext)
+
+    let initProps = {};
+    if (appContext && appContext.headers) {
+      let cookies = appContext.headers.cookie;
+      if (typeof cookies === 'string') {
+        const cookiesJSON = JSON.parse(JSON.stringify(cookies));
+        initProps.token = cookiesJSON.token;
+      }
+    }
+
     const mobxStore = initializeStore();
     appContext.ctx.mobxStore = mobxStore;
     const appProps = await App.getInitialProps(appContext);
     return {
       ...appProps,
       initialMobxState: mobxStore,
+      initProps,
       // namespacesRequired: ['common',],
     };
   }

@@ -11,6 +11,7 @@ import { addKeyToDataSource, checkDefaultStatus } from '../../data-utility';
 import userAccessManagement from '..';
 import moment from 'moment';
 import { toJS } from 'mobx';
+import { get } from 'lodash'
 
 const { Option } = Select;
 let groupSelect = null
@@ -190,7 +191,8 @@ const ManageUser = inject('userAccessManagementStore')
             'username': userAccessManagementStore.userSelected.name,
             'email': userAccessManagementStore.userSelected.name,
             'join_date': moment(userAccessManagementStore.userSelected.join_date),
-            'last_working_date': moment(userAccessManagementStore.userSelected.last_working_date)
+            'last_working_date': userAccessManagementStore.userSelected.last_working_date == null ? null : moment(userAccessManagementStore.userSelected.last_working_date),
+            'user_status': userAccessManagementStore.userSelected.status
           }}
           onFinish={(values) => {
             onSubmitEditUser(values)
@@ -337,7 +339,7 @@ const ManageUser = inject('userAccessManagementStore')
                   },
                 ]}
               >
-                <DatePicker style={{ width: '100%' }} format={dateFormat} defaultValue={moment(userAccessManagementStore.userSelected.join_date, dateFormat)} />
+                <DatePicker style={{ width: '100%' }} format={dateFormat} />
               </Form.Item>
             </Col>
             <Col span={4} style={{ paddingLeft: 16 }}>
@@ -355,7 +357,7 @@ const ManageUser = inject('userAccessManagementStore')
                   },
                 ]}
               >
-                <DatePicker style={{ width: '100%' }} format={dateFormat} defaultValue={moment(userAccessManagementStore.userSelected.last_working_date, dateFormat)} />
+                <DatePicker style={{ width: '100%' }} format={dateFormat} />
               </Form.Item>
             </Col>
           </Row>
@@ -380,9 +382,10 @@ const ManageUser = inject('userAccessManagementStore')
                   placeholder="Please select"
                   onChange={(value) => null}
                 >
-                  {/* {children} */}
+                  <Option value="INACTIVE">INACTIVE</Option>
+                  <Option value="ACTIVE">ACTIVE</Option>
+                  <Option value="SUSPEND">SUSPEND</Option>
                 </Select>
-
               </Form.Item>
             </Col>
             <Col span={4} style={{ paddingLeft: 16 }}>
@@ -433,7 +436,7 @@ const ManageUser = inject('userAccessManagementStore')
         <div>
           <Row gutter={[4, 24]}>
             <Col span={4} style={{ fontWeight: "bold" }}>Employee ID</Col>
-            <Col span={6}> {userAccessManagementStore.userSelected.employee_id}</Col>
+            <Col span={6}> {userAccessManagementStore.userSelected.employee_code}</Col>
             <Col span={4} style={{ fontWeight: "bold" }}>Supervisor</Col>
             <Col span={6}> {userAccessManagementStore.userSelected.supervisor}</Col>
           </Row>

@@ -13,6 +13,7 @@ import { Layout } from 'antd';
 import { i18n, withTranslation } from '../../i18n'
 import logo02 from '../../images/logo.png'
 import background from './styles/background.png'
+import jsCookie from 'js-cookie';
 
 const Signin =
   inject('authenStore', 'businessParametersSetupStore', 'loginStore')
@@ -26,6 +27,7 @@ const Signin =
       const [colorID, setcolorID] = useState("#D3D3D3")
       const [colorPass, setcolorPass] = useState("#D3D3D3")
       const [visible, setvisible] = useState(false)
+
       useEffect(() => {
         i18n.changeLanguage("en")
         setcolorID("#D3D3D3")
@@ -54,6 +56,7 @@ const Signin =
         } else if (newPropsLogin) {
           setvisible(false)
           if (newPropsLogin.idToken) {
+            jsCookie.set('token', newPropsLogin.idToken)
             // if (newPropsLogin.userProfile && newPropsLogin.userProfile.menus) {
             //   authenStore.setMenu(newPropsLogin.userProfile.menus)
             // } else { authenStore.setMenu(adminMenu) }

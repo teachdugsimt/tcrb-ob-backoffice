@@ -897,9 +897,11 @@ export default class UserAccessManagement {
     console.log(tmp)
     if (tmp.ok && tmp.status === 200) {
       //when success
-      this.functionList = []
+      this.functionListInMenu = []
+      let menu_id = this.menuSelected.id
       this.apiFetching = false
-      this.getDataFunction()
+      this.getDataFunctionListInMenu(menu_id)
+      // .getDataFunctionListInMenu(userAccessManagementStore.menuSelected.id)
     } else {
       //when error
       this.apiFetching = false
