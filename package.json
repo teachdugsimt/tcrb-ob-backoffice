@@ -8,7 +8,12 @@
     "export": "next build && next export",
     "deploy": "npm run export && now",
     "start": "next start",
-    "test": "jest --coverage --env=node"
+    "start:preprod": "REACT_APP_NODE_ENV=preprod next start",
+    "start:prod": "REACT_APP_NODE_ENV=prod next start",
+    "test": "jest --coverage --env=node",
+    "eb:dev": "next build && npm run start",
+    "eb:preprod": "next build && npm run start:preprod",
+    "eb:prod": "next build && npm run start:prod"
   },
   "dependencies": {
     "@ant-design/colors": "^4.0.1",

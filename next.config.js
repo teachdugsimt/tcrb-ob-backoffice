@@ -9,7 +9,13 @@ const withPlugins = require('next-compose-plugins')
 
 const withSass = require('@zeit/next-sass')
 
-module.exports = withImage({})
+// module.exports = withImage({})
+module.exports = withImage({
+  env: {
+    API_ENDPOINT: process.env.API_ENDPOINT,
+    abc: 'def'
+  },
+})
 // const withLess = require('@zeit/next-less')
 
 // const isProd = process.env.NODE_ENV === 'production'
