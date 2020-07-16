@@ -76,8 +76,8 @@ const productServiceColumn = (deactivateServiceSelect) => {
     },
     {
       title: 'Name',
-      dataIndex: 'service',
-      render: (text, record) => record.service.name,
+      dataIndex: 'service_name',
+      // render: (text, record) => record.service.name,
     },
     {
       title: 'Transaction Code',

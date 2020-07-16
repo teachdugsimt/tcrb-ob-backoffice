@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { inject, observer } from 'mobx-react'
-
+import { get } from 'lodash'
 import { toJS } from 'mobx'
 import { Table, Tag, Space } from 'antd'
 import { withTranslation } from '../../i18n'
@@ -25,11 +25,17 @@ const TableProduct =
         }
       }, [productOnboardStore.productList])
 
+
+
+      // productDetailSelected
+
       const deleteProductSelect = (record) => {
         console.log(toJS(record))
+        productOnboardStore.submitDeactivateProduct(record)
       }
       const viewManageProduct = (record) => {
-        productOnboardStore.getDataProductDetail(record.product_code)
+        productOnboardStore.productDetailSelected = record
+        // productOnboardStore.getDataProductDetail(record.id)
         // productOnboardStore.getDataProductServiceList(productOnboardStore.productDetailSelected.product_code)
 
         // productOnboardStore.productSelected = record

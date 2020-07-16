@@ -26,6 +26,16 @@ class ProductOnBoardApi {
     return response
   }
 
+  updateProduct = async (params) => {
+    const response = await ExcuteApi('api/backoffice/v1/changerequest', params, "post")
+    return response
+  }
+
+  deleteProduct = async (params) => {
+    const response = await ExcuteApi('api/backoffice/v1/changerequest', params, "post")
+    return response
+  }
+
   deleteProductService = async (params) => {
     const response = await ExcuteApi('api/backoffice/v1/changerequest', params, "post")
     return response

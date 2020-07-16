@@ -192,6 +192,32 @@ class ProductOnBoard {
     }
   }
 
+  @action submitUpdateProductDetail = async (params) => {
+    this.apiFetching = true
+    let tmp = await ProductOnBoardApi.updateProduct({ change_type: "PRODUCTS", action: "Update", currentData: params.currentData, newData: params.newData, maker_id: '36' })
+    console.log(tmp)
+    if (tmp.ok && tmp.status === 200) {
+      //when success
+      // let productCode = this.productDetailSelected.product_code
+      // this.productServiceList = []
+      this.apiFetching = false
+      // this.getDataProductServiceList(productCode)
+    } else {
+      //when error
+      this.apiFetching = false
+      let errorMessage = {
+        title: 'submitUpdateProductDetail',
+        body: (
+          <div>
+            <p>{tmp.data.userMessage}</p>
+            <p style={{ fontWeight: 'bold' }}>Error Code {tmp.data.responseCode}</p>
+          </div>
+        )
+      }
+      openModalError(errorMessage)
+    }
+  }
+
   @action submitDeactivateService = async (params) => {
     this.apiFetching = true
     let tmp = await ProductOnBoardApi.addNewProduct({ change_type: "PRODUCT_SERVICES", action: "Delete", currentData: params, newData: {}, maker_id: '36' })
@@ -202,6 +228,30 @@ class ProductOnBoard {
       this.productServiceList = []
       this.apiFetching = false
       this.getDataProductServiceList(productCode)
+    } else {
+      //when error
+      this.apiFetching = false
+      let errorMessage = {
+        title: 'submitDeactivateService',
+        body: (
+          <div>
+            <p>{tmp.data.userMessage}</p>
+            <p style={{ fontWeight: 'bold' }}>Error Code {tmp.data.responseCode}</p>
+          </div>
+        )
+      }
+      openModalError(errorMessage)
+    }
+  }
+
+  @action submitDeactivateProduct = async (params) => {
+    this.apiFetching = true
+    let tmp = await ProductOnBoardApi.deleteProduct({ change_type: "PRODUCTS", action: "Delete", currentData: params, newData: {}, maker_id: '36' })
+    console.log(tmp)
+    if (tmp.ok && tmp.status === 200) {
+      //when success
+      this.apiFetching = false
+      this.getDataProductList()
     } else {
       //when error
       this.apiFetching = false
