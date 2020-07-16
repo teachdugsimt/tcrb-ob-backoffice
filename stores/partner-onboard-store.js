@@ -6,6 +6,8 @@ class PartnerOnboardStore {
   @persist @observable password = ""
   @observable select_modify = ""
 
+  @observable nextPageIsManageProductOnBoard = false
+
   @action setPage = (page_name) => {
     this.select_modify = page_name
   }
