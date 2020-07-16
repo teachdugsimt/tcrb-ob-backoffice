@@ -19,9 +19,6 @@ class LoginStore {
   error_login = null
 
   @observable
-  tmp_menu1 = []
-
-  @observable
   profile = null
 
   @observable
@@ -58,11 +55,7 @@ class LoginStore {
       this.data_signin = tmp_token
       this.profile = data.userProfile
 
-      try {
-        this.data_menu = data.userProfile.menus
-      } catch (error) {
-        this.tmp_menu1 = data.userProfile.menus
-      }
+      this.data_menu = Object.keys(data.userProfile).length == 0 ? [] : (data.userProfile.menus && data.userProfile.menus.length > 0 ? data.userProfile.menus : [])
       this.error_login = null
 
     } else {
@@ -73,29 +66,14 @@ class LoginStore {
     }
   }
 
-
-  // @action
-  // async requestLogin(params) {
-  //   this.fetching_login = true
-  //   const tmp = await LoginApi.LoginApi(params)
-  //   console.log(tmp)
-  //   if (tmp && tmp.ok && tmp.status === 200 && tmp.data) {
-  //     //when success
-  //     this.fetching_login = false
-  //     // console.log("Response data :: ", tmp.data.responseData)
-  //     // console.log(this.data_signin)
-  //     // this.data_signin = tmp.data.responseData
-  //     this.data_signin = tmp.data.responseData
-  //     this.error_login = null
-
-  //   } else {
-  //     //when error
-  //     this.fetching_login = false
-  //     this.error_login = tmp.data && tmp.data.responseData ? tmp.data.responseData : tmp.problem
-  //     this.data_signin = null
-  //   }
-  // }
-
+  @action async setProfile(userProfile) {
+    if (userProfile) {
+      this.profile = userProfile
+      if(userProfile.menus && userProfile.menus.length > 0){
+        this.data_menu = userProfile.menus
+      } else this.data_menu = []
+    }
+  }
 
   @computed get getMenuLogin() {
     return this.data_menu

@@ -15,9 +15,9 @@ const PartnerManagement = (props) => {
         <Button type="primary" onClick={() => setAddPartner(true)}>Add new partner</Button>
         <TablePartner />
       </Col>
-        : <div style={{ display: 'flex', flex: 1 }}>
+        : <Col flex={100}>
           <Addpartner />
-        </div>}
+        </Col>}
     </Row>
   )
 }

@@ -19,6 +19,18 @@ export const productModifyColumns = () => {
       dataIndex: 'settlementCycle',
       key: 'settlementCycle',
     },
+    {
+      title: 'Principal GL',
+      dataIndex: 'principalGL',
+      key: 'principalGL',
+      render: (text, record) => (
+        <Space size="middle">
+          <Link href="/gl-principal-setup">
+            <a style={{ color: 'orange' }}>change</a>
+          </Link>
+        </Space>
+      ),
+    },
 
     {
       title: 'Fee  & Settlement',

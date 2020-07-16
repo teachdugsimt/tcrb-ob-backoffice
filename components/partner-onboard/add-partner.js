@@ -1,5 +1,5 @@
-import React from 'react'
-import { Row, Col, Button, Upload, Input, Modal, Menu, Dropdown, Table, Tag, Space } from 'antd'
+import React, { useState } from 'react'
+import { Row, Col, Button, Upload, Input, Modal, Form, Menu, Dropdown, Table, Tag, Space, message, Select } from 'antd'
 import { useFormik, Formik } from 'formik'
 import { DownOutlined, UserOutlined, UploadOutlined } from '@ant-design/icons'
 import { PageHeader } from '../page-header'
@@ -7,51 +7,43 @@ import { withTranslation } from '../../i18n'
 import SimpleInput from '../simple-input'
 
 const AddPartner = () => {
-  const formik = useFormik({
-    initialValues: {
-      parentAssignName: '',
-      partnerAssignName: '',
-      partnerSegment: '',
-      assignName: '',
-      registeredApplicationName: '',
-      juristicID: '',
-      partnerContactEmail: '',
-      partnerContactMobileNo: '',
-      partnerContactName: '',
-      juristicName_th: '',
-      juristicName_en: '',
-      subDistrict: '',
-      status: ''
-    },
-    onSubmit: values => {
-      console.log(values)
-      alert(JSON.stringify(values, null, 2));
-    },
-  });
 
-  const menu = (
-    <Menu onClick={handleMenuClick}>
-      <Menu.Item key="1" icon={<UserOutlined />}>
-        1st menu item
-      </Menu.Item>
-      <Menu.Item key="2" icon={<UserOutlined />}>
-        2nd menu item
-      </Menu.Item>
-      <Menu.Item key="3" icon={<UserOutlined />}>
-        3rd item
-      </Menu.Item>
-    </Menu>
-  );
+  const [subDistrict, setSubDistrict] = useState('')
+  const [District, setDistrict] = useState('')
+  const [Province, setProvince] = useState('')
+  const { Option } = Select;
 
-  const handleButtonClick = (e) => {
-    message.info('Click on left button.');
-    console.log('click left button', e);
-  }
 
-  const handleMenuClick = (e) => {
-    message.info('Click on menu item.');
-    console.log('click', e);
-  }
+  const onFinish = values => {
+    values.subDistrict = subDistrict
+    values.District = District
+    values.Province = Province
+    console.log('Success:', values);
+  };
+
+  const onFinishFailed = errorInfo => {
+    errorInfo.values.subDistrict = subDistrict
+    errorInfo.values.District = District
+    errorInfo.values.Province = Province
+    console.log('Failed:', errorInfo);
+  };
+
+  const _changeSubDistrict = (value) => {
+    console.log(value)
+    setSubDistrict(value)
+  };
+
+  const _changeDistrict = (value) => {
+    console.log(value)
+    setDistrict(value)
+  };
+
+  const _changeProvince = (value) => {
+    console.log(value)
+    setProvince(value)
+  };
+
+
 
   const props = () => {
     action: 'https://www.mocky.io/v2/5cc8019d300000980a055e76',
@@ -63,399 +55,561 @@ const AddPartner = () => {
   }
 
   return (
-    <div style={{ display: 'flex', flex: 1, flexDirection: 'column' }} >
+    <div >
       <PageHeader>Partner Registration</PageHeader>
-      <form onSubmit={formik.handleSubmit} style={{ display: 'flex', flex: 1, flexDirection: 'column' }}>
-        <div style={{ height: 515, borderBottom: '1px solid Lightgrey' }}>
-          <div style={{ display: 'flex', flex: 1, flexDirection: 'row', marginTop: 20 }}>
-            <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
-              <div style={{ width: 150 }}>
-                <label htmlFor="parentAssignName">Parent Assign Name</label>
-              </div>
-              <div style={{ display: 'flex', width: 300 }}>
-                <Input
-                  id="parentAssignName"
-                  name="parentAssignName"
-                  type="parentAssignName"
-                  onChange={formik.handleChange}
-                  value={formik.values.parentAssignName}
-                  placeholder="Parent Assign Name"
-                />
-              </div>
-            </div>
-            <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', marginLeft: 50 }}>
-              <div style={{ width: 150 }}>
-                <label htmlFor="partnerAssignName">Partner Assign Name</label>
-              </div>
-              <div style={{ display: 'flex', width: 300 }}>
-                <Input
-                  id="partnerAssignName"
-                  name="partnerAssignName"
-                  type="partnerAssignName"
-                  onChange={formik.handleChange}
-                  value={formik.values.partnerAssignName}
-                  placeholder="Partner Assign Name"
-                />
-              </div>
-            </div>
-          </div>
-          <div style={{ display: 'flex', flex: 1, flexDirection: 'row', marginTop: 20 }}>
-            <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
-              <div style={{ width: 150 }}>
-                <label htmlFor="JuristicID">Juristic ID</label>
-              </div>
-              <div style={{ display: 'flex', width: 300 }}>
-                <Input
-                  id="juristicId"
-                  name="juristicId"
-                  type="juristicId"
-                  onChange={formik.handleChange}
-                  value={formik.values.juristicId}
-                  placeholder="Juristic ID"
-                />
-              </div>
-            </div>
-            <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', marginLeft: 50 }}>
-              <div style={{ width: 150 }}>
-                <label htmlFor="juristicName_th">Juristic Name(TH)</label>
-              </div>
-              <div style={{ display: 'flex', width: 300 }}>
-                <Input
-                  id="juristis_th"
-                  name="juristis_th"
-                  type="juristis_th"
-                  onChange={formik.handleChange}
-                  value={formik.values.juristis_th}
-                  placeholder="Juristic Name(TH)"
-                />
-              </div>
-            </div>
-          </div>
-          <div style={{ display: 'flex', flex: 1, flexDirection: 'row', marginTop: 20 }}>
-            <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
-              <div style={{ width: 150 }}>
-                <label htmlFor="juristicName_en">Juristic Name(En)</label>
-              </div>
-              <div style={{ display: 'flex', width: 300 }}>
-                <Input
-                  id="juristic_en"
-                  name="juristic_en"
-                  type="juristic_en"
-                  onChange={formik.handleChange}
-                  value={formik.values.juristic_en}
-                  placeholder="Juristic Name(En)"
-                />
-              </div>
-            </div>
-            <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', marginLeft: 50 }}>
-              <div style={{ width: 150 }}>
-                <label htmlFor="productSegment">Product Segment</label>
-              </div>
-              <div style={{ display: 'flex', width: 300 }}>
-                <Input
-                  id="productSegment"
-                  name="productSegment"
-                  type="productSegment"
-                  onChange={formik.handleChange}
-                  value={formik.values.productSegment}
-                  placeholder="Product Segment" />
-              </div>
-            </div>
-          </div>
-          <div style={{ height: 100, marginTop: 20 }}>
-            <div style={{ display: 'flex', flexDirection: 'row' }}>
-              <div style={{ width: 150 }}>
-                <label htmlFor="Address">Address</label>
-              </div>
-              <div style={{ display: 'flex', width: 150 }}>
-                <Input placeholder="House No." />
-              </div>
-              <div style={{ display: 'flex', width: 150, paddingLeft: 20 }}>
-                <Input placeholder="Village No./ Moo" />
-              </div>
-              <div style={{ display: 'flex', width: 150, paddingLeft: 20 }}>
-                <Input placeholder="Lane/ Soi" />
-              </div>
-              <div style={{ display: 'flex', width: 150, paddingLeft: 20 }}>
-                <Input placeholder="Road" />
-              </div>
-            </div>
-            <div style={{ display: 'flex', flexDirection: 'row', paddingTop: 20 }}>
-              <div style={{ width: 150 }}></div>
-              <div style={{ display: 'flex', width: 150 }}>
-                <Dropdown overlay={menu}>
-                  <Button
-                    style={{ backgroundColor: 'white', color: "Lightgrey", width: 150, border: '1px solid Lightgrey' }}>
-                    Sub-district <DownOutlined />
-                  </Button>
-                </Dropdown>
-              </div>
-              <div style={{ display: 'flex', width: 150, paddingLeft: 20 }}>
-                <Dropdown overlay={menu}>
-                  <Button style={{ backgroundColor: 'white', color: "Lightgrey", width: 150, border: '1px solid Lightgrey' }}>
-                    District <DownOutlined />
-                  </Button>
-                </Dropdown>
-              </div>
-              <div style={{ display: 'flex', width: 150, paddingLeft: 20 }}>
-                <Dropdown overlay={menu}>
-                  <Button style={{ backgroundColor: 'white', width: 150, color: "Lightgrey", border: '1px solid Lightgrey' }}>
-                    Province <DownOutlined />
-                  </Button>
-                </Dropdown>
-              </div>
-              <div style={{ display: 'flex', width: 150, paddingLeft: 20 }}>
-                <Input placeholder="Zip Code" />
-              </div>
-            </div>
-          </div>
-          <div style={{ height: 200, marginTop: 20 }}>
-            <div style={{ fontSize: 16, color: '#828282' }}>Attachment Files</div>
-            <div style={{ fontSize: 14, color: '#E5E5E5' }}>Only PDF support and the maximum file size is 500 MB</div>
-            <div style={{ height: 150, paddingTop: 20, display: 'flex', flexDirection: 'row' }}>
-              <div style={{ display: "flex", flex: 1, flexDirection: 'column' }}>
-                <div style={{ display: 'flex', flexDirection: 'row' }}>
-                  <div style={{ width: 150 }}>
-                    <label htmlFor="nda" style={{ fontSize: 13.5 }}>NDA</label>
-                  </div>
-                  <div style={{ display: 'flex', width: 150 }}>
-                    {/* <Input placeholder="House No." /> */}
-                    <Upload {...props}>
-                      <Button style={{ backgroundColor: 'white', color: '#595959' }}>
-                        <UploadOutlined /> Upload
-                     </Button>
-                    </Upload>
-                  </div>
-                </div>
-                <div style={{ display: 'flex', flexDirection: 'row', paddingTop: 10 }}>
-                  <div style={{ width: 150 }}>
-                    <label htmlFor="Address" style={{ fontSize: 13.5 }}>{"Company " + '&' + " Authorized Person Docs"}</label>
-                  </div>
-                  <div style={{ display: 'flex', width: 150 }}>
-                    {/* <Input placeholder="Others" /> */}
-                    <Upload {...props}>
-                      <Button style={{ backgroundColor: 'white', color: '#595959' }}>
-                        <UploadOutlined /> Upload
-                     </Button>
-                    </Upload>
-                  </div>
-                </div>
-                <div style={{ display: 'flex', flexDirection: 'row', paddingTop: 10 }}>
-                  <div style={{ width: 150 }}>
-                    <label htmlFor="other" style={{ fontSize: 13.5 }}>Others</label>
-                  </div>
-                  <div style={{ display: 'flex', width: 150 }}>
-                    {/* <Input placeholder="House No." /> */}
-                    <Upload {...props}>
-                      <Button style={{ backgroundColor: 'white', color: '#595959' }}>
-                        <UploadOutlined /> Upload
-                     </Button>
-                    </Upload>
-                  </div>
-                </div>
-              </div>
-              <div style={{ display: "flex", flex: 1 }}>
-                <div style={{ display: "flex", flex: 1, flexDirection: 'column' }}>
-                  <div style={{ display: 'flex', flexDirection: 'row' }}>
-                    <div style={{ width: 150 }}>
-                      <label htmlFor="Contract_MOU" style={{ fontSize: 13.5 }}>{'Contract ' + '&' + ' MOU'}</label>
-                    </div>
-                    <div style={{ display: 'flex', width: 150 }}>
-                      {/* <Input placeholder="House No." /> */}
-                      <Upload {...props}>
-                        <Button style={{ backgroundColor: 'white', color: '#595959' }}>
-                          <UploadOutlined /> Upload
-                     </Button>
-                      </Upload>
-                    </div>
-                  </div>
-                  <div style={{ display: 'flex', flexDirection: 'row', paddingTop: 10 }}>
-                    <div style={{ width: 150 }}>
-                      <label htmlFor="vendorValuation" style={{ fontSize: 13.5 }}>Vendor Valuation</label>
-                    </div>
-                    <div style={{ display: 'flex', width: 150 }}>
-                      {/* <Input placeholder="Vendor Valuation" /> */}
-                      <Upload {...props}>
-                        <Button style={{ backgroundColor: 'white', color: '#595959' }}>
-                          <UploadOutlined /> Upload
-                     </Button>
-                      </Upload>
-                    </div>
-                  </div>
+      {/* <Row> */}
+      <Form
+        name="basic"
+        initialValues={{
+          parentAssignName: '',
+          partnerAssignName: '',
+          registerAppName: '',
+          assignName: '',
+          registeredApplicationName: '',
+          juristicID: '',
+          partnerContactEmail: '',
+          partnerContactMobileNo: '',
+          partnerContactName: '',
+          juristicName_th: '',
+          juristicName_en: '',
+          status: '',
+          houseNo: '',
+          moo: '',
+          soi: '',
+          road: '',
+          subDistrict: '',
+          district: '',
+          province: '',
+          zipcode: '',
 
-                </div>
-              </div>
+        }}
+        onFinish={onFinish}
+        onFinishFailed={onFinishFailed}
+      >
+        <Row>
+          <Col span={3}>
+            <div style={{ display: "flex", flexDirection: 'row' }}>
+              <div>Parent Assign Name </div>
+              <div style={{ color: 'red' }}>* </div>
             </div>
-          </div>
-        </div>
-        <div style={{ height: 200, borderBottom: '1px solid Lightgrey' }}>
-          {/* <form onSubmit={formik.handleSubmit} style={{ display: 'flex', flex: 1, flexDirection: 'column' }}> */}
-          <div style={{ fontSize: 16, color: '#828282' }}>RM Contact Info</div>
-          <div style={{ display: 'flex', flex: 1, flexDirection: 'row', marginTop: 20 }}>
-            <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
-              <div style={{ width: 150 }}>
-                <label htmlFor="parentAssignName">Name - Surname *</label>
-              </div>
-              <div style={{ display: 'flex', width: 300 }}>
-                <Input placeholder="Name - Surname" />
-              </div>
-            </div>
-            <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', marginLeft: 50 }}>
-              <div style={{ width: 150 }}>
-                <label htmlFor="partnerAssignName">Employee ID *</label>
-              </div>
-              <div style={{ display: 'flex', width: 300 }}>
-                <Input placeholder="Employee ID" />
-              </div>
-            </div>
-          </div>
-          <div style={{ display: 'flex', flex: 1, flexDirection: 'row', marginTop: 20 }}>
-            <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
-              <div style={{ width: 150 }}>
-                <label htmlFor="parentAssignName">Department *</label>
-              </div>
-              <div style={{ display: 'flex', width: 300 }}>
-                <Input placeholder="Department" />
-              </div>
-            </div>
-            <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', marginLeft: 50 }}>
-              <div style={{ width: 150 }}>
-                <label htmlFor="partnerAssignName">Office Phone No. *</label>
-              </div>
-              <div style={{ display: 'flex', width: 300 }}>
-                <Input placeholder="Office Phone No." />
-              </div>
-            </div>
-          </div>
-          <div style={{ display: 'flex', flex: 1, flexDirection: 'row', marginTop: 20 }}>
-            <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
-              <div style={{ width: 150 }}>
-                <label htmlFor="parentAssignName">Mobile No. *</label>
-              </div>
-              <div style={{ display: 'flex', width: 300 }}>
-                <Input placeholder="Mobile No." />
-              </div>
-            </div>
-            <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', marginLeft: 50 }}>
-              <div style={{ width: 150 }}>
-                <label htmlFor="partnerAssignName">Work Email *</label>
-              </div>
-              <div style={{ display: 'flex', width: 300 }}>
-                <Input placeholder="Work Email" />
-              </div>
-            </div>
-          </div>
-          {/* </form> */}
-        </div>
-        <div style={{ height: 200, borderBottom: '1px solid Lightgrey' }}>
-          {/* <form onSubmit={formik.handleSubmit} style={{ display: 'flex', flex: 1, flexDirection: 'column' }}> */}
-          <div style={{ fontSize: 16, color: '#828282' }}>Partner Contact Info</div>
-          <div style={{ display: 'flex', flex: 1, flexDirection: 'row', marginTop: 20 }}>
-            <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
-              <div style={{ width: 150 }}>
-                <label htmlFor="parentAssignName">Name - Surname *</label>
-              </div>
-              <div style={{ display: 'flex', width: 300 }}>
-                <Input placeholder="Name - Surname" />
-              </div>
-            </div>
-            <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', marginLeft: 50 }}>
-              <div style={{ width: 150 }}>
-                <label htmlFor="partnerAssignName">ID Card No. *</label>
-              </div>
-              <div style={{ display: 'flex', width: 300 }}>
-                <Input placeholder="ID Card No." />
-              </div>
-            </div>
-          </div>
-          <div style={{ display: 'flex', flex: 1, flexDirection: 'row', marginTop: 20 }}>
-            <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
-              <div style={{ width: 150 }}>
-                <label htmlFor="parentAssignName">Office Phone No. *</label>
-              </div>
-              <div style={{ display: 'flex', width: 300 }}>
-                <Input placeholder="Office Phone No. *" />
-              </div>
-            </div>
-            <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', marginLeft: 50 }}>
-              <div style={{ width: 150 }}>
-                <label htmlFor="partnerAssignName">Mobile No. *</label>
-              </div>
-              <div style={{ display: 'flex', width: 300 }}>
-                <Input placeholder="Mobile No. *" />
-              </div>
-            </div>
-          </div>
-          <div style={{ display: 'flex', flex: 1, flexDirection: 'row', marginTop: 20 }}>
-            <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
-              <div style={{ width: 150 }}>
-                <label htmlFor="partnerAssignName">Work Email *</label>
-              </div>
-              <div style={{ display: 'flex', width: 300 }}>
-                <Input placeholder="Work Email" />
-              </div>
-            </div>
-          </div>
-          {/* </form> */}
-        </div>
+          </Col>
+          <Col span={6}>
+            <Form.Item
+              name="parentAssignName"
+              rules={[{ required: true, message: 'Please input your Parent Assign Name !' }]}
+            >
+              <Input placeholder="Parent Assign Name" style={{ width: 280 }} />
+            </Form.Item>
+          </Col>
 
-        <div style={{ height: 200, borderBottom: '1px solid Lightgrey' }}>
-          {/* <form onSubmit={formik.handleSubmit} style={{ display: 'flex', flex: 1, flexDirection: 'column' }}> */}
-          <div style={{ fontSize: 16, color: '#828282' }}>Partner IT Security Info</div>
-          <div style={{ display: 'flex', flex: 1, flexDirection: 'row', marginTop: 20 }}>
-            <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
-              <div style={{ width: 150 }}>
-                <label htmlFor="parentAssignName">Name - Surname *</label>
-              </div>
-              <div style={{ display: 'flex', width: 300 }}>
-                <Input placeholder="Name - Surname" />
-              </div>
+          <Col span={3}>
+            <div style={{ display: "flex", flexDirection: 'row' }}>
+              <div>Partner Assign Name </div>
+              <div style={{ color: 'red' }}>* </div>
             </div>
-            <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', marginLeft: 50 }}>
-              <div style={{ width: 150 }}>
-                <label htmlFor="partnerAssignName">ID Card *</label>
-              </div>
-              <div style={{ display: 'flex', width: 300 }}>
-                <Input placeholder="ID Card" />
-              </div>
+          </Col>
+          <Col span={6}>
+            <Form.Item
+              name="partnerAssignName"
+              rules={[{ required: true, message: 'Please input your Partner Assign Name !' }]}
+            >
+              <Input placeholder="Partner Assign Name" style={{ width: 280 }} />
+            </Form.Item>
+          </Col>
+        </Row>
+
+        <Row >
+          <Col span={3}>
+            <div style={{ display: "flex", flexDirection: 'row' }}>
+              <div>Juristic ID </div>
+              <div style={{ color: 'red' }}>* </div>
             </div>
-          </div>
-          <div style={{ display: 'flex', flex: 1, flexDirection: 'row', marginTop: 20 }}>
-            <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
-              <div style={{ width: 150 }}>
-                <label htmlFor="parentAssignName">Office Phone No. *</label>
-              </div>
-              <div style={{ display: 'flex', width: 300 }}>
-                <Input placeholder="Office Phone No. *" />
-              </div>
+          </Col>
+          <Col span={6}>
+            <Form.Item
+              name="juristicID"
+              rules={[{ required: true, message: 'Please input your Juristic ID !' }]}
+            >
+              <Input placeholder="Juristic ID" style={{ width: 280 }} />
+            </Form.Item>
+          </Col>
+
+          <Col span={3}>
+            <div style={{ display: "flex", flexDirection: 'row' }}>
+              <div>Juristic Name(TH)</div>
+              <div style={{ color: 'red' }}>* </div>
             </div>
-            <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', marginLeft: 50 }}>
-              <div style={{ width: 150 }}>
-                <label htmlFor="partnerAssignName">Mobile No. *</label>
-              </div>
-              <div style={{ display: 'flex', width: 300 }}>
-                <Input placeholder="Mobile No. *" />
-              </div>
+          </Col>
+          <Col span={6}>
+            <Form.Item
+
+              name="JuristicName_th"
+              rules={[{ required: true, message: 'Please input your Juristic Name(TH)!' }]}
+            >
+              <Input placeholder="Juristic Name(TH)" style={{ width: 280 }} />
+            </Form.Item>
+          </Col>
+        </Row>
+
+        <Row >
+          <Col span={3}>
+            <div style={{ display: "flex", flexDirection: 'row' }}>
+              <div>Juristic Name(En) </div>
+              <div style={{ color: 'red' }}>* </div>
             </div>
-          </div>
-          <div style={{ display: 'flex', flex: 1, flexDirection: 'row', marginTop: 20 }}>
-            <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
-              <div style={{ width: 150 }}>
-                <label htmlFor="partnerAssignName">Work Email *</label>
-              </div>
-              <div style={{ display: 'flex', width: 300 }}>
-                <Input placeholder="Work Email" />
-              </div>
+          </Col>
+          <Col span={6}>
+            <Form.Item
+              name="juristicName_en"
+              rules={[{ required: true, message: 'Please input your Juristic Name(En)!' }]}
+            >
+              <Input placeholder="Juristic Name(En)" style={{ width: 280 }} />
+            </Form.Item>
+          </Col>
+
+          <Col span={3}>
+            <div style={{ display: "flex", flexDirection: 'row' }}>
+              <div>Register App Name </div>
+              <div style={{ color: 'red' }}>* </div>
             </div>
-          </div>
-          {/* </form> */}
+          </Col>
+          <Col span={6}>
+            <Form.Item
+              name="registerAppName"
+              rules={[{ required: true, message: 'Please input your Register App Name !' }]}
+            >
+              <Input placeholder="Register App Name" style={{ width: 280 }} />
+            </Form.Item>
+          </Col>
+        </Row>
+
+        {/* ======================={Address}======================= */}
+        <Row>
+          <Col span={3}>
+            <div>Address </div>
+          </Col>
+          <Col span={4}>
+            <Form.Item
+              name="houseNo"
+            >
+              <Input placeholder="House No." style={{ width: 180 }} />
+            </Form.Item>
+          </Col>
+
+          <Col span={4}>
+            <Form.Item
+              name="moo"
+            >
+              <Input placeholder="Moo" style={{ width: 180 }} />
+            </Form.Item>
+          </Col>
+
+          <Col span={4}>
+            <Form.Item
+              name="soi"
+            >
+              <Input placeholder="Soi" style={{ width: 180 }} />
+            </Form.Item>
+          </Col>
+
+          <Col span={4}>
+            <Form.Item
+              name="road"
+            >
+              <Input placeholder="Road" style={{ width: 180 }} />
+            </Form.Item>
+          </Col>
+        </Row>
+
+        <Row>
+          <Col span={3}>
+            {/* <div>Address </div> */}
+          </Col>
+          <Col span={4}>
+            <Form.Item
+              name="subDistrict"
+            >
+              <Select defaultValue="lucy" style={{ width: 180 }} onChange={_changeSubDistrict}>
+                <Option value="jack">Jack</Option>
+                <Option value="lucy">Lucy</Option>
+                <Option value="Yiminghe">yiminghe</Option>
+              </Select>
+            </Form.Item>
+          </Col>
+          <Col span={4}>
+            <Form.Item
+              name="district"
+            >
+              <Select defaultValue="lucy" style={{ width: 180 }} onChange={_changeDistrict}>
+                <Option value="jack">Jack</Option>
+                <Option value="lucy">Lucy</Option>
+                <Option value="Yiminghe">yiminghe</Option>
+              </Select>
+
+            </Form.Item>
+          </Col>
+          <Col span={4}>
+            <Form.Item
+              name="province"
+            >
+              <Select defaultValue="lucy" style={{ width: 180 }} onChange={_changeProvince}>
+                <Option value="jack">Jack</Option>
+                <Option value="lucy">Lucy</Option>
+                <Option value="Yiminghe">yiminghe</Option>
+              </Select>
+
+            </Form.Item>
+          </Col>
+          <Col span={4}>
+            <Form.Item
+              name="zipcode"
+            >
+              <Input placeholder="ZipCode" style={{ width: 180 }} />
+            </Form.Item>
+          </Col>
+        </Row>
+        {/* ======================={Address}======================= */}
+        {/* ======================={Attachment Files}======================= */}
+        <div style={{ display: 'flex', flexDirection: 'column' }}>
+          <div style={{ fontSize: 16, color: '#828282' }}>Attachment Files</div>
+          <div style={{ fontSize: 14, color: '#E5E5E5' }}>Only PDF support and the maximum file size is 500 MB</div>
         </div>
-        <div style={{ height: 100, textAlign: 'center', paddingTop: 30 }}>
-          {/* <Button type="submit">Submit</Button> */}
-          <button type="submit" style={{ backgroundColor: 'orange', border: '0px solid ', width: 80, height: 35, color: 'white' }}>Submit</button>
+        <Row style={{ borderBottom: "1px solid #C4C4C4", marginTop: 10, paddingBottom: 10 }}>
+          <Col span={4} style={{ padding: 10 }} >
+            <div>NDA </div>
+          </Col>
+          <Col span={4} style={{ padding: 10 }}>
+            <Upload {...props}>
+              <Button style={{ backgroundColor: 'white', color: '#595959' }}>
+                <UploadOutlined /> Upload
+              </Button>
+            </Upload>
+          </Col>
+          <Col span={4} style={{ padding: 10 }}>
+            <div>{'Contract ' + '&' + ' MOU'} </div>
+          </Col>
+          <Col span={4} style={{ padding: 10 }}>
+            <Upload {...props}>
+              <Button style={{ backgroundColor: 'white', color: '#595959' }}>
+                <UploadOutlined /> Upload
+              </Button>
+            </Upload>
+          </Col>
+          <Col span={4} style={{ padding: 10 }}>
+            <div>{'Company ' + '&' + ' Authorized Person Docs'}</div>
+          </Col>
+          <Col span={4} style={{ padding: 10 }}>
+            <Upload {...props}>
+              <Button style={{ backgroundColor: 'white', color: '#595959' }}>
+                <UploadOutlined /> Upload
+              </Button>
+            </Upload>
+          </Col>
+          <Col span={4} style={{ padding: 10 }}>
+            <div>Vendor Valuation</div>
+          </Col>
+          <Col span={4} style={{ padding: 10 }}>
+            <Upload {...props}>
+              <Button style={{ backgroundColor: 'white', color: '#595959' }}>
+                <UploadOutlined /> Upload
+              </Button>
+            </Upload>
+          </Col>
+          <Col span={4} style={{ padding: 10 }}>
+            <div>Others </div>
+          </Col>
+          <Col span={4} style={{ padding: 10 }}>
+            <Upload {...props}>
+              <Button style={{ backgroundColor: 'white', color: '#595959' }}>
+                <UploadOutlined /> Upload
+              </Button>
+            </Upload>
+          </Col>
+
+        </Row >
+        {/* ======================={Attachment Files}======================= */}
+        {/* ======================={RM Contact Info}======================= */}
+        <div style={{ fontSize: 16, color: '#828282', marginTop: 10 }}>RM Contact Info</div>
+        <div style={{ borderBottom: "1px solid #C4C4C4", marginTop: 10 }}>
+          <Row >
+            <Col span={3}>
+              <div style={{ display: "flex", flexDirection: 'row' }}>
+                <div>Name - Surname </div>
+                <div style={{ color: 'red' }}>* </div>
+              </div>
+            </Col>
+            <Col span={6}>
+              <Form.Item
+                name="name_surname"
+                rules={[{ required: true, message: 'Please input your Name - Surname !' }]}
+              >
+                <Input placeholder="Name - Surname" style={{ width: 280 }} />
+              </Form.Item>
+            </Col>
+
+            <Col span={3}>
+              <div style={{ display: "flex", flexDirection: 'row' }}>
+                <div>Employee ID</div>
+                <div style={{ color: 'red' }}>* </div>
+              </div>
+            </Col>
+            <Col span={6}>
+              <Form.Item
+                name="employeeID"
+                rules={[{ required: true, message: 'Please input your Employee ID!' }]}
+              >
+                <Input placeholder="Employee ID" style={{ width: 280 }} />
+              </Form.Item>
+            </Col>
+          </Row>
+
+          <Row >
+            <Col span={3}>
+              <div style={{ display: "flex", flexDirection: 'row' }}>
+                <div>Department</div>
+                <div style={{ color: 'red' }}>* </div>
+              </div>
+            </Col>
+            <Col span={6}>
+              <Form.Item
+                name="department"
+                rules={[{ required: true, message: 'Please input your Department!' }]}
+              >
+                <Input placeholder="Department" style={{ width: 280 }} />
+              </Form.Item>
+            </Col>
+
+            <Col span={3}>
+              <div style={{ display: "flex", flexDirection: 'row' }}>
+                <div>Office Phone No.</div>
+                <div style={{ color: 'red' }}>* </div>
+              </div>
+            </Col>
+            <Col span={6}>
+              <Form.Item
+
+                name="officePhoneNo"
+                rules={[{ required: true, message: 'Please input your Office Phone No!' }]}
+              >
+                <Input placeholder="Office Phone No" style={{ width: 280 }} />
+              </Form.Item>
+            </Col>
+          </Row>
+
+          <Row>
+            <Col span={3}>
+              <div style={{ display: "flex", flexDirection: 'row' }}>
+                <div>Mobile No.</div>
+                <div style={{ color: 'red' }}>* </div>
+              </div>
+            </Col>
+            <Col span={6}>
+              <Form.Item
+                name="mobileNo"
+                rules={[{ required: true, message: 'Please input your Mobile No.' }]}
+              >
+                <Input placeholder="JMobile No." style={{ width: 280 }} />
+              </Form.Item>
+            </Col>
+
+            <Col span={3}>
+              <div style={{ display: "flex", flexDirection: 'row' }}>
+                <div>Work Email </div>
+                <div style={{ color: 'red' }}>* </div>
+              </div>
+            </Col>
+            <Col span={6}>
+              <Form.Item
+                name="workEmail"
+                rules={[{ required: true, message: 'Please input your Work Email !' }]}
+              >
+                <Input placeholder="Work Email" style={{ width: 280 }} />
+              </Form.Item>
+            </Col>
+          </Row>
         </div>
-      </form>
+        {/* ======================={RM Contact Info}======================= */}
+        {/* ======================={Partner Contact Info}======================= */}
+        <div style={{ fontSize: 16, color: '#828282', marginTop: 10 }}>Partner Contact Info</div>
+        <div style={{ borderBottom: "1px solid #C4C4C4", marginTop: 10 }}>
+          <Row >
+            <Col span={3}>
+              <div style={{ display: "flex", flexDirection: 'row' }}>
+                <div>Name - Surname</div>
+                <div style={{ color: 'red' }}>* </div>
+              </div>
+            </Col>
+            <Col span={6}>
+              <Form.Item
+                name="name_surname_partner_contact"
+                rules={[{ required: true, message: 'Please input your Name - Surname !' }]}
+              >
+                <Input placeholder="Name - Surname" style={{ width: 280 }} />
+              </Form.Item>
+            </Col>
+
+            <Col span={3}>
+              <div style={{ display: "flex", flexDirection: 'row' }}>
+                <div>ID Card No. </div>
+                <div style={{ color: 'red' }}>* </div>
+              </div>
+            </Col>
+            <Col span={6}>
+              <Form.Item
+                name="idCardNo."
+                rules={[{ required: true, message: 'Please input your ID Card No. !' }]}
+              >
+                <Input placeholder="ID Card No." style={{ width: 280 }} />
+              </Form.Item>
+            </Col>
+          </Row>
+
+          <Row >
+            <Col span={3}>
+              <div style={{ display: "flex", flexDirection: 'row' }}>
+                <div>Office Phone No. </div>
+                <div style={{ color: 'red' }}>* </div>
+              </div>
+            </Col>
+            <Col span={6}>
+              <Form.Item
+                name="officePhoneNo_partner_contact"
+                rules={[{ required: true, message: 'Please input your Office Phone No. !' }]}
+              >
+                <Input placeholder="Office Phone No." style={{ width: 280 }} />
+              </Form.Item>
+            </Col>
+
+            <Col span={3}>
+              <div style={{ display: "flex", flexDirection: 'row' }}>
+                <div>Mobile No.</div>
+                <div style={{ color: 'red' }}>* </div>
+              </div>
+            </Col>
+            <Col span={6}>
+              <Form.Item
+                name="mobileNo_partner_contact"
+                rules={[{ required: true, message: 'Please input your Mobile No.!' }]}
+              >
+                <Input placeholder="Mobile No." style={{ width: 280 }} />
+              </Form.Item>
+            </Col>
+          </Row>
+
+          <Row>
+            <Col span={3}>
+              <div style={{ display: "flex", flexDirection: 'row' }}>
+                <div>Work Email </div>
+                <div style={{ color: 'red' }}>* </div>
+              </div>
+            </Col>
+            <Col span={6}>
+              <Form.Item
+                name="work_email_partner_contact"
+                rules={[{ required: true, message: 'Please input your Work Email!' }]}
+              >
+                <Input placeholder="Work Email" style={{ width: 280 }} />
+              </Form.Item>
+            </Col>
+          </Row>
+        </div>
+        {/* ======================={Partner Contact Info}======================= */}
+        {/* ======================={Partner IT Security Info}======================= */}
+        <div style={{ fontSize: 16, color: '#828282', marginTop: 10 }}>Partner IT Security Info</div>
+        <div style={{ borderBottom: "1px solid #C4C4C4", marginTop: 10 }}>
+          <Row >
+            <Col span={3}>
+              <div style={{ display: "flex", flexDirection: 'row' }}>
+                <div>Name - Surname</div>
+                <div style={{ color: 'red' }}>* </div>
+              </div>
+            </Col>
+            <Col span={6}>
+              <Form.Item
+                name="name_surname_partner_contact"
+                rules={[{ required: true, message: 'Please input your Name - Surname !' }]}
+              >
+                <Input placeholder="Name - Surname" style={{ width: 280 }} />
+              </Form.Item>
+            </Col>
+
+            <Col span={3}>
+              <div style={{ display: "flex", flexDirection: 'row' }}>
+                <div>ID Card No. </div>
+                <div style={{ color: 'red' }}>* </div>
+              </div>
+            </Col>
+            <Col span={6}>
+              <Form.Item
+                name="idCardNo."
+                rules={[{ required: true, message: 'Please input your ID Card No. !' }]}
+              >
+                <Input placeholder="ID Card No." style={{ width: 280 }} />
+              </Form.Item>
+            </Col>
+          </Row>
+
+          <Row >
+            <Col span={3}>
+              <div style={{ display: "flex", flexDirection: 'row' }}>
+                <div>Office Phone No. </div>
+                <div style={{ color: 'red' }}>* </div>
+              </div>
+            </Col>
+            <Col span={6}>
+              <Form.Item
+                name="officePhoneNo_partner_contact"
+                rules={[{ required: true, message: 'Please input your Office Phone No. !' }]}
+              >
+                <Input placeholder="Office Phone No." style={{ width: 280 }} />
+              </Form.Item>
+            </Col>
+
+            <Col span={3}>
+              <div style={{ display: "flex", flexDirection: 'row' }}>
+                <div>Mobile No.</div>
+                <div style={{ color: 'red' }}>* </div>
+              </div>
+            </Col>
+            <Col span={6}>
+              <Form.Item
+                name="mobileNo_partner_contact"
+                rules={[{ required: true, message: 'Please input your Mobile No.!' }]}
+              >
+                <Input placeholder="Mobile No." style={{ width: 280 }} />
+              </Form.Item>
+            </Col>
+          </Row>
+
+          <Row>
+            <Col span={3}>
+              <div style={{ display: "flex", flexDirection: 'row' }}>
+                <div>Work Email </div>
+                <div style={{ color: 'red' }}>* </div>
+              </div>
+            </Col>
+            <Col span={6}>
+              <Form.Item
+                name="work_email_partner_contact"
+                rules={[{ required: true, message: 'Please input your Work Email!' }]}
+              >
+                <Input placeholder="Work Email" style={{ width: 280 }} />
+              </Form.Item>
+            </Col>
+          </Row>
+        </div>
+        {/* ======================={Partner IT Security Info}======================= */}
+        < Form.Item style={{ marginTop: 30, textAlign: 'center' }}>
+          <Button type="primary" htmlType="submit">
+            Submit
+           </Button>
+        </Form.Item >
+      </Form >
+
     </div >
   )
 }
 export default withTranslation('common')(AddPartner)
+
+
+
