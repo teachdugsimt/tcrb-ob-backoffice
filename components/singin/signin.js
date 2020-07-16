@@ -13,8 +13,8 @@ import { Layout } from 'antd';
 import { i18n, withTranslation } from '../../i18n'
 import logo02 from '../../images/logo.png'
 import background from './styles/background.png'
-import jsCookie from 'js-cookie';
-
+// import jsCookie from 'js-cookie';
+import { Cookies } from 'react-cookie';
 const Signin =
   inject('authenStore', 'businessParametersSetupStore', 'loginStore')
     (observer((props) => {
@@ -27,53 +27,39 @@ const Signin =
       const [colorID, setcolorID] = useState("#D3D3D3")
       const [colorPass, setcolorPass] = useState("#D3D3D3")
       const [visible, setvisible] = useState(false)
-
+      const cookies = new Cookies();
+      const token = cookies.get('token') || null
       useEffect(() => {
         i18n.changeLanguage("en")
         setcolorID("#D3D3D3")
         setcolorPass("#D3D3D3")
         return () => {
-          // let newPropsLogin = JSON.parse(JSON.stringify(loginStore.data_signin))
-          // let newPropsLoginError = JSON.parse(JSON.stringify(loginStore.error_login))
-          // if (newPropsLoginError && newPropsLoginError.code) {
-          //   loginStore.clearCacheLogin("error")
-          //   setvisible(true)
-          // } else if (newPropsLogin && newPropsLogin.accessToken) {
-          //   // Router.push("/")
-          // }
-          // cleanup
+
         }
       }, [])
 
       useEffect(() => {
         let newPropsLogin = JSON.parse(JSON.stringify(loginStore.data_signin))
         let newPropsLoginError = JSON.parse(JSON.stringify(loginStore.error_login))
-        // console.log("newPropsLogin", newPropsLogin)
-        // console.log("newPropsLoginError", newPropsLoginError)
-
+        let newPropsProfile = JSON.parse(JSON.stringify(loginStore.profile))
         if (newPropsLoginError && newPropsLoginError.code) {
           setvisible(true)
         } else if (newPropsLogin) {
           setvisible(false)
           if (newPropsLogin.idToken) {
-            jsCookie.set('token', newPropsLogin.idToken)
-            // if (newPropsLogin.userProfile && newPropsLogin.userProfile.menus) {
-            //   authenStore.setMenu(newPropsLogin.userProfile.menus)
-            // } else { authenStore.setMenu(adminMenu) }
-            // console.log(JSON.parse(JSON.stringify(authenStore.menu)))
+
+            // jsCookie.set('token', newPropsLogin.idToken)
+            cookies.set('token', newPropsLogin.idToken);
+            if(newPropsProfile){
+              cookies.set('menus', JSON.stringify(newPropsProfile))
+            }
+            console.log(cookies.get('token'))
             Router.push("/")
           }
         }
 
         return () => {
-          // if (newPropsLoginError && newPropsLoginError.code) {
-          // console.log(":: CACHE WAS CLEAR :: ")
-          // loginStore.clearCacheLogin("error")
-          // loginStore.clearCacheLogin("success")
-          //   setvisible(true)
-          // } else if (newPropsLogin && newPropsLogin.accessToken) {
-          //   Router.push("/")
-          // }
+
         }
       }, [JSON.parse(JSON.stringify(loginStore.data_signin)), JSON.parse(JSON.stringify(loginStore.error_login))])
 
@@ -89,13 +75,6 @@ const Signin =
           let call_login = await loginStore.requestLogin({
             username: id, password
           })
-          // if (id.includes("customer")) {
-          //   authenStore.setMenu(customerMenu)
-          // } else if (id.includes("admin")) {
-          //   authenStore.setMenu(adminMenu)
-          // } else {
-          //   authenStore.setMenu(userMenu)
-          // }
         }
       }
 

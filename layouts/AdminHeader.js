@@ -9,14 +9,18 @@ import {
 import Router from 'next/router'
 import { inject, observer } from 'mobx-react'
 import { withTranslation } from '../i18n'
+import { Cookies } from 'react-cookie';
 import { Button } from 'antd';
 import { TcrbButton, TcrbPopconfirm, TcrbSpin } from '../components/antd-styles/styles'
+const cookies = new Cookies();
 
 const AdminHeader = inject('authenStore', 'loginStore')(observer((props) => {
   // const { authenStore } = useStores()
   const { t, authenStore, loginStore } = props
   const goLogin = () => {
     authenStore.clear()
+    cookies.remove('token')
+    cookies.remove('menus')
     // Router.push("/login")
   }
   useEffect(() => {

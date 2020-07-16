@@ -56,31 +56,9 @@ const AdminMenu = inject('authenStore', 'versatileStore', 'loginStore')(observer
   console.log("____________ Authen Store MENU _________________")
   console.log(JSON.parse(JSON.stringify(authenStore.menu)))
 
-  // useEffect(() => {
-  let adminMenu = [
-    { key: 1, id: 1, name: "CUSTOMER SERVICES ENQUIRY", translate: "customerServicesEnquiry", link_to: "/customer-service-enquiry", color: "#000000", typeLv: "42" },
-    { key: 2, id: 2, name: "CUSTOMER SERVICES MENU", translate: "customerServiceMenu", link_to: "/customer-service-menu", color: "#000000", typeLv: "38" },
-    { key: 3, id: 3, name: "PARTNER MANAGEMENT", translate: "partnerManagement", link_to: "/partner-mangement", color: "#000000", typeLv: "38" },
-    { key: 4, id: 4, name: "PRODUCT ONBOARDING", translate: "productOnboarding", link_to: "/product-onboarding", color: "#000000", typeLv: "38" },
-    { key: 5, id: 5, name: "CONSENT MANAGEMENT", translate: "consentManagement", link_to: "/", color: "#000000", typeLv: "30" },
-    { key: 6, id: 6, name: "TERM & CONDITION MANAGEMENT", translate: "term&conditionManagement", link_to: "/", color: "#000000", typeLv: "30" },
-    { key: 7, id: 7, name: "SECURITY CODE ENQUIRY", translate: "securityCodeEnquiry", link_to: "/", color: "#000000", typeLv: "50" },
-    { key: 8, id: 8, name: "NOTIFICATION ENQUIRY", translate: "notificationEnquiry", link_to: "/", color: "#000000", typeLv: "50" },
-    { key: 9, id: 9, name: "BRANCH LOCATION ENQUIRY", translate: "branchLocation", link_to: "/", color: "#000000", typeLv: "12" },
-    { key: 10, id: 10, name: "LIVE CHAT ENQUIRY", translate: "liveChat", link_to: "/", color: "#000000", typeLv: "12" },
-    { key: 11, id: 11, name: "MARKETING ADS ENQUIRY", translate: "marketingAds", link_to: "/", color: "#000000", typeLv: "12" },
-    { key: 12, id: 12, name: "DASHBOARD & REPORTS", translate: "dashboardReports", link_to: "/", color: "#000000", typeLv: "42" },
-    { key: 13, id: 13, name: "BUSINESS PARAMETERS SETUP", translate: "businessParametersSetup", link_to: "/parameters-setup", color: "#000000", typeLv: "42" },
-    { key: 14, id: 14, name: "PENDING APPROVE", translate: "pendingApprove", link_to: "/pending-approve", color: "#000000", typeLv: "42" },
-    { key: 15, id: 15, name: "USER ACCESS MANAGEMENT ", translate: "useAccessManagementEnquiry", link_to: "/user-access-management", color: "#000000", typeLv: "42" },
-    { key: 16, id: 16, name: "DEVICE ENQUIRY", translate: "deviceEnquiry", link_to: "/", color: "#000000", typeLv: "42" },
-  ]
-
-  //     authenStore.setMenu(adminMenu)
-  // }, [])
 
   useEffect(() => {
-    let tmp_menu = JSON.parse(JSON.stringify(loginStore.data_menu)) && JSON.parse(JSON.stringify(Object.keys(loginStore.data_menu).length > 0)) ? JSON.parse(JSON.stringify(loginStore.data_menu)) : []
+    let tmp_menu = JSON.parse(JSON.stringify(loginStore.data_menu)) && JSON.parse(JSON.stringify(loginStore.data_menu)).length > 0 ? JSON.parse(JSON.stringify(loginStore.data_menu)) : []
     if (tmp_menu && tmp_menu.length > 0 && check_update_menu == 0) {
       check_update_menu = 1
       // console.log("Tmp MENU REALLY :: ", tmp_menu)
@@ -133,9 +111,8 @@ const AdminMenu = inject('authenStore', 'versatileStore', 'loginStore')(observer
     }
   }
 
-  console.log("_____________ MENU REAL ____________")
-  console.log(listNoneLink)
-  console.log(JSON.parse(JSON.stringify(authenStore.menu)))
+  // console.log("_____________ MENU REAL ____________")
+  // console.log(JSON.parse(JSON.stringify(authenStore.menu)))
   return <MainContainerMenu>
 
     <SubMainContainer>
@@ -152,7 +129,6 @@ const AdminMenu = inject('authenStore', 'versatileStore', 'loginStore')(observer
       {isShow == true && <MainDivMenu style={ShowAnimation}>
         <MainUl>
           {stateMenu && authenStore.menu && authenStore.menu.length > 0 && authenStore.menu.map((item, i) => {
-            console.log("INIFINITE LOOP : ", i)
             let e = JSON.parse(JSON.stringify(item))
             let link_to
             if (e.link_to) {
