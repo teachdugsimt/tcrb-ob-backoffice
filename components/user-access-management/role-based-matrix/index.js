@@ -14,6 +14,8 @@ const RoleBasedMatrix = inject("userAccessManagementStore")(
     const [matrixAll, setmatrixAll] = useState([]);
     const [dataSource, setdataSource] = useState([]);
     const [testColumn, settestColumn] = useState([]);
+    // const [functionsList, setfunctionsList] = useState([])
+    // const [rolesList, setrolesList] = useState([])
     const { userAccessManagementStore } = props;
     const [cellArrayChange, setcellArrayChange] = useState([]);
     const roleList = 10;
@@ -28,6 +30,8 @@ const RoleBasedMatrix = inject("userAccessManagementStore")(
 
     useEffect(() => {
       userAccessManagementStore.getDataMatrix();
+      userAccessManagementStore.getDataRole();
+      userAccessManagementStore.getDataFunction();
     }, []);
 
     // useEffect(() => {
@@ -42,41 +46,38 @@ const RoleBasedMatrix = inject("userAccessManagementStore")(
         addFunctionToDataSource(matrixAll);
         addRoleToColumn();
       }
-      // else {
-      //   let data = [
-      //       {
-      //         id: 1,
-      //         name: "role1",
-      //         functions: [
-      //           { id: 1, is_allowed: false, is_masked: false, name: "function1" },
-      //           { id: 2, is_allowed: false, is_masked: false, name: "function2"},
-      //         ],
-      //       },
-      //       {
-      //         id: 2,
-      //         name: "role2",
-      //         functions: [{ id: 8, is_allowed: false, is_masked: false,name: "function3" },
-      //         { id: 9, is_allowed: false, is_masked: false,name: "function4" }],
-      //       },
-      //     ]
-      //     setmatrixAll(data)
-      //     addFunctionToDataSource(matrixAll);
-      //   addRoleToColumn();
-      // }
     }, [matrixAll])
 
     useEffect(() => {
-      if (userAccessManagementStore.dataMatrix) {
+      if (userAccessManagementStore.dataMatrix && userAccessManagementStore.roleList && userAccessManagementStore.functionList) {
         let tmp_matrix = JSON.parse(
           JSON.stringify(userAccessManagementStore.dataMatrix)
         );
         tmp_matrix = tmp_matrix.filter((e) => e.functions.length > 0);
         console.log("TMP LIST MATRIX", tmp_matrix);
+
+        let propsRoles = JSON.parse(JSON.stringify(userAccessManagementStore.roleList))
+
+        let propsFunctions = JSON.parse(JSON.stringify(userAccessManagementStore.functionList))
+
+        let tmp_matrix =
+        propsRoles.map((e, i) => {
+          propsFunctions.map((func, ind) => {
+
+          })
+        })
+
+
+
+
+
+
         setmatrixAll(tmp_matrix);
         // addFunctionToDataSource(tmp_matrix);
         // addRoleToColumn();
       }
-    }, [userAccessManagementStore.dataMatrix]);
+
+    }, [userAccessManagementStore.dataMatrix, userAccessManagementStore.functionList, userAccessManagementStore.roleList]);
 
     const _getAllFunction = (arr) => {
       let tmp = [];
@@ -354,11 +355,13 @@ const RoleBasedMatrix = inject("userAccessManagementStore")(
 
     return (
       <Col>
-        <Table
-          columns={column && column.length > 1 ? column : []}
-          dataSource={mockDataSourceDynamic && mockDataSourceDynamic.length > 1 ? mockDataSourceDynamic : []}
-          size="small"
-        />
+        <Row style={{ overflow: 'scroll' }}>
+          <Table
+            columns={column && column.length > 1 ? column : []}
+            dataSource={mockDataSourceDynamic && mockDataSourceDynamic.length > 1 ? mockDataSourceDynamic : []}
+            size="small"
+          />
+        </Row>
         <Row>
           <Col span={10} style={{ marginTop: -38 }}>
             <TcrbButton className='primary' onClick={() => clickSubmit()}>Submit</TcrbButton>
