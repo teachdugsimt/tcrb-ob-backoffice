@@ -1,10 +1,13 @@
 import https from 'https';
+
 const Header = (api_gw_id = null, vpc_id = null) => {
   const httpsAgent = new https.Agent({
     rejectUnauthorized: false,
     requestCert: false,
   })
-  let baseURL
+  let baseURL = process.env.REACT_APP_NODE_ENV
+  // console.log('BASEURL', baseURL)
+
   if (process.env.PROD === 'production') {
     baseURL = `https://${api_gw_id || "dwl8p0fxml"}-${vpc_id || "vpce-03ae60b10934425db"}.execute-api.ap-southeast-1.amazonaws.com/`
     // baseURL = 'https://infiltech.org/calculator-api/web/index.php/'
@@ -12,6 +15,7 @@ const Header = (api_gw_id = null, vpc_id = null) => {
     baseURL = `https://${api_gw_id || "dwl8p0fxml"}-${vpc_id || "vpce-03ae60b10934425db"}.execute-api.ap-southeast-1.amazonaws.com/`
     // baseURL = 'https://hgr766mso6.execute-api.ap-southeast-1.amazonaws.com/'
   }
+
   //"https://api-dev.onlinebanking-backoffice.com/api/backoffice/v1/parameterstore"
   // https://hgr766mso6.execute-api.ap-southeast-1.amazonaws.com //otp unlock & unbinding
   // https://bfwd6dw14l.execute-api.ap-southeast-1.amazonaws.com/
