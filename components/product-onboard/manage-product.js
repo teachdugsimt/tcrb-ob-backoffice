@@ -8,7 +8,7 @@ import { TcrbButton } from '../antd-styles/styles'
 import SimpleModal from '../simple-modal'
 import { addKeyToDataSource } from '../data-utility'
 import { productServiceColumn } from './table-column'
-
+import { toJS } from 'mobx'
 import SimpleInput from '../simple-input'
 
 const { Option } = Select
@@ -288,9 +288,12 @@ const ManageProduct =
       }
 
       const submitGrantService = () => {
+        let newObjectProductServiceSelected = optionServiceList.filter(item => item.id == serviceSelect)
         let request = {
           product_code: productOnboardStore.productDetailSelected.product_code,
-          service_id: serviceSelect
+          product_name: productOnboardStore.productDetailSelected.product_name_thai,
+          service_id: newObjectProductServiceSelected[0].id,
+          service_name: newObjectProductServiceSelected[0].name
         }
         productOnboardStore.submitGrantService(request)
         setVisible(false)
@@ -307,7 +310,9 @@ const ManageProduct =
         let request = {
           id: record.id,
           service_id: record.service_id,
-          product_code: productOnboardStore.productDetailSelected.product_code
+          service_name: record.service_name,
+          product_code: productOnboardStore.productDetailSelected.product_code,
+          product_name_thai: productOnboardStore.productDetailSelected.product_name_thai
         }
         productOnboardStore.submitDeactivateService(request)
         //console.log(request)

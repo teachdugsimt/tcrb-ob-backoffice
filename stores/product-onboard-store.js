@@ -168,7 +168,7 @@ class ProductOnBoard {
 
   @action submitGrantService = async (params) => {
     this.apiFetching = true
-    let tmp = await ProductOnBoardApi.addNewProduct({ change_type: "PRODUCTS", action: "Add", currentData: {}, newData: params, maker_id: '36' })
+    let tmp = await ProductOnBoardApi.addNewProduct({ change_type: "PRODUCT_SERVICES", action: "Add", currentData: {}, newData: params, maker_id: '36' })
     console.log(tmp)
     if (tmp.ok && tmp.status === 200) {
       //when success
