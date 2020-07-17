@@ -95,19 +95,26 @@ const UserList = inject('userAccessManagementStore')
     }
 
     const renderActionUser = (record) => {
-      if (record.request_status == 'APPROVE') {
-        return (
-          <div style={{ textAlign: "center" }}>
-            <a onClick={() => viewUserDetail(record)} style={{ marginRight: 8, color: '#FBA928' }}>
-              Edit
-          </a>
-            <TcrbPopconfirm title="Sure to Deactivate?" >
-              <a style={{ color: '#FBA928' }}>Deactivate</a>
-            </TcrbPopconfirm>
-          </div>
-        )
-      } else if (record.request_status == 'PENDING') {
-        return null
+      if (record.status == 'ACTIVE') {
+        if (record.request_status == 'APPROVE' || record.request_status == 'REJECT') {
+          return (
+            <div style={{ textAlign: "center" }}>
+              <a onClick={() => viewUserDetail(record)} style={{ marginRight: 8, color: '#FBA928' }}>
+                Edit
+            </a>
+              <TcrbPopconfirm title="Sure to Deactivate?" >
+                <a style={{ color: '#FBA928' }}>Deactivate</a>
+              </TcrbPopconfirm>
+            </div>
+          )
+        } else if (record.request_status == 'PENDING') {
+          return null
+        }
+
+      } else if (status == 'INACTIVE') {
+        if (record.request_status == 'PENDING') {
+          return null
+        }
       } else {
         return null
       }
@@ -140,26 +147,36 @@ const UserList = inject('userAccessManagementStore')
         title: 'Username',
         dataIndex: 'username',
         editable: true,
+        sorter: (a, b) => a.username.localeCompare(b.username),
+        sortDirections: ['descend', 'ascend'],
         // render: (text, record) => (record.partner_code + "/" + record.partner_abbreviation)
       },
       {
         title: 'Name',
         dataIndex: 'name',
+        sorter: (a, b) => a.name.localeCompare(b.name),
+        sortDirections: ['descend', 'ascend'],
         // render: (text, record) => renderSection(record)
       },
       {
         title: 'Surname',
         dataIndex: 'surname',
+        sorter: (a, b) => a.surname.localeCompare(b.surname),
+        sortDirections: ['descend', 'ascend'],
         // render: (text, record) => renderSection(record)
       },
       {
         title: 'Supervisor',
         dataIndex: 'supervisor',
+        /* sorter: (a, b) => a.supervisor.localeCompare(b.supervisor),
+        sortDirections: ['descend', 'ascend'], */
         // render: (text, record) => renderSection(record)
       },
       {
         title: 'Department',
         dataIndex: 'department',
+        /* sorter: (a, b) => a.department.localeCompare(b.department),
+        sortDirections: ['descend', 'ascend'], */
         // render: (text, record) => renderSection(record)
       },
       {

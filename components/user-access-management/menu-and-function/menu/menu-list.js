@@ -244,21 +244,27 @@ const MenuList = inject('userAccessManagementStore')
     }
 
     const renderActionMenu = (record) => {
+      if (record.status == 'ACTIVE') {
+        if (record.request_status == 'APPROVE' || record.request_status == 'REJECT') {
+          return (
+            <div style={{ textAlign: "center" }}>
+              <a onClick={() => viewMenuManage(record)} style={{ marginRight: 8, color: '#FBA928' }}>
+                Edit
+                  </a>
+              <TcrbPopconfirm title="Sure to Deactivate?" onConfirm={() => deactivateMenuSelect(record)}>
+                <a style={{ color: '#FBA928' }}>Deactivate</a>
+              </TcrbPopconfirm>
+            </div>
+          )
+        } else if (record.request_status == 'PENDING') {
+          return null
+        }
 
-      if (record.request_status == 'APPROVE') {
-        return (
-          <div style={{ textAlign: "center" }}>
-            <a onClick={() => viewMenuManage(record)} style={{ marginRight: 8, color: '#FBA928' }}>
-              Edit
-                </a>
-            <TcrbPopconfirm title="Sure to Deactivate?" onConfirm={() => deactivateMenuSelect(record)}>
-              <a style={{ color: '#FBA928' }}>Deactivate</a>
-            </TcrbPopconfirm>
-          </div>
-        )
-      } else if (record.request_status == 'PENDING') {
-        return null
-      } else if (record.request_status == 'REJECT') {
+      } else if (status == 'INACTIVE') {
+        if (record.request_status == 'PENDING') {
+          return null
+        }
+      } else {
         return null
       }
     }
@@ -273,12 +279,15 @@ const MenuList = inject('userAccessManagementStore')
       {
         title: 'Name',
         dataIndex: 'name',
-        // render: (text, record) => (record.partner_code + "/" + record.partner_abbreviation)
+        sorter: (a, b) => a.name.localeCompare(b.name),
+        sortDirections: ['descend', 'ascend'],
       },
       {
         title: 'Functions',
         dataIndex: 'functions',
-        render: (text, record) => renderFunction(record)
+        render: (text, record) => renderFunction(record),
+        sorter: (a, b) => a.functions.length - (b.functions.length),
+        sortDirections: ['descend', 'ascend'],
       },
       {
         title: 'Action',

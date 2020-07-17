@@ -285,7 +285,7 @@ const FormModalUser = inject('userAccessManagementStore')
                   name="supervisor_id"
                   rules={[
                     {
-                      // required: true,
+                      required: false,
                       message: 'Please input Supervisor!',
                     },
                   ]}

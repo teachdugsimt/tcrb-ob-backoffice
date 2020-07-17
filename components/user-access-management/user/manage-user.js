@@ -146,7 +146,7 @@ const ManageUser = inject('userAccessManagementStore')
 
     const openModalSubmitEditUserProfile = (values) => {
       dataEditUserProfile = values
-      setModalTitle('Confirm')
+      setModalTitle('Confirm Edit User Profile')
       setModalType('confirm')
       setModalString(
         <div style={{ textAlign: "center" }}>
@@ -159,6 +159,7 @@ const ManageUser = inject('userAccessManagementStore')
 
     const submitEditUser = () => {
       console.log(dataEditUserProfile)
+      setViewEditUserDetail(false)
       setVisible(false)
       let request = {
         currentData: userAccessManagementStore.userSelected,
@@ -239,10 +240,8 @@ const ManageUser = inject('userAccessManagementStore')
                   style={{ width: '100%' }}
                   placeholder="Please select"
                   onChange={(value) => getSupervisorList(value)}
-                // defaultValue={renderOptionSelectFindNameById()}
                 >
                   {optionSectionList.map((item, index) => <Option key={index} value={item.id}>{item.name}</Option>)}
-                  {/* {children} */}
                 </Select>
               </Form.Item>
             </Col>
@@ -380,7 +379,6 @@ const ManageUser = inject('userAccessManagementStore')
                 <Select
                   style={{ width: '100' }}
                   placeholder="Please select"
-                  onChange={(value) => null}
                 >
                   <Option value="INACTIVE">INACTIVE</Option>
                   <Option value="ACTIVE">ACTIVE</Option>
@@ -406,7 +404,6 @@ const ManageUser = inject('userAccessManagementStore')
                 <Select
                   style={{ width: '100%' }}
                   placeholder="Please select"
-                  onChange={(value) => null}
                 >
                   {supervisorList.map((item, index) => <Option key={index} value={item.id}>{item.name}</Option>)}
                 </Select>

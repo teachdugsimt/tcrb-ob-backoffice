@@ -774,6 +774,24 @@ export default class UserAccessManagement {
     }
   }
 
+  @action updateGroup = async (params) => {
+    this.apiFetching = true
+    let tmp = await UserAccessManagementApi.updateGroup({ change_type: "GROUPS", action: "Update", currentData: params.currentData, newData: params.newData, maker_id: '36' })
+    console.log(tmp)
+    if (tmp.ok && tmp.status === 200) {
+      //when success
+      this.apiFetching = false
+    } else {
+      //when error
+      this.apiFetching = false
+      this.responseErrorMessage = {
+        title: 'updateGroup',
+        body: tmp.originalError.message
+      }
+      this.responseApiError = true
+    }
+  }
+
   @action updateFunction = async (params) => {
     this.apiFetching = true
     let tmp = await UserAccessManagementApi.updateFunction({ change_type: "FUNCTIONS", action: "Update", currentData: params.currentData, newData: params.newData, maker_id: '36' })
