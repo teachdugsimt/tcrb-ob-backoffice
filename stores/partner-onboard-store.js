@@ -1,6 +1,7 @@
 import { observable, action, computed } from "mobx"
 import { create, persist } from 'mobx-persist'
 import { PartnerOnboardApi } from '../services'
+import { openModalError } from '../components/data-utility'
 class PartnerOnboardStore {
   @persist @observable id = ""
   @persist @observable password = ""
@@ -54,6 +55,18 @@ class PartnerOnboardStore {
       this.fetching_onboard = false
       this.error_partner_onboard = tmp.data && tmp.data.responseData ? tmp.data.responseData : tmp.problem
       this.data_partner_onboard = null
+      //when error
+      let errorMessage = {
+        title: (
+          'getPartnerOnboard, ' + ' Error Code ' + tmp.data.responseCode
+        ),
+        body: (
+          <div>
+            <p>{tmp.data.userMessage}</p>
+          </div>
+        )
+      }
+      openModalError(errorMessage)
     }
   }
 
@@ -72,6 +85,18 @@ class PartnerOnboardStore {
       this.fetching_onboard = false
       this.error_add_partner_onboard = tmp.data && tmp.data.responseData ? tmp.data.responseData : tmp.problem
       this.data_add_partner_onboard = null
+      //when error
+      let errorMessage = {
+        title: (
+          'addPartnerOnboard, ' + ' Error Code ' + tmp.data.responseCode
+        ),
+        body: (
+          <div>
+            <p>{tmp.data.userMessage}</p>
+          </div>
+        )
+      }
+      openModalError(errorMessage)
     }
   }
 
@@ -90,6 +115,17 @@ class PartnerOnboardStore {
       this.fetching_onboard = false
       this.error_get_province = tmp.data && tmp.data.responseData ? tmp.data.responseData : tmp.problem
       this.data_get_province = null
+      let errorMessage = {
+        title: (
+          'getProvince, ' + ' Error Code ' + tmp.data.responseCode
+        ),
+        body: (
+          <div>
+            <p>{tmp.data.userMessage}</p>
+          </div>
+        )
+      }
+      openModalError(errorMessage)
     }
   }
 
@@ -108,6 +144,17 @@ class PartnerOnboardStore {
       this.fetching_onboard = false
       this.error_get_district = tmp.data && tmp.data.responseData ? tmp.data.responseData : tmp.problem
       this.data_get_district = null
+      let errorMessage = {
+        title: (
+          'getDistrict, ' + ' Error Code ' + tmp.data.responseCode
+        ),
+        body: (
+          <div>
+            <p>{tmp.data.userMessage}</p>
+          </div>
+        )
+      }
+      openModalError(errorMessage)
     }
   }
 
@@ -126,6 +173,17 @@ class PartnerOnboardStore {
       this.fetching_onboard = false
       this.error_get_sub_district = tmp.data && tmp.data.responseData ? tmp.data.responseData : tmp.problem
       this.data_get_sub_district = null
+      let errorMessage = {
+        title: (
+          'getSubDistrict, ' + ' Error Code ' + tmp.data.responseCode
+        ),
+        body: (
+          <div>
+            <p>{tmp.data.userMessage}</p>
+          </div>
+        )
+      }
+      openModalError(errorMessage)
     }
   }
 
