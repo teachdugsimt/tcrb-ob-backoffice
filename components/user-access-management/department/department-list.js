@@ -115,22 +115,6 @@ const DepartmentList =
         } else {
           return null
         }
-        /* if (record.request_status == 'APPROVE') {
-          return (
-            <div style={{ textAlign: "center" }}>
-              <a  onClick={() => viewDepartmentDetail(record)} style={{ marginRight: 8, color: '#FBA928' }}>
-                Edit
-              </a>
-              <TcrbPopconfirm title="Sure to Deactivate?" onConfirm={() => submitDeleteDepartment(record)}>
-                <a style={{ color: '#FBA928' }}>Deactivate</a>
-              </TcrbPopconfirm>
-            </div>
-          )
-        } else if (record.request_status == 'PENDING') {
-          return null
-        } else {
-          return null
-        } */
       }
 
       const renderSection = (record) => {
@@ -161,12 +145,14 @@ const DepartmentList =
           title: '',
           dataIndex: 'status',
           width: '5%',
-          render: (text, record) => checkDefaultStatus(record.status, record.request_status)
+          render: (text, record) => checkDefaultStatus(record.status, record.request_status),
         },
         {
           title: 'Department',
           dataIndex: 'name',
           editable: true,
+          sorter: (a, b) => a.name.localeCompare(b.name),
+          sortDirections: ['descend', 'ascend'],
           // render: (text, record) => (record.partner_code + "/" + record.partner_abbreviation)
         },
         {
@@ -178,7 +164,7 @@ const DepartmentList =
           title: 'Action',
           dataIndex: 'operation',
           width: '10%',
-          render: (text, record) => renderActionDepartment(record)
+          render: (text, record) => renderActionDepartment(record),
         }
       ]
 
@@ -226,6 +212,9 @@ const DepartmentList =
               form={form}
               layout="vertical"
               name="form_in_modal"
+              initialValues={{
+                sectionName: []
+              }}
             >
 
               <Row >
@@ -255,6 +244,12 @@ const DepartmentList =
                 <Col span={14}>
                   <Form.Item
                     name="sectionName"
+                    rules={[
+                      {
+                        required: false,
+                        message: 'Please input One Section.',
+                      },
+                    ]}
                   >
                     <Select
                       mode="tags"
@@ -267,7 +262,7 @@ const DepartmentList =
                 </Col>
               </Row>
             </Form>
-          </TcrbModal>
+          </TcrbModal >
         )
       }
 

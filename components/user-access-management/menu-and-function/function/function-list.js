@@ -130,34 +130,38 @@ const FunctionList = inject('userAccessManagementStore')
 
     const renderActionGroup = (record) => {
       const editable = isEditing(record);
-      if (record.request_status === 'APPROVE') {
-        return editable ? (
-          <span>
-            <TcrbPopconfirm title="Sure to Save?" onConfirm={() => submitEditFunction(record.key)}>
-              <a style={{ marginRight: 8, }}>
-                Save
-                </a>
-            </TcrbPopconfirm>
-            <TcrbPopconfirm title="Sure to cancel?" onConfirm={() => setEditingKey('')}>
-              <a style={{ color: '#3e3e3e' }}>Cancel</a>
-            </TcrbPopconfirm>
-          </span>
-        ) : (
-            <div style={{ textAlign: "center" }}>
-              <a disabled={editingKey !== ''} onClick={() => edit(record)} style={{ marginRight: 8, color: '#FBA928' }}>
-                Edit
-                </a>
-              <TcrbPopconfirm title="Sure to Deactivate?" onConfirm={() => deactivateFunctionSelect(record)}>
-                <a style={{ color: '#FBA928' }}>Deactivate</a>
+      if (record.status == 'ACTIVE') {
+        if (record.request_status == 'APPROVE' || record.request_status == 'REJECT') {
+          return editable ? (
+            <span>
+              <TcrbPopconfirm title="Sure to Save?" onConfirm={() => submitEditFunction(record.key)}>
+                <a style={{ marginRight: 8, }}>
+                  Save
+                  </a>
               </TcrbPopconfirm>
-            </div>
-          );
-      } else if (record.request_status === 'PENDING') {
-        return null
-      } else if (record.request_status === 'REJECT') {
-        return null
-      }
-      else {
+              <TcrbPopconfirm title="Sure to cancel?" onConfirm={() => setEditingKey('')}>
+                <a style={{ color: '#3e3e3e' }}>Cancel</a>
+              </TcrbPopconfirm>
+            </span>
+          ) : (
+              <div style={{ textAlign: "center" }}>
+                <a disabled={editingKey !== ''} onClick={() => edit(record)} style={{ marginRight: 8, color: '#FBA928' }}>
+                  Edit
+                  </a>
+                <TcrbPopconfirm title="Sure to Deactivate?" onConfirm={() => deactivateFunctionSelect(record)}>
+                  <a style={{ color: '#FBA928' }}>Deactivate</a>
+                </TcrbPopconfirm>
+              </div>
+            );
+        } else if (record.request_status == 'PENDING') {
+          return null
+        }
+
+      } else if (status == 'INACTIVE') {
+        if (record.request_status == 'PENDING') {
+          return null
+        }
+      } else {
         return null
       }
     }
@@ -172,8 +176,9 @@ const FunctionList = inject('userAccessManagementStore')
       {
         title: 'Name',
         dataIndex: 'name',
-        editable: true
-        // render: (text, record) => (record.partner_code + "/" + record.partner_abbreviation)
+        editable: true,
+        sorter: (a, b) => a.name.localeCompare(b.name),
+        sortDirections: ['descend', 'ascend'],
       },
       {
         title: 'Action',
