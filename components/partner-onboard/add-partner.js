@@ -5,14 +5,14 @@ import { DownOutlined, UserOutlined, UploadOutlined } from '@ant-design/icons'
 import { PageHeader } from '../page-header'
 import { withTranslation } from '../../i18n'
 import SimpleInput from '../simple-input'
+import { inject, observer } from 'mobx-react'
 
-const AddPartner = () => {
-
+const AddPartner = inject('partnerOnboard')(observer((thisProps) => {
   const [subDistrict, setSubDistrict] = useState('')
   const [District, setDistrict] = useState('')
   const [Province, setProvince] = useState('')
   const { Option } = Select;
-
+  const { t, partnerOnboard } = thisProps
 
   const onFinish = values => {
     values.subDistrict = subDistrict
@@ -43,7 +43,17 @@ const AddPartner = () => {
     setProvince(value)
   };
 
-
+  const _transformTextName = (value) => {
+    let newStr = '';
+    for (var i = 0; i < value.length; i++) {
+      if (value.charAt(i) === value.charAt(i).toUpperCase()) {
+        newStr = newStr + ' ' + value.charAt(i)
+      } else {
+        (i == 0) ? (newStr += value.charAt(i).toUpperCase()) : (newStr += value.charAt(i));
+      }
+    }
+    return newStr;
+  }
 
   const props = () => {
     action: 'https://www.mocky.io/v2/5cc8019d300000980a055e76',
@@ -54,11 +64,56 @@ const AddPartner = () => {
       }
   }
 
+  const _renderPrefixInput = (prefix, require) => {
+    return <Col span={8}>
+      <Row style={{ display: "flex", flexDirection: 'row' }}>
+        <span>{prefix}</span>
+        {require && <span style={{ color: 'red' }}>* </span>}
+      </Row>
+    </Col>
+  }
+
+  const _renderInput = (name, require) => {
+    return <Col span={16}>
+      <Form.Item
+        name={name}
+        rules={[{ required: require, message: `Please input your ${_transformTextName(name)} !` }]}
+      >
+        <Input placeholder={_transformTextName(name)} style={{ width: "80%" }} />
+      </Form.Item>
+    </Col>
+  }
+
+  const _renderFormInput = (prefix, name, require) => {
+    return <Col className="gutter-row" span={12} gutter={{ xs: 8, sm: 16, md: 24, lg: 32 }}>
+      <Row span={12}>
+        {_renderPrefixInput(prefix, require)}
+        {_renderInput(name, require)}
+      </Row>
+    </Col>
+  }
+
+  const _renderUploadForm = (name) => {
+    return [<Col span={4} style={{ padding: 10 }} >
+      <span>{name}</span>
+    </Col>,
+    <Col span={4} style={{ padding: 10 }}>
+      <Upload {...props}>
+        <Button style={{ backgroundColor: 'white', color: '#595959' }}>
+          <UploadOutlined />Upload
+        </Button>
+      </Upload>
+    </Col>]
+  }
+
   return (
-    <div >
-      <PageHeader>Partner Registration</PageHeader>
+    <Row >
+      <Col span={24}>
+        <PageHeader>Partner Registration</PageHeader>
+      </Col>
       {/* <Row> */}
       <Form
+        style={{ paddingTop: 20 }}
         name="basic"
         initialValues={{
           parentAssignName: '',
@@ -86,146 +141,46 @@ const AddPartner = () => {
         onFinish={onFinish}
         onFinishFailed={onFinishFailed}
       >
-        <Row>
-          <Col span={3}>
-            <div style={{ display: "flex", flexDirection: 'row' }}>
-              <div>Parent Assign Name </div>
-              <div style={{ color: 'red' }}>* </div>
-            </div>
-          </Col>
-          <Col span={6}>
-            <Form.Item
-              name="parentAssignName"
-              rules={[{ required: true, message: 'Please input your Parent Assign Name !' }]}
-            >
-              <Input placeholder="Parent Assign Name" style={{ width: 280 }} />
-            </Form.Item>
-          </Col>
-
-          <Col span={3}>
-            <div style={{ display: "flex", flexDirection: 'row' }}>
-              <div>Partner Assign Name </div>
-              <div style={{ color: 'red' }}>* </div>
-            </div>
-          </Col>
-          <Col span={6}>
-            <Form.Item
-              name="partnerAssignName"
-              rules={[{ required: true, message: 'Please input your Partner Assign Name !' }]}
-            >
-              <Input placeholder="Partner Assign Name" style={{ width: 280 }} />
-            </Form.Item>
-          </Col>
-        </Row>
-
-        <Row >
-          <Col span={3}>
-            <div style={{ display: "flex", flexDirection: 'row' }}>
-              <div>Juristic ID </div>
-              <div style={{ color: 'red' }}>* </div>
-            </div>
-          </Col>
-          <Col span={6}>
-            <Form.Item
-              name="juristicID"
-              rules={[{ required: true, message: 'Please input your Juristic ID !' }]}
-            >
-              <Input placeholder="Juristic ID" style={{ width: 280 }} />
-            </Form.Item>
-          </Col>
-
-          <Col span={3}>
-            <div style={{ display: "flex", flexDirection: 'row' }}>
-              <div>Juristic Name(TH)</div>
-              <div style={{ color: 'red' }}>* </div>
-            </div>
-          </Col>
-          <Col span={6}>
-            <Form.Item
-
-              name="JuristicName_th"
-              rules={[{ required: true, message: 'Please input your Juristic Name(TH)!' }]}
-            >
-              <Input placeholder="Juristic Name(TH)" style={{ width: 280 }} />
-            </Form.Item>
-          </Col>
-        </Row>
-
-        <Row >
-          <Col span={3}>
-            <div style={{ display: "flex", flexDirection: 'row' }}>
-              <div>Juristic Name(En) </div>
-              <div style={{ color: 'red' }}>* </div>
-            </div>
-          </Col>
-          <Col span={6}>
-            <Form.Item
-              name="juristicName_en"
-              rules={[{ required: true, message: 'Please input your Juristic Name(En)!' }]}
-            >
-              <Input placeholder="Juristic Name(En)" style={{ width: 280 }} />
-            </Form.Item>
-          </Col>
-
-          <Col span={3}>
-            <div style={{ display: "flex", flexDirection: 'row' }}>
-              <div>Register App Name </div>
-              <div style={{ color: 'red' }}>* </div>
-            </div>
-          </Col>
-          <Col span={6}>
-            <Form.Item
-              name="registerAppName"
-              rules={[{ required: true, message: 'Please input your Register App Name !' }]}
-            >
-              <Input placeholder="Register App Name" style={{ width: 280 }} />
-            </Form.Item>
-          </Col>
+        <Row gutter={{ xs: 8, sm: 16, md: 24, lg: 32 }} align={'bottom'}>
+          {_renderFormInput("Parent Assign Name", "parentAssignName", true)}
+          {_renderFormInput("Partner Assign Name", "partnerAssignName", true)}
+          {_renderFormInput("Juristic ID", "Juristic ID", true)}
+          {_renderFormInput("Juristic Name(TH)", "Juristic Name(TH)", true)}
+          {_renderFormInput("Juristic Name(En)", "Juristic Name(En)", true)}
+          {_renderFormInput("Juristic Name(TH)", "Juristic Name(TH)", true)}
         </Row>
 
         {/* ======================={Address}======================= */}
-        <Row>
-          <Col span={3}>
+        <Row className="gutter-row" gutter={{ xs: 8, sm: 16, md: 24, lg: 32 }}>
+          <Col className="gutter-row" span={3}>
             <div>Address </div>
           </Col>
-          <Col span={4}>
-            <Form.Item
-              name="houseNo"
-            >
-              <Input placeholder="House No." style={{ width: 180 }} />
-            </Form.Item>
+          <Col className="gutter-row" span={4}><Form.Item name="houseNo">
+            <Input placeholder="House No." />
+          </Form.Item>
           </Col>
 
-          <Col span={4}>
-            <Form.Item
-              name="moo"
-            >
-              <Input placeholder="Moo" style={{ width: 180 }} />
-            </Form.Item>
+          <Col className="gutter-row" span={4}><Form.Item name="moo">
+            <Input placeholder="Moo" />
+          </Form.Item>
           </Col>
 
-          <Col span={4}>
-            <Form.Item
-              name="soi"
-            >
-              <Input placeholder="Soi" style={{ width: 180 }} />
-            </Form.Item>
+          <Col className="gutter-row" span={4}><Form.Item name="soi">
+            <Input placeholder="Soi" />
+          </Form.Item>
           </Col>
 
-          <Col span={4}>
-            <Form.Item
-              name="road"
-            >
-              <Input placeholder="Road" style={{ width: 180 }} />
-            </Form.Item>
+          <Col className="gutter-row" span={4}><Form.Item name="road">
+            <Input placeholder="Road" />
+          </Form.Item>
           </Col>
         </Row>
 
-        <Row>
+        <Row className="gutter-row" gutter={{ xs: 8, sm: 16, md: 24, lg: 32 }}>
           <Col span={3}>
             {/* <div>Address </div> */}
           </Col>
-          <Col span={4}>
+          <Col className="gutter-row" span={4}>
             <Form.Item
               name="subDistrict"
             >
@@ -236,7 +191,7 @@ const AddPartner = () => {
               </Select>
             </Form.Item>
           </Col>
-          <Col span={4}>
+          <Col className="gutter-row" span={4}>
             <Form.Item
               name="district"
             >
@@ -248,7 +203,7 @@ const AddPartner = () => {
 
             </Form.Item>
           </Col>
-          <Col span={4}>
+          <Col className="gutter-row" span={4}>
             <Form.Item
               name="province"
             >
@@ -260,7 +215,7 @@ const AddPartner = () => {
 
             </Form.Item>
           </Col>
-          <Col span={4}>
+          <Col className="gutter-row" span={4}>
             <Form.Item
               name="zipcode"
             >
@@ -269,346 +224,74 @@ const AddPartner = () => {
           </Col>
         </Row>
         {/* ======================={Address}======================= */}
-        {/* ======================={Attachment Files}======================= */}
-        <div style={{ display: 'flex', flexDirection: 'column' }}>
-          <div style={{ fontSize: 16, color: '#828282' }}>Attachment Files</div>
-          <div style={{ fontSize: 14, color: '#E5E5E5' }}>Only PDF support and the maximum file size is 500 MB</div>
-        </div>
-        <Row style={{ borderBottom: "1px solid #C4C4C4", marginTop: 10, paddingBottom: 10 }}>
-          <Col span={4} style={{ padding: 10 }} >
-            <div>NDA </div>
-          </Col>
-          <Col span={4} style={{ padding: 10 }}>
-            <Upload {...props}>
-              <Button style={{ backgroundColor: 'white', color: '#595959' }}>
-                <UploadOutlined /> Upload
-              </Button>
-            </Upload>
-          </Col>
-          <Col span={4} style={{ padding: 10 }}>
-            <div>{'Contract ' + '&' + ' MOU'} </div>
-          </Col>
-          <Col span={4} style={{ padding: 10 }}>
-            <Upload {...props}>
-              <Button style={{ backgroundColor: 'white', color: '#595959' }}>
-                <UploadOutlined /> Upload
-              </Button>
-            </Upload>
-          </Col>
-          <Col span={4} style={{ padding: 10 }}>
-            <div>{'Company ' + '&' + ' Authorized Person Docs'}</div>
-          </Col>
-          <Col span={4} style={{ padding: 10 }}>
-            <Upload {...props}>
-              <Button style={{ backgroundColor: 'white', color: '#595959' }}>
-                <UploadOutlined /> Upload
-              </Button>
-            </Upload>
-          </Col>
-          <Col span={4} style={{ padding: 10 }}>
-            <div>Vendor Valuation</div>
-          </Col>
-          <Col span={4} style={{ padding: 10 }}>
-            <Upload {...props}>
-              <Button style={{ backgroundColor: 'white', color: '#595959' }}>
-                <UploadOutlined /> Upload
-              </Button>
-            </Upload>
-          </Col>
-          <Col span={4} style={{ padding: 10 }}>
-            <div>Others </div>
-          </Col>
-          <Col span={4} style={{ padding: 10 }}>
-            <Upload {...props}>
-              <Button style={{ backgroundColor: 'white', color: '#595959' }}>
-                <UploadOutlined /> Upload
-              </Button>
-            </Upload>
-          </Col>
 
+        {/* ======================={Attachment Files}======================= */}
+        <Row>
+          <Col>
+            <Row>
+              <span style={{ fontSize: 16, color: '#828282' }}>Attachment Files</span>
+            </Row>
+            <Row>
+              <span style={{ fontSize: 14, color: '#E5E5E5' }}>Only PDF support and the maximum file size is 500 MB</span>
+            </Row>
+          </Col>
+        </Row>
+
+        <Row style={{ borderBottom: "1px solid #C4C4C4", marginTop: 10, paddingBottom: 10 }}>
+          {_renderUploadForm("NDA")}
+          {_renderUploadForm('Contract ' + '&' + ' MOU')}
+          {_renderUploadForm('Company ' + '&' + ' Authorized Person Docs')}
+          {_renderUploadForm('Vendor Valuation')}
+          {_renderUploadForm('Others')}
         </Row >
         {/* ======================={Attachment Files}======================= */}
+
         {/* ======================={RM Contact Info}======================= */}
         <div style={{ fontSize: 16, color: '#828282', marginTop: 10 }}>RM Contact Info</div>
-        <div style={{ borderBottom: "1px solid #C4C4C4", marginTop: 10 }}>
-          <Row >
-            <Col span={3}>
-              <div style={{ display: "flex", flexDirection: 'row' }}>
-                <div>Name - Surname </div>
-                <div style={{ color: 'red' }}>* </div>
-              </div>
-            </Col>
-            <Col span={6}>
-              <Form.Item
-                name="name_surname"
-                rules={[{ required: true, message: 'Please input your Name - Surname !' }]}
-              >
-                <Input placeholder="Name - Surname" style={{ width: 280 }} />
-              </Form.Item>
-            </Col>
-
-            <Col span={3}>
-              <div style={{ display: "flex", flexDirection: 'row' }}>
-                <div>Employee ID</div>
-                <div style={{ color: 'red' }}>* </div>
-              </div>
-            </Col>
-            <Col span={6}>
-              <Form.Item
-                name="employeeID"
-                rules={[{ required: true, message: 'Please input your Employee ID!' }]}
-              >
-                <Input placeholder="Employee ID" style={{ width: 280 }} />
-              </Form.Item>
-            </Col>
-          </Row>
-
-          <Row >
-            <Col span={3}>
-              <div style={{ display: "flex", flexDirection: 'row' }}>
-                <div>Department</div>
-                <div style={{ color: 'red' }}>* </div>
-              </div>
-            </Col>
-            <Col span={6}>
-              <Form.Item
-                name="department"
-                rules={[{ required: true, message: 'Please input your Department!' }]}
-              >
-                <Input placeholder="Department" style={{ width: 280 }} />
-              </Form.Item>
-            </Col>
-
-            <Col span={3}>
-              <div style={{ display: "flex", flexDirection: 'row' }}>
-                <div>Office Phone No.</div>
-                <div style={{ color: 'red' }}>* </div>
-              </div>
-            </Col>
-            <Col span={6}>
-              <Form.Item
-
-                name="officePhoneNo"
-                rules={[{ required: true, message: 'Please input your Office Phone No!' }]}
-              >
-                <Input placeholder="Office Phone No" style={{ width: 280 }} />
-              </Form.Item>
-            </Col>
-          </Row>
-
-          <Row>
-            <Col span={3}>
-              <div style={{ display: "flex", flexDirection: 'row' }}>
-                <div>Mobile No.</div>
-                <div style={{ color: 'red' }}>* </div>
-              </div>
-            </Col>
-            <Col span={6}>
-              <Form.Item
-                name="mobileNo"
-                rules={[{ required: true, message: 'Please input your Mobile No.' }]}
-              >
-                <Input placeholder="JMobile No." style={{ width: 280 }} />
-              </Form.Item>
-            </Col>
-
-            <Col span={3}>
-              <div style={{ display: "flex", flexDirection: 'row' }}>
-                <div>Work Email </div>
-                <div style={{ color: 'red' }}>* </div>
-              </div>
-            </Col>
-            <Col span={6}>
-              <Form.Item
-                name="workEmail"
-                rules={[{ required: true, message: 'Please input your Work Email !' }]}
-              >
-                <Input placeholder="Work Email" style={{ width: 280 }} />
-              </Form.Item>
-            </Col>
-          </Row>
-        </div>
+        <Row gutter={{ xs: 8, sm: 16, md: 24, lg: 32 }} align={'bottom'} style={{ borderBottom: "1px solid #C4C4C4", marginTop: 10 }}>
+          {_renderFormInput("Name - Surname", "name_surname", true)}
+          {_renderFormInput("Employee ID", "employeeID", true)}
+          {_renderFormInput("Department", "department", true)}
+          {_renderFormInput("Office Phone No.", "officePhoneNo", true)}
+          {_renderFormInput("Work Email ", "workEmail", true)}
+        </Row>
         {/* ======================={RM Contact Info}======================= */}
+
         {/* ======================={Partner Contact Info}======================= */}
         <div style={{ fontSize: 16, color: '#828282', marginTop: 10 }}>Partner Contact Info</div>
-        <div style={{ borderBottom: "1px solid #C4C4C4", marginTop: 10 }}>
-          <Row >
-            <Col span={3}>
-              <div style={{ display: "flex", flexDirection: 'row' }}>
-                <div>Name - Surname</div>
-                <div style={{ color: 'red' }}>* </div>
-              </div>
-            </Col>
-            <Col span={6}>
-              <Form.Item
-                name="name_surname_partner_contact"
-                rules={[{ required: true, message: 'Please input your Name - Surname !' }]}
-              >
-                <Input placeholder="Name - Surname" style={{ width: 280 }} />
-              </Form.Item>
-            </Col>
+        <Row gutter={{ xs: 8, sm: 16, md: 24, lg: 32 }} style={{ borderBottom: "1px solid #C4C4C4", marginTop: 10 }}>
+          {_renderFormInput("Name - Surname", "name_surname_partner_contact", true)}
+          {_renderFormInput("ID Card No. ", "idCardNo", true)}
 
-            <Col span={3}>
-              <div style={{ display: "flex", flexDirection: 'row' }}>
-                <div>ID Card No. </div>
-                <div style={{ color: 'red' }}>* </div>
-              </div>
-            </Col>
-            <Col span={6}>
-              <Form.Item
-                name="idCardNo."
-                rules={[{ required: true, message: 'Please input your ID Card No. !' }]}
-              >
-                <Input placeholder="ID Card No." style={{ width: 280 }} />
-              </Form.Item>
-            </Col>
-          </Row>
+          {_renderFormInput("Office Phone No. ", "officePhoneNo_partner_contact", true)}
+          {_renderFormInput("Mobile No.", "mobileNo_partner_contact", true)}
 
-          <Row >
-            <Col span={3}>
-              <div style={{ display: "flex", flexDirection: 'row' }}>
-                <div>Office Phone No. </div>
-                <div style={{ color: 'red' }}>* </div>
-              </div>
-            </Col>
-            <Col span={6}>
-              <Form.Item
-                name="officePhoneNo_partner_contact"
-                rules={[{ required: true, message: 'Please input your Office Phone No. !' }]}
-              >
-                <Input placeholder="Office Phone No." style={{ width: 280 }} />
-              </Form.Item>
-            </Col>
-
-            <Col span={3}>
-              <div style={{ display: "flex", flexDirection: 'row' }}>
-                <div>Mobile No.</div>
-                <div style={{ color: 'red' }}>* </div>
-              </div>
-            </Col>
-            <Col span={6}>
-              <Form.Item
-                name="mobileNo_partner_contact"
-                rules={[{ required: true, message: 'Please input your Mobile No.!' }]}
-              >
-                <Input placeholder="Mobile No." style={{ width: 280 }} />
-              </Form.Item>
-            </Col>
-          </Row>
-
-          <Row>
-            <Col span={3}>
-              <div style={{ display: "flex", flexDirection: 'row' }}>
-                <div>Work Email </div>
-                <div style={{ color: 'red' }}>* </div>
-              </div>
-            </Col>
-            <Col span={6}>
-              <Form.Item
-                name="work_email_partner_contact"
-                rules={[{ required: true, message: 'Please input your Work Email!' }]}
-              >
-                <Input placeholder="Work Email" style={{ width: 280 }} />
-              </Form.Item>
-            </Col>
-          </Row>
-        </div>
+          {_renderFormInput("Work Email ", "work_email_partner_contact", true)}
+        </Row>
         {/* ======================={Partner Contact Info}======================= */}
         {/* ======================={Partner IT Security Info}======================= */}
         <div style={{ fontSize: 16, color: '#828282', marginTop: 10 }}>Partner IT Security Info</div>
-        <div style={{ borderBottom: "1px solid #C4C4C4", marginTop: 10 }}>
-          <Row >
-            <Col span={3}>
-              <div style={{ display: "flex", flexDirection: 'row' }}>
-                <div>Name - Surname</div>
-                <div style={{ color: 'red' }}>* </div>
-              </div>
-            </Col>
-            <Col span={6}>
-              <Form.Item
-                name="name_surname_partner_contact"
-                rules={[{ required: true, message: 'Please input your Name - Surname !' }]}
-              >
-                <Input placeholder="Name - Surname" style={{ width: 280 }} />
-              </Form.Item>
-            </Col>
+        <Row gutter={{ xs: 8, sm: 16, md: 24, lg: 32 }} style={{ borderBottom: "1px solid #C4C4C4", marginTop: 10 }}>
+          {_renderFormInput("Name - Surname", "name_surname_partner_it", true)}
+          {_renderFormInput("ID Card No. ", "idCardNoIt", true)}
 
-            <Col span={3}>
-              <div style={{ display: "flex", flexDirection: 'row' }}>
-                <div>ID Card No. </div>
-                <div style={{ color: 'red' }}>* </div>
-              </div>
-            </Col>
-            <Col span={6}>
-              <Form.Item
-                name="idCardNo."
-                rules={[{ required: true, message: 'Please input your ID Card No. !' }]}
-              >
-                <Input placeholder="ID Card No." style={{ width: 280 }} />
-              </Form.Item>
-            </Col>
-          </Row>
+          {_renderFormInput("Office Phone No. ", "officePhoneNo_partner_it", true)}
+          {_renderFormInput("Mobile No.", "mobileNo_partner_it", true)}
 
-          <Row >
-            <Col span={3}>
-              <div style={{ display: "flex", flexDirection: 'row' }}>
-                <div>Office Phone No. </div>
-                <div style={{ color: 'red' }}>* </div>
-              </div>
-            </Col>
-            <Col span={6}>
-              <Form.Item
-                name="officePhoneNo_partner_contact"
-                rules={[{ required: true, message: 'Please input your Office Phone No. !' }]}
-              >
-                <Input placeholder="Office Phone No." style={{ width: 280 }} />
-              </Form.Item>
-            </Col>
-
-            <Col span={3}>
-              <div style={{ display: "flex", flexDirection: 'row' }}>
-                <div>Mobile No.</div>
-                <div style={{ color: 'red' }}>* </div>
-              </div>
-            </Col>
-            <Col span={6}>
-              <Form.Item
-                name="mobileNo_partner_contact"
-                rules={[{ required: true, message: 'Please input your Mobile No.!' }]}
-              >
-                <Input placeholder="Mobile No." style={{ width: 280 }} />
-              </Form.Item>
-            </Col>
-          </Row>
-
-          <Row>
-            <Col span={3}>
-              <div style={{ display: "flex", flexDirection: 'row' }}>
-                <div>Work Email </div>
-                <div style={{ color: 'red' }}>* </div>
-              </div>
-            </Col>
-            <Col span={6}>
-              <Form.Item
-                name="work_email_partner_contact"
-                rules={[{ required: true, message: 'Please input your Work Email!' }]}
-              >
-                <Input placeholder="Work Email" style={{ width: 280 }} />
-              </Form.Item>
-            </Col>
-          </Row>
-        </div>
+          {_renderFormInput("Work Email ", "work_email_partner_it", true)}
+        </Row>
         {/* ======================={Partner IT Security Info}======================= */}
         < Form.Item style={{ marginTop: 30, textAlign: 'center' }}>
           <Button type="primary" htmlType="submit">
-            Submit
-           </Button>
+            {t('submit')}
+          </Button>
         </Form.Item >
       </Form >
 
-    </div >
+    </Row >
   )
-}
+}))
+
 export default withTranslation('common')(AddPartner)
 
 

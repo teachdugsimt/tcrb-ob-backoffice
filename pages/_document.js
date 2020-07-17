@@ -29,7 +29,7 @@ import { withTranslation } from '../i18n'
           <script
             id="session"
             type="application/json"
-            dangerouslySetInnerHtml={{
+            dangerouslySetInnerHTML={{
               __html: JSON.stringify(this.props.session, null, 2)
             }}
           />

@@ -5,6 +5,7 @@ import PendingApprovalApi from './pending-approvals-api'
 import CustomerServicesEnquiryApi from './customer-services-enquiry-api'
 import UserAccessManagementApi from './user-access-management-api'
 import LoginApi from './login-api'
+import PartnerOnboardApi from './partner-onboard-api'
 export {
   StartupApi,
   BusinessParameterSetupApi,
@@ -12,7 +13,8 @@ export {
   PendingApprovalApi,
   CustomerServicesEnquiryApi,
   UserAccessManagementApi,
-  LoginApi
+  LoginApi,
+  PartnerOnboardApi,
 }
 
 // HTTPS=true SSL_CRT_FILE=Certificate_chain.txt SSL_KEY_FILE=private_key.txt npm run dev

@@ -14,15 +14,8 @@ const RoleBasedMatrix = inject("userAccessManagementStore")(
     const [matrixAll, setmatrixAll] = useState([]);
     const [dataSource, setdataSource] = useState([]);
     const [testColumn, settestColumn] = useState([]);
-    // const [functionsList, setfunctionsList] = useState([])
-    // const [rolesList, setrolesList] = useState([])
     const { userAccessManagementStore } = props;
     const [cellArrayChange, setcellArrayChange] = useState([]);
-    const roleList = 10;
-    const functionList = 4;
-
-    // let dataSource = [];
-    // let testColumn = [];
 
     useEffect(() => {
       console.log("All Data change here : ", cellArrayChange);
@@ -405,7 +398,7 @@ RoleBasedMatrix.getInitialProps = async () => ({
   namespacesRequired: [],
 })
 
-export default withTranslation()(RoleBasedMatrix);
+export default withTranslation('common')(RoleBasedMatrix);
 
 
 
