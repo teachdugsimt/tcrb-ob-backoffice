@@ -12,6 +12,8 @@ import CustomerServiceEnquiry from './customer-service-enquiry-store'
 import PendingApproval from './pending-approve-store'
 import LoginStore from './login-store'
 import UserAccessManagement from './user-access-management-store'
+import PartnerOnboardStore from './partner-onboard-store';
+import ProductOnBoard from './product-onboard-store';
 const isServer = typeof window === 'undefined';
 useStaticRendering(isServer);
 
@@ -32,7 +34,9 @@ export default function initializeStore(initialData = {}) {
       pendingApprovalStore: new PendingApproval(),
       userAccessManagementStore: new UserAccessManagement(),
       loginStore: new LoginStore(),
-        // .then(() => console.log('some hydrated : TEST PERSIST STORE SUCCESS :: '))
+      partnerOnboard: new PartnerOnboardStore(),
+      productOnboardStore: new ProductOnBoard()
+      // .then(() => console.log('some hydrated : TEST PERSIST STORE SUCCESS :: '))
     };
   }
   if (store === null) {
@@ -47,28 +51,12 @@ export default function initializeStore(initialData = {}) {
       customerServiceEnquiry: new CustomerServiceEnquiry(),
       pendingApprovalStore: new PendingApproval(),
       userAccessManagementStore: new UserAccessManagement(),
-      loginStore: new LoginStore()
-
-
-
-
-
-
-
+      loginStore: new LoginStore(),
+      partnerOnboard: new PartnerOnboardStore(),
+      productOnboardStore: new ProductOnBoard()
 
     };
   }
 
   return store;
 }
-
-
-
-// original
-// const initialState = window.__STATE__.some || {
-//   obj: { a: 2, b: 1 }
-// }
-// export const someStore = new SomeStore()
-
-// hydrate('some', someStore, initialState)
-//   .then(() => console.log('some hydrated'))

@@ -1,5 +1,6 @@
 import { orange, green, gold } from '@ant-design/colors';
 import { TcrbButton, TcrbPopconfirm } from '../antd-styles/styles'
+import { Modal } from 'antd'
 
 const addKeyToDataSource = (arrayDataSource) => {
   let newDataSource = arrayDataSource
@@ -75,10 +76,21 @@ const isEmpty = (value) => {
   return value == '' || value === ''
 }
 
+const openModalError = ({ title, body }) => {
+  Modal.error({
+    title: title,
+    content: body,
+    onOk() {
+
+    },
+  });
+}
+
 export {
   addKeyToDataSource,
   addCommaInData,
   checkDefaultStatus,
   renderAction,
-  isEmpty
+  isEmpty,
+  openModalError
 }

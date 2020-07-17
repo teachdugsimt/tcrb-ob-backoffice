@@ -65,6 +65,9 @@ const AdminMenu = inject('authenStore', 'versatileStore', 'loginStore')(observer
       let default_menu = [
         { key: 14, id: 14, name: "PENDING APPROVE", translate: "pendingApprove", link_to: "/pending-approve", color: "#000000", typeLv: "42" },
         { key: 15, id: 15, name: "USER ACCESS MANAGEMENT ", translate: "useAccessManagementEnquiry", link_to: "/user-access-management", color: "#000000", typeLv: "42" },
+        { key: 16, id: 16, name: "PARTNER MANAGEMENT ", translate: "partnerManagement", link_to: "/partner-management", color: "#000000", typeLv: "42" },
+        // { key: 16, id: 16, name: "Product OnBoard ", translate: "productOnBoard", link_to: "/product-onboarding", color: "#000000", typeLv: "42" },
+
       ]
       let real_menu = tmp_menu.concat(default_menu)
       authenStore.setMenu(real_menu)

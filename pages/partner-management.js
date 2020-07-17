@@ -5,9 +5,11 @@ import { Row, Col, Button } from 'antd'
 import { withTranslation } from '../i18n'
 import TablePartner from '../components/partner-onboard/partner-table'
 import Addpartner from '../components/partner-onboard/add-partner'
-const PartnerManagement = (props) => {
+import { inject, observer } from 'mobx-react'
+
+const PartnerManagement = inject('partnerOnboard')(observer((props) => {
   const [addPartner, setAddPartner] = useState(false)
-  const { t } = props
+
   return (
     <Row>
       {!addPartner ? <Col>
@@ -20,7 +22,7 @@ const PartnerManagement = (props) => {
         </Col>}
     </Row>
   )
-}
+}))
 
 PartnerManagement.getInitialProps = async () => ({
   namespacesRequired: [],

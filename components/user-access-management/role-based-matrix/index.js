@@ -14,15 +14,8 @@ const RoleBasedMatrix = inject("userAccessManagementStore")(
     const [matrixAll, setmatrixAll] = useState([]);
     const [dataSource, setdataSource] = useState([]);
     const [testColumn, settestColumn] = useState([]);
-    // const [functionsList, setfunctionsList] = useState([])
-    // const [rolesList, setrolesList] = useState([])
     const { userAccessManagementStore } = props;
     const [cellArrayChange, setcellArrayChange] = useState([]);
-    const roleList = 10;
-    const functionList = 4;
-
-    // let dataSource = [];
-    // let testColumn = [];
 
     useEffect(() => {
       console.log("All Data change here : ", cellArrayChange);
@@ -48,31 +41,59 @@ const RoleBasedMatrix = inject("userAccessManagementStore")(
       }
     }, [matrixAll])
 
+    const mapRoleListAndFunctionList = (arrRole, arrFunction) => {
+      let tmp_matrix = []
+      arrRole.map((e, i) => {
+        let tmp_first_layer = {
+          id: e.id,
+          name: e.name,
+          // functions: []
+        }
+        let tmp_functions = []
+        arrFunction.map((func, ind) => {
+          tmp_functions.push({
+            id: func.id,
+            name: func.name,
+            is_allowed: null,
+            is_masked: null
+          })
+        })
+        tmp_first_layer.functions = tmp_functions
+        tmp_matrix.push(tmp_first_layer)
+      })
+      return tmp_matrix
+    }
+
     useEffect(() => {
       if (userAccessManagementStore.dataMatrix && userAccessManagementStore.roleList && userAccessManagementStore.functionList) {
         let tmp_matrix = JSON.parse(
           JSON.stringify(userAccessManagementStore.dataMatrix)
         );
         tmp_matrix = tmp_matrix.filter((e) => e.functions.length > 0);
+        // setmatrixAll(tmp_matrix);
         console.log("TMP LIST MATRIX", tmp_matrix);
 
         let propsRoles = JSON.parse(JSON.stringify(userAccessManagementStore.roleList))
 
         let propsFunctions = JSON.parse(JSON.stringify(userAccessManagementStore.functionList))
 
-        // let tmp_matrix =
-        //   propsRoles.map((e, i) => {
-        //     propsFunctions.map((func, ind) => {
+        let rolesAndFunctionList = mapRoleListAndFunctionList(propsRoles, propsFunctions)
+        console.log("Map role list and function lsit :: ", rolesAndFunctionList)
 
-        //     })
-        //   })
+        rolesAndFunctionList.map((e, i) => {
+          let cell_map_role_funcion = tmp_matrix.find(cell => cell.id == e.id)
+          if (cell_map_role_funcion && cell_map_role_funcion != undefined) {
+            e.functions = _.unionBy(cell_map_role_funcion.functions, e.functions, 'id')
+            // console.log("Functions after union : ", e.functions)
+          }
+          return e
+        })
+        console.log("Role and Functions pass union :: ", rolesAndFunctionList)
+        setmatrixAll(rolesAndFunctionList)
 
 
 
-
-
-
-        setmatrixAll(tmp_matrix);
+        // setmatrixAll(tmp_matrix);
         // addFunctionToDataSource(tmp_matrix);
         // addRoleToColumn();
       }
@@ -233,7 +254,7 @@ const RoleBasedMatrix = inject("userAccessManagementStore")(
       if (
         check_have_ever_update_cell &&
         check_have_ever_update_cell != undefined
-      ) {
+      ) {   // 1. check ว่าช่องๆนี้เคยกด้แก้ไข ไปหรือยัง ถ้าเคยแล้วให้จัดการใน array state
         if (check_have_ever_update_cell.is_allowed === true) {
           slot_data =
             check_have_ever_update_cell.is_masked === true ? "M" : "U";
@@ -243,10 +264,9 @@ const RoleBasedMatrix = inject("userAccessManagementStore")(
       } else {
         if (this_cell.is_allowed === true) {
           slot_data = this_cell.is_masked === true ? "M" : "U";
-        } else if (
-          this_cell.is_masked === undefined &&
-          this_cell.is_allowed === undefined
-        ) {
+        } else if (this_cell.is_masked === undefined && this_cell.is_allowed === undefined) {
+          slot_data = "-";
+        } else if (this_cell.is_masked == null && this_cell.is_allowed == null) {
           slot_data = "-";
         } else if (this_cell.is_allowed === false) {
           slot_data = "-";
@@ -271,6 +291,8 @@ const RoleBasedMatrix = inject("userAccessManagementStore")(
             render: (text, record) => {
               let this_cell = record[matrixAll[index].name];
               let slot_data = _getSlotValueData(this_cell);
+              // console.log("This cell : ", this_cell)
+              // console.log("Slot cell data : ", slot_data)
               return (
                 <Select
                   style={{ width: "100%" }}
@@ -376,7 +398,7 @@ RoleBasedMatrix.getInitialProps = async () => ({
   namespacesRequired: [],
 })
 
-export default withTranslation()(RoleBasedMatrix);
+export default withTranslation('common')(RoleBasedMatrix);
 
 
 

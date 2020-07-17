@@ -1,29 +1,11 @@
-import React, { useState } from 'react'
-import styled from 'styled-components';
-import { PageHeader } from '../components/page-header';
-import { Row, Col, Button } from 'antd'
+import React from 'react'
 import { withTranslation } from '../i18n'
-import { palette } from '../theme'
-import TableProduct from '../components/product-onboard/table-product'
-import AddNewProduct from '../components/product-onboard/add-new-product'
-const ProductOnboarding = (props) => {
-  const [addProduct, setAddProduct] = useState(false)
-  const { t } = props
-  console.log(addProduct)
+import ProductOnboard from '../components/product-onboard';
+const ProductOnboarding = () => {
   return (
-    <Row>
-      {!addProduct ?
-        <Col style={{ width: '100%' }}>
-          <PageHeader>Product Onboarding</PageHeader>
-          <Button type="primary" onClick={() => setAddProduct(true)}>Add new product</Button>
-          <TableProduct />
-        </Col>
-        : <div style={{ display: 'flex', flex: 1 }}>
-          <AddNewProduct />
-        </div>
-      }
-    </Row>
-
+    <div>
+      <ProductOnboard />
+    </div>
   )
 }
 
