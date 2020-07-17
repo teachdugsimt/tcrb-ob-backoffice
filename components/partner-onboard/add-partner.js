@@ -6,19 +6,86 @@ import { PageHeader } from '../page-header'
 import { withTranslation } from '../../i18n'
 import SimpleInput from '../simple-input'
 import { inject, observer } from 'mobx-react'
-
-const AddPartner = inject('partnerOnboard')(observer((thisProps) => {
+import { TcrbSpin } from '../antd-styles/styles'
+const AddPartner = inject('partnerOnboard', 'loginStore')(observer((thisProps) => {
   const [subDistrict, setSubDistrict] = useState('')
   const [District, setDistrict] = useState('')
   const [Province, setProvince] = useState('')
   const { Option } = Select;
-  const { t, partnerOnboard } = thisProps
+  const { t, partnerOnboard, loginStore } = thisProps
 
   const onFinish = values => {
+    console.log("------------ Values ON SUBMIT --------------")
+    console.log(values)
     values.subDistrict = subDistrict
-    values.District = District
-    values.Province = Province
-    console.log('Success:', values);
+    values.district = District
+    values.province = Province
+    let data = {
+      change_type: 'PARTNER_INFORMATIONS',
+      action: "Add",
+      currentData: {},
+      newData: {
+        partner_code: values.partnerAssignName,
+        partner_name_english: values.juristicNameEn,
+        partner_name_thai: values.juristicNameTh,
+        partner_abbreviation: values.registerApplicationName,
+
+        // unknow
+        // contact_name: values,
+        // contact_office_no: values,
+        // contact_mobile_no: values,
+        // contact_email: values,
+        // building_name: values,
+
+        // Address zone
+        address_no: values.houseNo,
+        moo: values.moo,
+        soi: values.soi,
+        road: values.road,
+        district_province_id: values.province,
+        district: values.district,
+        sub_district: values.subDistrict,
+        zip_code: values.zipcode,
+
+        // not sure
+        partner_code_parent: values.parentAssignName,
+
+        contact: [{
+          name_surname: values.nameSurnameRm,
+          // citizen_id: values.idCardNoRm,
+          office_phone_no: values.officePhoneNoRm,
+          work_email: values.workEmailRm,
+          employee_id: values.employeeIdRm,
+          mobile_no: values.mobileNoRm,
+          partner_code: values.department,
+          // type: values,
+          // user_id: values
+        }, {
+          name_surname: values.nameSurnamePartnerContact,
+          citizen_id: values.idCardNo,
+          office_phone_no: values.officePhoneNoPartnerContact,
+          work_email: values.workEmailPartnerContact,
+          mobile_no: values.mobileNoPartnerContact,
+          // employee_id: values.employeeId,
+          // partner_code: values,
+          // type: values,
+          // user_id: values
+        }, {
+          name_surname: values.nameSurnamePartnerIt,
+          citizen_id: values.idCardNoIt,
+          office_phone_no: values.officePhoneNoPartnerIt,
+          work_email: values.workEmailPartnerIt,
+          mobile_no: values.mobileNoPartnerIt,
+          // employee_id: values.employeeId,
+          // partner_code: values,
+          // type: values,
+          // user_id: values
+        }]
+      },
+      maker_id: loginStore.profile.username
+    }
+    partnerOnboard.addPartnerOnboard(data)
+    // console.log('Success:', values);
   };
 
   const onFinishFailed = errorInfo => {
@@ -73,10 +140,10 @@ const AddPartner = inject('partnerOnboard')(observer((thisProps) => {
     </Col>
   }
 
-  const _renderInput = (name, require) => {
+  const _renderInput = (name, require, keyword) => {
     return <Col span={16}>
       <Form.Item
-        name={name}
+        name={keyword}
         rules={[{ required: require, message: `Please input your ${_transformTextName(name)} !` }]}
       >
         <Input placeholder={_transformTextName(name)} style={{ width: "80%" }} />
@@ -84,11 +151,11 @@ const AddPartner = inject('partnerOnboard')(observer((thisProps) => {
     </Col>
   }
 
-  const _renderFormInput = (prefix, name, require) => {
+  const _renderFormInput = (prefix, name, require, keyword) => {
     return <Col className="gutter-row" span={12} gutter={{ xs: 8, sm: 16, md: 24, lg: 32 }}>
       <Row span={12}>
         {_renderPrefixInput(prefix, require)}
-        {_renderInput(name, require)}
+        {_renderInput(name, require, keyword)}
       </Row>
     </Col>
   }
@@ -107,188 +174,182 @@ const AddPartner = inject('partnerOnboard')(observer((thisProps) => {
   }
 
   return (
-    <Row >
-      <Col span={24}>
-        <PageHeader>Partner Registration</PageHeader>
-      </Col>
-      {/* <Row> */}
-      <Form
-        style={{ paddingTop: 20 }}
-        name="basic"
-        initialValues={{
-          parentAssignName: '',
-          partnerAssignName: '',
-          registerAppName: '',
-          assignName: '',
-          registeredApplicationName: '',
-          juristicID: '',
-          partnerContactEmail: '',
-          partnerContactMobileNo: '',
-          partnerContactName: '',
-          juristicName_th: '',
-          juristicName_en: '',
-          status: '',
-          houseNo: '',
-          moo: '',
-          soi: '',
-          road: '',
-          subDistrict: '',
-          district: '',
-          province: '',
-          zipcode: '',
+    <TcrbSpin spinning={partnerOnboard.fetching_onboard} size="large" tip="Loading..." >
+      <Row >
+        <Col span={24}>
+          <PageHeader>Partner Registration</PageHeader>
+        </Col>
+        {/* <Row> */}
+        <Form
+          style={{ paddingTop: 20 }}
+          name="basic"
+          initialValues={{
+            parentAssignName: '',
+            partnerAssignName: '',
+            registerAppName: '',
+            assignName: '',
+            registeredApplicationName: '',
+            juristicID: '',
+            partnerContactEmail: '',
+            partnerContactMobileNo: '',
+            partnerContactName: '',
+            juristicName_th: '',
+            juristicName_en: '',
+            status: '',
+            houseNo: '',
+            moo: '',
+            soi: '',
+            road: '',
+            subDistrict: '',
+            district: '',
+            province: '',
+            zipcode: '',
 
-        }}
-        onFinish={onFinish}
-        onFinishFailed={onFinishFailed}
-      >
-        <Row gutter={{ xs: 8, sm: 16, md: 24, lg: 32 }} align={'bottom'}>
-          {_renderFormInput("Parent Assign Name", "parentAssignName", true)}
-          {_renderFormInput("Partner Assign Name", "partnerAssignName", true)}
-          {_renderFormInput("Juristic ID", "Juristic ID", true)}
-          {_renderFormInput("Juristic Name(TH)", "Juristic Name(TH)", true)}
-          {_renderFormInput("Juristic Name(En)", "Juristic Name(En)", true)}
-          {_renderFormInput("Juristic Name(TH)", "Juristic Name(TH)", true)}
-        </Row>
+          }}
 
-        {/* ======================={Address}======================= */}
-        <Row className="gutter-row" gutter={{ xs: 8, sm: 16, md: 24, lg: 32 }}>
-          <Col className="gutter-row" span={3}>
-            <div>Address </div>
-          </Col>
-          <Col className="gutter-row" span={4}><Form.Item name="houseNo">
-            <Input placeholder="House No." />
-          </Form.Item>
-          </Col>
+          onFinish={onFinish}
+          onFinishFailed={onFinishFailed}
+        >
+          <Row gutter={{ xs: 8, sm: 16, md: 24, lg: 32 }} align={'bottom'}>
+            {_renderFormInput("Parent Assign Name", "parentAssignName", true, "parentAssignName")}
+            {_renderFormInput("Partner Assign Name", "partnerAssignName", true, "partnerAssignName")}
+            {_renderFormInput("Juristic ID", "Juristic ID", true, "juristicId")}
+            {_renderFormInput("Juristic Name(TH)", "Juristic Name(TH)", true, "juristicNameTh")}
+            {_renderFormInput("Juristic Name(En)", "Juristic Name(En)", true, "juristicNameEn")}
+            {_renderFormInput("Register App Name", "registerAppName", true, 'registerApplicationName')}
+          </Row>
 
-          <Col className="gutter-row" span={4}><Form.Item name="moo">
-            <Input placeholder="Moo" />
-          </Form.Item>
-          </Col>
-
-          <Col className="gutter-row" span={4}><Form.Item name="soi">
-            <Input placeholder="Soi" />
-          </Form.Item>
-          </Col>
-
-          <Col className="gutter-row" span={4}><Form.Item name="road">
-            <Input placeholder="Road" />
-          </Form.Item>
-          </Col>
-        </Row>
-
-        <Row className="gutter-row" gutter={{ xs: 8, sm: 16, md: 24, lg: 32 }}>
-          <Col span={3}>
-            {/* <div>Address </div> */}
-          </Col>
-          <Col className="gutter-row" span={4}>
-            <Form.Item
-              name="subDistrict"
-            >
-              <Select defaultValue="lucy" style={{ width: 180 }} onChange={_changeSubDistrict}>
-                <Option value="jack">Jack</Option>
-                <Option value="lucy">Lucy</Option>
-                <Option value="Yiminghe">yiminghe</Option>
-              </Select>
+          {/* ======================={Address}======================= */}
+          <Row className="gutter-row" gutter={{ xs: 8, sm: 16, md: 24, lg: 32 }}>
+            <Col className="gutter-row" span={3}>
+              <div>Address </div>
+            </Col>
+            <Col className="gutter-row" span={4}><Form.Item name="houseNo">
+              <Input placeholder="House No." />
             </Form.Item>
-          </Col>
-          <Col className="gutter-row" span={4}>
-            <Form.Item
-              name="district"
-            >
-              <Select defaultValue="lucy" style={{ width: 180 }} onChange={_changeDistrict}>
-                <Option value="jack">Jack</Option>
-                <Option value="lucy">Lucy</Option>
-                <Option value="Yiminghe">yiminghe</Option>
-              </Select>
+            </Col>
 
+            <Col className="gutter-row" span={4}><Form.Item name="moo">
+              <Input placeholder="Moo" />
             </Form.Item>
-          </Col>
-          <Col className="gutter-row" span={4}>
-            <Form.Item
-              name="province"
-            >
-              <Select defaultValue="lucy" style={{ width: 180 }} onChange={_changeProvince}>
-                <Option value="jack">Jack</Option>
-                <Option value="lucy">Lucy</Option>
-                <Option value="Yiminghe">yiminghe</Option>
-              </Select>
+            </Col>
 
+            <Col className="gutter-row" span={4}><Form.Item name="soi">
+              <Input placeholder="Soi" />
             </Form.Item>
-          </Col>
-          <Col className="gutter-row" span={4}>
-            <Form.Item
-              name="zipcode"
-            >
-              <Input placeholder="ZipCode" style={{ width: 180 }} />
+            </Col>
+
+            <Col className="gutter-row" span={4}><Form.Item name="road">
+              <Input placeholder="Road" />
             </Form.Item>
-          </Col>
-        </Row>
-        {/* ======================={Address}======================= */}
+            </Col>
+          </Row>
 
-        {/* ======================={Attachment Files}======================= */}
-        <Row>
-          <Col>
-            <Row>
-              <span style={{ fontSize: 16, color: '#828282' }}>Attachment Files</span>
-            </Row>
-            <Row>
-              <span style={{ fontSize: 14, color: '#E5E5E5' }}>Only PDF support and the maximum file size is 500 MB</span>
-            </Row>
-          </Col>
-        </Row>
+          <Row className="gutter-row" gutter={{ xs: 8, sm: 16, md: 24, lg: 32 }}>
+            <Col span={3}></Col>
+            <Col className="gutter-row" span={4}>
+              <Form.Item name="subDistrict">
+                <Select defaultValue="lucy" style={{ width: 180 }} onChange={_changeSubDistrict}>
+                  <Option value="jack">Jack</Option>
+                  <Option value="lucy">Lucy</Option>
+                  <Option value="Yiminghe">yiminghe</Option>
+                </Select>
+              </Form.Item>
+            </Col>
+            <Col className="gutter-row" span={4}>
+              <Form.Item name="district">
+                <Select defaultValue="lucy" style={{ width: 180 }} onChange={_changeDistrict}>
+                  <Option value="jack">Jack</Option>
+                  <Option value="lucy">Lucy</Option>
+                  <Option value="Yiminghe">yiminghe</Option>
+                </Select>
 
-        <Row style={{ borderBottom: "1px solid #C4C4C4", marginTop: 10, paddingBottom: 10 }}>
-          {_renderUploadForm("NDA")}
-          {_renderUploadForm('Contract ' + '&' + ' MOU')}
-          {_renderUploadForm('Company ' + '&' + ' Authorized Person Docs')}
-          {_renderUploadForm('Vendor Valuation')}
-          {_renderUploadForm('Others')}
-        </Row >
-        {/* ======================={Attachment Files}======================= */}
+              </Form.Item>
+            </Col>
+            <Col className="gutter-row" span={4}>
+              <Form.Item name="province" >
+                <Select defaultValue="lucy" style={{ width: 180 }} onChange={_changeProvince}>
+                  <Option value="jack">Jack</Option>
+                  <Option value="lucy">Lucy</Option>
+                  <Option value="Yiminghe">yiminghe</Option>
+                </Select>
 
-        {/* ======================={RM Contact Info}======================= */}
-        <div style={{ fontSize: 16, color: '#828282', marginTop: 10 }}>RM Contact Info</div>
-        <Row gutter={{ xs: 8, sm: 16, md: 24, lg: 32 }} align={'bottom'} style={{ borderBottom: "1px solid #C4C4C4", marginTop: 10 }}>
-          {_renderFormInput("Name - Surname", "name_surname", true)}
-          {_renderFormInput("Employee ID", "employeeID", true)}
-          {_renderFormInput("Department", "department", true)}
-          {_renderFormInput("Office Phone No.", "officePhoneNo", true)}
-          {_renderFormInput("Work Email ", "workEmail", true)}
-        </Row>
-        {/* ======================={RM Contact Info}======================= */}
+              </Form.Item>
+            </Col>
+            <Col className="gutter-row" span={4}>
+              <Form.Item name="zipcode">
+                <Input placeholder="ZipCode" style={{ width: 180 }} />
+              </Form.Item>
+            </Col>
+          </Row>
+          {/* ======================={Address}======================= */}
 
-        {/* ======================={Partner Contact Info}======================= */}
-        <div style={{ fontSize: 16, color: '#828282', marginTop: 10 }}>Partner Contact Info</div>
-        <Row gutter={{ xs: 8, sm: 16, md: 24, lg: 32 }} style={{ borderBottom: "1px solid #C4C4C4", marginTop: 10 }}>
-          {_renderFormInput("Name - Surname", "name_surname_partner_contact", true)}
-          {_renderFormInput("ID Card No. ", "idCardNo", true)}
+          {/* ======================={Attachment Files}======================= */}
+          <Row>
+            <Col>
+              <Row>
+                <span style={{ fontSize: 16, color: '#828282' }}>Attachment Files</span>
+              </Row>
+              <Row>
+                <span style={{ fontSize: 14, color: '#E5E5E5' }}>Only PDF support and the maximum file size is 500 MB</span>
+              </Row>
+            </Col>
+          </Row>
 
-          {_renderFormInput("Office Phone No. ", "officePhoneNo_partner_contact", true)}
-          {_renderFormInput("Mobile No.", "mobileNo_partner_contact", true)}
+          <Row style={{ borderBottom: "1px solid #C4C4C4", marginTop: 10, paddingBottom: 10 }}>
+            {_renderUploadForm("NDA")}
+            {_renderUploadForm('Contract ' + '&' + ' MOU')}
+            {_renderUploadForm('Company ' + '&' + ' Authorized Person Docs')}
+            {_renderUploadForm('Vendor Valuation')}
+            {_renderUploadForm('Others')}
+          </Row >
+          {/* ======================={Attachment Files}======================= */}
 
-          {_renderFormInput("Work Email ", "work_email_partner_contact", true)}
-        </Row>
-        {/* ======================={Partner Contact Info}======================= */}
-        {/* ======================={Partner IT Security Info}======================= */}
-        <div style={{ fontSize: 16, color: '#828282', marginTop: 10 }}>Partner IT Security Info</div>
-        <Row gutter={{ xs: 8, sm: 16, md: 24, lg: 32 }} style={{ borderBottom: "1px solid #C4C4C4", marginTop: 10 }}>
-          {_renderFormInput("Name - Surname", "name_surname_partner_it", true)}
-          {_renderFormInput("ID Card No. ", "idCardNoIt", true)}
+          {/* ======================={RM Contact Info}======================= */}
+          <div style={{ fontSize: 16, color: '#828282', marginTop: 10 }}>RM Contact Info</div>
+          <Row gutter={{ xs: 8, sm: 16, md: 24, lg: 32 }} align={'bottom'} style={{ borderBottom: "1px solid #C4C4C4", marginTop: 10 }}>
+            {_renderFormInput("Name - Surname", "name_surname", true, 'nameSurnameRm')}
+            {_renderFormInput("Employee ID", "employeeID", true, 'employeeIdRm')}
+            {_renderFormInput("Department", "department", true, "departmentRm")}
+            {_renderFormInput("Office Phone No.", "officePhoneNo", true, 'officePhoneNoRm')}
+            {_renderFormInput("Work Email ", "workEmail", true, 'workEmailRm')}
+            {_renderFormInput("Mobile No ", "mobileNo", true, 'mobileNoRm')}
+          </Row>
+          {/* ======================={RM Contact Info}======================= */}
 
-          {_renderFormInput("Office Phone No. ", "officePhoneNo_partner_it", true)}
-          {_renderFormInput("Mobile No.", "mobileNo_partner_it", true)}
+          {/* ======================={Partner Contact Info}======================= */}
+          <div style={{ fontSize: 16, color: '#828282', marginTop: 10 }}>Partner Contact Info</div>
+          <Row gutter={{ xs: 8, sm: 16, md: 24, lg: 32 }} style={{ borderBottom: "1px solid #C4C4C4", marginTop: 10 }}>
+            {_renderFormInput("Name - Surname", "name_surname_partner_contact", true, 'nameSurnamePartnerContact')}
+            {_renderFormInput("ID Card No. ", "idCardNo", true, 'idCardNo')}
 
-          {_renderFormInput("Work Email ", "work_email_partner_it", true)}
-        </Row>
-        {/* ======================={Partner IT Security Info}======================= */}
-        < Form.Item style={{ marginTop: 30, textAlign: 'center' }}>
-          <Button type="primary" htmlType="submit">
-            {t('submit')}
-          </Button>
-        </Form.Item >
-      </Form >
+            {_renderFormInput("Office Phone No. ", "officePhoneNo_partner_contact", true, 'officePhoneNoPartnerContact')}
+            {_renderFormInput("Mobile No.", "mobileNo_partner_contact", true, 'mobileNoPartnerContact')}
 
-    </Row >
+            {_renderFormInput("Work Email ", "work_email_partner_contact", true, 'workEmailPartnerContact')}
+          </Row>
+          {/* ======================={Partner Contact Info}======================= */}
+          {/* ======================={Partner IT Security Info}======================= */}
+          <div style={{ fontSize: 16, color: '#828282', marginTop: 10 }}>Partner IT Security Info</div>
+          <Row gutter={{ xs: 8, sm: 16, md: 24, lg: 32 }} style={{ borderBottom: "1px solid #C4C4C4", marginTop: 10 }}>
+            {_renderFormInput("Name - Surname", "name_surname_partner_it", true, 'nameSurnamePartnerIt')}
+            {_renderFormInput("ID Card No. ", "idCardNoIt", true, 'idCardNoIt')}
+
+            {_renderFormInput("Office Phone No. ", "officePhoneNo_partner_it", true, 'officePhoneNoPartnerIt')}
+            {_renderFormInput("Mobile No.", "mobileNo_partner_it", true, 'mobileNoPartnerIt')}
+
+            {_renderFormInput("Work Email ", "work_email_partner_it", true, 'workEmailPartnerIt')}
+          </Row>
+          {/* ======================={Partner IT Security Info}======================= */}
+          < Form.Item style={{ marginTop: 30, textAlign: 'center' }}>
+            <Button type="primary" htmlType="submit">
+              {t('submit')}
+            </Button>
+          </Form.Item >
+        </Form >
+
+      </Row >
+    </TcrbSpin>
   )
 }))
 

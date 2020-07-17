@@ -25,6 +25,8 @@ const EmptyLayout = inject('authenStore', 'loginStore')(observer((props) => {
   let cookies_menu
   if(cookies.get("menus")){
     cookies_menu = JSON.parse(JSON.stringify(cookies.get("menus")))
+    console.log("___________ Cookies Profile _____________")
+    console.log(cookies_menu)
     loginStore.setProfile(cookies_menu)
   }
 

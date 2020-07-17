@@ -26,13 +26,13 @@ import { withTranslation } from '../i18n'
       <html>
         <Head>
           {/* Step 5: Output the styles in the head  */}
-          <script
+          {/* <script
             id="session"
             type="application/json"
             dangerouslySetInnerHTML={{
               __html: JSON.stringify(this.props.session, null, 2)
             }}
-          />
+          /> */}
           {this.props.styleTags}
         </Head>
         <body style={{
