@@ -3,16 +3,8 @@ import { Modal } from 'antd'
 import { create, persist } from 'mobx-persist'
 import { ProductOnBoardApi } from '../services'
 import productOnboardApi from "../services/product-onboard-api"
+import { openModalError } from '../components/data-utility'
 
-const openModalError = ({ title, body }) => {
-  Modal.error({
-    title: title,
-    content: body,
-    onOk() {
-
-    },
-  });
-}
 class ProductOnBoard {
   @observable nextPageIsManageProductOnBoard = false
   @observable apiFetching = false
@@ -53,12 +45,17 @@ class ProductOnBoard {
     } else {
       //when error
       this.apiFetching = false
-      this.responseErrorMessage = {
-        title: 'getDataProductList',
-        body: tmp.data.userMessage,
-        code: tmp.data.responseCode
+      let errorMessage = {
+        title: (
+          'getDataProductList, ' + ' Error Code ' + tmp.data.responseCode
+        ),
+        body: (
+          <div>
+            <p>{tmp.data.userMessage}</p>
+          </div>
+        )
       }
-      this.responseApiError = true
+      openModalError(errorMessage)
     }
   }
 
@@ -73,12 +70,17 @@ class ProductOnBoard {
     } else {
       //when error
       this.apiFetching = false
-      this.responseErrorMessage = {
-        title: 'getDataProductDetail',
-        body: tmp.data.userMessage,
-        code: tmp.data.responseCode
+      let errorMessage = {
+        title: (
+          'getDataProductDetail, ' + ' Error Code ' + tmp.data.responseCode
+        ),
+        body: (
+          <div>
+            <p>{tmp.data.userMessage}</p>
+          </div>
+        )
       }
-      this.responseApiError = true
+      openModalError(errorMessage)
     }
   }
 
@@ -93,12 +95,17 @@ class ProductOnBoard {
     } else {
       //when error
       this.apiFetching = false
-      this.responseErrorMessage = {
-        title: 'getDataProductDetail',
-        body: tmp.data.userMessage,
-        code: tmp.data.responseCode
+      let errorMessage = {
+        title: (
+          'getDataOptionServiceList, ' + ' Error Code ' + tmp.data.responseCode
+        ),
+        body: (
+          <div>
+            <p>{tmp.data.userMessage}</p>
+          </div>
+        )
       }
-      this.responseApiError = true
+      openModalError(errorMessage)
     }
   }
 
@@ -133,11 +140,12 @@ class ProductOnBoard {
       //when error
       this.apiFetching = false
       let errorMessage = {
-        title: 'getDataProductServiceList',
+        title: (
+          'getDataProductServiceList, ' + ' Error Code ' + tmp.data.responseCode
+        ),
         body: (
           <div>
             <p>{tmp.data.userMessage}</p>
-            <p style={{ fontWeight: 'bold' }}>Error Code {tmp.data.responseCode}</p>
           </div>
         )
       }
@@ -156,13 +164,25 @@ class ProductOnBoard {
       this.getDataProductList()
     } else {
       //when error
-      this.apiFetching = false
+      /* this.apiFetching = false
       this.responseErrorMessage = {
         title: 'submitAddNewProduct',
         body: tmp.data.userMessage,
         code: tmp.data.responseCode
       }
-      this.responseApiError = true
+      this.responseApiError = true */
+      this.apiFetching = false
+      let errorMessage = {
+        title: (
+          'Add New Product, ' + ' Error Code ' + tmp.data.responseCode
+        ),
+        body: (
+          <div>
+            <p>{tmp.data.userMessage}</p>
+          </div>
+        )
+      }
+      openModalError(errorMessage)
     }
   }
 
