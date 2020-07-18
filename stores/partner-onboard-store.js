@@ -25,6 +25,8 @@ class PartnerOnboardStore {
   @observable data_get_sub_district = null
   @observable error_get_sub_district = null
 
+  @observable partnerProductList = []
+  @observable partnerServiceList = []
 
   @action
   async getPartnerOnboard(params) {
@@ -176,6 +178,122 @@ class PartnerOnboardStore {
       let errorMessage = {
         title: (
           'getSubDistrict, ' + ' Error Code ' + tmp.data.responseCode
+        ),
+        body: (
+          <div>
+            <p>{tmp.data.userMessage}</p>
+          </div>
+        )
+      }
+      openModalError(errorMessage)
+    }
+  }
+
+  @action async getDataPartnerProductList(params) {
+    this.fetching_onboard = true
+    const tmp = await PartnerOnboardApi.getPartnerProductList({
+      filter: {
+        where: {
+          partner_code: params
+        }
+      }
+    })
+    console.log(tmp)
+    if (tmp.ok && tmp.status === 200 && tmp.data) {
+      //when success
+      this.fetching_onboard = false
+      this.partnerProductList = tmp.data.responseData
+    } else {
+      this.fetching_onboard = false
+
+      //when error
+      let errorMessage = {
+        title: (
+          'getDataPartnerProductList, ' + ' Error Code ' + tmp.data.responseCode
+        ),
+        body: (
+          <div>
+            <p>{tmp.data.userMessage}</p>
+          </div>
+        )
+      }
+      openModalError(errorMessage)
+    }
+  }
+
+  @action async getDataPartnerProductService(params) {
+    this.fetching_onboard = true
+    const tmp = await PartnerOnboardApi.getPartnerProductService({
+      filter: {
+        where: {
+          partner_code: params.partner_code,
+          product_code: params.product_code
+        }
+      }
+    })
+    console.log(tmp)
+    if (tmp.ok && tmp.status === 200 && tmp.data) {
+      //when success
+      this.fetching_onboard = false
+      this.partnerServiceList = tmp.data.responseData
+    } else {
+      this.fetching_onboard = false
+
+      //when error
+      let errorMessage = {
+        title: (
+          'getDataPartnerProductService, ' + ' Error Code ' + tmp.data.responseCode
+        ),
+        body: (
+          <div>
+            <p>{tmp.data.userMessage}</p>
+          </div>
+        )
+      }
+      openModalError(errorMessage)
+    }
+  }
+
+  @action async submitAddNewPartnerProduct(params) {
+    this.fetching_onboard = true
+    const tmp = await PartnerOnboardApi.addNewPartnerProduct({ change_type: "PARTNER_PRODUCTS", action: "Add", currentData: {}, newData: params, maker_id: '36' })
+    console.log(tmp)
+    if (tmp.ok && tmp.status === 200 && tmp.data) {
+      //when success
+      this.fetching_onboard = false
+    } else {
+      this.fetching_onboard = false
+
+      //when error
+      let errorMessage = {
+        title: (
+          'submitAddNewPartnerProduct, ' + ' Error Code ' + tmp.data.responseCode
+        ),
+        body: (
+          <div>
+            <p>{tmp.data.userMessage}</p>
+          </div>
+        )
+      }
+      openModalError(errorMessage)
+    }
+  }
+
+  @action async deletePartnerProduct(params) {
+    this.fetching_onboard = true
+    const tmp = await PartnerOnboardApi.deletePartnerProduct({ change_type: "PARTNER_PRODUCTS", action: "Delete", currentData: {}, newData: params, maker_id: '36' })
+    console.log(tmp)
+    if (tmp.ok && tmp.status === 200 && tmp.data) {
+      //when success
+      this.fetching_onboard = false
+      this.partnerProductList = tmp.data.responseData
+    } else {
+      this.fetching_onboard = false
+
+      //when error
+      let errorMessage = {
+        title: (
+          'deletePartnerProduct, ' + ' Error Code ' + tmp.data.responseCode
         ),
         body: (
           <div>
