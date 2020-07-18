@@ -105,5 +105,8 @@
   "notFoundPage": "404 - Page Not Found",
   "somethingWrong": "Something went wrong",
   "reset": "Reset",
-  "filter": "Filter"
+  "filter": "Filter",
+  "upload": "Upload",
+  "partnerRegistration": "Partner Registration",
+  "pleaseSelect": "Please Select"
 }

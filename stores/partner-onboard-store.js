@@ -103,7 +103,8 @@ class PartnerOnboardStore {
   @action
   async getProvince(params) {
     this.fetching_onboard = true
-    const tmp = await PartnerOnboardApi.addPartnerOnboard(params)
+    let parameters = params ? params : { filter: {} }
+    const tmp = await PartnerOnboardApi.getProvince(parameters)
     console.log(tmp)
     if (tmp.ok && tmp.status === 200 && tmp.data) {
       //when success
@@ -132,7 +133,8 @@ class PartnerOnboardStore {
   @action
   async getDistrict(params) {
     this.fetching_onboard = true
-    const tmp = await PartnerOnboardApi.addPartnerOnboard(params)
+    let parameters = params ? params : { filter: {} }
+    const tmp = await PartnerOnboardApi.getDistrict(parameters)
     console.log(tmp)
     if (tmp.ok && tmp.status === 200 && tmp.data) {
       //when success
@@ -161,7 +163,8 @@ class PartnerOnboardStore {
   @action
   async getSubDistrict(params) {
     this.fetching_onboard = true
-    const tmp = await PartnerOnboardApi.addPartnerOnboard(params)
+    let parameters = params ? params : { filter: {} }
+    const tmp = await PartnerOnboardApi.getSubDistrict(parameters)
     console.log(tmp)
     if (tmp.ok && tmp.status === 200 && tmp.data) {
       //when success

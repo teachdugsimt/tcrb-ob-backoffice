@@ -105,5 +105,8 @@
   "notFoundPage": "404 - ไม่พบหน้าที่ร้องขอ",
   "somethingWrong": "บางอย่างผิดพลาด",
   "reset": "รีเซ็ท",
-  "filter": "ตัวกรอง"
+  "filter": "ตัวกรอง",
+  "upload": "อัพโหลด",
+  "partnerRegistration" : "ลงทะเบียนพาร์ทเนอร์",
+  "pleaseSelect": "กรุณาเลือกตัวเลือก"
 }

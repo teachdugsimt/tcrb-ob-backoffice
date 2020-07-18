@@ -1,9 +1,9 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Row, Col, Button, Upload, Input, Modal, Form, Menu, Dropdown, Table, Tag, Space, message, Select } from 'antd'
 import { useFormik, Formik } from 'formik'
 import { DownOutlined, UserOutlined, UploadOutlined } from '@ant-design/icons'
 import { PageHeader } from '../page-header'
-import { withTranslation } from '../../i18n'
+import { withTranslation, i18n } from '../../i18n'
 import SimpleInput from '../simple-input'
 import { inject, observer } from 'mobx-react'
 import { TcrbSpin } from '../antd-styles/styles'
@@ -11,6 +11,8 @@ const AddPartner = inject('partnerOnboard', 'loginStore')(observer((thisProps) =
   const [subDistrict, setSubDistrict] = useState('')
   const [District, setDistrict] = useState('')
   const [Province, setProvince] = useState('')
+  const [dis_sub_district, setDisSubDistrict] = useState(true)
+  const [dis_district, setDisDistrict] = useState(true)
   const { Option } = Select;
   const { t, partnerOnboard, loginStore } = thisProps
 
@@ -89,6 +91,12 @@ const AddPartner = inject('partnerOnboard', 'loginStore')(observer((thisProps) =
     // console.log('Success:', values);
   };
 
+  useEffect(() => {
+    partnerOnboard.getProvince({ filter: {} })
+    // partnerOnboard.getDistrict({ filter: {} })
+    // partnerOnboard.getSubDistrict({ filter: {} })
+  }, [])
+
   const onFinishFailed = errorInfo => {
     errorInfo.values.subDistrict = subDistrict
     errorInfo.values.District = District
@@ -98,17 +106,30 @@ const AddPartner = inject('partnerOnboard', 'loginStore')(observer((thisProps) =
 
   const _changeSubDistrict = (value) => {
     console.log(value)
-    setSubDistrict(value)
+    let tmp = partnerOnboard.data_get_sub_district.find(e => e.id == value)
+    let tmp_sub_district = i18n.languages[0] == 'th' ? tmp.name_in_thai : name_in_english
+    setSubDistrict(tmp_sub_district)
+    console.log("Sub District :: ", tmp_sub_district)
   };
 
   const _changeDistrict = (value) => {
     console.log(value)
-    setDistrict(value)
+    setDisSubDistrict(false)
+    let tmp = partnerOnboard.data_get_district.find(e => e.id == value)
+    let tmp_district = i18n.languages[0] == 'th' ? tmp.name_in_thai : name_in_english
+    setDistrict(tmp_district)
+    console.log("District  :: ", tmp_district)
+    partnerOnboard.getSubDistrict({ filter: { where: { district_id: value } } })
   };
 
   const _changeProvince = (value) => {
-    console.log(value)
-    setProvince(value)
+    // console.log(value)
+    setDisDistrict(false)
+    let tmp = partnerOnboard.data_get_province.find(e => e.id == value)
+    let tmp_province = i18n.languages[0] == 'th' ? tmp.name_in_thai : name_in_english
+    setProvince(tmp_province)
+    console.log("Provinces :: ", tmp_province)
+    partnerOnboard.getDistrict({ filter: { where: { province_id: value } } })
   };
 
   const _transformTextName = (value) => {
@@ -250,19 +271,23 @@ const AddPartner = inject('partnerOnboard', 'loginStore')(observer((thisProps) =
             <Col span={3}></Col>
             <Col className="gutter-row" span={4}>
               <Form.Item name="subDistrict">
-                <Select defaultValue="lucy" style={{ width: 180 }} onChange={_changeSubDistrict}>
-                  <Option value="jack">Jack</Option>
-                  <Option value="lucy">Lucy</Option>
-                  <Option value="Yiminghe">yiminghe</Option>
+                <Select defaultValue="lucy" disabled={dis_sub_district} style={{ width: 180 }} onChange={_changeSubDistrict}>
+                {partnerOnboard.data_get_sub_district && partnerOnboard.data_get_sub_district.length > 0 && JSON.parse(JSON.stringify(partnerOnboard.data_get_sub_district))
+                    .map((e, i) => {
+                      let name = i18n.languages[0] == "th" ? e.name_in_thai : e.name_in_english
+                      return <Option value={e.id}>{name}</Option>
+                    })}
                 </Select>
               </Form.Item>
             </Col>
             <Col className="gutter-row" span={4}>
               <Form.Item name="district">
-                <Select defaultValue="lucy" style={{ width: 180 }} onChange={_changeDistrict}>
-                  <Option value="jack">Jack</Option>
-                  <Option value="lucy">Lucy</Option>
-                  <Option value="Yiminghe">yiminghe</Option>
+                <Select defaultValue="lucy" disabled={dis_district} style={{ width: 180 }} onChange={_changeDistrict}>
+                  {partnerOnboard.data_get_district && partnerOnboard.data_get_district.length > 0 && JSON.parse(JSON.stringify(partnerOnboard.data_get_district))
+                    .map((e, i) => {
+                      let name = i18n.languages[0] == "th" ? e.name_in_thai : e.name_in_english
+                      return <Option value={e.id}>{name}</Option>
+                    })}
                 </Select>
 
               </Form.Item>
@@ -270,9 +295,12 @@ const AddPartner = inject('partnerOnboard', 'loginStore')(observer((thisProps) =
             <Col className="gutter-row" span={4}>
               <Form.Item name="province" >
                 <Select defaultValue="lucy" style={{ width: 180 }} onChange={_changeProvince}>
-                  <Option value="jack">Jack</Option>
-                  <Option value="lucy">Lucy</Option>
-                  <Option value="Yiminghe">yiminghe</Option>
+
+                  {partnerOnboard.data_get_province && partnerOnboard.data_get_province.length > 0 && JSON.parse(JSON.stringify(partnerOnboard.data_get_province))
+                    .map((e, i) => {
+                      let name = i18n.languages[0] == "th" ? e.name_in_thai : e.name_in_english
+                      return <Option value={e.id}>{name}</Option>
+                    })}
                 </Select>
 
               </Form.Item>

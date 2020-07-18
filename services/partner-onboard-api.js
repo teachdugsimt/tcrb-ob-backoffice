@@ -12,15 +12,15 @@ class PartnerOnboardApi {
   }
 
   getProvince = async (params) => {
-    const response = await ExcuteApi('api/backoffice/v1/changerequest', params, "post")
+    const response = await ExcuteApi('api/backoffice/v1/address/provinces', params, "get")
     return response
   }
   getDistrict = async (params) => {
-    const response = await ExcuteApi('api/backoffice/v1/changerequest', params, "post")
+    const response = await ExcuteApi('api/backoffice/v1/address/districts', params, "get")
     return response
   }
   getSubDistrict = async (params) => {
-    const response = await ExcuteApi('api/backoffice/v1/changerequest', params, "post")
+    const response = await ExcuteApi('api/backoffice/v1/address/subdistricts', params, "get")
     return response
   }
 

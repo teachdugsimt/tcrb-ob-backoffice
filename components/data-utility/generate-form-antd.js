@@ -11,25 +11,17 @@ import { withTranslation } from '../../i18n'
 import SimpleInput from '../simple-input'
 import { inject, observer } from 'mobx-react'
 import moment from 'moment'
+import styled from 'styled-components'
+import { size } from '../../theme/size'
+import { palette } from '../../theme/palette'
 
-const AddPartner = inject('partnerOnboard', 'loginStore')(observer((thisProps) => {
-  // const [subDistrict, setSubDistrict] = useState('')
-  // const [District, setDistrict] = useState('')
-  // const [Province, setProvince] = useState('')
+const GenerateFormAntd = inject('partnerOnboard', 'loginStore')(observer((props) => {
   const { Option } = Select;
   const { RangePicker } = DatePicker;
-  const { t, partnerOnboard, loginStore } = thisProps
-
-  const onFinish = values => {
-    console.log('On success : ', values)
-  };
-
-  const onFinishFailed = errorInfo => {
-    console.log('Failed:', errorInfo);
-  };
+  const { t, partnerOnboard, loginStore } = props
 
   const _renderPrefixInput = (prefix, require) => {
-    return <Col span={8}>
+    return <Col className="gutter-row" span={8}>
       <Row style={{ display: "flex", flexDirection: 'row' }}>
         <span>{prefix}</span>
         {require && <span style={{ color: 'red' }}>* </span>}
@@ -37,72 +29,57 @@ const AddPartner = inject('partnerOnboard', 'loginStore')(observer((thisProps) =
     </Col>
   }
 
-  const _renderInput = (name, require, keyword, index) => {
-    return <Col span={16}>
+  const _renderInput = (item, index) => {
+    return <Col className="gutter-row" span={16}>
       <Form.Item
-        name={keyword}
-        rules={[{ required: require, message: `Please input your ${name} !` }]}
-      >
-        <Input placeholder={name} style={{ width: "80%" }} />
+        name={item.keyword}
+        rules={[{ required: item.require, message: `Please input your ${item.name} !` }]}>
+        <Input placeholder={item.name} style={{ width: "100%" }} />
       </Form.Item>
     </Col>
   }
-
-  const _renderFormInput = (item, index) => {
-    return <Row gutter={{ xs: 8, sm: 16, md: 24, lg: 32 }} align={'bottom'}>
-      <Col className="gutter-row" span={12} gutter={{ xs: 8, sm: 16, md: 24, lg: 32 }}>
-        <Row span={12}>
-          {_renderPrefixInput(item.name, item.require)}
-          {_renderInput(item.name, item.require, item.keyword)}
-        </Row>
-      </Col>
-    </Row>
-  }
-
-  const _renderUploadForm = (name, keyword, index) => {
-    return <Row style={{ borderBottom: "1px solid #C4C4C4", marginTop: 10, paddingBottom: 10 }}>
-      <Col span={4} style={{ padding: 10 }} >
-        <span>{name}</span>
-      </Col>
-      <Col span={4} style={{ padding: 10 }}>
-        <Upload {...props}>
-          <Button style={{ backgroundColor: 'white', color: '#595959' }}>
-            <UploadOutlined />Upload
+  const _renderUpload = (item, index) => {
+    return <Col className="gutter-row" span={16}>
+      <Upload {...props}>
+        <Button style={{ backgroundColor: 'white', color: '#595959' }}>
+          <UploadOutlined />{t('upload')}
         </Button>
-        </Upload>
-      </Col>
-    </Row>
+      </Upload>
+    </Col>
   }
-
 
   const _renderDropdown = (item, index) => {
-    return <Select
-      mode="multiple"
+    return <Col className="gutter-row" span={16}><Select
+      mode={item.mode == "multiple" ? "multiple" : ""}
       placeholder="Inserted are removed"
-      value={selectedItems}
-      onChange={this.handleChange}
+      defaultValue={t('pleaseSelect')}
+      // value={item.value}
+      // onChange={item.onChange}
       style={{ width: '100%' }}
     >{item.item.map(e => (
       <Select.Option key={e.key} value={e.value}>
         {e.name}
       </Select.Option>
     ))}</Select>
+    </Col>
   }
+
+
   const _renderDatePicker = (item, index) => {
     if (item.mode == "start-end") {
-      return <RangePicker
+      return <Col className="gutter-row" span={16}><RangePicker
         ranges={{
           Today: [moment(), moment()],
           'This Month': [moment().startOf('month'), moment().endOf('month')],
         }}
         showTime
         format="YYYY/MM/DD HH:mm:ss"
-        onChange={onChange}
-      />
+        onChange={item.onChange}
+      /></Col>
     } else if (item.mode == "time") {
-      return <TimePicker value={value} onChange={onChange} />
+      return <Col className="gutter-row" span={16}><TimePicker value={item.value} onChange={item.onChange} /></Col>
     } else if (item.mode == "date") {
-      return <DatePicker
+      return <Col className="gutter-row" span={16}><DatePicker
         dateRender={current => {
           const style = {};
           if (current.date() === 1) {
@@ -115,117 +92,194 @@ const AddPartner = inject('partnerOnboard', 'loginStore')(observer((thisProps) =
             </div>
           );
         }}
-      />
+      /></Col>
     }
   }
+
   const _renderRadio = (item, index) => {
-
+    return <Col className="gutter-row" span={16}><Radio.Group
+      options={item.item}
+      onChange={item.onChange}
+      value={item.value}
+      optionType="button"
+      buttonStyle="solid"
+    /></Col>
   }
-  const _renderCheckbox = (item, index) => {
 
+  const _renderCheckbox = (item, index) => {
+    return <Col className="gutter-row" span={16}><Checkbox.Group style={{ width: '100%' }} onChange={item.onChange}>
+      <Row>
+        {item.item.map((e, i) => {
+          return <Col span={8}>
+            <Checkbox value={e.value}>{e.name}</Checkbox>
+          </Col>
+        })}
+      </Row>
+    </Checkbox.Group></Col>
+  }
+
+  const _renderInputForm = (item, index) => {
+    return <Col className="gutter-row" style={{ paddingTop: index == 0 || index == 1 ? "2%" : 0 }} span={12} gutter={{ xs: 8, sm: 16, md: 24, lg: 32 }}>
+      <Row gutter={{ xs: 8, sm: 16, md: 24, lg: 32 }} style={{ width: '100%' }}>
+        {_renderPrefixInput(item.name, item.require)}
+        {_renderInput(item, index)}
+      </Row>
+    </Col>
+  }
+
+  const _renderUploadForm = (item, index) => {
+    return <Col className="gutter-row" style={{ paddingTop: index == 0 || index == 1 ? "2%" : 0 }} span={12} gutter={{ xs: 8, sm: 16, md: 24, lg: 32 }}>
+      <Row gutter={{ xs: 8, sm: 16, md: 24, lg: 32 }} style={{ width: '100%' }}>
+        {_renderPrefixInput(item.name, item.require)}
+        {_renderUpload(item, index)}
+      </Row>
+    </Col>
+  }
+
+  const _renderDropdownForm = (item, index) => {
+    return <Col className="gutter-row" style={{ marginTop: index == 0 || index == 1 ? "2%" : 0, marginBottom: "2.25%" }} span={12} gutter={{ xs: 8, sm: 16, md: 24, lg: 32 }}>
+      <Row gutter={{ xs: 8, sm: 16, md: 24, lg: 32 }} style={{ width: '100%' }}>
+        {_renderPrefixInput(item.name, item.require)}
+        {_renderDropdown(item, index)}
+      </Row>
+    </Col>
+  }
+
+  const _renderDateForm = (item, index) => {
+    return <Col className="gutter-row" style={{ paddingTop: index == 0 || index == 1 ? "2%" : 0 }} span={12} gutter={{ xs: 8, sm: 16, md: 24, lg: 32 }}>
+      <Row gutter={{ xs: 8, sm: 16, md: 24, lg: 32 }} style={{ width: '100%' }}>
+        {_renderPrefixInput(item.name, item.require)}
+        {_renderDatePicker(item, index)}
+      </Row>
+    </Col>
+  }
+
+  const _renderRadioForm = (item, index) => {
+    return <Col className="gutter-row" style={{ paddingTop: index == 0 || index == 1 ? "2%" : 0 }} span={12} gutter={{ xs: 8, sm: 16, md: 24, lg: 32 }}>
+      <Row gutter={{ xs: 8, sm: 16, md: 24, lg: 32 }} style={{ width: '100%' }}>
+        {_renderPrefixInput(item.name, item.require)}
+        {_renderRadio(item, index)}
+      </Row>
+    </Col>
+  }
+
+  const _renderCheckboxForm = (item, index) => {
+    return <Col className="gutter-row" style={{ paddingTop: index == 0 || index == 1 ? 20 : 0 }} span={12} gutter={{ xs: 8, sm: 16, md: 24, lg: 32 }}>
+      <Row gutter={{ xs: 8, sm: 16, md: 24, lg: 32 }} style={{ width: '100%' }}>
+        {_renderPrefixInput(item.name, item.require)}
+        {_renderCheckbox(item, index)}
+      </Row>
+    </Col>
   }
 
   const _renderForm = (arr) => {
     let form_arr = arr
-    form_arr.map((item, index) => {
-      if (item.type == "input") {
-        return _renderFormInput(item, index)  // pass
-      } else if (item.type == " dropdown") {
-        return _renderDropdown(item, index)   // pass
-      } else if (item.type == "datePicker") {
-        return _renderDatePicker(item, index) //
-      } else if (item.type == "upload") {
-        return _renderUploadForm(item, index) // pass
-      } else if (item.type == "radio") {
-        return _renderRadio(item, index)      //
-      } else if (item.type == "checkbox") {
-        return _renderCheckbox(item, index)   //
-      } else {
-        return _renderFormInput(item, index)  // pass
-      }
+    let render = form_arr.map((item, index) => {
+      return <Row style={{ width: '100%' }} justify={'center'}>
+        <Row gutter={{ xs: 8, sm: 16, md: 24, lg: 32 }} style={{
+          width: '100%',
+          borderBottom: index == arr.length - 1 ? "1px solid #C4C4C4" : '',
+          borderTop: index == 0 ? "1px solid #C4C4C4" : "",
+          borderRight: "1px solid #C4C4C4", borderLeft: "1px solid #C4C4C4",
+        }} >
+          {index != 0 && <Row style={{ width: '100%' }} justify={'center'}>
+            <Col styled={{ width: '1%' }}></Col>
+            <Col style={{ borderTop: "1px solid #C4C4C4", width: '98%' }} ></Col>
+            <Col styled={{ width: '1%' }}></Col></Row>}
+
+          {item.section_name && <Col span={24} style={{ paddingTop: 20 }}><span style={{
+            fontWeight: 'bold', fontSize: size.topic, color: palette.lightGrey
+          }}>{item.section_name}</span></Col>}
+
+          {item.section.map((e, i) => {
+            if (e.type == "input") {
+              return _renderInputForm(e, i)
+            } else if (e.type == "dropdown") {
+              return _renderDropdownForm(e, i)
+            } else if (e.type == "checkBox") {
+              return _renderCheckboxForm(e, i)
+            } else if (e.type == "radio") {
+              return _renderRadioForm(e, i)
+            } else if (e.type == "date") {
+              return _renderDateForm(e, i)
+            } else if (e.type == "upload") {
+              return _renderUploadForm(e, i)
+            } else {
+              console.log("E : ", e)
+            }
+          })}
+        </Row>
+      </Row >
     })
+    return render
   }
 
   return (
-    <Row >
-      <Col span={24}>
-        <PageHeader>{props.title}</PageHeader>
-      </Col>
-      <Form
-        style={{ paddingTop: 20 }}
-        name="basic"
-        initialValues={{
-          parentAssignName: '',
-          partnerAssignName: '',
-          registerAppName: '',
-          assignName: '',
-          registeredApplicationName: '',
-          juristicID: '',
-          partnerContactEmail: '',
-          partnerContactMobileNo: '',
-          partnerContactName: '',
-          juristicName_th: '',
-          juristicName_en: '',
-          status: '',
-          houseNo: '',
-          moo: '',
-          soi: '',
-          road: '',
-          subDistrict: '',
-          district: '',
-          province: '',
-          zipcode: '',
-        }}
-        onFinish={onFinish}
-        onFinishFailed={onFinishFailed}
-      >
-
-
-      </Form >
-    </Row >
+    // <Row >
+    <Form
+      style={{ paddingTop: 20 }}
+      name="basic"
+      initialValues={props.initialValues}
+      onFinish={props.onFinish}
+      onFinishFailed={props.onFinishFailed}
+    >
+      {_renderForm(props.datasource)}
+    </Form >
+    // </Row >
   )
 }))
 
-export default withTranslation('common')(AddPartner)
+export default withTranslation('common')(GenerateFormAntd)
 
 
-// type = 'input, dropdown, date picker, upload, radio, checkbox'
-let arr = [
-  { // dropdown
-    key: 3, id: 3, name: "Posting every", placeholder: '', keyword: "postingEvery",
-    type: 'dropdown', require: true,
-    item: [
-      { key: 1, name: 'onboard', value: 'onboard' },
-      { key: 2, name: 'partner', value: 'partner' },
-      { key: 3, name: 'online banking', value: 'online banking' },
-      { key: 4, name: 'thai credit bank', value: 'thai credit' },
-    ]
-  },
-  { // input
-    key: 4, id: 4, name: "Posting every", placeholder: 'Positing every', keyword: "postingEvery",
-    type: 'input', require: true, item: null
-  },
-  { // upload
-    key: 5, id: 5, name: "picture1", keyword: "uploadPicture1",
-    type: 'upload', require: true
-  },
-  { // date picker
-    key: 6, id: 6, name: "Start date", placeholder: 'Start Date', keyword: "startDate",
-    type: 'datePicker', require: true, mode: 'date'
-    // mode: date, start-end, time
-  },
-  { // radio
-    key: 7, id: 7, name: "Status", placeholder: 'Status', keyword: "status",
-    type: 'radio', require: true, item: [{
-      key: 1, name: "sinle", value: 0
-    }, { key: 2, name: "marry", value: 1 }]
-  },
-  { // checkbox
-    key: 8, id: 8, name: "favorite", placeholder: 'Favorite', keyword: "favorite",
-    type: 'checkbox', require: true, item: null, item: [
-      { key: 1, name: "chocolate", value: "chocolate" },
-      { key: 2, name: "magarong", value: "magarong" },
-      { key: 3, name: "cracker", value: "cracker" },
-    ]
-  },
-]
+// type = 'input, dropdown, date, upload, radio, checkbox'
+// let arr = [
+//   { // dropdown
+//     key: 1, id: 1, name: "Free Type", placeholder: '', keyword: "postingEvery",
+//     type: 'dropdown', require: true,
+//     item: [
+//       { key: 1, name: 'onboard', value: 'onboard' },
+//       { key: 2, name: 'partner', value: 'partner' },
+//       { key: 3, name: 'online banking', value: 'online banking' },
+//       { key: 4, name: 'thai credit bank', value: 'thai credit' },
+//     ]
+//   },
+//   { // input
+//     key: 4, id: 4, name: "Posting every", placeholder: 'Positing every', keyword: "postingEvery",
+//     type: 'input', require: true, item: null
+//   },
+//   { // upload
+//     key: 5, id: 5, name: "picture1", keyword: "uploadPicture1",
+//     type: 'upload', require: true
+//   },
+//   { // date picker
+//     key: 6, id: 6, name: "Start date", placeholder: 'Start Date', keyword: "startDate",
+//     type: 'datePicker', require: true, mode: 'date', onChange: () => { }
+//     // mode: date, start-end, time
+//   },
+//   { // radio
+//     key: 7, id: 7, name: "Status", placeholder: 'Status', keyword: "status",
+//     value: radioValue, onChange: () => { },
+//     type: 'radio', require: true, item: [{
+//       key: 1, label: "sinle", value: 0
+//     }, { key: 2, label: "marry", value: 1 }]
+//   },
+//   { // checkbox
+//     key: 8, id: 8, name: "favorite", placeholder: 'Favorite', keyword: "favorite",
+//     type: 'checkbox', require: true, item: null,
+//     value: radioValue, onChange: () => { },
+//     item: [
+//       { key: 1, name: "chocolate", value: "chocolate" },
+//       { key: 2, name: "magarong", value: "magarong" },
+//       { key: 3, name: "cracker", value: "cracker" },
+//     ]
+//   },
+// ]
+
+
+
+
+
+
+
+
