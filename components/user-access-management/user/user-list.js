@@ -49,269 +49,16 @@ const UserList = inject('userAccessManagementStore')
       ])
     }
 
-    // const MemoModalCreateForm = useMemo((visible, onCreate, onCancel, testSupervisor) => CollectionCreateForm)
-    const CollectionCreateForm = ({ visible, onCreate, onCancel, testSupervisor }) => {
-      return (
-        <Modal
-          visible={visible}
-          title="Add new User"
-          okText="Submit"
-          cancelText="Cancel"
-          onCancel={onCancel}
-          width={900}
-          onOk={() => {
-            form
-              .validateFields()
-              .then(values => {
-                form.resetFields();
-                onCreate(values);
-              })
-              .catch(info => {
-                console.log('Validate Failed:', info);
-              });
-          }}
-        >
-          <Form
-            form={form}
-            layout="vertical"
-            name="form_in_modal"
-            initialValues={{
-              modifier: 'public',
-            }}
-          >
-
-            <Row >
-              <Col span={4} style={{ padding: 4 }}>
-                <span>
-                  Employee ID
-              </span>
-              </Col>
-              <Col span={8}>
-                <Form.Item
-                  name="employee_code"
-                  rules={[
-                    {
-                      required: true,
-                      message: 'Please input Employee Id!',
-                    },
-                  ]}
-                >
-                  <SimpleInput />
-                </Form.Item>
-              </Col>
-              <Col span={4} style={{ paddingLeft: 16 }}>
-                <span>
-                  Supervisor
-              </span>
-              </Col>
-              <Col span={8}>
-                <Form.Item
-                  name="supervisor_id"
-                  rules={[
-                    {
-                      required: true,
-                      message: 'Please input Supervisor!',
-                    },
-                  ]}
-                >
-                  <Select
-                    style={{ width: '100%' }}
-                    placeholder="Please select"
-                    onChange={(value) => null}
-                  >
-                    {/* {testSupervisor.map((item, index) => <Option key={index} value={item.id}>{item.name}</Option>)} */}
-                  </Select>
-                </Form.Item>
-              </Col>
-            </Row>
-            <Row >
-              <Col span={4} style={{ padding: 4 }}>
-                <span>
-                  Name
-              </span>
-              </Col>
-              <Col span={8}>
-                <Form.Item
-                  name="name"
-                  rules={[
-                    {
-                      required: true,
-                      message: 'Please input Name!',
-                    },
-                  ]}
-                >
-                  <SimpleInput />
-                </Form.Item>
-              </Col>
-              <Col span={4} style={{ paddingLeft: 16 }}>
-                <span>
-                  Surname
-              </span>
-              </Col>
-              <Col span={8}>
-                <Form.Item
-                  name="surname"
-                  rules={[
-                    {
-                      required: true,
-                      message: 'Please input Surname!',
-                    },
-                  ]}
-                >
-                  <SimpleInput />
-                </Form.Item>
-              </Col>
-            </Row>
-            <Row>
-              <Col span={4} style={{ padding: 4 }}>
-                <span>
-                  Username
-              </span>
-              </Col>
-              <Col span={8}>
-                <Form.Item
-                  name="user_name"
-                  rules={[
-                    {
-                      required: true,
-                      message: 'Please input Username!',
-                    },
-                  ]}
-                >
-                  <SimpleInput />
-                </Form.Item>
-              </Col>
-              <Col span={4} style={{ paddingLeft: 16 }}>
-                <span>
-                  Email
-              </span>
-              </Col>
-              <Col span={8}>
-                <Form.Item
-                  name="email"
-                  rules={[
-                    {
-                      type: 'email',
-                      message: 'The input is not valid E-mail!',
-                    },
-                    {
-                      required: true,
-                      message: 'Please input Email!',
-                    },
-                  ]}
-                >
-                  <SimpleInput />
-                </Form.Item>
-              </Col>
-            </Row>
-            <Row>
-              <Col span={4} style={{ padding: 4 }}>
-                <span>
-                  Join Date
-              </span>
-              </Col>
-              <Col span={8}>
-                <Form.Item
-                  name="join_date"
-                  rules={[
-                    {
-                      required: true,
-                      message: 'Please input the title of collection!',
-                    },
-                  ]}
-                >
-                  <DatePicker style={{ width: '100%' }} format={dateFormat} />
-
-                </Form.Item>
-              </Col>
-              <Col span={4} style={{ paddingLeft: 16 }}>
-                <span>
-                  Last working date
-              </span>
-              </Col>
-              <Col span={8}>
-                <Form.Item
-                  name="last_working_date"
-                  rules={[
-                    {
-                      required: true,
-                      message: 'Please input the title of collection!',
-                    },
-                  ]}
-                >
-                  <DatePicker style={{ width: '100%' }} format={dateFormat} />
-                </Form.Item>
-              </Col>
-            </Row>
-            <Row>
-              <Col span={4} style={{ padding: 4 }}>
-                <span>
-                  Status
-              </span>
-              </Col>
-              <Col span={8}>
-                <Form.Item
-                  name="status"
-                  rules={[
-                    {
-                      required: true,
-                      message: 'Please input Status!',
-                    },
-                  ]}
-                >
-                  <Select
-                    style={{ width: '100' }}
-                    placeholder="Please select"
-                    onChange={(value) => testAddSupervisor(value)}
-                  >
-                    {/* {children} */}
-
-                  </Select>
-
-                </Form.Item>
-              </Col>
-              <Col span={4} style={{ paddingLeft: 16 }}>
-                <span>
-                  Section
-              </span>
-              </Col>
-              <Col span={8}>
-                <Form.Item
-                  name="section_id"
-                  rules={[
-                    {
-                      required: true,
-                      message: 'Please input Section!',
-                    },
-                  ]}
-                >
-                  <Select
-                    style={{ width: '100%' }}
-                    placeholder="Please select"
-                    onChange={(value) => testAddSupervisor(value)}
-                  >
-                    <Option value="1">option1</Option>
-                    {/* {children} */}
-                  </Select>
-                </Form.Item>
-              </Col>
-            </Row>
-          </Form>
-        </Modal>
-      );
-    }
-
     const onCreate = values => {
-      console.log('Received values of form: ', values);
       let request = {
         ...values,
         full_name: values.name + " " + values.surname,
         join_date: moment(values.join_data).format('YYYY-MM-DD'),
-        last_working_date: moment(values.last_working_date).format('YYYY-MM-DD')
+        last_working_date: values.last_working_date == undefined ? values.last_working_date : moment(values.last_working_date).format('YYYY-MM-DD')
       }
-      console.log(request)
+      // console.log(request)
       userAccessManagementStore.submitAddNewUser(request)
-      setVisible(false);
+      setModalFromVisible(false);
     }
 
     const viewUserDetail = (record) => {
@@ -348,19 +95,26 @@ const UserList = inject('userAccessManagementStore')
     }
 
     const renderActionUser = (record) => {
-      if (record.request_status == 'APPROVE') {
-        return (
-          <div style={{ textAlign: "center" }}>
-            <a onClick={() => viewUserDetail(record)} style={{ marginRight: 8, color: '#FBA928' }}>
-              Edit
-          </a>
-            <TcrbPopconfirm title="Sure to Deactivate?" >
-              <a style={{ color: '#FBA928' }}>Deactivate</a>
-            </TcrbPopconfirm>
-          </div>
-        )
-      } else if (record.request_status == 'PENDING') {
-        return null
+      if (record.status == 'ACTIVE') {
+        if (record.request_status == 'APPROVE' || record.request_status == 'REJECT') {
+          return (
+            <div style={{ textAlign: "center" }}>
+              <a onClick={() => viewUserDetail(record)} style={{ marginRight: 8, color: '#FBA928' }}>
+                Edit
+            </a>
+              <TcrbPopconfirm title="Sure to Deactivate?" >
+                <a style={{ color: '#FBA928' }}>Deactivate</a>
+              </TcrbPopconfirm>
+            </div>
+          )
+        } else if (record.request_status == 'PENDING') {
+          return null
+        }
+
+      } else if (status == 'INACTIVE') {
+        if (record.request_status == 'PENDING') {
+          return null
+        }
       } else {
         return null
       }
@@ -393,26 +147,36 @@ const UserList = inject('userAccessManagementStore')
         title: 'Username',
         dataIndex: 'username',
         editable: true,
+        sorter: (a, b) => a.username.localeCompare(b.username),
+        sortDirections: ['descend', 'ascend'],
         // render: (text, record) => (record.partner_code + "/" + record.partner_abbreviation)
       },
       {
         title: 'Name',
         dataIndex: 'name',
+        sorter: (a, b) => a.name.localeCompare(b.name),
+        sortDirections: ['descend', 'ascend'],
         // render: (text, record) => renderSection(record)
       },
       {
         title: 'Surname',
         dataIndex: 'surname',
+        sorter: (a, b) => a.surname.localeCompare(b.surname),
+        sortDirections: ['descend', 'ascend'],
         // render: (text, record) => renderSection(record)
       },
       {
         title: 'Supervisor',
         dataIndex: 'supervisor',
+        /* sorter: (a, b) => a.supervisor.localeCompare(b.supervisor),
+        sortDirections: ['descend', 'ascend'], */
         // render: (text, record) => renderSection(record)
       },
       {
         title: 'Department',
         dataIndex: 'department',
+        /* sorter: (a, b) => a.department.localeCompare(b.department),
+        sortDirections: ['descend', 'ascend'], */
         // render: (text, record) => renderSection(record)
       },
       {

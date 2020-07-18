@@ -27,13 +27,13 @@ const SearchBox =
       })
 
       function handleMenuClick(e) {
-        message.info('Click on menu item.');
+        // message.info('Click on menu item.');
         setCurrentSearch(e.item.props.index)
       }
 
       useEffect(() => {
         let newProps = JSON.parse(JSON.stringify(customerServiceEnquiry.dataGetListCustomerService))
-        if(newProps != tmp_list_table){
+        if (newProps != tmp_list_table) {
           setTmpList(newProps)
           // customerServiceEnquiry.clearCacheCustomerDetail()
           customerServiceEnquiry.setPageCustomerEnquiry(1)

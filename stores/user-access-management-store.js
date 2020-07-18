@@ -1,4 +1,4 @@
-import { observable, action, toJS } from 'mobx'
+import { observable, action } from 'mobx'
 import { UserAccessManagementApi } from '../services'
 
 export default class UserAccessManagement {
@@ -54,7 +54,7 @@ export default class UserAccessManagement {
       }
     })
     console.log(tmp)
-    if (tmp.ok & tmp.status === 200) {
+    if (tmp.ok && tmp.status === 200) {
       //when success
       this.departmentList = tmp.data.responseData
       this.apiFetching = false
@@ -74,7 +74,7 @@ export default class UserAccessManagement {
     this.apiFetching = true
     let tmp = await UserAccessManagementApi.updateMatrix(params)
     console.log(tmp)
-    if (tmp.ok & tmp.status === 200) {
+    if (tmp.ok && tmp.status === 200) {
       //when success
       this.apiFetching = false
       this.updateDataMatrix = tmp.data.responseData
@@ -89,7 +89,7 @@ export default class UserAccessManagement {
     this.apiFetching = true
     let tmp = await UserAccessManagementApi.getDepartmentDetail(params)
 
-    if (tmp.ok & tmp.status === 200) {
+    if (tmp.ok && tmp.status === 200) {
       //when success
       this.apiFetching = false
     } else {
@@ -108,7 +108,7 @@ export default class UserAccessManagement {
     this.apiFetching = true
     let tmp = await UserAccessManagementApi.getGroupDetail(params)
     console.log(tmp)
-    if (tmp.ok & tmp.status === 200) {
+    if (tmp.ok && tmp.status === 200) {
       //when success
       this.groupSelected = tmp.data.responseData
       this.apiFetching = false
@@ -142,7 +142,7 @@ export default class UserAccessManagement {
       },
     })
     console.log(tmp)
-    if (tmp.ok & tmp.status === 200) {
+    if (tmp.ok && tmp.status === 200) {
       //when success
       this.functionList = tmp.data.responseData
       this.apiFetching = false
@@ -176,7 +176,7 @@ export default class UserAccessManagement {
       }
     })
     console.log(tmp)
-    if (tmp.ok & tmp.status === 200) {
+    if (tmp.ok && tmp.status === 200) {
       //when success
       this.menuList = tmp.data.responseData
       this.apiFetching = false
@@ -210,7 +210,7 @@ export default class UserAccessManagement {
       }
     })
     console.log(tmp)
-    if (tmp.ok & tmp.status === 200) {
+    if (tmp.ok && tmp.status === 200) {
       //when success
       this.groupList = tmp.data.responseData
       this.apiFetching = false
@@ -236,7 +236,7 @@ export default class UserAccessManagement {
       }
     })
     console.log(tmp)
-    if (tmp.ok & tmp.status === 200) {
+    if (tmp.ok && tmp.status === 200) {
       //when success
       this.optionGroupList = tmp.data.responseData
       this.apiFetching = false
@@ -270,7 +270,7 @@ export default class UserAccessManagement {
       }
     })
     console.log(tmp)
-    if (tmp.ok & tmp.status === 200) {
+    if (tmp.ok && tmp.status === 200) {
       //when success
       this.userList = tmp.data.responseData
       this.apiFetching = false
@@ -290,7 +290,7 @@ export default class UserAccessManagement {
     this.apiFetching = true
     let tmp = await UserAccessManagementApi.getUserDetail(params)
     console.log(tmp)
-    if (tmp.ok & tmp.status === 200) {
+    if (tmp.ok && tmp.status === 200) {
       //when success
       this.userSelected = tmp.data.responseData
       this.apiFetching = false
@@ -319,7 +319,7 @@ export default class UserAccessManagement {
       }
     })
     console.log(tmp)
-    if (tmp.ok & tmp.status === 200) {
+    if (tmp.ok && tmp.status === 200) {
       //when success
       this.supervisorList = tmp.data.responseData
       this.apiFetching = false
@@ -349,7 +349,7 @@ export default class UserAccessManagement {
       }
     })
     console.log(tmp)
-    if (tmp.ok & tmp.status === 200) {
+    if (tmp.ok && tmp.status === 200) {
       //when success
       this.functionOptionList = tmp.data.responseData
       this.apiFetching = false
@@ -387,7 +387,7 @@ export default class UserAccessManagement {
       }
     })
     console.log(tmp)
-    if (tmp.ok & tmp.status === 200) {
+    if (tmp.ok && tmp.status === 200) {
       //when success
       this.functionListInMenu = tmp.data.responseData
       this.apiFetching = false
@@ -422,7 +422,7 @@ export default class UserAccessManagement {
       }
     })
     console.log(tmp)
-    if (tmp.ok & tmp.status === 200) {
+    if (tmp.ok && tmp.status === 200) {
       //when success
       this.roleList = tmp.data.responseData
       this.apiFetching = false
@@ -448,7 +448,7 @@ export default class UserAccessManagement {
       }
     })
     console.log(tmp)
-    if (tmp.ok & tmp.status === 200) {
+    if (tmp.ok && tmp.status === 200) {
       //when success
       this.optionSectionList = tmp.data.responseData
       this.apiFetching = false
@@ -474,7 +474,7 @@ export default class UserAccessManagement {
       }
     })
     console.log(tmp)
-    if (tmp.ok & tmp.status === 200) {
+    if (tmp.ok && tmp.status === 200) {
       //when success
       this.optionUserList = tmp.data.responseData
       this.apiFetching = false
@@ -501,7 +501,7 @@ export default class UserAccessManagement {
       isSelectedGroup: true
     })
     console.log(tmp)
-    if (tmp.ok & tmp.status === 200) {
+    if (tmp.ok && tmp.status === 200) {
       //when success
       this.optionRoleList = tmp.data.responseData
       this.apiFetching = false
@@ -521,7 +521,7 @@ export default class UserAccessManagement {
     this.apiFetching = true
     let tmp = await UserAccessManagementApi.getMatrix()
     console.log(tmp)
-    if (tmp.ok & tmp.status === 200) {
+    if (tmp.ok && tmp.status === 200) {
       //when success
       this.dataMatrix = tmp.data.responseData
       this.apiFetching = false
@@ -540,10 +540,11 @@ export default class UserAccessManagement {
     this.apiFetching = true
     let tmp = await UserAccessManagementApi.addNewDepartment({ change_type: "DEPARTMENTS", action: "Add", currentData: {}, newData: params, maker_id: '36' })
     console.log(tmp)
-    if (tmp.ok & tmp.status === 200) {
+    if (tmp.ok && tmp.status === 200) {
       //when success
-      this.departmentList = tmp.data.responseData
+      this.departmentList = []
       this.apiFetching = false
+      this.getDataDepartment()
     } else {
       //when error
       this.apiFetching = false
@@ -559,7 +560,7 @@ export default class UserAccessManagement {
     this.apiFetching = true
     let tmp = await UserAccessManagementApi.addNewDepartment({ change_type: "SECTIONS", action: "Add", currentData: {}, newData: params, maker_id: '36' })
     console.log(tmp)
-    if (tmp.ok & tmp.status === 200) {
+    if (tmp.ok && tmp.status === 200) {
       //when success
       this.departmentList = tmp.data.responseData
       this.apiFetching = false
@@ -578,7 +579,7 @@ export default class UserAccessManagement {
     this.apiFetching = true
     let tmp = await UserAccessManagementApi.addNewGroup({ change_type: "GROUPS", action: "Add", currentData: {}, newData: params, maker_id: '36' })
     console.log(tmp)
-    if (tmp.ok & tmp.status === 200) {
+    if (tmp.ok && tmp.status === 200) {
       //when success
       this.groupList = []
       this.apiFetching = false
@@ -598,7 +599,7 @@ export default class UserAccessManagement {
     this.apiFetching = true
     let tmp = await UserAccessManagementApi.addNewFunction({ change_type: "FUNCTIONS", action: "Add", currentData: {}, newData: params, maker_id: '36' })
     console.log(tmp)
-    if (tmp.ok & tmp.status === 200) {
+    if (tmp.ok && tmp.status === 200) {
       //when success
       this.functionList = []
       this.apiFetching = false
@@ -618,7 +619,7 @@ export default class UserAccessManagement {
     this.apiFetching = true
     let tmp = await UserAccessManagementApi.addNewFunction({ change_type: "MENUS", action: "Add", currentData: {}, newData: params, maker_id: '36' })
     console.log(tmp)
-    if (tmp.ok & tmp.status === 200) {
+    if (tmp.ok && tmp.status === 200) {
       //when success
       this.menuList = []
       this.apiFetching = false
@@ -638,7 +639,7 @@ export default class UserAccessManagement {
     this.apiFetching = true
     let tmp = await UserAccessManagementApi.addNewRole({ change_type: "ROLES", action: "Add", currentData: {}, newData: params, maker_id: '36' })
     console.log(tmp)
-    if (tmp.ok & tmp.status === 200) {
+    if (tmp.ok && tmp.status === 200) {
       //when success
       this.roleList = []
       this.apiFetching = false
@@ -658,11 +659,12 @@ export default class UserAccessManagement {
     this.apiFetching = true
     let tmp = await UserAccessManagementApi.addFunctionToMenu({ change_type: "FUNCTIONS", action: "Add", currentData: {}, newData: params, maker_id: '36' })
     console.log(tmp)
-    if (tmp.ok & tmp.status === 200) {
+    if (tmp.ok && tmp.status === 200) {
       //when success
-      this.functionList = []
+      let menu_id = this.menuSelected.id
+      this.functionListInMenu = []
       this.apiFetching = false
-      this.getDataFunction()
+      this.getDataFunctionListInMenu(menu_id)
     } else {
       //when error
       this.apiFetching = false
@@ -678,7 +680,7 @@ export default class UserAccessManagement {
     this.apiFetching = true
     let tmp = await UserAccessManagementApi.addNewUser({ change_type: "USER_PROFILES", action: "Add", currentData: {}, newData: params, maker_id: '36' })
     console.log(tmp)
-    if (tmp.ok & tmp.status === 200) {
+    if (tmp.ok && tmp.status === 200) {
       //when success
       this.userList = []
       this.apiFetching = false
@@ -694,7 +696,7 @@ export default class UserAccessManagement {
     this.apiFetching = true
     let tmp = await UserAccessManagementApi.addGroupToUser({ change_type: "MAP_USER_GROUPS", action: "Add", currentData: {}, newData: params, maker_id: '36' })
     console.log(tmp)
-    if (tmp.ok & tmp.status === 200) {
+    if (tmp.ok && tmp.status === 200) {
       //when success
       // this.functionList = []
       let user_id = this.userSelected.id
@@ -717,7 +719,7 @@ export default class UserAccessManagement {
     this.apiFetching = true
     let tmp = await UserAccessManagementApi.addUserToGroup({ change_type: "MAP_USER_GROUPS", action: "Add", currentData: {}, newData: params, maker_id: '36' })
     console.log(tmp)
-    if (tmp.ok & tmp.status === 200) {
+    if (tmp.ok && tmp.status === 200) {
       //when success
       // this.functionList = []
       let group_id = this.groupSelected.id
@@ -740,7 +742,7 @@ export default class UserAccessManagement {
     this.apiFetching = true
     let tmp = await UserAccessManagementApi.updateDepartment({ change_type: "DEPARTMENTS", action: "Update", currentData: params.currentData, newData: params.newData, maker_id: '36' })
     console.log(tmp)
-    if (tmp.ok & tmp.status === 200) {
+    if (tmp.ok && tmp.status === 200) {
       //when success
       this.apiFetching = false
     } else {
@@ -758,7 +760,7 @@ export default class UserAccessManagement {
     this.apiFetching = true
     let tmp = await UserAccessManagementApi.updateSection({ change_type: "SECTIONS", action: "Update", currentData: params.currentData, newData: params.newData, maker_id: '36' })
     console.log(tmp)
-    if (tmp.ok & tmp.status === 200) {
+    if (tmp.ok && tmp.status === 200) {
       //when success
       this.apiFetching = false
     } else {
@@ -772,11 +774,29 @@ export default class UserAccessManagement {
     }
   }
 
+  @action updateGroup = async (params) => {
+    this.apiFetching = true
+    let tmp = await UserAccessManagementApi.updateGroup({ change_type: "GROUPS", action: "Update", currentData: params.currentData, newData: params.newData, maker_id: '36' })
+    console.log(tmp)
+    if (tmp.ok && tmp.status === 200) {
+      //when success
+      this.apiFetching = false
+    } else {
+      //when error
+      this.apiFetching = false
+      this.responseErrorMessage = {
+        title: 'updateGroup',
+        body: tmp.originalError.message
+      }
+      this.responseApiError = true
+    }
+  }
+
   @action updateFunction = async (params) => {
     this.apiFetching = true
     let tmp = await UserAccessManagementApi.updateFunction({ change_type: "FUNCTIONS", action: "Update", currentData: params.currentData, newData: params.newData, maker_id: '36' })
     console.log(tmp)
-    if (tmp.ok & tmp.status === 200) {
+    if (tmp.ok && tmp.status === 200) {
       //when success
       this.functionList = []
       this.apiFetching = false
@@ -796,7 +816,7 @@ export default class UserAccessManagement {
     this.apiFetching = true
     let tmp = await UserAccessManagementApi.updateMenu({ change_type: "MENUS", action: "Update", currentData: params.currentData, newData: params.newData, maker_id: '36' })
     console.log(tmp)
-    if (tmp.ok & tmp.status === 200) {
+    if (tmp.ok && tmp.status === 200) {
       //when success
       this.apiFetching = false
     } else {
@@ -814,7 +834,7 @@ export default class UserAccessManagement {
     this.apiFetching = true
     let tmp = await UserAccessManagementApi.updateRole({ change_type: "ROLES", action: "Update", currentData: params.currentData, newData: params.newData, maker_id: '36' })
     console.log(tmp)
-    if (tmp.ok & tmp.status === 200) {
+    if (tmp.ok && tmp.status === 200) {
       //when success
       this.roleList = []
       this.apiFetching = false
@@ -834,7 +854,7 @@ export default class UserAccessManagement {
     this.apiFetching = true
     let tmp = await UserAccessManagementApi.updateUser({ change_type: "USER_PROFILES", action: "Update", currentData: params.currentData, newData: params.newData, maker_id: '36' })
     console.log(tmp)
-    if (tmp.ok & tmp.status === 200) {
+    if (tmp.ok && tmp.status === 200) {
       //when success
       // this.roleList = []
       this.apiFetching = false
@@ -854,7 +874,7 @@ export default class UserAccessManagement {
     this.apiFetching = true
     let tmp = await UserAccessManagementApi.deleteDepartment({ change_type: "DEPARTMENTS", action: "Delete", currentData: params, newData: {}, maker_id: '36' })
     console.log(tmp)
-    if (tmp.ok & tmp.status === 200) {
+    if (tmp.ok && tmp.status === 200) {
       //when success
       this.apiFetching = false
       this.departmentList = []
@@ -874,7 +894,7 @@ export default class UserAccessManagement {
     this.apiFetching = true
     let tmp = await UserAccessManagementApi.deleteDepartment({ change_type: "SECTIONS", action: "Delete", currentData: params, newData: {}, maker_id: '36' })
     console.log(tmp)
-    if (tmp.ok & tmp.status === 200) {
+    if (tmp.ok && tmp.status === 200) {
       //when success
       this.apiFetching = false
       this.responseDeleteSection = true
@@ -893,11 +913,13 @@ export default class UserAccessManagement {
     this.apiFetching = true
     let tmp = await UserAccessManagementApi.deleteFunction({ change_type: "FUNCTIONS", action: "Delete", currentData: params, newData: {}, maker_id: '36' })
     console.log(tmp)
-    if (tmp.ok & tmp.status === 200) {
+    if (tmp.ok && tmp.status === 200) {
       //when success
-      this.functionList = []
+      this.functionListInMenu = []
+      let menu_id = this.menuSelected.id
       this.apiFetching = false
-      this.getDataFunction()
+      this.getDataFunctionListInMenu(menu_id)
+      // .getDataFunctionListInMenu(userAccessManagementStore.menuSelected.id)
     } else {
       //when error
       this.apiFetching = false
@@ -913,7 +935,7 @@ export default class UserAccessManagement {
     this.apiFetching = true
     let tmp = await UserAccessManagementApi.deleteMenu({ change_type: "MENUS", action: "Delete", currentData: params, newData: {}, maker_id: '36' })
     console.log(tmp)
-    if (tmp.ok & tmp.status === 200) {
+    if (tmp.ok && tmp.status === 200) {
       //when success
       this.menuList = []
       this.apiFetching = false
@@ -933,7 +955,7 @@ export default class UserAccessManagement {
     this.apiFetching = true
     let tmp = await UserAccessManagementApi.deleteRole({ change_type: "ROLES", action: "Delete", currentData: params, newData: {}, maker_id: '36' })
     console.log(tmp)
-    if (tmp.ok & tmp.status === 200) {
+    if (tmp.ok && tmp.status === 200) {
       //when success
       this.roleList = []
       this.apiFetching = false
@@ -953,7 +975,7 @@ export default class UserAccessManagement {
     this.apiFetching = true
     let tmp = await UserAccessManagementApi.deleteGroupInUser({ change_type: "MAP_USER_GROUPS", action: "Delete", currentData: params, newData: {}, maker_id: '36' })
     console.log(tmp)
-    if (tmp.ok & tmp.status === 200) {
+    if (tmp.ok && tmp.status === 200) {
       //when success
       let userId = this.userSelected.id
       this.userSelected = {}
@@ -975,7 +997,7 @@ export default class UserAccessManagement {
     this.apiFetching = true
     let tmp = await UserAccessManagementApi.deleteUserInGroup({ change_type: "MAP_USER_GROUPS", action: "Delete", currentData: params, newData: {}, maker_id: '36' })
     console.log(tmp)
-    if (tmp.ok & tmp.status === 200) {
+    if (tmp.ok && tmp.status === 200) {
       //when success
       let groupId = this.groupSelected.id
       this.groupSelected = {}

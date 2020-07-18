@@ -20,10 +20,19 @@ import { withTranslation } from '../i18n'
   }
 
   render() {
+    console.log("______________ Doccument Screen _______________")
+    console.log(this.props)
     return (
       <html>
         <Head>
           {/* Step 5: Output the styles in the head  */}
+          {/* <script
+            id="session"
+            type="application/json"
+            dangerouslySetInnerHTML={{
+              __html: JSON.stringify(this.props.session, null, 2)
+            }}
+          /> */}
           {this.props.styleTags}
         </Head>
         <body style={{

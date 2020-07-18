@@ -85,7 +85,7 @@ const MenuList = inject('userAccessManagementStore')
       )
     } */
 
-    const FormAddNewDepartment = ({ visible, onCreate, onCancel }) => {
+    const FormAddNewMenu = ({ visible, onCreate, onCancel }) => {
       return (
         <TcrbModal
           visible={visible}
@@ -146,7 +146,7 @@ const MenuList = inject('userAccessManagementStore')
                   name="function_list_id"
                 >
                   <Select
-                    mode="tags"
+                    mode="multiple"
                     style={{ width: '100%' }}
                     placeholder="Please select Function"
                   >
@@ -155,6 +155,19 @@ const MenuList = inject('userAccessManagementStore')
                 </Form.Item>
               </Col>
             </Row>
+            {/* <Row>
+              <Col span={10} style={{ padding: 4 }}>
+                <p>Path Function</p>
+              </Col>
+              <Col span={14}>
+                <Form.Item
+                  name="link_to"
+                >
+                  <SimpleInput />
+
+                </Form.Item>
+              </Col>
+            </Row> */}
           </Form>
         </TcrbModal>
       )
@@ -168,7 +181,23 @@ const MenuList = inject('userAccessManagementStore')
 
     const addNewMenu = (values) => {
       setVisibleFormAddNewMenu(false)
-      userAccessManagementStore.submitAddNewMenu(values)
+      let newFunctionList = []
+      for (let index = 0; index < values.function_list_id.length; index++) {
+        for (let indexFunction = 0; indexFunction < functionList.length; indexFunction++) {
+          if (values.function_list_id[index] == functionList[indexFunction].id) {
+            newFunctionList.push({
+              name: functionList[indexFunction].name,
+              id: values.function_list_id[index]
+            })
+          }
+        }
+      }
+      // console.log(newFunctionList, values)
+      let request = {
+        name: values.name,
+        function_list: newFunctionList
+      }
+      userAccessManagementStore.submitAddNewMenu(request)
     }
 
     const deactivateMenuSelect = (record) => {
@@ -195,9 +224,18 @@ const MenuList = inject('userAccessManagementStore')
     }
 
     const renderFunction = (record) => {
-      return <div>
-        <a onClick={() => openModalShowFunctionList(record.functions)}>{record.functions ? record.functions.length : '-'} Function</a>
-      </div>
+      if (record.functions.length <= 0) {
+        return (
+          <div>
+            <span>{record.functions.length} Function</span>
+          </div>
+        )
+      } else {
+        return <div>
+          <a onClick={() => openModalShowFunctionList(record.functions)}>{record.functions ? record.functions.length : '-'} Function</a>
+        </div>
+      }
+
     }
 
     const viewMenuManage = (record) => {
@@ -206,21 +244,27 @@ const MenuList = inject('userAccessManagementStore')
     }
 
     const renderActionMenu = (record) => {
+      if (record.status == 'ACTIVE') {
+        if (record.request_status == 'APPROVE' || record.request_status == 'REJECT') {
+          return (
+            <div style={{ textAlign: "center" }}>
+              <a onClick={() => viewMenuManage(record)} style={{ marginRight: 8, color: '#FBA928' }}>
+                Edit
+                  </a>
+              <TcrbPopconfirm title="Sure to Deactivate?" onConfirm={() => deactivateMenuSelect(record)}>
+                <a style={{ color: '#FBA928' }}>Deactivate</a>
+              </TcrbPopconfirm>
+            </div>
+          )
+        } else if (record.request_status == 'PENDING') {
+          return null
+        }
 
-      if (record.request_status == 'APPROVE') {
-        return (
-          <div style={{ textAlign: "center" }}>
-            <a onClick={() => viewMenuManage(record)} style={{ marginRight: 8, color: '#FBA928' }}>
-              Edit
-                </a>
-            <TcrbPopconfirm title="Sure to Deactivate?" onConfirm={() => deactivateMenuSelect(record)}>
-              <a style={{ color: '#FBA928' }}>Deactivate</a>
-            </TcrbPopconfirm>
-          </div>
-        )
-      } else if (record.request_status == 'PENDING') {
-        return null
-      } else if (record.request_status == 'REJECT') {
+      } else if (status == 'INACTIVE') {
+        if (record.request_status == 'PENDING') {
+          return null
+        }
+      } else {
         return null
       }
     }
@@ -235,12 +279,15 @@ const MenuList = inject('userAccessManagementStore')
       {
         title: 'Name',
         dataIndex: 'name',
-        // render: (text, record) => (record.partner_code + "/" + record.partner_abbreviation)
+        sorter: (a, b) => a.name.localeCompare(b.name),
+        sortDirections: ['descend', 'ascend'],
       },
       {
         title: 'Functions',
         dataIndex: 'functions',
-        render: (text, record) => renderFunction(record)
+        render: (text, record) => renderFunction(record),
+        sorter: (a, b) => a.functions.length - (b.functions.length),
+        sortDirections: ['descend', 'ascend'],
       },
       {
         title: 'Action',
@@ -277,7 +324,7 @@ const MenuList = inject('userAccessManagementStore')
           columns={columnMenu}
           size="small"
         />
-        <FormAddNewDepartment
+        <FormAddNewMenu
           visible={visibleFormAddNewMenu}
           onCreate={addNewMenu}
           onCancel={() => {

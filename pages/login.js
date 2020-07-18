@@ -5,9 +5,9 @@ const Login = (props) => {
   return <Signin />
 }
 
-// Login.getInitialProps = async () => ({
-//   namespacesRequired: [],
-// })
+Login.getInitialProps = async () => ({
+  namespacesRequired: [],
+})
 
 export default withTranslation('common')(Login)
 

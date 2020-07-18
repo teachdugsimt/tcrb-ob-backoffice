@@ -9,15 +9,27 @@ import {
 import Router from 'next/router'
 import { inject, observer } from 'mobx-react'
 import { withTranslation } from '../i18n'
+import { Cookies } from 'react-cookie';
 import { Button } from 'antd';
+import { TcrbButton, TcrbPopconfirm, TcrbSpin } from '../components/antd-styles/styles'
+const cookies = new Cookies();
 
-const AdminHeader = inject('authenStore')(observer((props) => {
+const AdminHeader = inject('authenStore', 'loginStore')(observer((props) => {
   // const { authenStore } = useStores()
-  const { t, authenStore } = props
+  const { t, authenStore, loginStore } = props
   const goLogin = () => {
     authenStore.clear()
-    Router.push("/login")
+    cookies.remove('token')
+    cookies.remove('menus')
+    // Router.push("/login")
   }
+  useEffect(() => {
+    let propsSignout = JSON.parse(JSON.stringify(loginStore.data_logout))
+    let propsLogin = JSON.parse(JSON.stringify(loginStore.data_signin))
+    if (propsSignout && propsSignout.signOut == true && !propsLogin) {
+      // Router.push("/login")
+    }
+  }, [JSON.parse(JSON.stringify(loginStore.data_logout))])
 
   return (
     <MainHeader>
@@ -28,12 +40,19 @@ const AdminHeader = inject('authenStore')(observer((props) => {
         <InsideTopRightDiv>
           <ContentMainDiv>
             <WrapperButtonAnt title={t('support')} />
-            <WrapperButtonAnt title={t("signout")} onClick={() => goLogin()} />
+            <WrapperButtonAnt title={t("signout")} onClick={() => {
+              loginStore.clearCacheLogin('error')
+              loginStore.clearCacheLogin('success')
+              loginStore.requestLogout({ username: authenStore.id })
+              Router.push("/login")
+              goLogin()
+            }} />
+            <TcrbSpin spinning={loginStore.fetching_login} size="large" tip="Loading..." />
             <DivAccount>
               <WrapperImageAccount src={account} />
               <DivName>
-                <TextName>{t('mockName')}</TextName>
-                <TextName>{t('mockLastName')}</TextName>
+                <TextName>{loginStore.profile ? loginStore.profile.username : ""}</TextName>
+                {/* <TextName>{loginStore.profile ? loginStore.profile.surname : ""}</TextName> */}
               </DivName>
             </DivAccount>
           </ContentMainDiv>

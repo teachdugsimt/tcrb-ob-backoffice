@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import Link from 'next/link'
-import { Row, Col, Button, Upload, Input, Modal, Menu, Dropdown, Table, Tag, Space } from 'antd'
+import { Row, Col, Button, Upload, Input, Modal, Form, Menu, Dropdown, Table, Tag, Space, message, Select } from 'antd'
 import { useFormik, Formik } from 'formik'
 import { DownOutlined, UserOutlined, UploadOutlined, FolderOutlined } from '@ant-design/icons'
 import { withTranslation } from '../../../i18n'
@@ -98,8 +98,8 @@ const FeeSettlementForm = () => {
       }
   }
   return (
-    <div>
-      <form onSubmit={formik.handleSubmit} style={{ display: 'flex', flex: 1, flexDirection: 'column' }}>
+    <Row>
+      <Form onSubmit={formik.handleSubmit} style={{ display: 'flex', flex: 1, flexDirection: 'column' }}>
         <div style={{ height: 930, border: '1px solid Lightgrey', padding: 20 }}>
           <div style={{ height: 100, borderBottom: '1px solid LightGrey' }}>
             <div style={{ display: 'flex', flexDirection: 'row' }}>
@@ -358,8 +358,8 @@ const FeeSettlementForm = () => {
 
             }}>Submit</button>
         </div>
-      </form>
-    </div>
+      </Form>
+    </Row>
   )
 }
 export default withTranslation('common')(FeeSettlementForm)

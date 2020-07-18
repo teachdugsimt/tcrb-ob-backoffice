@@ -11,6 +11,7 @@ import { addKeyToDataSource, checkDefaultStatus } from '../../data-utility';
 import userAccessManagement from '..';
 import moment from 'moment';
 import { toJS } from 'mobx';
+import { get } from 'lodash'
 
 const { Option } = Select;
 let groupSelect = null
@@ -24,7 +25,7 @@ const ManageUser = inject('userAccessManagementStore')
     const [modalString, setModalString] = useState('')
     const [optionGroupList, setOptionGroupList] = useState([])
     const [supervisorList, setSupervisorList] = useState([])
-    const [sectionList, setSectionList] = useState([])
+    const [optionSectionList, setOptionSectionList] = useState([])
     const [groupListInUser, setGroupListInUser] = useState([])
     const dateFormat = 'YYYY-MM-DD'
 
@@ -34,7 +35,7 @@ const ManageUser = inject('userAccessManagementStore')
     useEffect(() => {
       userAccessManagementStore.getDataGroupOptionList()
       userAccessManagementStore.getDataSectionList()
-      // console.log(toJS(userAccessManagementStore.userSelected))
+      console.log(toJS(userAccessManagementStore.userSelected))
       // mapKeyToGroupList(userAccessManagementStore.userSelected.map_user_groups)
     }, [])
 
@@ -53,6 +54,14 @@ const ManageUser = inject('userAccessManagementStore')
         })
       }
     }, [userAccessManagementStore.supervisorList])
+
+    useEffect(() => {
+      if (userAccessManagementStore.optionSectionList.length >= 0) {
+        addKeyToDataSource(userAccessManagementStore.optionSectionList).then(result => {
+          setOptionSectionList(result)
+        })
+      }
+    }, [userAccessManagementStore.optionSectionList])
 
     useEffect(() => {
       console.log(toJS(userAccessManagementStore.userSelected))
@@ -137,7 +146,7 @@ const ManageUser = inject('userAccessManagementStore')
 
     const openModalSubmitEditUserProfile = (values) => {
       dataEditUserProfile = values
-      setModalTitle('Confirm')
+      setModalTitle('Confirm Edit User Profile')
       setModalType('confirm')
       setModalString(
         <div style={{ textAlign: "center" }}>
@@ -150,6 +159,8 @@ const ManageUser = inject('userAccessManagementStore')
 
     const submitEditUser = () => {
       console.log(dataEditUserProfile)
+      setViewEditUserDetail(false)
+      setVisible(false)
       let request = {
         currentData: userAccessManagementStore.userSelected,
         newData: {
@@ -159,6 +170,12 @@ const ManageUser = inject('userAccessManagementStore')
         }
       }
       userAccessManagementStore.updateUser(request)
+    }
+
+    const renderOptionSelectFindNameById = (sectionId) => {
+      let nameSectionSelect = optionSectionList.filter(
+        item => item.id == userAccessManagementStore.userSelected.section_id
+      )
     }
 
     const FormEditUser = ({ onSubmitEditUser }) => {
@@ -175,7 +192,8 @@ const ManageUser = inject('userAccessManagementStore')
             'username': userAccessManagementStore.userSelected.name,
             'email': userAccessManagementStore.userSelected.name,
             'join_date': moment(userAccessManagementStore.userSelected.join_date),
-            'last_working_date': moment(userAccessManagementStore.userSelected.last_working_date)
+            'last_working_date': userAccessManagementStore.userSelected.last_working_date == null ? null : moment(userAccessManagementStore.userSelected.last_working_date),
+            'user_status': userAccessManagementStore.userSelected.status
           }}
           onFinish={(values) => {
             onSubmitEditUser(values)
@@ -222,10 +240,8 @@ const ManageUser = inject('userAccessManagementStore')
                   style={{ width: '100%' }}
                   placeholder="Please select"
                   onChange={(value) => getSupervisorList(value)}
-                  defaultValue={userAccessManagementStore.userSelected.section_id}
                 >
-                  {sectionList.map((item, index) => <Option key={index} value={item.id}>{item.name}</Option>)}
-                  {/* {children} */}
+                  {optionSectionList.map((item, index) => <Option key={index} value={item.id}>{item.name}</Option>)}
                 </Select>
               </Form.Item>
             </Col>
@@ -322,7 +338,7 @@ const ManageUser = inject('userAccessManagementStore')
                   },
                 ]}
               >
-                <DatePicker style={{ width: '100%' }} format={dateFormat} defaultValue={moment(userAccessManagementStore.userSelected.join_date, dateFormat)} />
+                <DatePicker style={{ width: '100%' }} format={dateFormat} />
               </Form.Item>
             </Col>
             <Col span={4} style={{ paddingLeft: 16 }}>
@@ -340,7 +356,7 @@ const ManageUser = inject('userAccessManagementStore')
                   },
                 ]}
               >
-                <DatePicker style={{ width: '100%' }} format={dateFormat} defaultValue={moment(userAccessManagementStore.userSelected.last_working_date, dateFormat)} />
+                <DatePicker style={{ width: '100%' }} format={dateFormat} />
               </Form.Item>
             </Col>
           </Row>
@@ -363,11 +379,11 @@ const ManageUser = inject('userAccessManagementStore')
                 <Select
                   style={{ width: '100' }}
                   placeholder="Please select"
-                  onChange={(value) => null}
                 >
-                  {/* {children} */}
+                  <Option value="INACTIVE">INACTIVE</Option>
+                  <Option value="ACTIVE">ACTIVE</Option>
+                  <Option value="SUSPEND">SUSPEND</Option>
                 </Select>
-
               </Form.Item>
             </Col>
             <Col span={4} style={{ paddingLeft: 16 }}>
@@ -388,7 +404,6 @@ const ManageUser = inject('userAccessManagementStore')
                 <Select
                   style={{ width: '100%' }}
                   placeholder="Please select"
-                  onChange={(value) => null}
                 >
                   {supervisorList.map((item, index) => <Option key={index} value={item.id}>{item.name}</Option>)}
                 </Select>
@@ -417,27 +432,27 @@ const ManageUser = inject('userAccessManagementStore')
       return (
         <div>
           <Row gutter={[4, 24]}>
-            <Col span={4}>Employee ID</Col>
-            <Col span={6}> {userAccessManagementStore.userSelected.employee_id}</Col>
-            <Col span={4}>Supervisor</Col>
+            <Col span={4} style={{ fontWeight: "bold" }}>Employee ID</Col>
+            <Col span={6}> {userAccessManagementStore.userSelected.employee_code}</Col>
+            <Col span={4} style={{ fontWeight: "bold" }}>Supervisor</Col>
             <Col span={6}> {userAccessManagementStore.userSelected.supervisor}</Col>
           </Row>
           <Row gutter={[4, 24]}>
-            <Col span={4}>Name</Col>
+            <Col span={4} style={{ fontWeight: "bold" }}>Name</Col>
             <Col span={6}> {userAccessManagementStore.userSelected.name}</Col>
-            <Col span={4}>Surname</Col>
+            <Col span={4} style={{ fontWeight: "bold" }}>Surname</Col>
             <Col span={6}> {userAccessManagementStore.userSelected.surname}</Col>
           </Row>
           <Row gutter={[4, 24]}>
-            <Col span={4}>Username</Col>
+            <Col span={4} style={{ fontWeight: "bold" }}>Username</Col>
             <Col span={6}> {userAccessManagementStore.userSelected.username}</Col>
-            <Col span={4}>E-mail</Col>
+            <Col span={4} style={{ fontWeight: "bold" }}>E-mail</Col>
             <Col span={6}> {userAccessManagementStore.userSelected.email}</Col>
           </Row>
           <Row gutter={[4, 24]}>
-            <Col span={4}>Status</Col>
+            <Col span={4} style={{ fontWeight: "bold" }}>Status</Col>
             <Col span={6}> {userAccessManagementStore.userSelected.status}</Col>
-            <Col span={4}>Section</Col>
+            <Col span={4} style={{ fontWeight: "bold" }}>Section</Col>
             <Col span={6}> {userAccessManagementStore.userSelected.section}</Col>
           </Row>
           <Row justify="end" style={{ marginTop: 8 }}>

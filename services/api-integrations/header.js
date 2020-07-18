@@ -1,10 +1,15 @@
 import https from 'https';
+import { Cookies } from 'react-cookie';
+const cookies = new Cookies();
+
 const Header = (api_gw_id = null, vpc_id = null) => {
   const httpsAgent = new https.Agent({
     rejectUnauthorized: false,
     requestCert: false,
   })
-  let baseURL
+  let baseURL = process.env.REACT_APP_NODE_ENV
+  // console.log('BASEURL', baseURL)
+
   if (process.env.PROD === 'production') {
     baseURL = `https://${api_gw_id || "dwl8p0fxml"}-${vpc_id || "vpce-03ae60b10934425db"}.execute-api.ap-southeast-1.amazonaws.com/`
     // baseURL = 'https://infiltech.org/calculator-api/web/index.php/'
@@ -12,6 +17,13 @@ const Header = (api_gw_id = null, vpc_id = null) => {
     baseURL = `https://${api_gw_id || "dwl8p0fxml"}-${vpc_id || "vpce-03ae60b10934425db"}.execute-api.ap-southeast-1.amazonaws.com/`
     // baseURL = 'https://hgr766mso6.execute-api.ap-southeast-1.amazonaws.com/'
   }
+  // let cookies_menu
+  // if(cookies.get("token")){
+  //   cookies_menu = JSON.parse(JSON.stringify(cookies.get("token")))
+  // } else {
+  //   cookies_menu = ''
+  // }
+
   //"https://api-dev.onlinebanking-backoffice.com/api/backoffice/v1/parameterstore"
   // https://hgr766mso6.execute-api.ap-southeast-1.amazonaws.com //otp unlock & unbinding
   // https://bfwd6dw14l.execute-api.ap-southeast-1.amazonaws.com/
@@ -23,6 +35,7 @@ const Header = (api_gw_id = null, vpc_id = null) => {
       'Content-Type': 'application/x-www-form-urlencoded;application/json',
       'Accept': 'application/json',
 
+      // 'Authorization': cookies_menu,
       // 'Accept': 'application/json',
       // 'Access-Control-Allow-Origin': "*",
       // 'Accept': 'text/plain',
@@ -33,7 +46,7 @@ const Header = (api_gw_id = null, vpc_id = null) => {
       // 'x-apigw-api-id': "dwl8p0fxml",
       // "Upgrade-Insecure-Requests": "1",
     },
-    timeout: 10000
+    timeout: 20000
   }
   return header
 }

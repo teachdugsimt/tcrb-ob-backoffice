@@ -38,6 +38,7 @@ const ManageMenu =
         /*  addKeyToDataSource(userAccessManagementStore.menuSelected.functions).then(result => {
            setDataSourceFunction(result)
          }) */
+        console.log(toJS(userAccessManagementStore.menuSelected))
         userAccessManagementStore.getDataFunctionList()
         userAccessManagementStore.getDataFunctionListInMenu(userAccessManagementStore.menuSelected.id)
 
@@ -119,12 +120,16 @@ const ManageMenu =
       }
 
       const addFunction = () => {
+        console.log(toJS(userAccessManagementStore.menuSelected))
         let request = {
-          menu_id: userAccessManagementStore.menuSelected.id,
-          ...functionOptionSelected
+          // newData: {
+          ...functionOptionSelected,
+          menu_id: userAccessManagementStore.menuSelected.id
+          // }
         }
+        // console.log(request)
         userAccessManagementStore.submitAddFunctionToMenu(request)
-        userAccessManagementStore.getDataFunctionListInMenu(userAccessManagementStore.menuSelected.id)
+        // userAccessManagementStore.getDataFunctionListInMenu(userAccessManagementStore.menuSelected.id)
       }
 
       const selectFunctionOptionList = (value) => {
@@ -146,7 +151,7 @@ const ManageMenu =
       const FormAddNewMenu = () => {
         return (
           <Row>
-            <Col span={10} >
+            <Col span={10} style={{ fontWeight: "bold" }}>
               <span>
                 Function Name
               </span>
@@ -206,7 +211,41 @@ const ManageMenu =
 
       const renderActionFunction = (record) => {
         const editable = isEditing(record);
-        if (record.request_status === 'APPROVE') {
+        if (record.status == 'ACTIVE') {
+          if (record.request_status == 'APPROVE' || record.request_status == 'REJECT') {
+            return editable ? (
+              <span>
+                <TcrbPopconfirm title="Sure to Save?" onConfirm={() => submitEditFunction(record.key)}>
+                  <a style={{ marginRight: 8, }}>
+                    Save
+                    </a>
+                </TcrbPopconfirm>
+                <TcrbPopconfirm title="Sure to cancel?" onConfirm={() => setEditingKey('')}>
+                  <a style={{ color: '#3e3e3e' }}>Cancel</a>
+                </TcrbPopconfirm>
+              </span>
+            ) : (
+                <div style={{ textAlign: "center" }}>
+                  <a disabled={editingKey !== ''} onClick={() => edit(record)} style={{ marginRight: 8, color: '#FBA928' }}>
+                    Edit
+                    </a>
+                  <TcrbPopconfirm title="Sure to Deactivate?" onConfirm={() => deactivateFunctionSelect(record)}>
+                    <a style={{ color: '#FBA928' }}>Deactivate</a>
+                  </TcrbPopconfirm>
+                </div>
+              );
+          } else if (record.request_status == 'PENDING') {
+            return null
+          }
+
+        } else if (status == 'INACTIVE') {
+          if (record.request_status == 'PENDING') {
+            return null
+          }
+        } else {
+          return null
+        }
+        /* if (record.request_status === 'APPROVE') {
           return editable ? (
             <span>
               <TcrbPopconfirm title="Sure to Save?" onConfirm={() => submitEditFunction(record.key)}>
@@ -235,7 +274,7 @@ const ManageMenu =
         }
         else {
           return null
-        }
+        } */
       }
 
       const columnFunction = [
@@ -283,7 +322,7 @@ const ManageMenu =
             </Col>
           </Row>
           <Row gutter={[4, 24]}>
-            <Col span={5}>Menu</Col>
+            <Col span={5} style={{ fontWeight: "bold" }}>Menu</Col>
             <Col span={7}> {showEditMenu ?
               <SimpleInput defaultValue={userAccessManagementStore.menuSelected.name} onChange={(value) => menuName = value} /> : userAccessManagementStore.menuSelected.name
             }

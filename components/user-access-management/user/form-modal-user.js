@@ -49,7 +49,7 @@ const FormModalUser = inject('userAccessManagementStore')
     return (
       <TcrbModal
         visible={visible}
-        title="Add new User"
+        title="Add New User"
         okText="Submit"
         cancelText="Cancel"
         destroyOnClose={true}
@@ -219,7 +219,7 @@ const FormModalUser = inject('userAccessManagementStore')
                   rules={[
                     {
                       required: true,
-                      message: 'Please input the title of collection!',
+                      message: 'Please input Join date',
                     },
                   ]}
                 >
@@ -237,8 +237,8 @@ const FormModalUser = inject('userAccessManagementStore')
                   name="last_working_date"
                   rules={[
                     {
-                      // required: true,
-                      message: 'Please input the title of collection!',
+                      required: false,
+                      message: 'Please input Last Working Date',
                     },
                   ]}
                 >
@@ -285,7 +285,7 @@ const FormModalUser = inject('userAccessManagementStore')
                   name="supervisor_id"
                   rules={[
                     {
-                      // required: true,
+                      required: false,
                       message: 'Please input Supervisor!',
                     },
                   ]}

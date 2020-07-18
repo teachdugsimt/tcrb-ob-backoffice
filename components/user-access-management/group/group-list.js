@@ -48,6 +48,7 @@ const GroupList = inject('userAccessManagementStore')
       }
 
     }, [userAccessManagementStore.optionRoleList])
+
     const mockRoleList = [
       {
         id: 1,
@@ -170,7 +171,6 @@ const GroupList = inject('userAccessManagementStore')
             dataSource={result}
             columns={columnUser}
             size="small"
-            pagination={false}
           />
         )
       })
@@ -196,17 +196,24 @@ const GroupList = inject('userAccessManagementStore')
     }
 
     const renderActionGroup = (record) => {
-      if (record.request_status == 'APPROVE') {
-        return (
-          <div style={{ textAlign: "center" }}>
-            <a style={{ marginRight: 8, color: '#FBA928' }} onClick={() => viewManageGroup(record)}>Edit</a>
-            <TcrbPopconfirm title="Sure to Deactivate?" >
-              <a style={{ color: '#FBA928' }}>Deactivate</a>
-            </TcrbPopconfirm>
-          </div>
-        )
-      } else if (record.request_status == 'PENDING') {
-        return null
+      if (record.status == 'ACTIVE') {
+        if (record.request_status == 'APPROVE' || record.request_status == 'REJECT') {
+          return (
+            <div style={{ textAlign: "center" }}>
+              <a style={{ marginRight: 8, color: '#FBA928' }} onClick={() => viewManageGroup(record)}>Edit</a>
+              <TcrbPopconfirm title="Sure to Deactivate?" >
+                <a style={{ color: '#FBA928' }}>Deactivate</a>
+              </TcrbPopconfirm>
+            </div>
+          )
+        } else if (record.request_status == 'PENDING') {
+          return null
+        }
+
+      } else if (status == 'INACTIVE') {
+        if (record.request_status == 'PENDING') {
+          return null
+        }
       } else {
         return null
       }
@@ -230,17 +237,22 @@ const GroupList = inject('userAccessManagementStore')
       {
         title: 'Name',
         dataIndex: 'name',
-        // render: (text, record) => (record.partner_code + "/" + record.partner_abbreviation)
+        sorter: (a, b) => a.name.localeCompare(b.name),
+        sortDirections: ['descend', 'ascend'],
       },
       {
         title: 'Role',
         dataIndex: 'role',
-        render: (text, record) => renderRoleName(record.role)
+        render: (text, record) => renderRoleName(record.role),
+        sorter: (a, b) => a.role.name.localeCompare(b.role.name),
+        sortDirections: ['descend', 'ascend'],
       },
       {
         title: 'Users',
         dataIndex: 'map_user_groups',
-        render: (text, record) => renderUsers(record)
+        render: (text, record) => renderUsers(record),
+        sorter: (a, b) => a.map_user_groups.length - (b.map_user_groups.length),
+        sortDirections: ['descend', 'ascend'],
       },
       {
         title: 'Action',

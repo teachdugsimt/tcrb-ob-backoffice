@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { Table, Row, Col, Menu, Card, Input, Select, Form, InputNumber, Divider, Button, Modal, Drawer, Space } from 'antd'
 import { DeleteOutlined, EditOutlined, FormOutlined } from '@ant-design/icons';
+import { orange } from '@ant-design/colors'
 import { TcrbButton, TcrbPopconfirm } from '../../antd-styles/styles'
 import { inject, observer } from 'mobx-react'
 
@@ -9,11 +10,13 @@ import SimpleModal from '../../simple-modal'
 
 import { checkDefaultStatus, addKeyToDataSource } from '../../data-utility'
 import { toJS } from 'mobx';
+import { get } from 'lodash'
 
 const { Option } = Select;
 let userSelect = {}
-let name = null
+let nameEdit = null
 let role_id = null
+let roleSelectEdit = null
 const ManageGroup = inject('userAccessManagementStore')
   (observer((props) => {
     const { userAccessManagementStore, t } = props
@@ -29,11 +32,9 @@ const ManageGroup = inject('userAccessManagementStore')
     const [optionUserList, setOptionUserList] = useState([])
 
     useEffect(() => {
-      setRoleList([])
-      console.log(toJS(userAccessManagementStore.groupSelected))
       splitMapUserGroups(userAccessManagementStore.groupSelected.map_user_groups)
       userAccessManagementStore.getDataUserOptionList()
-      // addKeyToUserInGroup(userAccessManagementStore.groupSelected.map_user_groups)
+      userAccessManagementStore.getDataRoleOptionList()
     }, [])
 
     useEffect(() => {
@@ -54,6 +55,15 @@ const ManageGroup = inject('userAccessManagementStore')
         })
       }
     }, [userAccessManagementStore.optionUserList])
+
+    useEffect(() => {
+      if (userAccessManagementStore.optionRoleList.length >= 0) {
+        addKeyToDataSource(userAccessManagementStore.optionRoleList).then(result => {
+          setRoleList(result)
+        })
+      }
+
+    }, [userAccessManagementStore.optionRoleList])
 
     const addKeyToUserInGroup = (userInGroupList) => {
       addKeyToDataSource(userInGroupList).then(result => {
@@ -109,6 +119,7 @@ const ManageGroup = inject('userAccessManagementStore')
             style={{ width: '100%' }}
             placeholder="Please select user"
             onChange={(value) => { userSelect = value }}
+          // defaultValue="StfDB"
           >
             {optionUserList.map((item, index) => <Option key={index} value={item.id}>{item.name}</Option>)}
           </Select>
@@ -127,11 +138,35 @@ const ManageGroup = inject('userAccessManagementStore')
     const submitEditGroup = () => {
       //waiting for call api
       setShowEditGroup(false)
+      setVisible(false)
+
+      let request = {
+        currentData: userAccessManagementStore.groupSelected,
+        newData: {
+          ...userAccessManagementStore.groupSelected,
+          name: nameEdit === null ? userAccessManagementStore.groupSelected.role_id : nameEdit,
+          role_id: roleSelectEdit === null ? userAccessManagementStore.groupSelected.role_id : roleSelectEdit
+        }
+      }
+      console.log(request)
+      userAccessManagementStore.updateGroup(request)
     }
 
     const openModalAddUser = () => {
-      setModalTitle('Add user to ' + userAccessManagementStore.groupSelected.group_name)
+      setModalTitle('Add User To Group')
       setModalString(<AddUserToGroup />)
+      setVisible(true)
+    }
+
+    const openModalConfirmSubmitGroup = () => {
+      setModalTitle('Confirm Edit Group')
+      setModalType('confirm')
+      setModalString(
+        <div style={{ textAlign: "center" }}>
+          <p>Confirm to Edit Group.</p>
+          <p style={{ color: orange[6] }}>Your changes will take effect after being approved.</p>
+        </div>
+      )
       setVisible(true)
     }
 
@@ -153,6 +188,12 @@ const ManageGroup = inject('userAccessManagementStore')
       console.log(request)
       userAccessManagementStore.submitAddUserToGroup(request)
       setVisible(false)
+    }
+
+    const isEditGroup = () => {
+      nameEdit = null
+      roleSelectEdit = null
+      setShowEditGroup(true)
     }
 
     const renderActionGroupUser = (record) => {
@@ -177,6 +218,7 @@ const ManageGroup = inject('userAccessManagementStore')
         return null
       }
     }
+
     return (
       <div>
         <Row gutter={[4, 24]}>
@@ -185,43 +227,43 @@ const ManageGroup = inject('userAccessManagementStore')
           </Col>
         </Row>
         <Row gutter={[4, 24]}>
-          <Col span={4}>Group Name</Col>
+          <Col span={4} style={{ fontWeight: "bold" }}>Group Name</Col>
           <Col span={6}> {showEditGroup ?
-            <SimpleInput defaultValue={userAccessManagementStore.groupSelected.name} onChange={(value) => name = value} /> : userAccessManagementStore.groupSelected.name
+            <SimpleInput defaultValue={userAccessManagementStore.groupSelected.name} onChange={(value) => nameEdit = value} /> : get(userAccessManagementStore, 'groupSelected.name', null)
           }
           </Col>
         </Row>
-        {showEditGroup ? <Row gutter={[4, 24]}>
-          <Col span={4}>Role</Col>
+        <Row gutter={[4, 24]}>
+          <Col span={4} style={{ fontWeight: "bold" }}>Role</Col>
           <Col span={6}>
-            <Select
-              style={{ width: '100%' }}
-              placeholder="Please select"
-              onChange={(value) => roleSelect = value}
-              defaultValue={1} //waiting value from store
-            >
-              {roleList.map((item, index) => <Option key={index} value={item.id}>{item.role_name}</Option>)}
-            </Select>
+            {showEditGroup ?
+              <Select
+                style={{ width: '100%' }}
+                placeholder="Please select Role"
+                onChange={(value) => roleSelectEdit = value}
+                defaultValue={userAccessManagementStore.groupSelected.role.name}
+              >
+                {roleList.map((item, index) => <Option key={index} value={item.id}>{item.name}</Option>)}
+              </Select> : get(userAccessManagementStore, 'groupSelected.role.name', null)
+            }
           </Col>
-        </Row> :
-          null
-        }
+        </Row>
 
         <Row justify="center" style={{ marginTop: 8 }}>
           <Col span={4}>
             {showEditGroup ?
               <Space size={8}>
                 <TcrbButton className="default" onClick={() => { cancelEditGroup() }} >Cancel</TcrbButton>
-                <TcrbButton className="primary" onClick={() => { submitEditGroup() }} >Submit</TcrbButton>
+                <TcrbButton className="primary" onClick={() => { openModalConfirmSubmitGroup() }} >Submit</TcrbButton>
               </Space>
               :
-              <TcrbButton className="primary" onClick={() => { setShowEditGroup(true) }} >Edit</TcrbButton>}
+              <TcrbButton className="primary" onClick={() => { isEditGroup() }} >Edit</TcrbButton>}
           </Col>
         </Row>
         <Divider />
         <Row gutter={[4, 24]}>
           <Col span={2}>
-            <TcrbButton className="primary" onClick={() => openModalAddUser()} >Add User</TcrbButton>
+            <TcrbButton className="primary" onClick={() => openModalAddUser()} >Add User To Group</TcrbButton>
           </Col>
         </Row>
         <Table
@@ -233,7 +275,7 @@ const ManageGroup = inject('userAccessManagementStore')
         <SimpleModal
           title={modalTitle}
           type={modalType}
-          onOk={() => addUser()}
+          onOk={() => showEditGroup ? submitEditGroup() : addUser()}
           onCancel={() => setVisible(false)}
           textCancel={textCancel}
           textOk={textOk}

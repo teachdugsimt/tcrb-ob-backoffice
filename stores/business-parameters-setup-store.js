@@ -2,6 +2,7 @@
 import { observable, action, computed, toJS } from 'mobx'
 import { BusinessParameterSetupApi } from '../services'
 import { create, persist } from 'mobx-persist'
+import { openModalError } from '../components/data-utility'
 
 class BusinessParameterSetup {
   @observable editOtpMaximumRetry = null
@@ -172,7 +173,18 @@ class BusinessParameterSetup {
       this.apiLoading = false
       this.productLimit = response.data.responseData
     } else {
-      this.apiLoading = false
+      this.apiFetching = false
+      let errorMessage = {
+        title: (
+          'getDataProductLimit, ' + ' Error Code ' + response.data.responseCode
+        ),
+        body: (
+          <div>
+            <p>{response.data.userMessage}</p>
+          </div>
+        )
+      }
+      openModalError(errorMessage)
     }
   }
 
@@ -185,7 +197,18 @@ class BusinessParameterSetup {
       this.apiLoading = false
       this.productLimitDetail = response.data.responseData
     } else {
-
+      this.apiFetching = false
+      let errorMessage = {
+        title: (
+          'getDataDetailProductLimit, ' + ' Error Code ' + response.data.responseCode
+        ),
+        body: (
+          <div>
+            <p>{response.data.userMessage}</p>
+          </div>
+        )
+      }
+      openModalError(errorMessage)
     }
   }
 
@@ -195,7 +218,18 @@ class BusinessParameterSetup {
     if (response.ok && response.status == 200) {
       this.channelPartnerList = response.data.responseData
     } else {
-
+      this.apiLoading = false
+      let errorMessage = {
+        title: (
+          'getDataChannelPartnerList, ' + ' Error Code ' + response.data.responseCode
+        ),
+        body: (
+          <div>
+            <p>{response.data.userMessage}</p>
+          </div>
+        )
+      }
+      openModalError(errorMessage)
     }
   }
 
@@ -206,7 +240,18 @@ class BusinessParameterSetup {
       this.apiLoading = false
       this.productList = response.data.responseData
     } else {
-
+      this.apiLoading = false
+      let errorMessage = {
+        title: (
+          'getDataProductList, ' + ' Error Code ' + response.data.responseCode
+        ),
+        body: (
+          <div>
+            <p>{response.data.userMessage}</p>
+          </div>
+        )
+      }
+      openModalError(errorMessage)
     }
   }
 
@@ -219,6 +264,17 @@ class BusinessParameterSetup {
       this.apiLoading = false
     } else {
       this.apiLoading = false
+      let errorMessage = {
+        title: (
+          'deleteProductLimit, ' + ' Error Code ' + response.data.responseCode
+        ),
+        body: (
+          <div>
+            <p>{response.data.userMessage}</p>
+          </div>
+        )
+      }
+      openModalError(errorMessage)
     }
   }
 
@@ -232,6 +288,17 @@ class BusinessParameterSetup {
       this.getDataProductLimit()
     } else {
       this.apiLoading = false
+      let errorMessage = {
+        title: (
+          'addNewProductLimit, ' + ' Error Code ' + response.data.responseCode
+        ),
+        body: (
+          <div>
+            <p>{response.data.userMessage}</p>
+          </div>
+        )
+      }
+      openModalError(errorMessage)
     }
   }
   @action addSpecificLimit = async (params) => {
@@ -243,6 +310,17 @@ class BusinessParameterSetup {
       this.responsePartnerBindingList = []
     } else {
       this.apiLoading = false
+      let errorMessage = {
+        title: (
+          'addSpecificLimit, ' + ' Error Code ' + response.data.responseCode
+        ),
+        body: (
+          <div>
+            <p>{response.data.userMessage}</p>
+          </div>
+        )
+      }
+      openModalError(errorMessage)
     }
   }
 
@@ -253,6 +331,17 @@ class BusinessParameterSetup {
       this.apiLoading = false
     } else {
       this.apiLoading = false
+      let errorMessage = {
+        title: (
+          'changeProductLimit, ' + ' Error Code ' + response.data.responseCode
+        ),
+        body: (
+          <div>
+            <p>{response.data.userMessage}</p>
+          </div>
+        )
+      }
+      openModalError(errorMessage)
     }
   }
 
@@ -264,6 +353,17 @@ class BusinessParameterSetup {
       this.responsePartnerUnbindList = response.data.responseData
     } else {
       this.apiLoading = false
+      let errorMessage = {
+        title: (
+          'getDataPartnerUnbindList, ' + ' Error Code ' + response.data.responseCode
+        ),
+        body: (
+          <div>
+            <p>{response.data.userMessage}</p>
+          </div>
+        )
+      }
+      openModalError(errorMessage)
     }
   }
 
@@ -276,6 +376,17 @@ class BusinessParameterSetup {
       this.responsePartnerBindingList = response.data.responseData
     } else {
       this.apiLoading = false
+      let errorMessage = {
+        title: (
+          'getDataPartnerBindingList, ' + ' Error Code ' + response.data.responseCode
+        ),
+        body: (
+          <div>
+            <p>{response.data.userMessage}</p>
+          </div>
+        )
+      }
+      openModalError(errorMessage)
     }
   }
 
@@ -288,6 +399,17 @@ class BusinessParameterSetup {
       this.responseActivePartnerBindingList = response.data.responseData
     } else {
       this.apiLoading = false
+      let errorMessage = {
+        title: (
+          'getDataActivePartnerBindingList, ' + ' Error Code ' + response.data.responseCode
+        ),
+        body: (
+          <div>
+            <p>{response.data.userMessage}</p>
+          </div>
+        )
+      }
+      openModalError(errorMessage)
     }
   }
 
@@ -301,6 +423,17 @@ class BusinessParameterSetup {
       this.getDataActivePartnerBindingList(this.productLimitDetail)
     } else {
       this.apiLoading = false
+      let errorMessage = {
+        title: (
+          'submitUpdatePartnerLimit, ' + ' Error Code ' + response.data.responseCode
+        ),
+        body: (
+          <div>
+            <p>{response.data.userMessage}</p>
+          </div>
+        )
+      }
+      openModalError(errorMessage)
     }
   }
 
@@ -313,6 +446,17 @@ class BusinessParameterSetup {
       this.getDataActivePartnerBindingList(this.productLimitDetail)
     } else {
       this.apiLoading = false
+      let errorMessage = {
+        title: (
+          'deletePartner, ' + ' Error Code ' + response.data.responseCode
+        ),
+        body: (
+          <div>
+            <p>{response.data.userMessage}</p>
+          </div>
+        )
+      }
+      openModalError(errorMessage)
     }
   }
 }
