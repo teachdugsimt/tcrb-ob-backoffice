@@ -477,11 +477,11 @@ class PartnerOnboardStore {
       //when error
       let errorMessage = {
         title: (
-          'getListServiceInformationById, ' + ' Error Code ' + tmp.data.responseCode
+          'getListServiceInformationById, ' + ' Error Code ' + tmp.problem ? tmp.problem : tmp.data && tmp.data.responseCode && tmp.data.responseCode != null ? tmp.data.responseCode : ""
         ),
         body: (
           <div>
-            <p>{tmp.data.userMessage}</p>
+            <p>{tmp.data && tmp.data.userMessage && tmp.data.userMessage ? tmp.data.userMessage : tmp.problem}</p>
           </div>
         )
       }
