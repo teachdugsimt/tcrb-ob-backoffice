@@ -41,6 +41,10 @@ const Signin =
         }
       }, [])
 
+      console.log('NODE_ENV', process.env.NODE_ENV)
+      console.log('PORT', process.env.PORT)
+      console.log('API_ENDPOINT', process.env.API_ENDPOINT)
+
       useEffect(() => {
         let newPropsLogin = JSON.parse(JSON.stringify(loginStore.data_signin))
         let newPropsLoginError = JSON.parse(JSON.stringify(loginStore.error_login))

@@ -7,16 +7,25 @@ const Header = (api_gw_id = null, vpc_id = null) => {
     rejectUnauthorized: false,
     requestCert: false,
   })
-  let baseURL = process.env.REACT_APP_NODE_ENV
-  // console.log('BASEURL', baseURL)
+  // let baseURL = process.env.API_ENDPOINT
 
-  if (process.env.PROD === 'production') {
-    baseURL = `https://${api_gw_id || "dwl8p0fxml"}-${vpc_id || "vpce-03ae60b10934425db"}.execute-api.ap-southeast-1.amazonaws.com/`
-    // baseURL = 'https://infiltech.org/calculator-api/web/index.php/'
-  } else {
-    baseURL = `https://${api_gw_id || "dwl8p0fxml"}-${vpc_id || "vpce-03ae60b10934425db"}.execute-api.ap-southeast-1.amazonaws.com/`
-    // baseURL = 'https://hgr766mso6.execute-api.ap-southeast-1.amazonaws.com/'
-  }
+  // api_gw_id = api_gw_id || process.env.APIGW_ID
+  // vpc_id = vpc_id || process.env.VPC
+  const apigw = api_gw_id || process.env.APIGW_ID
+  const vpc = vpc_id || process.env.VPC
+  // console.log(process.env.API_ENDPOINT)
+  // console.log('APIGWID', apigw)
+  // console.log('VPCID', vpc)
+
+  // if (process.env.PROD === 'production') {
+  //   baseURL = `https://${api_gw_id || "dwl8p0fxml"}-${vpc_id || "vpce-03ae60b10934425db"}.execute-api.ap-southeast-1.amazonaws.com/`
+  //   // baseURL = 'https://infiltech.org/calculator-api/web/index.php/'
+  // } else {
+  //   baseURL = `https://${api_gw_id || "dwl8p0fxml"}-${vpc_id || "vpce-03ae60b10934425db"}.execute-api.ap-southeast-1.amazonaws.com/`
+  //   // baseURL = 'https://hgr766mso6.execute-api.ap-southeast-1.amazonaws.com/'
+  // }
+  let baseURL = `https://${apigw}-${vpc}.execute-api.ap-southeast-1.amazonaws.com/`
+  console.log('BASEURL', baseURL)
   // let cookies_menu
   // if(cookies.get("token")){
   //   cookies_menu = JSON.parse(JSON.stringify(cookies.get("token")))

@@ -13,7 +13,9 @@ const withSass = require('@zeit/next-sass')
 module.exports = withImage({
   env: {
     API_ENDPOINT: process.env.API_ENDPOINT,
-    abc: 'def'
+    PORT: process.env.PORT || 3000,
+    APIGW_ID: process.env.APIGW_ID,
+    VPC: process.env.VPC
   },
 })
 // const withLess = require('@zeit/next-less')
