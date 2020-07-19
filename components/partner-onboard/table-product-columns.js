@@ -1,34 +1,34 @@
 import { Table, Tag, Space } from 'antd'
 import Link from 'next/link'
 
-export const productRegColumns = () => {
+export const productRegColumns = (partnerOnboard) => {
   return [
     {
       title: 'Product Code',
-      dataIndex: 'productCode',
-      key: 'productCode'
+      dataIndex: 'product_code',
+      key: 'product_code'
       // render: text => <a>{text}</a>,
     },
     {
       title: 'Product Name(TH)',
-      dataIndex: 'productName_TH',
-      key: 'productName_TH',
+      dataIndex: 'product_name_thai',
+      key: 'product_name_thai',
     },
     {
       title: 'Product Name(EN)',
-      dataIndex: 'productName_EN',
-      key: 'productName_EN',
+      dataIndex: 'product_name_english',
+      key: 'product_name_english',
     },
     {
       title: 'Product Section',
-      dataIndex: 'productSection',
-      key: 'productSection',
+      dataIndex: 'product_segment',
+      key: 'product_segment',
     },
 
     {
       title: 'Account Type',
-      dataIndex: 'accountType',
-      key: 'accountType',
+      dataIndex: 'product_account_type',
+      key: 'product_account_type',
     },
     {
       title: 'Authorized Services',
@@ -36,7 +36,10 @@ export const productRegColumns = () => {
       render: (text, record) => (
         <Space size="middle">
           <Link href="/partner-auth-product-modify">
-            <a style={{ color: 'orange' }}>Modify</a>
+            <a style={{ color: 'orange' }} onClick={() => {
+              partnerOnboard.setProductCode(record.product_code)
+              partnerOnboard.setProductType(record)
+            }}>Modify</a>
           </Link>
         </Space>
       ),
@@ -46,7 +49,7 @@ export const productRegColumns = () => {
       key: 'action',
       render: (text, record) => (
         <Space size="middle">
-          <a style={{ color: 'orange' }}>Delete</a>
+          <a style={{ color: 'orange' }} onClick={() => partnerOnboard.deletePartnerProduct({ id: record.id })}>Delete</a>
         </Space>
       ),
     },

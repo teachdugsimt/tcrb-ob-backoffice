@@ -1,7 +1,7 @@
 import { Table, Tag, Space } from 'antd'
 import { inject, observer } from 'mobx-react'
 import Link from 'next/link'
-export const partnerColumns = () => {
+export const partnerColumns = (partnerOnboard) => {
 
   return [
     {
@@ -58,15 +58,16 @@ export const partnerColumns = () => {
     {
       title: 'Setup',
       key: 'action',
-      render: (text, record) => (
-        <Space size="middle">
-
-          <Link href="/partner-auth-product">
-            <a style={{ color: 'orange' }}>Modify</a>
+      render: (text, record) => {
+        return <Space size="middle">
+          <Link href="/partner-auth-product" >
+            <a style={{ color: 'orange' }} onClick={() => {
+              partnerOnboard.setPartnerId(record.partner_code) // partner code
+              partnerOnboard.setPartnerRealId(record.id) // partner code
+            }}>Modify</a>
           </Link>
-
         </Space>
-      ),
+      },
     },
     {
       title: 'Offboard',

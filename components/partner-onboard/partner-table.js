@@ -22,7 +22,7 @@ const TablePartner = inject('partnerOnboard')(observer((props) => {
     <div style={{ paddingTop: 20 }}>
       <Table
         // columns={partnerColumns()}
-        columns={partnerColumns()}
+        columns={partnerColumns(partnerOnboard)}
         dataSource={partnerOnboard.data_partner_onboard ? partnerOnboard.data_partner_onboard : []}
         // dataSource={partnerTable()}
         size="small"
