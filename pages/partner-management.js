@@ -6,6 +6,7 @@ import { withTranslation } from '../i18n'
 import TablePartner from '../components/partner-onboard/partner-table'
 import Addpartner from '../components/partner-onboard/add-partner'
 import { inject, observer } from 'mobx-react'
+import { Router, withRouter } from 'next/router'
 
 const PartnerManagement = inject('partnerOnboard')(observer((props) => {
   const [addPartner, setAddPartner] = useState(false)

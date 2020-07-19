@@ -4,6 +4,7 @@ import { withTranslation } from '../../../i18n'
 import { productModifyTable } from '../table-product-modify/product-modify-detail'
 import { productModifyColumns } from '../table-product-modify/product-modify-column'
 import { inject, observer } from 'mobx-react'
+import { TcrbSpin } from '../../antd-styles/styles'
 
 const TableProductModify = inject('partnerOnboard')(observer((props) => {
   const { t, partnerOnboard } = props
@@ -19,11 +20,13 @@ const TableProductModify = inject('partnerOnboard')(observer((props) => {
 
   return (
     <div style={{ paddingTop: 20 }}>
-      <Table
-        columns={productModifyColumns()}
-        dataSource={partnerOnboard.partnerServiceList ? partnerOnboard.partnerServiceList : []}
-        size="small"
-      />
+     <TcrbSpin spinning={partnerOnboard.fetching_onboard} size="large" tip="Loading..." >
+        <Table
+          columns={productModifyColumns(partnerOnboard)}
+          dataSource={partnerOnboard.partnerServiceList ? partnerOnboard.partnerServiceList : []}
+          size="small"
+        />
+      </TcrbSpin>
     </div>
   )
 }))

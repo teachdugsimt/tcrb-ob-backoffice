@@ -38,7 +38,10 @@ const ProductModify = inject('partnerOnboard')(observer((props) => {
           <div style={{ width: 300 }}>{partnerOnboard.tmp_product_type.product_segment ? partnerOnboard.tmp_product_type.product_segment : ""}</div>
         </div>
       </div>}
-
+      <Button type="primary" onClick={() => {
+        partnerOnboard.getProductServicesDropdown(partnerOnboard.tmp_product_code)
+        // show popup
+      }}>Add new partner</Button>
       <TableProductModify />
 
     </div >

@@ -19,6 +19,7 @@ const GenerateFormAntd = inject('partnerOnboard', 'loginStore')(observer((props)
   const { Option } = Select;
   const { RangePicker } = DatePicker;
   const { t, partnerOnboard, loginStore } = props
+  // const formRef = React.createRef();
 
   const _renderPrefixInput = (prefix, require) => {
     return <Col className="gutter-row" span={8}>
@@ -34,7 +35,10 @@ const GenerateFormAntd = inject('partnerOnboard', 'loginStore')(observer((props)
       <Form.Item
         name={item.keyword}
         rules={[{ required: item.require, message: `Please input your ${item.name} !` }]}>
-        <Input placeholder={item.name} style={{ width: "100%" }} />
+        <Input
+          allowClear
+          disabled={item.disabled}
+          placeholder={item.name} style={{ width: "100%" }} />
       </Form.Item>
     </Col>
   }
@@ -51,10 +55,9 @@ const GenerateFormAntd = inject('partnerOnboard', 'loginStore')(observer((props)
   const _renderDropdown = (item, index) => {
     return <Col className="gutter-row" span={16}><Select
       mode={item.mode == "multiple" ? "multiple" : ""}
-      placeholder="Inserted are removed"
+      placeholder={t('pleaseSelect')}
       defaultValue={t('pleaseSelect')}
-      // value={item.value}
-      // onChange={item.onChange}
+      onChange={(val) => item.onChange(val, item)}
       style={{ width: '100%' }}
     >{item.item.map(e => (
       <Select.Option key={e.key} value={e.value}>
@@ -217,13 +220,23 @@ const GenerateFormAntd = inject('partnerOnboard', 'loginStore')(observer((props)
   return (
     // <Row >
     <Form
+      name={"main_form"}
       style={{ paddingTop: 20 }}
-      name="basic"
+      // name="basic"
       initialValues={props.initialValues}
       onFinish={props.onFinish}
       onFinishFailed={props.onFinishFailed}
+      onValuesChange={(value) => {
+        console.log("----------- ON Form Vlaue Change -----------")
+        console.log("Value change : ", value)
+      }}
     >
       {_renderForm(props.datasource)}
+      < Form.Item style={{ marginTop: 30, textAlign: 'right' }}>
+        <Button type="primary" htmlType="submit">
+          {props.submitName ? props.submitName : t('submit')}
+        </Button>
+      </Form.Item >
     </Form >
     // </Row >
   )

@@ -40,10 +40,18 @@ class PartnerOnboardStore {
 
   @observable data_addNewPartnerService = null
 
+  @observable data_addNewPrincipalFee = null
+
+  @observable data_deRegisterPartner = null
+
   @observable tmp_partner_id = null // partner_code
   @observable tmp_partner_real_id = null  // id of list
   @observable tmp_product_code = null  // product_code
   @observable tmp_product_type = null  // product_type
+  @observable tmp_service_name = null // service_name
+  @observable tmp_principal_gl = null // form in principal screen
+  @observable tmp_fee = null // form in fee screen
+  @observable tmp_obj_partner = null // obj contain all attributes
 
   @action
   async getPartnerOnboard(params) {
@@ -414,6 +422,9 @@ class PartnerOnboardStore {
   @action async setProductType(params) {
     this.tmp_product_type = params
   }
+  @action async setServiceName(params) {
+    this.tmp_service_name = params
+  }
   @action async getDataPartnerProductService(params) {
     this.fetching_onboard = true
     const tmp = await PartnerOnboardApi.getPartnerProductService({
@@ -533,9 +544,72 @@ class PartnerOnboardStore {
       openModalError(errorMessage)
     }
   }
-  // @observable data_getProductServicesDropdown = null
 
-  // @observable data_addNewPartnerService = null
+
+  // fee screen zone
+  @action setTmpForm(params, type) {
+    if (type == 'principal') {
+      this.tmp_principal_gl = params
+    } else if (type == 'fee') {
+      this.tmp_fee = params
+    }
+  }
+  @action setObjTmpPartner(params) {
+    this.tmp_obj_partner = params
+  }
+  @action async addNewPrincipalFee(params) {
+    this.fetching_onboard = true
+    const tmp = await PartnerOnboardApi.addNewPrincipalFee({ change_type: "FEES", action: "Add", currentData: {}, newData: params, maker_id: '36' })
+    console.log(tmp)
+    if (tmp.ok && tmp.status === 200 && tmp.data) {
+      //when success
+      this.fetching_onboard = false
+      this.data_addNewPrincipalFee = tmp.data.responseData
+    } else {
+      this.fetching_onboard = false
+
+      //when error
+      let errorMessage = {
+        title: (
+          'addNewPrincipalFee, ' + ' Error Code ' + tmp.data.responseCode
+        ),
+        body: (
+          <div>
+            <p>{tmp.data.userMessage}</p>
+          </div>
+        )
+      }
+      openModalError(errorMessage)
+    }
+  }
+
+
+  @action async deRegisterPartnerRequest(params) {
+    this.fetching_onboard = true
+    const tmp = await PartnerOnboardApi.deRegisterPartner({ change_type: "PARTNER_INFORMATIONS", action: "Delete", currentData: params, newData: {}, maker_id: '36' })
+    console.log(tmp)
+    if (tmp.ok && tmp.status === 200 && tmp.data) {
+      //when success
+      this.fetching_onboard = false
+      this.data_deRegisterPartner = tmp.data.responseData
+    } else {
+      this.fetching_onboard = false
+
+      //when error
+      let errorMessage = {
+        title: (
+          'deRegisterPartnerRequest, ' + ' Error Code ' + tmp.data.responseCode
+        ),
+        body: (
+          <div>
+            <p>{tmp.data.userMessage}</p>
+          </div>
+        )
+      }
+      openModalError(errorMessage)
+    }
+  }
+
 
 }
 export default PartnerOnboardStore

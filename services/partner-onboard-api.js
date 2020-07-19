@@ -40,6 +40,10 @@ class PartnerOnboardApi {
     const response = await ExcuteApi('api/backoffice/v1/partnerinformations/' + id, params, "get")
     return response
   }
+  deRegisterPartner = async (params) => {
+    const response = await ExcuteApi('api/backoffice/v1/changerequest', params, "post")
+    return response
+  }
 
 
   //Dropdown Select Product
@@ -67,6 +71,10 @@ class PartnerOnboardApi {
     return response
   }
   addNewPartnerService = async (params) => {
+    const response = await ExcuteApi('api/backoffice/v1/changerequest', params, "post")
+    return response
+  }
+  addNewPrincipalFee = async (params) => {
     const response = await ExcuteApi('api/backoffice/v1/changerequest', params, "post")
     return response
   }

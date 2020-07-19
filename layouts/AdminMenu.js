@@ -61,7 +61,7 @@ const AdminMenu = inject('authenStore', 'versatileStore', 'loginStore')(observer
     let tmp_menu = JSON.parse(JSON.stringify(loginStore.data_menu)) && JSON.parse(JSON.stringify(loginStore.data_menu)).length > 0 ? JSON.parse(JSON.stringify(loginStore.data_menu)) : []
     if (tmp_menu && tmp_menu.length > 0 && check_update_menu == 0) {
       check_update_menu = 1
-      // console.log("Tmp MENU REALLY :: ", tmp_menu)
+      console.log("Tmp MENU REALLY :: ", tmp_menu)
       let default_menu = [
         { key: 14, id: 14, name: "PENDING APPROVE", translate: "pendingApprove", link_to: "/pending-approve", color: "#000000", typeLv: "42" },
         { key: 15, id: 15, name: "USER ACCESS MANAGEMENT ", translate: "useAccessManagementEnquiry", link_to: "/user-access-management", color: "#000000", typeLv: "42" },

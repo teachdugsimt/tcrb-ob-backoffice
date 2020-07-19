@@ -294,16 +294,13 @@ const ProductList =
           <Row>
             <TcrbButton
               onClick={() => addRowProductList()}
-              style={{
-                marginBottom: 16,
-              }}
+              style={{ marginBottom: 16, }}
               disabled={disabledButtonAddRow}
               className="primary">Add a Product</TcrbButton>
           </Row>
           <Row>
             <Col flex={100}>
               <Form form={form} component={false}>
-
                 <Table
                   components={{
                     body: {
@@ -317,7 +314,6 @@ const ProductList =
                 />
               </Form>
             </Col>
-
           </Row>
         </div>
       )
