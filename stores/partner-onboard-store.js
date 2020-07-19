@@ -25,8 +25,25 @@ class PartnerOnboardStore {
   @observable data_get_sub_district = null
   @observable error_get_sub_district = null
 
+  @observable data_get_partnerinformation_by_id = null
+  @observable error_get_partnerinformation_by_id = null
+
+  @observable data_getPartnerServiceInformationById = null
+  @observable error_getPartnerServiceInformationById = null
+
   @observable partnerProductList = []
   @observable partnerServiceList = []
+
+  @observable data_partner_product_code_dropdown = null
+
+  @observable data_getProductServicesDropdown = null
+
+  @observable data_addNewPartnerService = null
+
+  @observable tmp_partner_id = null // partner_code
+  @observable tmp_partner_real_id = null  // id of list
+  @observable tmp_product_code = null  // product_code
+  @observable tmp_product_type = null  // product_type
 
   @action
   async getPartnerOnboard(params) {
@@ -192,6 +209,25 @@ class PartnerOnboardStore {
     }
   }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+  @action async setPartnerId(params) {  // partner_code
+    this.tmp_partner_id = params
+  }
+  @action async setPartnerRealId(params) {  // id of list
+    this.tmp_partner_real_id = params
+  }
   @action async getDataPartnerProductList(params) {
     this.fetching_onboard = true
     const tmp = await PartnerOnboardApi.getPartnerProductList({
@@ -223,7 +259,161 @@ class PartnerOnboardStore {
       openModalError(errorMessage)
     }
   }
+  @action async deletePartnerProduct(params) {
+    this.fetching_onboard = true
+    const tmp = await PartnerOnboardApi.deletePartnerProduct({
+      change_type: "PARTNER_PRODUCTS",
+      action: "Delete", currentData: params,
+      newData: {}, maker_id: '36'
+    })
+    console.log(tmp)
+    if (tmp.ok && tmp.status === 200 && tmp.data) {
+      //when success
+      this.fetching_onboard = false
+      this.partnerProductList = tmp.data.responseData
+    } else {
+      this.fetching_onboard = false
 
+      //when error
+      let errorMessage = {
+        title: (
+          'deletePartnerProduct, ' + ' Error Code ' + tmp.data.responseCode
+        ),
+        body: (
+          <div>
+            <p>{tmp.data.userMessage}</p>
+          </div>
+        )
+      }
+      openModalError(errorMessage)
+    }
+  }
+  @action
+  async getPartnerInformationById(params, id) {
+    this.fetching_onboard = true
+    let parameter = {
+      filter: {
+        where: {
+          $or: [
+            { status: "ACTIVE" },
+            {
+              $and: [
+                { status: "INACTIVE" }, { request_status: "PENDING" }
+              ]
+            }
+          ]
+        }
+      }
+    }
+    const tmp = await PartnerOnboardApi.getPartnerInformationsByID(parameter, id)
+    console.log(tmp)
+    if (tmp.ok && tmp.status === 200 && tmp.data) {
+      //when success
+      this.fetching_onboard = false
+      this.data_get_partnerinformation_by_id = tmp.data.responseData
+      this.error_get_partnerinformation_by_id = null
+    } else {
+      //when error
+      this.fetching_onboard = false
+      this.error_get_partnerinformation_by_id = tmp.data && tmp.data.responseData ? tmp.data.responseData : tmp.problem
+      this.data_get_partnerinformation_by_id = null
+      //when error
+      let errorMessage = {
+        title: (
+          'getPartnerInformationById, ' + ' Error Code ' + tmp.data.responseCode
+        ),
+        body: (
+          <div>
+            <p>{tmp.data.userMessage}</p>
+          </div>
+        )
+      }
+      openModalError(errorMessage)
+    }
+  }
+
+
+
+
+
+
+
+  //Dropdown Select Product partner
+  @action async getDataPartnerProductDropdown(params) {
+    this.fetching_onboard = true
+    const tmp = await PartnerOnboardApi.getPartnerProductCode({
+      filter: {
+        where: {
+          product_code: {
+            $notIn: [...params]
+          }
+        }
+      }
+    })
+    console.log(tmp)
+    if (tmp.ok && tmp.status === 200 && tmp.data) {
+      //when success
+      this.fetching_onboard = false
+      this.data_partner_product_code_dropdown = tmp.data.responseData
+    } else {
+      this.fetching_onboard = false
+
+      //when error
+      let errorMessage = {
+        title: (
+          'getDataPartnerProductDropdown, ' + ' Error Code ' + tmp.data.responseCode
+        ),
+        body: (
+          <div>
+            <p>{tmp.data.userMessage}</p>
+          </div>
+        )
+      }
+      openModalError(errorMessage)
+    }
+  }
+  @action async submitAddNewPartnerProduct(params) {
+    this.fetching_onboard = true
+    const tmp = await PartnerOnboardApi.addNewPartnerProduct({ change_type: "PARTNER_PRODUCTS", action: "Add", currentData: {}, newData: params, maker_id: '36' })
+    console.log(tmp)
+    if (tmp.ok && tmp.status === 200 && tmp.data) {
+      //when success
+      this.fetching_onboard = false
+    } else {
+      this.fetching_onboard = false
+
+      //when error
+      let errorMessage = {
+        title: (
+          'submitAddNewPartnerProduct, ' + ' Error Code ' + tmp.data.responseCode
+        ),
+        body: (
+          <div>
+            <p>{tmp.data.userMessage}</p>
+          </div>
+        )
+      }
+      openModalError(errorMessage)
+    }
+  }
+
+
+
+
+
+
+
+
+
+
+
+  // Partner Service of product
+  @action async setProductCode(params) {
+    this.tmp_product_code = params
+  }
+  @action async setProductType(params) {
+    this.tmp_product_type = params
+  }
   @action async getDataPartnerProductService(params) {
     this.fetching_onboard = true
     const tmp = await PartnerOnboardApi.getPartnerProductService({
@@ -256,21 +446,27 @@ class PartnerOnboardStore {
       openModalError(errorMessage)
     }
   }
-
-  @action async submitAddNewPartnerProduct(params) {
+  @action async getListServiceInformationById(params) {
     this.fetching_onboard = true
-    const tmp = await PartnerOnboardApi.addNewPartnerProduct({ change_type: "PARTNER_PRODUCTS", action: "Add", currentData: {}, newData: params, maker_id: '36' })
+    const tmp = await PartnerOnboardApi.getPartnerServiceInformationById({
+      filter: {
+        where: {
+          product_code: params.product_code
+        }
+      }
+    })
     console.log(tmp)
     if (tmp.ok && tmp.status === 200 && tmp.data) {
       //when success
       this.fetching_onboard = false
+      this.data_getPartnerServiceInformationById = tmp.data.responseData
     } else {
       this.fetching_onboard = false
 
       //when error
       let errorMessage = {
         title: (
-          'submitAddNewPartnerProduct, ' + ' Error Code ' + tmp.data.responseCode
+          'getListServiceInformationById, ' + ' Error Code ' + tmp.data.responseCode
         ),
         body: (
           <div>
@@ -281,22 +477,27 @@ class PartnerOnboardStore {
       openModalError(errorMessage)
     }
   }
-
-  @action async deletePartnerProduct(params) {
+  @action async getProductServicesDropdown(params) {
     this.fetching_onboard = true
-    const tmp = await PartnerOnboardApi.deletePartnerProduct({ change_type: "PARTNER_PRODUCTS", action: "Delete", currentData: {}, newData: params, maker_id: '36' })
+    const tmp = await PartnerOnboardApi.getProductServicesDropdownPartnerServiceScreen({
+      filter: {
+        where: {
+          product_code: params.product_code
+        }
+      }
+    })
     console.log(tmp)
     if (tmp.ok && tmp.status === 200 && tmp.data) {
       //when success
       this.fetching_onboard = false
-      this.partnerProductList = tmp.data.responseData
+      this.data_getProductServicesDropdown = tmp.data.responseData
     } else {
       this.fetching_onboard = false
 
       //when error
       let errorMessage = {
         title: (
-          'deletePartnerProduct, ' + ' Error Code ' + tmp.data.responseCode
+          'getProductServicesDropdown, ' + ' Error Code ' + tmp.data.responseCode
         ),
         body: (
           <div>
@@ -307,6 +508,34 @@ class PartnerOnboardStore {
       openModalError(errorMessage)
     }
   }
+  @action async addNewPartnerService(params) {
+    this.fetching_onboard = true
+    const tmp = await PartnerOnboardApi.addNewPartnerService({ change_type: "PARTNER_SERVICES", action: "Add", currentData: {}, newData: params, maker_id: '36' })
+    console.log(tmp)
+    if (tmp.ok && tmp.status === 200 && tmp.data) {
+      //when success
+      this.fetching_onboard = false
+      this.data_addNewPartnerService = tmp.data.responseData
+    } else {
+      this.fetching_onboard = false
+
+      //when error
+      let errorMessage = {
+        title: (
+          'addNewPartnerService, ' + ' Error Code ' + tmp.data.responseCode
+        ),
+        body: (
+          <div>
+            <p>{tmp.data.userMessage}</p>
+          </div>
+        )
+      }
+      openModalError(errorMessage)
+    }
+  }
+  // @observable data_getProductServicesDropdown = null
+
+  // @observable data_addNewPartnerService = null
 
 }
 export default PartnerOnboardStore

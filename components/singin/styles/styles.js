@@ -79,7 +79,7 @@ const FooterText = styled.span`
 color: #ffffff;
 padding-left: 0.5em;
 font-weight: bold;
-font-size: ${({ theme }) => theme.size.header}px;
+font-size: 1.2em;
 `
 
 const RowTextCenter =styled(Row)`

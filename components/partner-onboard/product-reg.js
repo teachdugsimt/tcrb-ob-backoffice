@@ -1,27 +1,25 @@
-import React, { useState } from 'react'
-import { Row, Col, Button, Upload, Input, Modal, Menu, Dropdown, Table, Tag, Space } from 'antd'
+import React, { useState, useEffect } from 'react'
+import { Row, Col, Button, Upload, Input, Modal, Menu, Dropdown, Table, Select, Tag, Space } from 'antd'
 import { withTranslation } from '../../i18n'
 import TableProductReg from './table-product-reg'
 import { DownOutlined } from '@ant-design/icons'
+import { inject, observer } from 'mobx-react'
+import _ from "lodash";
+const { Option } = Select;
 
-const ProductReg = () => {
+const ProductReg = inject('partnerOnboard')(observer((props) => {
   const [visible, setVisible] = useState(false)
-  const menu = (
-    <Menu>
-      <Menu.Item>
-        <div style={{ width: 60 }}>NE</div>
-      </Menu.Item>
-      <Menu.Item>
-        <div style={{ width: 60 }}>NJ</div>
-      </Menu.Item>
-      <Menu.Item>
-        <div style={{ width: 60 }}>OB</div>
-      </Menu.Item>
+  const [valueProduct, setValueProduct] = useState(null)
+  const { t, partnerOnboard } = props
+  useEffect(() => {
+  }, [partnerOnboard.data_get_partnerinformation_by_id])
 
-    </Menu>
-  );
   const handleOk = e => {
     console.log(e);
+    partnerOnboard.submitAddNewPartnerProduct({
+      partner_code: partnerOnboard.tmp_partner_id,
+      product_code: valueProduct,
+    })
     setVisible(false)
   };
 
@@ -31,24 +29,30 @@ const ProductReg = () => {
   }
   return (
     <div style={{ marginTop: 10 }}>
-      <div style={{ display: 'flex', height: 30, flexDirection: 'row' }}>
+      {partnerOnboard.data_get_partnerinformation_by_id && <div style={{ display: 'flex', height: 30, flexDirection: 'row' }}>
         <div style={{ display: 'flex', flexDirection: 'row' }} >
           <div style={{ width: 180, fontWeight: 'bold' }}>Parent Assign Name</div>
-          <div style={{ width: 300 }}>TMDS</div>
+          <div style={{ width: 300 }}>{partnerOnboard.data_get_partnerinformation_by_id.partner_code_parent ? partnerOnboard.data_get_partnerinformation_by_id.partner_code_parent : ""}</div>
         </div>
         <div style={{ display: 'flex' }} >
           <div style={{ width: 180, fontWeight: 'bold' }}>Assign Name</div>
-          <div style={{ width: 300 }}>TMDS</div>
+          <div style={{ width: 300 }}>{partnerOnboard.data_get_partnerinformation_by_id.partner_code ? partnerOnboard.data_get_partnerinformation_by_id.partner_code : ""}</div>
         </div>
-      </div>
-      <div style={{ display: 'flex', height: 30, flexDirection: 'row' }}>
+      </div>}
+      {partnerOnboard.data_get_partnerinformation_by_id && <div style={{ display: 'flex', height: 30, flexDirection: 'row' }}>
         <div style={{ display: 'flex', flexDirection: 'row' }} >
           <div style={{ width: 180, fontWeight: 'bold' }}>Registered App Name</div>
-          <div style={{ width: 300 }}>MicroPay</div>
+          <div style={{ width: 300 }}>{partnerOnboard.data_get_partnerinformation_by_id.partner_abbreviation ? partnerOnboard.data_get_partnerinformation_by_id.partner_abbreviation : ""}</div>
         </div>
-      </div>
+      </div>}
       <div style={{ marginTop: 20 }}>
-        <Button type="primary" onClick={() => setVisible(true)}>Grant Product</Button>
+        <Button type="primary" onClick={() => {
+          // unique here
+          let unique_array = _.uniqBy(partnerOnboard.partnerProductList, 'product_code')
+          let result = unique_array.map(a => a.product_code)
+          partnerOnboard.getDataPartnerProductDropdown(result)
+          setVisible(true)
+        }}>Grant Product</Button>
         <Button type="primary" onClick={() => setVisible(true)} style={{ marginLeft: 30 }}>Upload Products</Button>
       </div>
       <TableProductReg />
@@ -58,13 +62,18 @@ const ProductReg = () => {
         onOk={() => handleOk()}
         onCancel={() => handleCancel()}
       >
-        <Dropdown overlay={menu}>
-          <a className="ant-dropdown-link" onClick={e => e.preventDefault()}>
-            NE <DownOutlined />
-          </a>
-        </Dropdown>
+        <Select defaultValue="Select" value={valueProduct ? valueProduct: t("pleaseSelect")} onChange={(value) => {
+          console.log("Value :: ", value)
+          setValueProduct((value).toString())
+        }} style={{ width: "100%" }}>
+          {partnerOnboard.data_partner_product_code_dropdown && partnerOnboard.data_partner_product_code_dropdown.length > 0 && JSON.parse(JSON.stringify(partnerOnboard.data_partner_product_code_dropdown)).filter(item => item.product_type)
+            .map((e, i) => {
+              return <Option value={e.product_code}>{e.product_type}</Option>
+            })}
+        </Select>
+
       </Modal>
     </div >
   )
-}
+}))
 export default withTranslation('common')(ProductReg)

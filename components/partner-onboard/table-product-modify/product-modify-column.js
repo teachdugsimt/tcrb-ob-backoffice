@@ -5,8 +5,8 @@ export const productModifyColumns = () => {
   return [
     {
       title: 'Service Name',
-      dataIndex: 'serviceName',
-      key: 'serviceName'
+      dataIndex: 'service_name',
+      key: 'service_name'
       // render: text => <a>{text}</a>,
     },
     {
