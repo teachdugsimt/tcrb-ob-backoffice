@@ -7,9 +7,9 @@ const httpsAgent = new https.Agent({
 
 })
 
-const ExcuteApi = async (url, params, method) => {
+const ExcuteApi = async (url, params, method, gw_id) => {
   try {
-    const api = create(Header())
+    const api = create(Header(gw_id))
     let response
     if (method == "get" || method == "GET") {
       response = await api.get(url, params || { filter: {} })

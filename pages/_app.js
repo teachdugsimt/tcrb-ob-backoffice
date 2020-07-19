@@ -22,7 +22,7 @@ class CustomApp extends App {
 
   static async getInitialProps(appContext) {
     console.log("_________________ GET INITIAL PROPS _APP _______________________")
-    console.log(appContext)
+    // console.log(appContext)
     const mobxStore = initializeStore();
     appContext.ctx.mobxStore = mobxStore;
     const appProps = await App.getInitialProps(appContext);

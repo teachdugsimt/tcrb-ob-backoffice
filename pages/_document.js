@@ -2,7 +2,7 @@ import Document, { Head, Main, NextScript } from 'next/document';
 // Import styled components ServerStyleSheet
 import { ServerStyleSheet } from 'styled-components';
 import { withTranslation } from '../i18n'
- class MyDocument extends Document {
+class MyDocument extends Document {
   static getInitialProps({ renderPage }) {
     // Step 1: Create an instance of ServerStyleSheet
     const sheet = new ServerStyleSheet();
@@ -21,7 +21,7 @@ import { withTranslation } from '../i18n'
 
   render() {
     console.log("______________ Doccument Screen _______________")
-    console.log(this.props)
+    // console.log(this.props)
     return (
       <html>
         <Head>
