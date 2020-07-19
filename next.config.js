@@ -14,7 +14,8 @@ module.exports = withImage({
   env: {
     API_ENDPOINT: process.env.API_ENDPOINT,
     PORT: process.env.PORT || 3000,
-    APIGW_ID: process.env.APIGW_ID,
+    APIGW_ID_UAM: process.env.APIGW_ID_UAM,
+    APIGW_ID_CUSTSER: process.env.APIGW_ID_CUSTSER,
     VPC: process.env.VPC
   },
 })

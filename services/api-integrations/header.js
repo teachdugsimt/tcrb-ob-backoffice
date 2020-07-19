@@ -11,7 +11,7 @@ const Header = (api_gw_id = null, vpc_id = null) => {
 
   // api_gw_id = api_gw_id || process.env.APIGW_ID
   // vpc_id = vpc_id || process.env.VPC
-  const apigw = api_gw_id || process.env.APIGW_ID
+  const apigw = api_gw_id || process.env.APIGW_ID_UAM
   const vpc = vpc_id || process.env.VPC
   // console.log(process.env.API_ENDPOINT)
   // console.log('APIGWID', apigw)
