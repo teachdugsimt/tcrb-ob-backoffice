@@ -22,22 +22,22 @@ class ProductOnBoardApi {
   }
 
   addNewProduct = async (params) => {
-    const response = await ExcuteApi('api/backoffice/v1/changerequest', params, "post")
+    const response = await ExcuteApi('api/backoffice/v1/changerequest', params, "post", process.env.APIGW_ID_CUSTSER)
     return response
   }
 
   updateProduct = async (params) => {
-    const response = await ExcuteApi('api/backoffice/v1/changerequest', params, "post")
+    const response = await ExcuteApi('api/backoffice/v1/changerequest', params, "post", process.env.APIGW_ID_CUSTSER)
     return response
   }
 
   deleteProduct = async (params) => {
-    const response = await ExcuteApi('api/backoffice/v1/changerequest', params, "post")
+    const response = await ExcuteApi('api/backoffice/v1/changerequest', params, "post", process.env.APIGW_ID_CUSTSER)
     return response
   }
 
   deleteProductService = async (params) => {
-    const response = await ExcuteApi('api/backoffice/v1/changerequest', params, "post")
+    const response = await ExcuteApi('api/backoffice/v1/changerequest', params, "post", process.env.APIGW_ID_CUSTSER)
     return response
   }
 }

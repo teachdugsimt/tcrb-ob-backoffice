@@ -3,17 +3,17 @@ import ExcuteApi from './api-integrations/excute-api'
 class BusinessParameterSetupApi {
 
   getOtpValue = async (params) => {
-    const response = await ExcuteApi('api/backoffice/v1/parameterstore', params, "get")
+    const response = await ExcuteApi('api/backoffice/v1/parameterstore', params, "get", process.env.APIGW_ID_CUSTSER)
     return response
   }
 
   setOtpValue = async (params) => {
-    const response = await ExcuteApi('api/backoffice/v1/changerequest/otp', params, "post")
+    const response = await ExcuteApi('api/backoffice/v1/changerequest/otp', params, "post", process.env.APIGW_ID_CUSTSER)
     return response
   }
 
   getPendingApproveList = async (params) => {
-    const response = await ExcuteApi('api/backoffice/v1/changerequest', params, "get")
+    const response = await ExcuteApi('api/backoffice/v1/changerequest', params, "get", process.env.APIGW_ID_CUSTSER)
     return response
   }
 
@@ -38,7 +38,7 @@ class BusinessParameterSetupApi {
   }
 
   getOtpPendingList = async (params) => {
-    const response = await ExcuteApi('api/backoffice/v1/changerequest/otp/lastpending', params, "get")
+    const response = await ExcuteApi('api/backoffice/v1/changerequest/otp/lastpending', params, "get", process.env.APIGW_ID_CUSTSER)
     return response
   }
 
