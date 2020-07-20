@@ -26,6 +26,11 @@ export const partnerColumns = (partnerOnboard) => {
       key: 'partner_name_thai',
     },
     {
+      title: 'Partner Contact Name',
+      dataIndex: 'contact_name',
+      key: 'contact_name',
+    },
+    {
       title: 'Partner Contact Email',
       dataIndex: 'contact_email',
       key: 'contact_email',
@@ -34,11 +39,6 @@ export const partnerColumns = (partnerOnboard) => {
       title: 'Partner Contact Mobile No.',
       dataIndex: 'contact_mobile_no',
       key: 'contact_mobile_no',
-    },
-    {
-      title: 'Partner Contact Name',
-      dataIndex: 'contact_name',
-      key: 'contact_name',
     },
     {
       title: 'Juristic Name(TH)',

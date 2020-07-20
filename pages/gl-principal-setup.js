@@ -49,8 +49,8 @@ const GlPrincipalSetup = inject('partnerOnboard')(observer((props) => {
             type: 'dropdown', mode: "single", require: true,
             onChange: setCredit,
             item: [
-              { key: 1, name: 'Debitor', value: 'debitor' },
-              { key: 2, name: 'Creditor', value: 'creditor' },
+              { key: 1, name: 'Debitor', value: 'DEBITOR' },
+              { key: 2, name: 'Creditor', value: 'CREDITOR' },
             ]
           },
           { // input
