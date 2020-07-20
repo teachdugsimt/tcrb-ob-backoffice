@@ -1,9 +1,20 @@
 import { Table, Tag, Space } from 'antd'
 import { inject, observer } from 'mobx-react'
 import Link from 'next/link'
+import { checkDefaultStatus } from '../data-utility';
 export const partnerColumns = (partnerOnboard) => {
 
   return [
+    // {
+    //   title: 'Status',
+    //   dataIndex: 'status',
+    //   key: 'status',
+    // },
+    {
+      title: 'Status',
+      dataIndex: 'status',
+      render: (text, record) => checkDefaultStatus(record.status, record.request_status)
+    },
     {
       title: 'Parent Assign Name',
       dataIndex: 'partner_code',
@@ -50,11 +61,7 @@ export const partnerColumns = (partnerOnboard) => {
       dataIndex: 'partner_name_thai',
       key: 'partner_name_thai',
     },
-    {
-      title: 'Status',
-      dataIndex: 'status',
-      key: 'status',
-    },
+
     {
       title: 'Setup',
       key: 'action',
