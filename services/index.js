@@ -7,6 +7,7 @@ import UserAccessManagementApi from './user-access-management-api'
 import LoginApi from './login-api'
 import PartnerOnboardApi from './partner-onboard-api'
 import ProductOnBoardApi from './product-onboard-api'
+import DashboardAndReportApi from './dashboard-and-report-api'
 export {
   StartupApi,
   BusinessParameterSetupApi,
@@ -16,7 +17,8 @@ export {
   UserAccessManagementApi,
   LoginApi,
   PartnerOnboardApi,
-  ProductOnBoardApi
+  ProductOnBoardApi,
+  DashboardAndReportApi
 }
 
 // HTTPS=true SSL_CRT_FILE=Certificate_chain.txt SSL_KEY_FILE=private_key.txt npm run dev
