@@ -10,9 +10,17 @@ const { Option } = Select;
 const ProductReg = inject('partnerOnboard')(observer((props) => {
   const [visible, setVisible] = useState(false)
   const [valueProduct, setValueProduct] = useState(null)
+  const [awakeDropdown, setawakeDropdown] = useState(0)
   const { t, partnerOnboard } = props
   useEffect(() => {
   }, [partnerOnboard.data_get_partnerinformation_by_id])
+
+  useEffect(() => {
+    if (partnerOnboard.data_partner_product_code_dropdown && partnerOnboard.data_partner_product_code_dropdown.length > 0) {
+      setawakeDropdown(1)
+      console.log(JSON.parse(JSON.stringify(partnerOnboard.data_partner_product_code_dropdown)))
+    }
+  }, [partnerOnboard.data_partner_product_code_dropdown])
 
   const handleOk = e => {
     console.log(e);
@@ -62,13 +70,13 @@ const ProductReg = inject('partnerOnboard')(observer((props) => {
         onOk={() => handleOk()}
         onCancel={() => handleCancel()}
       >
-        <Select defaultValue="Select" value={valueProduct ? valueProduct: t("pleaseSelect")} onChange={(value) => {
+        <Select defaultValue="Select" value={valueProduct ? valueProduct : t("pleaseSelect")} onChange={(value) => {
           console.log("Value :: ", value)
           setValueProduct((value).toString())
         }} style={{ width: "100%" }}>
-          {partnerOnboard.data_partner_product_code_dropdown && partnerOnboard.data_partner_product_code_dropdown.length > 0 && JSON.parse(JSON.stringify(partnerOnboard.data_partner_product_code_dropdown)).filter(item => item.product_type)
+          {awakeDropdown == 1 && partnerOnboard.data_partner_product_code_dropdown && partnerOnboard.data_partner_product_code_dropdown.length > 0 && JSON.parse(JSON.stringify(partnerOnboard.data_partner_product_code_dropdown)).filter(item => item.product_type)
             .map((e, i) => {
-              return <Option value={e.product_code}>{e.product_type}</Option>
+              return <Select.Option value={e.product_code}>{e.product_type}</Select.Option>
             })}
         </Select>
 
@@ -77,3 +85,6 @@ const ProductReg = inject('partnerOnboard')(observer((props) => {
   )
 }))
 export default withTranslation('common')(ProductReg)
+
+
+

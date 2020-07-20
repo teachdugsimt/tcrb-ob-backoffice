@@ -8,7 +8,7 @@ const Header = (api_gw_id = null, vpc_id = null) => {
     requestCert: false,
   })
   // let baseURL = process.env.API_ENDPOINT
-
+  // let baseURL
   // api_gw_id = api_gw_id || process.env.APIGW_ID
   // vpc_id = vpc_id || process.env.VPC
   const apigw = api_gw_id || process.env.APIGW_ID_UAM

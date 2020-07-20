@@ -1,12 +1,16 @@
 import React, { useState, useEffect } from 'react'
-import { Row, Col, Button, Upload, Input, Modal, Menu, Dropdown, Table, Tag, Space } from 'antd'
+import { Row, Col, Button, Upload, Input, Modal, Menu, Dropdown, Table, Select, Space } from 'antd'
 import { withTranslation } from '../../i18n'
 import TableProductModify from './table-product-modify/table-product-modify'
 import { DownOutlined } from '@ant-design/icons'
 import { inject, observer } from 'mobx-react'
+import { withRouter } from 'next/router'
 
 const ProductModify = inject('partnerOnboard')(observer((props) => {
   const { t, partnerOnboard } = props
+  const [visible, setvisible] = useState(false)
+  const [service_select, setServiceSelect] = useState(null)
+  const [awakeRender, setawakeRender] = useState(0)
   useEffect(() => {
     console.log("PARTNER CODE :: ", JSON.parse(JSON.stringify(partnerOnboard.tmp_partner_id)))
     console.log("PRODUCT CODE :: ", JSON.parse(JSON.stringify(partnerOnboard.tmp_product_code)))
@@ -14,7 +18,31 @@ const ProductModify = inject('partnerOnboard')(observer((props) => {
       partner_code: partnerOnboard.tmp_partner_id,
       product_code: partnerOnboard.tmp_product_code,
     })
+    partnerOnboard.getProductServicesDropdown(partnerOnboard.tmp_product_code)
   }, [partnerOnboard.tmp_product_code, partnerOnboard.tmp_partner_id])
+
+  useEffect(() => {
+    if(partnerOnboard.data_getProductServicesDropdown && partnerOnboard.data_getProductServicesDropdown.length > 0){
+      setawakeRender(1)
+    }
+  }, [partnerOnboard.data_getProductServicesDropdown])
+
+  const _addNewService = () => {
+    if (service_select) {
+      partnerOnboard.addNewPartnerService({
+        partner_code: partnerOnboard.tmp_partner_id,
+        product_code: partnerOnboard.tmp_product_code,
+        service_id: service_select
+      })
+      setvisible(false)
+    } else {
+      setvisible(false)
+    }
+  }
+
+  const _onCancel = () => {
+    setvisible(false)
+  }
 
   return (
     <div style={{ marginTop: 10 }}>
@@ -39,12 +67,29 @@ const ProductModify = inject('partnerOnboard')(observer((props) => {
         </div>
       </div>}
       <Button type="primary" onClick={() => {
-        partnerOnboard.getProductServicesDropdown(partnerOnboard.tmp_product_code)
+        console.log("************************** ")
+        console.log("partnerOnboard.tmp_product_code", partnerOnboard.tmp_product_code)
+        // partnerOnboard.getProductServicesDropdown(partnerOnboard.tmp_product_code)
+        setvisible(true)
         // show popup
-      }}>Add new partner</Button>
+      }}>Add new service</Button>
+      <Modal
+        title="Add new product service"
+        visible={visible && partnerOnboard.fetching_onboard == false}
+        onOk={_addNewService}
+        onCancel={_onCancel}
+      >
+        <Select defaultValue="Select" value={service_select} onChange={(val) => setServiceSelect(val)} style={{ width: "100%" }}>
+          {awakeRender == 1 && partnerOnboard.data_getProductServicesDropdown && partnerOnboard.data_getProductServicesDropdown.length > 0 && JSON.parse(JSON.stringify(partnerOnboard.data_getProductServicesDropdown)).filter(it => it.service_name)
+          .map((e, i) => {
+            return <Select.Option key={i + "-service"} value={e.service_id}>{e.service_name}</Select.Option>
+          })}
+        </Select>
+
+      </Modal>
       <TableProductModify />
 
     </div >
   )
 }))
-export default withTranslation('common')(ProductModify)
+export default withRouter(withTranslation('common')(ProductModify))

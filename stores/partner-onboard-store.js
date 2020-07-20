@@ -53,6 +53,26 @@ class PartnerOnboardStore {
   @observable tmp_fee = null // form in fee screen
   @observable tmp_obj_partner = null // obj contain all attributes
 
+  _handleErrorResponse = (object) => {
+    let result = ""
+    if (object && object.data && object.data.responseCode) {
+      result = object.data.responseCode
+    } else {
+      result = object.problem ? object.problem : 'Unknow Error (none response code)'
+    }
+    return result
+  }
+
+  _handleMessageResponse = (object) => {
+    let result = ""
+    if(object && object.data && object.data.userMessage){
+      result = object.data.userMessage
+    } else {
+      result = object.problem ? object.problem : 'Unknow Error (none user message)'
+    }
+    return result
+  }
+
   @action
   async getPartnerOnboard(params) {
     this.fetching_onboard = true
@@ -85,11 +105,11 @@ class PartnerOnboardStore {
       //when error
       let errorMessage = {
         title: (
-          'getPartnerOnboard, ' + ' Error Code ' + tmp.data.responseCode
+          'getPartnerOnboard, ' + ' Error Code ' + this._handleErrorResponse(tmp)
         ),
         body: (
           <div>
-            <p>{tmp.data.userMessage}</p>
+            <p>{this._handleMessageResponse(tmp)}</p>
           </div>
         )
       }
@@ -115,11 +135,11 @@ class PartnerOnboardStore {
       //when error
       let errorMessage = {
         title: (
-          'addPartnerOnboard, ' + ' Error Code ' + tmp.data.responseCode
+          'addPartnerOnboard, ' + ' Error Code ' + this._handleErrorResponse(tmp)
         ),
         body: (
           <div>
-            <p>{tmp.data.userMessage}</p>
+            <p>{this._handleMessageResponse(tmp)}</p>
           </div>
         )
       }
@@ -145,11 +165,11 @@ class PartnerOnboardStore {
       this.data_get_province = null
       let errorMessage = {
         title: (
-          'getProvince, ' + ' Error Code ' + tmp.data.responseCode
+          'getProvince, ' + ' Error Code ' + this._handleErrorResponse(tmp)
         ),
         body: (
           <div>
-            <p>{tmp.data.userMessage}</p>
+            <p>{this._handleMessageResponse(tmp)}</p>
           </div>
         )
       }
@@ -175,11 +195,11 @@ class PartnerOnboardStore {
       this.data_get_district = null
       let errorMessage = {
         title: (
-          'getDistrict, ' + ' Error Code ' + tmp.data.responseCode
+          'getDistrict, ' + ' Error Code ' + this._handleErrorResponse(tmp)
         ),
         body: (
           <div>
-            <p>{tmp.data.userMessage}</p>
+            <p>{this._handleMessageResponse(tmp)}</p>
           </div>
         )
       }
@@ -205,11 +225,11 @@ class PartnerOnboardStore {
       this.data_get_sub_district = null
       let errorMessage = {
         title: (
-          'getSubDistrict, ' + ' Error Code ' + tmp.data.responseCode
+          'getSubDistrict, ' + ' Error Code ' + this._handleErrorResponse(tmp)
         ),
         body: (
           <div>
-            <p>{tmp.data.userMessage}</p>
+            <p>{this._handleMessageResponse(tmp)}</p>
           </div>
         )
       }
@@ -256,11 +276,11 @@ class PartnerOnboardStore {
       //when error
       let errorMessage = {
         title: (
-          'getDataPartnerProductList, ' + ' Error Code ' + tmp.data.responseCode
+          'getDataPartnerProductList, ' + ' Error Code ' + this._handleErrorResponse(tmp)
         ),
         body: (
           <div>
-            <p>{tmp.data.userMessage}</p>
+            <p>{this._handleMessageResponse(tmp)}</p>
           </div>
         )
       }
@@ -285,11 +305,11 @@ class PartnerOnboardStore {
       //when error
       let errorMessage = {
         title: (
-          'deletePartnerProduct, ' + ' Error Code ' + tmp.data.responseCode
+          'deletePartnerProduct, ' + ' Error Code ' + this._handleErrorResponse(tmp)
         ),
         body: (
           <div>
-            <p>{tmp.data.userMessage}</p>
+            <p>{this._handleMessageResponse(tmp)}</p>
           </div>
         )
       }
@@ -328,11 +348,11 @@ class PartnerOnboardStore {
       //when error
       let errorMessage = {
         title: (
-          'getPartnerInformationById, ' + ' Error Code ' + tmp.data.responseCode
+          'getPartnerInformationById, ' + ' Error Code ' + this._handleErrorResponse(tmp)
         ),
         body: (
           <div>
-            <p>{tmp.data.userMessage}</p>
+            <p>{this._handleMessageResponse(tmp)}</p>
           </div>
         )
       }
@@ -369,11 +389,11 @@ class PartnerOnboardStore {
       //when error
       let errorMessage = {
         title: (
-          'getDataPartnerProductDropdown, ' + ' Error Code ' + tmp.data.responseCode
+          'getDataPartnerProductDropdown, ' + ' Error Code ' + this._handleErrorResponse(tmp)
         ),
         body: (
           <div>
-            <p>{tmp.data.userMessage}</p>
+            <p>{this._handleMessageResponse(tmp)}</p>
           </div>
         )
       }
@@ -393,11 +413,11 @@ class PartnerOnboardStore {
       //when error
       let errorMessage = {
         title: (
-          'submitAddNewPartnerProduct, ' + ' Error Code ' + tmp.data.responseCode
+          'submitAddNewPartnerProduct, ' + ' Error Code ' + this._handleErrorResponse(tmp)
         ),
         body: (
           <div>
-            <p>{tmp.data.userMessage}</p>
+            <p>{this._handleMessageResponse(tmp)}</p>
           </div>
         )
       }
@@ -446,11 +466,11 @@ class PartnerOnboardStore {
       //when error
       let errorMessage = {
         title: (
-          'getDataPartnerProductService, ' + ' Error Code ' + tmp.data.responseCode
+          'getDataPartnerProductService, ' + ' Error Code ' + this._handleErrorResponse(tmp)
         ),
         body: (
           <div>
-            <p>{tmp.data.userMessage}</p>
+            <p>{this._handleMessageResponse(tmp)}</p>
           </div>
         )
       }
@@ -477,11 +497,11 @@ class PartnerOnboardStore {
       //when error
       let errorMessage = {
         title: (
-          'getListServiceInformationById, ' + ' Error Code ' + tmp.problem ? tmp.problem : tmp.data && tmp.data.responseCode && tmp.data.responseCode != null ? tmp.data.responseCode : ""
+          'getListServiceInformationById, ' + ' Error Code ' + this._handleErrorResponse(tmp)
         ),
         body: (
           <div>
-            <p>{tmp.data && tmp.data.userMessage && tmp.data.userMessage ? tmp.data.userMessage : tmp.problem}</p>
+            <p>{this._handleMessageResponse(tmp)}</p>
           </div>
         )
       }
@@ -493,7 +513,8 @@ class PartnerOnboardStore {
     const tmp = await PartnerOnboardApi.getProductServicesDropdownPartnerServiceScreen({
       filter: {
         where: {
-          product_code: params.product_code
+          product_code: params,
+          status: 'ACTIVE'
         }
       }
     })
@@ -508,11 +529,11 @@ class PartnerOnboardStore {
       //when error
       let errorMessage = {
         title: (
-          'getProductServicesDropdown, ' + ' Error Code ' + tmp.data.responseCode
+          'getProductServicesDropdown, ' + ' Error Code ' + this._handleErrorResponse(tmp)
         ),
         body: (
           <div>
-            <p>{tmp.data.userMessage}</p>
+            <p>{this._handleMessageResponse(tmp)}</p>
           </div>
         )
       }
@@ -533,11 +554,11 @@ class PartnerOnboardStore {
       //when error
       let errorMessage = {
         title: (
-          'addNewPartnerService, ' + ' Error Code ' + tmp.data.responseCode
+          'addNewPartnerService, ' + ' Error Code ' + this._handleErrorResponse(tmp)
         ),
         body: (
           <div>
-            <p>{tmp.data.userMessage}</p>
+            <p>{this._handleMessageResponse(tmp)}</p>
           </div>
         )
       }
@@ -571,11 +592,11 @@ class PartnerOnboardStore {
       //when error
       let errorMessage = {
         title: (
-          'addNewPrincipalFee, ' + ' Error Code ' + tmp.data.responseCode
+          'addNewPrincipalFee, ' + ' Error Code ' + this._handleErrorResponse(tmp)
         ),
         body: (
           <div>
-            <p>{tmp.data.userMessage}</p>
+            <p>{this._handleMessageResponse(tmp)}</p>
           </div>
         )
       }
@@ -598,11 +619,11 @@ class PartnerOnboardStore {
       //when error
       let errorMessage = {
         title: (
-          'deRegisterPartnerRequest, ' + ' Error Code ' + tmp.data.responseCode
+          'deRegisterPartnerRequest, ' + ' Error Code ' + this._handleErrorResponse(tmp)
         ),
         body: (
           <div>
-            <p>{tmp.data.userMessage}</p>
+            <p>{this._handleMessageResponse(tmp)}</p>
           </div>
         )
       }

@@ -20,7 +20,7 @@ export const productModifyColumns = (partnerOnboard) => {
       key: 'settlementCycle',
     },
     {
-      title: 'Principal GL & Fee Settlement',
+      title: 'GL & Fee Settlement',
       dataIndex: 'principalGL',
       key: 'principalGL',
       render: (text, record) => (

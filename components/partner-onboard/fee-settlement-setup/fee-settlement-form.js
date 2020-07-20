@@ -13,6 +13,7 @@ import {
 import _ from "lodash";
 import { openModalError } from '../../../components/data-utility'
 import { Cookies } from 'react-cookie';
+import { TcrbTabs, TcrbSpin } from '../.././antd-styles/styles'
 const cookies = new Cookies();
 
 let feeObject = {
@@ -27,6 +28,7 @@ let feeObject = {
   debitAmount: 0,
   debitBranch: null,
   debitCostCenter: null,
+  debitProduct: null,
   //sec3
   creditor1: null,
   postingAccountType1: null,
@@ -34,13 +36,15 @@ let feeObject = {
   creditAmount1: 0,
   creditBranch1: null,
   creditCostCenter1: null,
+  creditProduct1: null,
   //sec4
   creditor2: null,
   postingAccountType2: null,
   creditAccount2: null,
   creditAmount2: 0,
   creditBranch2: null,
-  creditCostCenter2: null
+  creditCostCenter2: null,
+  creditProduct2: null,
 }
 
 let resObject = {
@@ -158,7 +162,7 @@ const FeeSettlementForm = inject('partnerOnboard', 'loginStore')(observer((props
   const _setDisableForCustomer = (status) => {
     let tmp = datasource
     tmp[1].section.forEach((e, i) => {
-      if (e.key == 3) {
+      if (e.key == 3 || e.key == 2) {
         e.disabled = status == "enable" ? false : true
       } else if (e.key == 5 || e.key == 6) {
         e.disabled = status == "enable" ? false : true
@@ -166,20 +170,6 @@ const FeeSettlementForm = inject('partnerOnboard', 'loginStore')(observer((props
     })
     setdatasource(tmp)
   }
-
-  // const _setCreditorForNextForm = (e, cell) => {
-  //   let check = cell.keyword == 'creditor2' ? 'creditor1' : 'creditor2'
-  //   let tmp = datasource
-  //   tmp.map((sec, ind) => {
-  //     sec.section.map((item, i) => {
-  //       if (item.name == cell.name && item.keyword == check) {
-  //         item.item.splice(i, 1)
-  //       }
-  //     })
-  //   })
-  //   console.log("SPLICE TMP :: ", tmp)
-  //   setdatasource(tmp)
-  // }
 
   const _setCreditorForNextForm = (e, cell) => {
     let check = cell.keyword == 'creditor2' ? 'creditor1' : 'creditor2'
@@ -206,36 +196,24 @@ const FeeSettlementForm = inject('partnerOnboard', 'loginStore')(observer((props
     feeObj[item.keyword] = e
     if (item.keyword == "debitor" && e == "customer") {
       _setDisableForCustomer("disabled")
-      setawake(0)
+      _setAwakeRender()
     } else if (item.keyword == "debitor" && e != "customer") {
       let check = _checkDisabledDatasourceNow()
       if (check == "disabled") {
         _setDisableForCustomer("enable")
-        setawake(1)
+        _setAwakeRender()
       }
     }
 
-    // { // dropdown
-    //   key: 1, id: 1, name: "Creditor", placeholder: '', keyword: "creditor1",
-    //   type: 'dropdown', mode: "single", require: true,
-    //   onChange: handlerChangeDropdown,
-    //   item: [
-    //     { key: 1, name: 'TCRB', value: 'tcrb' },
-    //     { key: 2, name: 'Partner', value: 'partner' },
-    //   ]
-    // },
-
     if (item.keyword == "creditor1" || item.keyword == 'creditor2') {
       _setCreditorForNextForm(e, item)
-      if (awake == 0) setawake(1)
-      else setawake(0)
+      _setAwakeRender()
     }
+  }
 
-    // if (item.keyword == "creditor1" && e == "tcrb") {
-    //   _setCreditorForNextForm(e, item)
-    //   if (awake == 0) setawake(1)
-    //   else setawake(0)
-    // }
+  const _setAwakeRender = () => {
+    if (awake == 0) setawake(1)
+    else setawake(0)
   }
 
   let arr = [
@@ -249,8 +227,8 @@ const FeeSettlementForm = inject('partnerOnboard', 'loginStore')(observer((props
           type: 'dropdown', mode: "single", require: true,
           onChange: handlerChangeDropdown,
           item: [
-            { key: 1, name: 'Fix per transaction', value: 'fixPerTransaction' },
-            { key: 2, name: 'Percentage per transaction', value: 'percentage' },
+            { key: 1, name: 'Fix per transaction', value: 'FIXED_PER_TRANSACTION' },
+            { key: 2, name: 'Percentage per transaction', value: 'PERCENTAGE_PER_TRANSACTION' },
           ]
         },
         { // dropdown
@@ -287,7 +265,7 @@ const FeeSettlementForm = inject('partnerOnboard', 'loginStore')(observer((props
         },
         { // dropdown
           key: 2, id: 2, name: "Posting Account Type", placeholder: '', keyword: "postingAccountType",
-          type: 'dropdown', mode: "single",
+          type: 'dropdown', mode: "single", disabled: false,
           onChange: handlerChangeDropdown,
           item: [
             { key: 1, name: 'CA : Current account', value: 'ca' },
@@ -309,7 +287,11 @@ const FeeSettlementForm = inject('partnerOnboard', 'loginStore')(observer((props
         }, { // dropdown
           key: 6, id: 6, name: "Debit Cost Center", placeholder: '', keyword: "debitCostCenter",
           type: 'input', disabled: false,
-        }]
+        }, { // dropdown
+          key: 7, id: 7, name: "Debit Product", placeholder: '', keyword: "debitProduct",
+          type: 'input', disabled: false,
+        }
+        ]
     },
     {
       id: 3,
@@ -343,13 +325,17 @@ const FeeSettlementForm = inject('partnerOnboard', 'loginStore')(observer((props
           key: 4, id: 4, name: "Credit Amount", placeholder: '', keyword: "creditAmount1",
           type: 'input', require: true, disabled: false,
         },
-        { // dropdown
+        {
           key: 5, id: 5, name: "Credit Branch", placeholder: '', keyword: "creditBranch1",
           type: 'input', require: true, disabled: false,
-        }, { // dropdown
+        }, {
           key: 6, id: 6, name: "Credit Cost Center", placeholder: '', keyword: "creditCostCenter1",
           type: 'input', require: true, disabled: false,
-        }]
+        }, {
+          key: 7, id: 7, name: "Credit Product", placeholder: '', keyword: "creditProduct1",
+          type: 'input', require: true, disabled: false,
+        }
+        ]
     },
     {
       id: 4,
@@ -389,6 +375,9 @@ const FeeSettlementForm = inject('partnerOnboard', 'loginStore')(observer((props
         }, { // dropdown
           key: 6, id: 6, name: "Credit Cost Center", placeholder: '', keyword: "creditCostCenter2",
           type: 'input', require: false, disabled: false,
+        }, {
+          key: 7, id: 7, name: "Credit Product", placeholder: '', keyword: "creditProduct2",
+          type: 'input', require: true, disabled: false,
         }]
     }
   ]
@@ -473,27 +462,29 @@ const FeeSettlementForm = inject('partnerOnboard', 'loginStore')(observer((props
       _popupNotify("Some value was invalid ", "Credit amount should be equal free value & debit amount")
     }
     console.log("Final Object :: ", data)
-    // partnerOnboard.addNewPrincipalFee(data)
+    partnerOnboard.addNewPrincipalFee(data)
   }
   const _onFailureForm = (value) => {
 
   }
 
   return <Row style={{ width: '100%' }}>
-    <Col>{t("partnerRegistration")}</Col>
-    <Row justify={'center'} style={{ width: '100%' }}>
-      {awake == 1 ? <GenerateFormAntd
-        initialValues={feeObj}
-        onFinish={_onFinishForm}
-        onFinishFailed={_onFailureForm}
-        datasource={datasource}
-      /> : <GenerateFormAntd
+    {/* <Col>{t("partnerRegistration")}</Col> */}
+    <TcrbSpin spinning={partnerOnboard.fetching_onboard} size="large" tip="Loading..." >
+      <Row justify={'center'} style={{ width: '100%' }}>
+        {awake == 1 ? <GenerateFormAntd
           initialValues={feeObj}
           onFinish={_onFinishForm}
           onFinishFailed={_onFailureForm}
           datasource={datasource}
-        />}
-    </Row>
+        /> : <GenerateFormAntd
+            initialValues={feeObj}
+            onFinish={_onFinishForm}
+            onFinishFailed={_onFailureForm}
+            datasource={datasource}
+          />}
+      </Row>
+    </TcrbSpin>
   </Row>
 
 }))
