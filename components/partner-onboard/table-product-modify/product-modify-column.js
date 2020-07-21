@@ -1,8 +1,15 @@
 import { Table, Tag, Space } from 'antd'
 import Link from 'next/link'
+import { checkDefaultStatus } from '../../data-utility';
 
 export const productModifyColumns = (partnerOnboard) => {
   return [
+    {
+      title: 'Status',
+      dataIndex: 'status',
+      key: 'status',
+      render: (text, record) => checkDefaultStatus(record.status, record.request_status)
+    },
     {
       title: 'Service Name',
       dataIndex: 'service_name',

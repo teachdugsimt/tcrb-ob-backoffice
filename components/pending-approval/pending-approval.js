@@ -95,36 +95,36 @@ const PendingApprovals = inject("pendingApprovalStore")(
                       );
                     })
                   ) : // : (data[k]) //
-                  typeof data[k] === "object" && data[k] ? (
-                    <div
-                      style={{
-                        margin: 5,
-                        padding: 3,
-                        borderRadius: 3,
-                        backgroundColor: "lightgray",
-                      }}
-                    >
-                      {Object.keys(data[k]) &&
-                        Object.keys(data[k]).map((key, idx) => {
-                          const name = data[k][key] ? data[k][key] : "-";
-                          return (
-                            <span
-                              key={idx}
-                              style={{
-                                display: "flex",
-                                flexDirection: "row",
-                              }}
-                            >
-                              {key + ": " + name}
-                            </span>
-                          );
-                        })}
-                    </div>
-                  ) : data[k] ? (
-                    data[k]
-                  ) : (
-                    "-"
-                  )}
+                    typeof data[k] === "object" && data[k] ? (
+                      <div
+                        style={{
+                          margin: 5,
+                          padding: 3,
+                          borderRadius: 3,
+                          backgroundColor: "lightgray",
+                        }}
+                      >
+                        {Object.keys(data[k]) &&
+                          Object.keys(data[k]).map((key, idx) => {
+                            const name = data[k][key] ? data[k][key] : "-";
+                            return (
+                              <span
+                                key={idx}
+                                style={{
+                                  display: "flex",
+                                  flexDirection: "row",
+                                }}
+                              >
+                                {key + ": " + name}
+                              </span>
+                            );
+                          })}
+                      </div>
+                    ) : data[k] ? (
+                      data[k]
+                    ) : (
+                          "-"
+                        )}
                 </td>
               </tr>
             );
@@ -160,14 +160,14 @@ const PendingApprovals = inject("pendingApprovalStore")(
                   setmodalString(`
                   <b>Action</b> : ${
                     data.action
-                  }${" "}<br /><b>Request Type</b> : ${data.change_type}
+                    }${" "}<br /><b>Request Type</b> : ${data.change_type}
                   <div style="display: flex; flex-direction: row;">
                   <div style="flex:1;margin-right: 5px;"><b>Current Value</b> : ${renderTableData(
-                    string.Current
-                  )}</div>
+                      string.Current
+                    )}</div>
                   <div style="flex:1;margin-left: 5px;"><b>New Value</b>: ${renderTableData(
-                    string.New
-                  )}</div>
+                      string.New
+                    )}</div>
                   </div>
                 `);
                   setvisible(true);
@@ -246,6 +246,8 @@ const PendingApprovals = inject("pendingApprovalStore")(
     }, [pendingApprovalStore.responseGetPendingApproveList]);
 
     const processPending = (status, record) => {
+
+
       console.log("RECORD PROCESS PENDING :: ", JSON.parse(JSON.stringify(record)))
       // processDeRegister
       let data = {
@@ -253,8 +255,19 @@ const PendingApprovals = inject("pendingApprovalStore")(
         data: record,
         id: record.id,
       };
-      pendingApprovalStore.setTmpPendingListID(record.id);
-      pendingApprovalStore.processPendingListApprove(data);
+      if (record.action == 'Delete' && record.change_type == "PARTNER_INFORMATIONS") {
+        let del_data = {
+          allowAction: status,
+          data: record,
+          httpMethod: 'DELETE',
+          id: record.id
+        }
+        pendingApprovalStore.setTmpPendingListID(record.id);
+        pendingApprovalStore.processPendingListApprove(del_data);
+      } else {
+        pendingApprovalStore.setTmpPendingListID(record.id);
+        pendingApprovalStore.processPendingListApprove(data);
+      }
     };
 
     useEffect(() => {
@@ -296,7 +309,7 @@ const PendingApprovals = inject("pendingApprovalStore")(
               pagination={{ position: [top, bottom] }}
               columns={tableColumns}
               dataSource={pendingApprovalData}
-              // scroll={scroll}
+            // scroll={scroll}
             />
             <SimpleModal
               title={title}

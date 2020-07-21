@@ -11,6 +11,7 @@ const ProductModify = inject('partnerOnboard')(observer((props) => {
   const [visible, setvisible] = useState(false)
   const [service_select, setServiceSelect] = useState(null)
   const [awakeRender, setawakeRender] = useState(0)
+  const [tmpAddPartnerService, settmpAddPartnerService] = useState(null)
   useEffect(() => {
     console.log("PARTNER CODE :: ", JSON.parse(JSON.stringify(partnerOnboard.tmp_partner_id)))
     console.log("PRODUCT CODE :: ", JSON.parse(JSON.stringify(partnerOnboard.tmp_product_code)))
@@ -22,7 +23,19 @@ const ProductModify = inject('partnerOnboard')(observer((props) => {
   }, [partnerOnboard.tmp_product_code, partnerOnboard.tmp_partner_id])
 
   useEffect(() => {
-    if(partnerOnboard.data_getProductServicesDropdown && partnerOnboard.data_getProductServicesDropdown.length > 0){
+    if (partnerOnboard.data_addNewPartnerService && partnerOnboard.data_addNewPartnerService != null) {
+      if(partnerOnboard.data_addNewPartnerService != tmpAddPartnerService) {
+        settmpAddPartnerService(partnerOnboard.data_addNewPartnerService)
+        partnerOnboard.getDataPartnerProductService({
+          partner_code: partnerOnboard.tmp_partner_id,
+          product_code: partnerOnboard.tmp_product_code,
+        })
+      }
+    }
+  }, [partnerOnboard.data_addNewPartnerService, partnerOnboard.tmp_product_code, partnerOnboard.tmp_partner_id])
+
+  useEffect(() => {
+    if (partnerOnboard.data_getProductServicesDropdown && partnerOnboard.data_getProductServicesDropdown.length > 0) {
       setawakeRender(1)
     }
   }, [partnerOnboard.data_getProductServicesDropdown])
@@ -81,9 +94,9 @@ const ProductModify = inject('partnerOnboard')(observer((props) => {
       >
         <Select defaultValue="Select" value={service_select} onChange={(val) => setServiceSelect(val)} style={{ width: "100%" }}>
           {awakeRender == 1 && partnerOnboard.data_getProductServicesDropdown && partnerOnboard.data_getProductServicesDropdown.length > 0 && JSON.parse(JSON.stringify(partnerOnboard.data_getProductServicesDropdown)).filter(it => it.service_name)
-          .map((e, i) => {
-            return <Select.Option key={i + "-service"} value={e.service_id}>{e.service_name}</Select.Option>
-          })}
+            .map((e, i) => {
+              return <Select.Option key={i + "-service"} value={e.service_id}>{e.service_name}</Select.Option>
+            })}
         </Select>
 
       </Modal>
