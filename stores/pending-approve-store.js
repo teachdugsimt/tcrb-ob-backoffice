@@ -40,7 +40,25 @@ class pendingApprovals {
   @action processPendingListApprove = async (params) => {
     this.apiLoading = true
     let tmp = await PendingApprovalApi.processPendingList(params)
-    console.log("Response process Pending Approve APISAUCE : ", tmp)
+    console.log("Response process Pending Approve APISAUCE : ", JSON.parse(JSON.stringify(tmp)))
+    if (tmp.ok) {
+      this.apiLoading = false
+      this.errorProcessPendingList = null
+      this.responseProcessPendingList = tmp.ok
+      this.updatePendingList()
+      this.tmpPendingListID = null
+    } else {
+      this.apiLoading = false
+      this.responseProcessPendingList = null
+      this.errorProcessPendingList = tmp.problem
+      this.tmpPendingListID = null
+    }
+  }
+
+  @action processDeRegister = async (params) => {
+    this.apiLoading = true
+    let tmp = await PendingApprovalApi.processDeRegister(params)
+    console.log("Response process Pending Approve DE Register APISAUCE : ", tmp)
     if (tmp.ok) {
       this.apiLoading = false
       this.errorProcessPendingList = null

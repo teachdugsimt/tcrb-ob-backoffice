@@ -50,7 +50,7 @@ const AddPartner = inject(
           partner_name_english: values.juristicNameEn,
           partner_name_thai: values.juristicNameTh,
           partner_abbreviation: values.registerApplicationName,
-
+          partner_code_group: values.parentAssignName,
           // Address zone
           address_no: values.houseNo,
           moo: values.moo,
@@ -113,6 +113,12 @@ const AddPartner = inject(
       errorInfo.values.Province = Province;
       console.log("Failed:", errorInfo);
     };
+
+    useEffect(() => {
+      if (partnerOnboard.data_add_partner_onboard && partnerOnboard.data_add_partner_onboard != null) {
+        partnerOnboard.showAddPartner(false)
+      }
+    }, [partnerOnboard.data_add_partner_onboard])
 
     const _changeSubDistrict = (value) => {
       console.log(value);

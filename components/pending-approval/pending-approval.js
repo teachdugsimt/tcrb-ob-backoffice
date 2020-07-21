@@ -246,6 +246,8 @@ const PendingApprovals = inject("pendingApprovalStore")(
     }, [pendingApprovalStore.responseGetPendingApproveList]);
 
     const processPending = (status, record) => {
+      console.log("RECORD PROCESS PENDING :: ", JSON.parse(JSON.stringify(record)))
+      // processDeRegister
       let data = {
         allowAction: status,
         data: record,

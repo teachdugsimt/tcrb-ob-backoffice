@@ -81,10 +81,9 @@ export const partnerColumns = (partnerOnboard) => {
       key: 'action',
       render: (text, record) => (
         <Space size="middle">
-          <a style={{ color: 'orange' }} onClick={() => {
-            partnerOnboard.deRegisterPartnerRequest({
-              id: record.id
-            })
+          <a style={{ zIndex: 2, color: 'orange' }} onClick={() => {
+            let params = record
+            partnerOnboard.deRegisterPartnerRequest(params)
           }}>De-register</a>
         </Space>
       ),

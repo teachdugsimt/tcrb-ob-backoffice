@@ -108,7 +108,7 @@ const WrapperImageAccount = (props) => {
   return <ImgAccount src={props.src} alt="account" id="accountImage" />
 }
 const WrapperButtonAnt = (props) => {
-  return <Button onClick={props.onClick} style={{ borderTopWidth: 0, borderLeftWidth: 0, borderRightWidth: 0, backgroundColor: "#1d1d1d", color: 'white', width: "25%", fontSize: 18, fontWeight: 'bold' }} > {props.title}</Button >
+  return <Button onClick={props.onClick} style={{ borderTopWidth: 0, borderLeftWidth: 0, borderRightWidth: 0, backgroundColor: "#1d1d1d", color: 'white', width: "25%", fontSize: 18, fontWeight: 'bold',marginRight: -30 }} > {props.title}</Button >
 }
 
 export {

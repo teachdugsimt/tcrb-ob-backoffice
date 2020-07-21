@@ -115,6 +115,27 @@ const FeeSettlementForm = inject('partnerOnboard', 'loginStore')(observer((props
 
   }, [partnerOnboard.data_addNewPrincipalFee])
 
+
+const _replaceString = (string) => {
+  // let result = tmp.split(/<br \/>&#?[a-zA-Z0-9]+;/g);
+  let tmp = string
+  if (tmp.includes('_'))
+    return tmp.replace('_', '').toLowerCase()
+  else if (tmp.includes(' '))
+    return tmp.replace(' ', '').toLowerCase()
+  else return tmp.toLowerCase()
+}
+
+const _checkTransactionCode = (string) => {
+  let result
+  if (_replaceString(string) == "loanrelease")
+    result = "6931"
+  else if (_replaceString(string) == "loanrepayment")
+    result = "6619"
+  else result = string
+  return result
+}
+
   useEffect(() => {
 
     let principal_gl = JSON.parse(JSON.stringify(partnerOnboard.tmp_principal_gl))
@@ -123,6 +144,8 @@ const FeeSettlementForm = inject('partnerOnboard', 'loginStore')(observer((props
     let service_name = JSON.parse(JSON.stringify(partnerOnboard.tmp_service_name))
     let objPartner = JSON.parse(JSON.stringify(partnerOnboard.data_get_partnerinformation_by_id))
     let loginObj = JSON.parse(JSON.stringify(cookies.get("menus")))
+
+    console.log()
 
     if (principal_gl && principal_gl != null) {
       let obj = data
@@ -135,14 +158,9 @@ const FeeSettlementForm = inject('partnerOnboard', 'loginStore')(observer((props
 
       if (service_name && service_name != null && objPartner) {
         obj.partner_abbreviation = objPartner.partner_abbreviation
-        obj.transaction_code = service_name.toLowerCase() == "binding" ? "binding" :
-          (service_name.toLowerCase() == "release loan" ? '6931' :
-            service_name.toLowerCase() == "repayment" ? '6619' :
-              service_name.toLowerCase())
-        obj.principal.transaction_code = service_name.toLowerCase() == "binding" ? "binding" :
-          (service_name.toLowerCase() == "release loan" ? '6931' :
-            service_name.toLowerCase() == "repayment" ? '6619' :
-              service_name.toLowerCase())
+        obj.transaction_code = _checkTransactionCode(service_name)
+
+        obj.principal.transaction_code = _checkTransactionCode(service_name)
       }
 
       if (product_type && partner_code) {
@@ -265,11 +283,11 @@ const FeeSettlementForm = inject('partnerOnboard', 'loginStore')(observer((props
           type: 'dropdown', mode: "single", require: true,
           onChange: handlerChangeDropdown,
           item: [
-            { key: 1, name: 'transaction', value: 'Transaction' },
-            { key: 2, name: 'daily', value: 'Daily' },
-            { key: 3, name: 'weekly', value: 'Weekly' },
-            { key: 4, name: 'monthly', value: 'Monthly' },
-            { key: 5, name: 'yearly', value: 'Yearly' },
+            { key: 1, name: 'transaction', value: 'transaction' },
+            { key: 2, name: 'daily', value: 'daily' },
+            { key: 3, name: 'weekly', value: 'weekly' },
+            { key: 4, name: 'monthly', value: 'monthly' },
+            { key: 5, name: 'yearly', value: 'yearly' },
           ]
         }]
     },

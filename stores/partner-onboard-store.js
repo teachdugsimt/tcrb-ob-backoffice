@@ -622,6 +622,7 @@ class PartnerOnboardStore {
       //when success
       this.fetching_onboard = false
       this.data_deRegisterPartner = tmp.data.responseData
+      this.getPartnerOnboard()
     } else {
       this.fetching_onboard = false
 

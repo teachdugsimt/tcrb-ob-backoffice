@@ -15,6 +15,10 @@ class PendingApprovalApi {
     const response = await ExcuteApi(`api/backoffice/v1/changerequest/${params.id}/confirm`, params, "post", process.env.APIGW_ID_CUSTSER)
     return response
   }
+  processDeRegister = async (params) => {
+    const response = await ExcuteApi(`api/backoffice/v1/changerequest/${params.id}/confirm`, params, "post", process.env.APIGW_ID_CUSTSER)
+    return response
+  }
 
 }
 export default new PendingApprovalApi()

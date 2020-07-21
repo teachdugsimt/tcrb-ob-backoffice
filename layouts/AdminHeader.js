@@ -39,7 +39,8 @@ const AdminHeader = inject('authenStore', 'loginStore')(observer((props) => {
         </DivImageLogo>
         <InsideTopRightDiv>
           <ContentMainDiv>
-            <WrapperButtonAnt title={t('support')} />
+            {/* <WrapperButtonAnt title={t('support')} /> */}
+            <div style={{ width: '28%'}}></div>
             <WrapperButtonAnt title={t("signout")} onClick={() => {
               loginStore.clearCacheLogin('error')
               loginStore.clearCacheLogin('success')
