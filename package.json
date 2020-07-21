@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "NODE_OPTIONS='--inspect' next dev",
+    "dev": "next dev",
     "build": "next build",
     "export": "next build && next export",
     "deploy": "npm run export && now",
@@ -40,6 +40,7 @@
     "null-loader": "^2.0.0",
     "react": "16.13.1",
     "react-cookie": "^4.0.3",
+    "react-csv": "^2.0.3",
     "react-dom": "16.13.1",
     "react-highlight-words": "^0.16.0",
     "styled-components": "^5.1.1"
