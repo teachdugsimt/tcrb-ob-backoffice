@@ -14,6 +14,7 @@ import LoginStore from './login-store'
 import UserAccessManagement from './user-access-management-store'
 import PartnerOnboardStore from './partner-onboard-store';
 import ProductOnBoard from './product-onboard-store';
+import DashboardAndReportStore from './dashboard-and-report-store'
 const isServer = typeof window === 'undefined';
 useStaticRendering(isServer);
 
@@ -35,7 +36,8 @@ export default function initializeStore(initialData = {}) {
       userAccessManagementStore: new UserAccessManagement(),
       loginStore: new LoginStore(),
       partnerOnboard: new PartnerOnboardStore(),
-      productOnboardStore: new ProductOnBoard()
+      productOnboardStore: new ProductOnBoard(),
+      dashboardAndReportStore: new DashboardAndReportStore()
       // .then(() => console.log('some hydrated : TEST PERSIST STORE SUCCESS :: '))
     };
   }
@@ -53,7 +55,8 @@ export default function initializeStore(initialData = {}) {
       userAccessManagementStore: new UserAccessManagement(),
       loginStore: new LoginStore(),
       partnerOnboard: new PartnerOnboardStore(),
-      productOnboardStore: new ProductOnBoard()
+      productOnboardStore: new ProductOnBoard(),
+      dashboardAndReportStore: new DashboardAndReportStore()
 
     };
   }

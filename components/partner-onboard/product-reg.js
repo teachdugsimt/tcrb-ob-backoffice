@@ -66,7 +66,7 @@ const ProductReg = inject('partnerOnboard')(observer((props) => {
       <TableProductReg />
       <Modal
         title="Select Product"
-        visible={visible}
+        visible={visible && partnerOnboard.fetching_onboard == false}
         onOk={() => handleOk()}
         onCancel={() => handleCancel()}
       >

@@ -16,6 +16,7 @@ module.exports = withImage({
     PORT: process.env.PORT || 3000,
     APIGW_ID_UAM: process.env.APIGW_ID_UAM,
     APIGW_ID_CUSTSER: process.env.APIGW_ID_CUSTSER,
+    APIGW_ID_LIGIABLE: process.env.APIGW_ID_LIGIABLE,
     VPC: process.env.VPC
   },
 })

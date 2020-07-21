@@ -139,6 +139,10 @@ const FeeSettlementForm = inject('partnerOnboard', 'loginStore')(observer((props
           (service_name.toLowerCase() == "release loan" ? '6931' :
             service_name.toLowerCase() == "repayment" ? '6619' :
               service_name.toLowerCase())
+        obj.principal.transaction_code = service_name.toLowerCase() == "binding" ? "binding" :
+          (service_name.toLowerCase() == "release loan" ? '6931' :
+            service_name.toLowerCase() == "repayment" ? '6619' :
+              service_name.toLowerCase())
       }
 
       if (product_type && partner_code) {
@@ -262,9 +266,9 @@ const FeeSettlementForm = inject('partnerOnboard', 'loginStore')(observer((props
           type: 'dropdown', mode: "single", disabled: false,
           onChange: handlerChangeDropdown,
           item: [
-            { key: 1, name: 'CA : Current account', value: 'ca' },
-            { key: 2, name: 'SA : Saving account', value: 'sa' },
-            { key: 3, name: 'GL entries', value: 'gl' },
+            { key: 1, name: 'CA : Current account', value: 'CA' },
+            { key: 2, name: 'SA : Saving account', value: 'SA' },
+            { key: 3, name: 'GL entries', value: 'GL' },
           ]
         },
         { // dropdown
@@ -300,8 +304,8 @@ const FeeSettlementForm = inject('partnerOnboard', 'loginStore')(observer((props
           type: 'dropdown', mode: "single", require: true,
           onChange: handlerChangeDropdown,
           item: [
-            { key: 1, name: 'TCRB', value: 'tcrb' },
-            { key: 2, name: 'Partner', value: 'partner' },
+            { key: 1, name: 'TCRB', value: 'TCRB' },
+            { key: 2, name: 'Partner', value: 'PARTNER' },
           ]
         },
         { // dropdown
@@ -309,9 +313,9 @@ const FeeSettlementForm = inject('partnerOnboard', 'loginStore')(observer((props
           type: 'dropdown', mode: "single", require: true,
           onChange: handlerChangeDropdown,
           item: [
-            { key: 1, name: 'CA : Current account', value: 'ca' },
-            { key: 2, name: 'SA : Saving account', value: 'sa' },
-            { key: 3, name: 'GL entries', value: 'gl' },
+            { key: 1, name: 'CA : Current account', value: 'CA' },
+            { key: 2, name: 'SA : Saving account', value: 'SA' },
+            { key: 3, name: 'GL entries', value: 'GL' },
           ]
         },
         {
@@ -347,8 +351,8 @@ const FeeSettlementForm = inject('partnerOnboard', 'loginStore')(observer((props
           type: 'dropdown', mode: "single", require: false,
           onChange: handlerChangeDropdown,
           item: [
-            { key: 1, name: 'TCRB', value: 'tcrb' },
-            { key: 2, name: 'Partner', value: 'partner' },
+            { key: 1, name: 'TCRB', value: 'TCRB' },
+            { key: 2, name: 'Partner', value: 'PARTNER' },
           ]
         },
         { // dropdown
@@ -356,9 +360,9 @@ const FeeSettlementForm = inject('partnerOnboard', 'loginStore')(observer((props
           type: 'dropdown', mode: "single", require: false,
           onChange: handlerChangeDropdown,
           item: [
-            { key: 1, name: 'CA : Current account', value: 'ca' },
-            { key: 2, name: 'SA : Saving account', value: 'sa' },
-            { key: 3, name: 'GL entries', value: 'gl' },
+            { key: 1, name: 'CA : Current account', value: 'CA' },
+            { key: 2, name: 'SA : Saving account', value: 'SA' },
+            { key: 3, name: 'GL entries', value: 'GL' },
           ]
         },
         { // dropdown
@@ -499,65 +503,3 @@ const FeeSettlementForm = inject('partnerOnboard', 'loginStore')(observer((props
 }))
 
 export default withRouter(withTranslation('common')(FeeSettlementForm))
-
-
-
-
-
-
-
-
-
-
-
-
-let a ={
-  "newData": {
-     "debitor": "CUSTOMER",
-     "fee_net_amount": 20,
-     "posting_every": "Monthly",
-     "debit_amount": 20,
-     "fee_type": "FIXED_PER_TRANSACTION",
-     "partner_abbreviation": "appIOIO",
-     "transaction_code": "6931",
-     "partner_code": "boom",
-     "product_type": "SB",
-     "debit_branch": "",
-     "debit_cost_center": null,
-     "debit_account": null,
-     "debit_product": null,
-     "credit_informations": [
-        {
-           "creditor": "partner",
-           "posting_account_type": "ca",
-           "credit_account": "23",
-           "credit_amount": 20,
-           "credit_branch": "22",
-           "credit_cost_center": "2233",
-           "free_credit_bank": 20,
-           "credit_product": "22"
-        },
-        {
-           "creditor": null,
-           "posting_account_type": null,
-           "credit_account": null,
-           "credit_amount": 0,
-           "credit_branch": null,
-           "credit_cost_center": null,
-           "free_credit_bank": 0,
-           "credit_product": null
-        }
-     ],
-     "principal": {
-        "gl_branch": "หกดหกดห",
-        "gl_costcenter": "asdf",
-        "gl_product": "หกดหกด",
-        "gl_account": "tyyy",
-        "posting_account_type": "ca",
-        "partner_code": "boom",
-        "product_type": "SB",
-        "gl_type": "DEBITOR"
-     },
-     "free_debit_bank": 20,
-     "posting_account_type": null
-  }}

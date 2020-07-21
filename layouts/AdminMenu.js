@@ -66,6 +66,7 @@ const AdminMenu = inject('authenStore', 'versatileStore', 'loginStore')(observer
         { key: 14, id: 14, name: "PENDING APPROVE", translate: "pendingApprove", link_to: "/pending-approve", color: "#000000", typeLv: "42" },
         { key: 15, id: 15, name: "USER ACCESS MANAGEMENT ", translate: "useAccessManagementEnquiry", link_to: "/user-access-management", color: "#000000", typeLv: "42" },
         { key: 16, id: 16, name: "PARTNER MANAGEMENT ", translate: "partnerManagement", link_to: "/partner-management", color: "#000000", typeLv: "42" },
+        { key: 16, id: 16, name: "DASHBOARD & REPORTS ", translate: "dashboard&Report", link_to: "/dashboard-and-report", color: "#000000", typeLv: "42" },
         // { key: 16, id: 16, name: "Product OnBoard ", translate: "productOnBoard", link_to: "/product-onboarding", color: "#000000", typeLv: "42" },
 
       ]

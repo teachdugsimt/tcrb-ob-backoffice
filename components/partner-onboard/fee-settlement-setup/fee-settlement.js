@@ -28,14 +28,15 @@ const FeeSettleMentSetup = inject('partnerOnboard', 'loginStore')(observer((prop
         </div>
         <div style={{ display: 'flex', flexDirection: 'row' }} >
           <div style={{ width: 180, fontWeight: 'bold' }}>Product Name</div>
-          <div style={{ width: 300 }}>{partnerOnboard.tmp_product_type.product_segment ? partnerOnboard.tmp_product_type.product_segment : ""}</div>
+          <div style={{ width: 300 }}>{partnerOnboard.tmp_product_type &&
+          partnerOnboard.tmp_product_type.product_segment && partnerOnboard.tmp_product_type.product_segment ? partnerOnboard.tmp_product_type.product_segment : ""}</div>
         </div>
       </div>}
       <div style={{ display: 'flex', height: 30, flexDirection: 'row' }}>
         <div style={{ display: 'flex', flexDirection: 'row' }} >
           <div style={{ width: 180, fontWeight: 'bold' }}>Service Name</div>
-          <div style={{ width: 300 }}>{partnerOnboard.tmp_service_name ? partnerOnboard.tmp_service_name : ''}</div>
         </div>
+          <div style={{ width: 300 }}>{partnerOnboard.tmp_service_name ? partnerOnboard.tmp_service_name : ''}</div>
       </div>
 
       <FeeSettlementForm />
