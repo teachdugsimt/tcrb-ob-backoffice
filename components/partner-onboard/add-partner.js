@@ -67,26 +67,22 @@ const AddPartner = inject(
 
           contacts: [
             {
+              type: "RM",
               name_surname: values.nameSurnameRm,
-              citizen_id: values.employeeIdRm,
+              employee_id: values.employeeIdRm,
               office_phone_no: values.officePhoneNoRm,
               work_email: values.workEmailRm,
-              employee_id: values.employeeIdRm,
               mobile_no: values.mobileNoRm,
-              partner_code: values.department,
-              // type: values,
-              // user_id: values
+              partner_code: values.partnerAssignName,
             },
             {
+              partner_code: values.partnerAssignName,
+              type: "PARTNER_CONTACT",
               name_surname: values.nameSurnamePartnerContact,
               citizen_id: values.idCardNo,
               office_phone_no: values.officePhoneNoPartnerContact,
               work_email: values.workEmailPartnerContact,
               mobile_no: values.mobileNoPartnerContact,
-              // employee_id: values.employeeId,
-              // partner_code: values,
-              // type: values,
-              // user_id: values
             },
             {
               name_surname: values.nameSurnamePartnerIt,
@@ -94,10 +90,8 @@ const AddPartner = inject(
               office_phone_no: values.officePhoneNoPartnerIt,
               work_email: values.workEmailPartnerIt,
               mobile_no: values.mobileNoPartnerIt,
-              // employee_id: values.employeeId,
-              // partner_code: values,
-              // type: values,
-              // user_id: values
+              partner_code: values.partnerAssignName,
+              type: "PARTNER_IT",
             },
           ],
         },

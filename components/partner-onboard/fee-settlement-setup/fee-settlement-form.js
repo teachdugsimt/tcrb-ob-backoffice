@@ -216,6 +216,7 @@ const FeeSettlementForm = inject('partnerOnboard', 'loginStore')(observer((props
           }
         })
       })
+      console.log("TMP AFTER SPLICE :::: ", tmp)
       return tmp
     } else return;
   }
@@ -231,8 +232,8 @@ const FeeSettlementForm = inject('partnerOnboard', 'loginStore')(observer((props
     }
 
     if (item.keyword == "creditor1" || item.keyword == 'creditor2') {
-      _setCreditorForNextForm(e, item)
-      // _removeDuplicateCreditor(e, item)
+      // _setCreditorForNextForm(e, item)
+      _removeDuplicateCreditor(e, item)
       // _setCreditorForNextForm(e, item)
       if (awake == 0) setawake(1)
       else setawake(0)

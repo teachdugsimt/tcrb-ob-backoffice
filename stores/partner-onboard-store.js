@@ -44,6 +44,8 @@ class PartnerOnboardStore {
 
   @observable data_deRegisterPartner = null
 
+  @observable dataGrantProduct = null
+
   @observable tmp_partner_id = null // partner_code
   @observable tmp_partner_real_id = null  // id of list
   @observable tmp_product_code = null  // product_code
@@ -412,6 +414,7 @@ class PartnerOnboardStore {
     console.log(tmp)
     if (tmp.ok && tmp.status === 200 && tmp.data) {
       //when success
+      this.dataGrantProduct = tmp.data.responseData
       this.fetching_onboard = false
     } else {
       this.fetching_onboard = false
