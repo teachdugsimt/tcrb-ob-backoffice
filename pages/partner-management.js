@@ -10,16 +10,20 @@ import { Router, withRouter } from 'next/router'
 
 const PartnerManagement = inject('partnerOnboard')(observer((props) => {
   const [addPartner, setAddPartner] = useState(false)
+  const { t, partnerOnboard } = props
+  const goBackToTable = () => {
+    console.log("------------------- Go back to table ------------------")
+  }
 
   return (
     <Row>
-      {!addPartner ? <Col>
+      {!partnerOnboard.show_add_new_partner ? <Col>
         <PageHeader>Partner Registration</PageHeader>
-        <Button type="primary" onClick={() => setAddPartner(true)}>Add new partner</Button>
+        <Button type="primary" onClick={() => partnerOnboard.showAddPartner(true)}>Add new partner</Button>
         <TablePartner />
       </Col>
         : <Col flex={100}>
-          <Addpartner />
+          <Addpartner onClick={() => { partnerOnboard.showAddPartner(false) }} />
         </Col>}
     </Row>
   )

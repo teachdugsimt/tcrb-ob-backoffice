@@ -53,6 +53,8 @@ class PartnerOnboardStore {
   @observable tmp_fee = null // form in fee screen
   @observable tmp_obj_partner = null // obj contain all attributes
 
+  @observable show_add_new_partner = false
+
   _handleErrorResponse = (object) => {
     let result = ""
     if (object && object.data && object.data.responseCode) {
@@ -65,12 +67,16 @@ class PartnerOnboardStore {
 
   _handleMessageResponse = (object) => {
     let result = ""
-    if(object && object.data && object.data.userMessage){
+    if (object && object.data && object.data.userMessage) {
       result = object.data.userMessage
     } else {
       result = object.problem ? object.problem : 'Unknow Error (none user message)'
     }
     return result
+  }
+
+  @action showAddPartner(params) {
+    this.show_add_new_partner = params
   }
 
   @action

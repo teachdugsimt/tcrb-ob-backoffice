@@ -156,7 +156,6 @@ const FeeSettlementForm = inject('partnerOnboard', 'loginStore')(observer((props
       console.log("OBJ RESULT 1: ", obj)
       setResultData(obj)
     }
-
   }, [partnerOnboard.tmp_principal_gl, partnerOnboard.tmp_service_name, partnerOnboard.data_get_partnerinformation_by_id])
 
   const _setDisableForCustomer = (status) => {
@@ -196,6 +195,31 @@ const FeeSettlementForm = inject('partnerOnboard', 'loginStore')(observer((props
     setdatasource(tmp)
   }
 
+  const _removeDuplicateCreditor = (e, cell) => {
+    if (e != "CUSTOMER") {
+      const tmp = datasource
+      const check_form_id = cell.keyword == 'debitor' ? 'creditor1,creditor2' :
+        (cell.keyword == 'creditor1' ? 'debitor,creditor2' : 'debitor,creditor1')
+      // CUSTOMER / TCRB / PARTNER
+      tmp.map((sect, indexSection) => {
+        sect.section.map((item, indexItem) => {
+          if (item.keyword == check_form_id.split(',')[0] ||
+            item.keyword == check_form_id.split(',')[1]) {
+            let select_index
+            item.item.map((sub_item, sub_index) => {
+              if (sub_item.value == e) {
+                select_index = sub_index
+              }
+            })
+            item.item.splice(select_index, 1)
+
+          }
+        })
+      })
+      return tmp
+    } else return;
+  }
+
   const handlerChangeDropdown = (e, item) => {
     feeObj[item.keyword] = e
     if (item.keyword == "debitor" && e == "CUSTOMER") {
@@ -208,6 +232,8 @@ const FeeSettlementForm = inject('partnerOnboard', 'loginStore')(observer((props
 
     if (item.keyword == "creditor1" || item.keyword == 'creditor2') {
       _setCreditorForNextForm(e, item)
+      // _removeDuplicateCreditor(e, item)
+      // _setCreditorForNextForm(e, item)
       if (awake == 0) setawake(1)
       else setawake(0)
     }

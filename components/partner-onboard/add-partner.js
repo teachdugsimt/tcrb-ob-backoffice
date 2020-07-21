@@ -51,13 +51,6 @@ const AddPartner = inject(
           partner_name_thai: values.juristicNameTh,
           partner_abbreviation: values.registerApplicationName,
 
-          // unknow
-          // contact_name: values,
-          // contact_office_no: values,
-          // contact_mobile_no: values,
-          // contact_email: values,
-          // building_name: values,
-
           // Address zone
           address_no: values.houseNo,
           moo: values.moo,
@@ -72,10 +65,10 @@ const AddPartner = inject(
           // not sure
           partner_code_parent: values.parentAssignName,
 
-          contact: [
+          contacts: [
             {
               name_surname: values.nameSurnameRm,
-              // citizen_id: values.idCardNoRm,
+              citizen_id: values.employeeIdRm,
               office_phone_no: values.officePhoneNoRm,
               work_email: values.workEmailRm,
               employee_id: values.employeeIdRm,
@@ -394,7 +387,7 @@ const AddPartner = inject(
                         i18n.languages[0] == "th";
                         // ? e.name_in_thai
                         // : e.name_in_english;
-                        return <Option value={e.id}>{name}</Option>;
+                        return <Select.Option value={e.id}>{name}</Select.Option>;
                       })}
                   </Select>
                 </Form.Item>
@@ -416,7 +409,7 @@ const AddPartner = inject(
                         // i18n.languages[0] == "th"
                         //   ? e.name_in_thai
                         //   : e.name_in_english;
-                        return <Option value={e.id}>{name}</Option>;
+                        return <Select.Option value={e.id}>{name}</Select.Option>;
                       })}
                   </Select>
                 </Form.Item>
@@ -437,7 +430,7 @@ const AddPartner = inject(
                         // i18n.languages[0] == "th"
                         //   ? e.name_in_thai
                         //   : e.name_in_english;
-                        return <Option value={e.id}>{name}</Option>;
+                        return <Select.Option value={e.id}>{name}</Select.Option>;
                       })}
                   </Select>
                 </Form.Item>
@@ -603,12 +596,19 @@ const AddPartner = inject(
               )}
             </Row>
             {/* ======================={Partner IT Security Info}======================= */}
-            <Form.Item style={{ marginTop: 30, textAlign: "center" }}>
-              <Button type="primary" htmlType="submit">
-                {t("submit")}
-              </Button>
+            <Form.Item style={{ marginTop: 30, textAlign: "left" }}>
+              <Row align={'top'}>
+                <Button onClick={() => partnerOnboard.showAddPartner(false)}>
+                  {t("back")}
+                </Button>
+                <Button style={{ marginLeft: 20 }} type="primary" htmlType="submit">
+                  {t("submit")}
+                </Button>
+              </Row>
+
             </Form.Item>
           </Form>
+
         </Row>
       </TcrbSpin>
     );
