@@ -11,9 +11,7 @@ const index = (props) => {
   const [currentMenu, setCurrentMenu] = useState('dashboard')
 
   const selectMenu = value => {
-    console.log(value)
     setCurrentMenu(value.key)
-    // componentSwitchMenu(value.key)
   }
 
   const ComponentSwitchMenu = (key) => {

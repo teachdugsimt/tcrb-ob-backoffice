@@ -11,48 +11,48 @@ const eligibleColumn = (viewEditProductSelect, deactivateProductSelect) => {
     },
     {
       title: 'Origination Date',
-      dataIndex: 'bin_originate_on',
+      dataIndex: 'originate_on',
       // render: text => <a>{text}</a>,
     },
     {
       title: 'SFTP Date',
-      dataIndex: 'bin_sftp_on',
+      dataIndex: 'sftp_on',
     },
     {
       title: 'Type',
-      dataIndex: 'acc_account_type',
+      dataIndex: 'file_type',
     },
     {
       title: 'Transaction ID',
-      dataIndex: 'product_segment',
+      dataIndex: 'transaction_refe',
     },
     {
       title: 'Channel',
-      dataIndex: 'acc_channel',
+      dataIndex: 'partner_abbreviation',
     },
     {
       title: 'Entity',
-      dataIndex: 'account_type',
+      dataIndex: 'partner_code',
     },
     {
       title: 'Product Type',
-      dataIndex: 'account_type',
+      dataIndex: 'product_type',
     },
     {
       title: 'Account Reference',
-      dataIndex: 'account_type',
+      dataIndex: 'account_reference',
     },
     {
       title: 'Main A/C No',
-      dataIndex: 'account_type',
+      dataIndex: 'main_account_no',
     },
     {
       title: 'Sub A/C No',
-      dataIndex: 'account_type',
+      dataIndex: 'sub_account_no',
     },
     {
       title: 'Customer Name',
-      dataIndex: 'account_type',
+      dataIndex: 'account_name',
     },
     {
       title: 'Binding Status',
@@ -60,15 +60,15 @@ const eligibleColumn = (viewEditProductSelect, deactivateProductSelect) => {
     },
     {
       title: 'Status Date',
-      dataIndex: 'account_type',
+      dataIndex: 'update_on',
     },
     {
       title: 'Partner\'\s Response Status',
-      dataIndex: 'account_type',
+      dataIndex: 'partnerResponseSta',
     },
     {
       title: 'Partner\'\s Response Date/Time',
-      dataIndex: 'account_type',
+      dataIndex: 'partnerResponseDateTime',
     }
   ];
 }

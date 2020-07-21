@@ -2,7 +2,7 @@ import ExcuteApi from './api-integrations/excute-api'
 
 class DashboardAndReportApi {
   getReportEligible = async (params) => {
-    const response = await ExcuteApi('api/binding/v1/report', params, "get", process.env.APIGW_ID_CUSTSER)
+    const response = await ExcuteApi('api/binding/v1/report', params, "get", process.env.APIGW_ID_LIGIABLE)
     return response
   }
 
