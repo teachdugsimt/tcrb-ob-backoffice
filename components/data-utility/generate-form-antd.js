@@ -72,15 +72,22 @@ const GenerateFormAntd = inject('partnerOnboard', 'loginStore')(observer((props)
 // Credit Product => 2 row lastest,
   const _renderDatePicker = (item, index) => {
     if (item.mode == "start-end") {
-      return <Col className="gutter-row" span={16}><RangePicker
-        ranges={{
-          Today: [moment(), moment()],
-          'This Month': [moment().startOf('month'), moment().endOf('month')],
-        }}
-        showTime
-        format="YYYY/MM/DD HH:mm:ss"
-        onChange={item.onChange}
-      /></Col>
+      return <Col className="gutter-row" span={16}>
+        <Form.Item
+          name={item.keyword}
+          rules={[{ type: 'array', required: item.require, message: `Please input your ${item.name} !` }]}
+        >
+          <RangePicker
+            ranges={{
+              Today: [moment(), moment()],
+              'This Month': [moment().startOf('month'), moment().endOf('month')],
+            }}
+            showTime={item.isShowTime}
+          // format="YYYY/MM/DD"
+          />
+        </Form.Item>
+
+      </Col>
     } else if (item.mode == "time") {
       return <Col className="gutter-row" span={16}><TimePicker value={item.value} onChange={item.onChange} /></Col>
     } else if (item.mode == "date") {
@@ -234,11 +241,11 @@ const GenerateFormAntd = inject('partnerOnboard', 'loginStore')(observer((props)
       }}
     >
       {_renderForm(props.datasource)}
-      < Form.Item style={{ marginTop: 30, textAlign: 'right' }}>
+      <Form.Item style={{ marginTop: 30, textAlign: 'right' }}>
         <Button type="primary" htmlType="submit">
           {props.submitName ? props.submitName : t('submit')}
         </Button>
-      </Form.Item >
+      </Form.Item>
     </Form >
     // </Row >
   )
