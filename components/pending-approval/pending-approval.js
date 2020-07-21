@@ -36,14 +36,14 @@ const PendingApprovals = inject("pendingApprovalStore")(
     const { pendingApprovalStore, t } = props;
 
     const renderTableData = (data) => {
+      console.log("DATA: ", data);
       const keys = Object.keys(data);
-      console.log(data)
       return ReactDOMServer.renderToStaticMarkup(
         <table style={{ border: 1 }}>
-          {keys.map((k, index) => {
-            console.log('KEY', k)
+          {keys.map((k, id) => {
+            console.log("KEY: ", k);
             return (
-              <tr>
+              <tr key={id}>
                 <td
                   style={{
                     border: "1px solid lightgrey",
@@ -61,24 +61,70 @@ const PendingApprovals = inject("pendingApprovalStore")(
                     paddingLeft: 10,
                   }}
                 >
-                  {Array.isArray(data[k])
-                    ? data[k].map((e, index) => (
-                      <div
-                        style={{
-                          margin: 5,
-                          padding: 3,
-                          borderRadius: 3,
-                          backgroundColor: "lightgray",
-                        }}
-                        key={index}
-                      >
-                        {e.name || e.id || e}
-                        {/* {!Array.isArray(e) ? e.name || e : 'list of data'} */}
-                      </div>
-                    ))
-                    // : (data[k]) //
-                    : (typeof data[k] == 'object' ? '[object, object]' : data[k])
-                  }
+                  {Array.isArray(data[k]) ? (
+                    data[k].map((e, index) => {
+                      const arrKeys = Object.keys(e);
+                      return (
+                        <div
+                          style={{
+                            margin: 5,
+                            padding: 3,
+                            borderRadius: 3,
+                            backgroundColor: "lightgray",
+                          }}
+                          key={index}
+                        >
+                          {arrKeys &&
+                            arrKeys.map((key, idx) => {
+                              if (e[key] && typeof e[key] != "object") {
+                                const name = e[key] ? e[key] : "-";
+                                return (
+                                  <span
+                                    key={index + "_" + idx}
+                                    style={{
+                                      display: "flex",
+                                      flexDirection: "row",
+                                    }}
+                                  >
+                                    {key + ": " + name}
+                                  </span>
+                                );
+                              }
+                            })}
+                        </div>
+                      );
+                    })
+                  ) : // : (data[k]) //
+                  typeof data[k] === "object" && data[k] ? (
+                    <div
+                      style={{
+                        margin: 5,
+                        padding: 3,
+                        borderRadius: 3,
+                        backgroundColor: "lightgray",
+                      }}
+                    >
+                      {Object.keys(data[k]) &&
+                        Object.keys(data[k]).map((key, idx) => {
+                          const name = data[k][key] ? data[k][key] : "-";
+                          return (
+                            <span
+                              key={idx}
+                              style={{
+                                display: "flex",
+                                flexDirection: "row",
+                              }}
+                            >
+                              {key + ": " + name}
+                            </span>
+                          );
+                        })}
+                    </div>
+                  ) : data[k] ? (
+                    data[k]
+                  ) : (
+                    "-"
+                  )}
                 </td>
               </tr>
             );
@@ -114,14 +160,14 @@ const PendingApprovals = inject("pendingApprovalStore")(
                   setmodalString(`
                   <b>Action</b> : ${
                     data.action
-                    }${" "}<br /><b>Request Type</b> : ${data.change_type}
+                  }${" "}<br /><b>Request Type</b> : ${data.change_type}
                   <div style="display: flex; flex-direction: row;">
                   <div style="flex:1;margin-right: 5px;"><b>Current Value</b> : ${renderTableData(
-                      string.Current
-                    )}</div>
+                    string.Current
+                  )}</div>
                   <div style="flex:1;margin-left: 5px;"><b>New Value</b>: ${renderTableData(
-                      string.New
-                    )}</div>
+                    string.New
+                  )}</div>
                   </div>
                 `);
                   setvisible(true);
@@ -248,7 +294,7 @@ const PendingApprovals = inject("pendingApprovalStore")(
               pagination={{ position: [top, bottom] }}
               columns={tableColumns}
               dataSource={pendingApprovalData}
-            // scroll={scroll}
+              // scroll={scroll}
             />
             <SimpleModal
               title={title}
