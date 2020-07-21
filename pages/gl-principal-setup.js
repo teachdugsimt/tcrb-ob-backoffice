@@ -78,9 +78,9 @@ const GlPrincipalSetup = inject('partnerOnboard')(observer((props) => {
             type: 'dropdown', mode: "single", require: true,
             onChange: setPosting,
             item: [
-              { key: 1, name: 'CA : Current account', value: 'ca' },
-              { key: 2, name: 'SA : Saving account', value: 'sa' },
-              { key: 3, name: 'GL entries', value: 'gl' },
+              { key: 1, name: 'CA : Current account', value: 'CA' },
+              { key: 2, name: 'SA : Saving account', value: 'SA' },
+              { key: 3, name: 'GL entries', value: 'GL' },
             ]
           },
         ]
