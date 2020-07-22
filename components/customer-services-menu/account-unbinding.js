@@ -100,7 +100,7 @@ const AccountUnbinding =
         return new Promise((resolve, reject) => {
           if (Array.isArray(arrayObject)) {
             let result = arrayObject.map(accountDetail =>
-              [(accountDetail.binding_status == '1') ? true : false, accountDetail.partner_name_english]);
+              [(accountDetail.binding_status == '1' || accountDetail.binding_status == '2') ? true : false, accountDetail.partner_name_english]);
             resolve(result)
           } else {
             resolve([])
