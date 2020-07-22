@@ -9,6 +9,7 @@ import SimpleInput from '../../../simple-input'
 
 import { checkDefaultStatus, addKeyToDataSource } from '../../../data-utility'
 let functionName = null
+let api_endpoint = null
 const FunctionList = inject('userAccessManagementStore')
   (observer((props) => {
     const { userAccessManagementStore } = props
@@ -84,16 +85,33 @@ const FunctionList = inject('userAccessManagementStore')
 
     const FormAddNewMenu = () => {
       return (
-        <Row>
-          <Col span={10} >
-            <span>
-              Function Name
+        <div>
+          <Row gutter={[4, 8]}>
+            <Col span={10} >
+              <span>
+                Function Name
             </span>
-          </Col>
-          <Col span={14}>
-            <SimpleInput onChange={(value) => functionName = value} />
-          </Col>
-        </Row>
+            </Col>
+            <Col span={14}>
+              <SimpleInput onChange={(value) => functionName = value} />
+            </Col>
+          </Row>
+          <Row gutter={[4, 8]}>
+            <Col span={10} >
+              <span>
+                Api Endpoint
+            </span>
+            </Col>
+            <Col span={14}>
+              <Select
+                mode="tags"
+                style={{ width: '100%' }}
+                placeholder="Please Enter API Endpoint"
+                onChange={(value) => api_endpoint = value}
+              ></Select>
+            </Col>
+          </Row>
+        </div>
       )
     }
 
@@ -105,7 +123,8 @@ const FunctionList = inject('userAccessManagementStore')
 
     const addNewFunction = () => {
       let request = {
-        name: functionName
+        name: functionName,
+        api_endpoint: api_endpoint
       }
       userAccessManagementStore.submitAddNewFunction(request)
       setVisible(false)
