@@ -1,4 +1,4 @@
-import { ApisauceInstance, create, ApiResponse } from 'apisauce'
+import { create } from 'apisauce'
 import Header from './header'
 import https from 'https';
 const httpsAgent = new https.Agent({
@@ -7,9 +7,13 @@ const httpsAgent = new https.Agent({
 
 })
 
-const ExcuteApi = async (url, params, method, gw_id) => {
+const ExcuteApi = async (url, params, method, gw_id, timeout = 40000) => {
+  // console.time('ExcuteApi')
   try {
-    const api = create(Header(gw_id))
+    const api = create(await Header(gw_id, null,
+      url.includes('signin') ? true : null,
+      url.includes('upload') && method == 'put' ? true : null,
+      timeout))
     let response
     if (method == "get" || method == "GET") {
       response = await api.get(url, params || { filter: {} })
@@ -26,8 +30,10 @@ const ExcuteApi = async (url, params, method, gw_id) => {
     else if (method == "delete" || method == "DELETE") {
       response = await api.delete(url, params)
     }
+    console.timeEnd('ExcuteApi')
     return response
   } catch (error) {
+    console.timeEnd('ExcuteApi')
     return error
   }
 }
